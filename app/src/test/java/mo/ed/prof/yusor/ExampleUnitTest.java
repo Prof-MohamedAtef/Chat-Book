@@ -1,4 +1,4 @@
-package com.example.prof_mohamedatef.yusor;
+package mo.ed.prof.yusor;
 
 import org.junit.Test;
 

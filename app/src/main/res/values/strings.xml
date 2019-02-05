@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">YUSOR</string>
+
+    <string name="facebook_app_id">298058717735691</string>
+    <string name="fb_login_protocol_scheme">fb298058717735691</string>
+
+    <string name="no_internet">Internet Disabled</string>
+    <string name="retry">Retry</string>
+    <string name="loading">Loading ..</string>
+    <string name="loadedsuccess">Loaded Successfully</string>
+
 </resources>

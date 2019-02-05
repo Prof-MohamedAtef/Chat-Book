@@ -1,7 +1,10 @@
-package com.example.prof_mohamedatef.yusor;
+package mo.ed.prof.yusor.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.ed.prof.mo.R;
+
 
 public class MainActivity extends AppCompatActivity {
 
