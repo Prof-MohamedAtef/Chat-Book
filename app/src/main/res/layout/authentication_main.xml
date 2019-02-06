@@ -23,7 +23,7 @@
                 android:id="@+id/ProfileImage_header_Post"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_launcher" />
+                android:src="@mipmap/ic_launcher" />
         </LinearLayout>
     </LinearLayout>
     <com.facebook.login.widget.LoginButton

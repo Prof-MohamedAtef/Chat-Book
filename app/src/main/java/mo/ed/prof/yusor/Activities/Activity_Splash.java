@@ -6,8 +6,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.ed.prof.mo.R;
-
+import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
 import java.util.HashMap;

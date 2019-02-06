@@ -6,7 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.TextView;
 
-import com.ed.prof.mo.R;
+import mo.ed.prof.yusor.R;
 
 
 /**

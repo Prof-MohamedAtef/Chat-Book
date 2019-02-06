@@ -20,10 +20,10 @@ import android.widget.Toast;
 import mo.ed.prof.yusor.Listeners.SnackBarLauncher;
 import mo.ed.prof.yusor.Network.SnackBarClassLauncher;
 import mo.ed.prof.yusor.Network.VerifyConnection;
+import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.OptionsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
-import com.ed.prof.mo.R;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -90,7 +90,7 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.authentication_main);
         verifyConnection=new VerifyConnection(getApplicationContext());
         snackBarLauncher=new SnackBarClassLauncher();
         sessionManagement=new SessionManagement(getApplicationContext());
