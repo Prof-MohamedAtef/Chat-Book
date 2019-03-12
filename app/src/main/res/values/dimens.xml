@@ -13,12 +13,15 @@
     <dimen name="card_elevation">1dp</dimen>
     <dimen name="card_margin">5dp</dimen>
     <dimen name="top_margin">5dp</dimen>
-    <dimen name="text_size">10sp</dimen>
+    <dimen name="text_size">12sp</dimen>
+    <dimen name="header_text_size">35sp</dimen>
+    <dimen name="medium_text_size">22sp</dimen>
     <dimen name="card_album_radius">0dp</dimen>
     <dimen name="list_toolbar_side_margin">4dp</dimen>
     <dimen name="list_side_margin">3dp</dimen>
+    <dimen name="button_margin">10dp</dimen>
     <dimen name="AppBarLayout_height">200dp</dimen>
     <dimen name="Overlap_top">240dp</dimen>
-    <dimen name="text_padding">3dp</dimen>
+    <dimen name="text_padding">6dp</dimen>
 
 </resources>

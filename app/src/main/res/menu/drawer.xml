@@ -25,6 +25,11 @@
             android:checked="false"
             android:title="@string/user_profile" />
         <!--android:icon="@drawable/groups"-->
+        <item
+            android:id="@+id/contact"
+            android:checked="false"
+            android:title="@string/contact" />
+        <!--android:icon="@drawable/groups"-->
     </group>
     <View
         android:id="@+id/view_footer_post2"

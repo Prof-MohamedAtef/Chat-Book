@@ -13,17 +13,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
 import java.util.HashMap;
-
+import mo.ed.prof.yusor.Fragments.BooksGalleryFragment;
 import mo.ed.prof.yusor.Fragments.NoInternetFragment;
 import mo.ed.prof.yusor.Network.SnackBarClassLauncher;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.SessionManagement;
-
 
 public class MainActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener,
         NoInternetFragment.onReloadInternetServiceListener{
@@ -43,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     private String TokenID;
     private DrawerLayout drawerLayout;
     NoInternetFragment noInternetFragment;
+    private BooksGalleryFragment booksGalleryFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         ProfilePicView=(ImageView)header.findViewById(R.id.profile_image);
         final Bundle bundle=new Bundle();
         noInternetFragment=new NoInternetFragment();
+        booksGalleryFragment=new BooksGalleryFragment();
         sessionManagement=new SessionManagement(getApplicationContext());
         user=sessionManagement.getUserDetails();
         if (user!=null){
@@ -93,23 +92,27 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                         startActivity(intent);
                         return true;
                     case R.id.browse_book:
-//                        displayUrgent();
+                        displayBooksGallery();
                         return true;
                     case R.id.chat_history:
+                        //retrive chat history
+                        // if chatarray.size>0 -- send with intent
+                        //else show dialogue no chat history exist
 //                        Intent intent2=new Intent(getApplicationContext(),ArticleTypesListActivity.class);
 //                        startActivity(intent2);
                         return true;
                     case R.id.bills:
+                        //retrive bills
+                        // if bills_array.size>0 -- send with intent
+                        //else show dialogue
 //                        bundle.putString(ArticleType,ARTS);
 //                        Intent intent3=new Intent(getApplicationContext(),ArticleTypesListActivity.class);
 //                        intent3.putExtras(bundle);
 //                        startActivity(intent3);
                         return true;
                     case R.id.user_profile:
-//                        bundle.putString(ArticleType,SPORTS);
-//                        Intent intent4=new Intent(getApplicationContext(), ArticleTypesListActivity.class);
-//                        intent4.putExtras(bundle);
-//                        startActivity(intent4);
+                        Intent intent4=new Intent(getApplicationContext(), ProfileActivity.class);
+                        startActivity(intent4);
                         return true;
                     case R.id.logout:
 //                        bundle.putString(ArticleType,REPORTS);
@@ -168,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         VerifyConnection verifyConnection=new VerifyConnection(getApplicationContext());
         verifyConnection.checkConnection();
         if (verifyConnection.isConnected()){
-//            displayUrgent();
+            displayBooksGallery();
         }else {
             // Show Snack
             snackbar=NetCut();
@@ -177,6 +180,12 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                     .replace(R.id.container_frame, noInternetFragment, "newsApi")
                     .commit();
         }
+    }
+
+    private void displayBooksGallery() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container_frame, booksGalleryFragment , "newsApi")
+                .commit();
     }
 
     private Snackbar NetCut() {

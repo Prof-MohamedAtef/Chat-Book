@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="@dimen/padding_authentication"
     android:gravity="bottom"
-    android:background="#000000"
+    android:background="@drawable/logo"
     tools:context="mo.ed.prof.yusor.Activities.AuthenticationActivity"
     android:orientation="vertical">
     <LinearLayout
@@ -23,7 +23,7 @@
                 android:id="@+id/ProfileImage_header_Post"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@drawable/logo" />
         </LinearLayout>
     </LinearLayout>
     <com.facebook.login.widget.LoginButton
