@@ -21,7 +21,7 @@ import mo.ed.prof.yusor.Listeners.SnackBarLauncher;
 import mo.ed.prof.yusor.Network.SnackBarClassLauncher;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
-import mo.ed.prof.yusor.helpers.OptionsEntity;
+import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
 import com.facebook.AccessToken;
@@ -167,7 +167,7 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
             };
             // If the access token is available already assign it.
             FBaccessToken = AccessToken.getCurrentAccessToken();
-            OptionsEntity.FBAccessToken=FBaccessToken;
+            StudentsEntity.FBAccessToken=FBaccessToken;
             // Callback registration
             fbloginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                 @Override

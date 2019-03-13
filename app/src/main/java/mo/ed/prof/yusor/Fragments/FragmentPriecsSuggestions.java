@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import mo.ed.prof.yusor.Adapter.SimilarBooksAdapter;
 import mo.ed.prof.yusor.GenericAsyncTasks.RetrieveBooksAsyncTask;
 import mo.ed.prof.yusor.R;
-import mo.ed.prof.yusor.helpers.OptionsEntity;
+import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 
 import static mo.ed.prof.yusor.Activities.AddBookActivity.BOOK_NAME;
 import static mo.ed.prof.yusor.helpers.Config.TwoPane;
@@ -54,7 +54,7 @@ public class FragmentPriecsSuggestions extends Fragment implements RetrieveBooks
         retrieveBooksAsyncTask.execute();
     }
 
-    private void PopulateSimilarBooks(ArrayList<OptionsEntity> urgentArticlesList) {
+    private void PopulateSimilarBooks(ArrayList<StudentsEntity> urgentArticlesList) {
         SimilarBooksAdapter mAdapter=new SimilarBooksAdapter(getActivity(),urgentArticlesList, TwoPane);
         mAdapter.notifyDataSetChanged();
         layoutManager=(GridLayoutManager)recyclerView_Horizontal.getLayoutManager();
@@ -65,7 +65,7 @@ public class FragmentPriecsSuggestions extends Fragment implements RetrieveBooks
     }
 
     @Override
-    public void onBooksRetrievalApiTaskCompleted(ArrayList<OptionsEntity> result) {
+    public void onBooksRetrievalApiTaskCompleted(ArrayList<StudentsEntity> result) {
 
     }
 }

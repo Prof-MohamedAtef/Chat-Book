@@ -11,13 +11,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import mo.ed.prof.yusor.R;
-import mo.ed.prof.yusor.helpers.OptionsEntity;
+import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 
 /**
  * Created by Prof-Mohamed Atef on 2/6/2019.
  */
 
-public class RetrieveBooksAsyncTask extends AsyncTask<String, Void, ArrayList<OptionsEntity>> {
+public class RetrieveBooksAsyncTask extends AsyncTask<String, Void, ArrayList<StudentsEntity>> {
 
     private final String LOG_TAG = RetrieveBooksAsyncTask.class.getSimpleName();
     public JSONObject BooksJson;
@@ -25,7 +25,7 @@ public class RetrieveBooksAsyncTask extends AsyncTask<String, Void, ArrayList<Op
     public JSONObject oneBookData;
     private ProgressDialog dialog;
     public RetrieveBooksAsyncTask retrieveBooksAsyncTask;
-    private ArrayList<OptionsEntity> list = new ArrayList<OptionsEntity>();
+    private ArrayList<StudentsEntity> list = new ArrayList<StudentsEntity>();
     OnBooksRetrievalTaskCompleted onBooksRetrievalTaskCompleted;
     Context mContext;
 
@@ -51,7 +51,7 @@ public class RetrieveBooksAsyncTask extends AsyncTask<String, Void, ArrayList<Op
     }
 
     @Override
-    protected void onPostExecute(ArrayList<OptionsEntity> result) {
+    protected void onPostExecute(ArrayList<StudentsEntity> result) {
         super.onPostExecute(result);
         if (result != null) {
             if (onBooksRetrievalTaskCompleted!=null){
@@ -67,11 +67,11 @@ public class RetrieveBooksAsyncTask extends AsyncTask<String, Void, ArrayList<Op
     }
 
     @Override
-    protected ArrayList<OptionsEntity> doInBackground(String... strings) {
+    protected ArrayList<StudentsEntity> doInBackground(String... strings) {
         return null;
     }
 
     public interface OnBooksRetrievalTaskCompleted{
-        void onBooksRetrievalApiTaskCompleted(ArrayList<OptionsEntity> result);
+        void onBooksRetrievalApiTaskCompleted(ArrayList<StudentsEntity> result);
     }
 }

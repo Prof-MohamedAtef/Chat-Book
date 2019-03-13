@@ -4,8 +4,14 @@
     <string name="facebook_app_id">298058717735691</string>
     <string name="fb_login_protocol_scheme">fb298058717735691</string>
     <string name="no_internet">Internet Disabled</string>
+    <string name="failed">Failed</string>
     <string name="retry">Retry</string>
     <string name="loading">Loading ..</string>
+    <string name="uploading">Uploading ..</string>
+    <string name="Opps">Opps</string>
+    <string name="upload">Upload</string>
+    <string name="server_error">Error in Server</string>
+    <string name="ok">Ok</string>
     <string name="loadedsuccess">Loaded Successfully</string>
 
     <string name="add_book">Add Book</string>
@@ -78,8 +84,40 @@
     <string name="password">Password</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
-    <string name="email_key">@taibahu.edu.sa</string>
+    <string name="email_key">"@taibahu.edu.sa"</string>
 
 
 
+    <string name="faculty_computer_sciences_engineering">Faculty of Computer Sciences Engineering</string>
+    <string name="faculty_Business_Administration_in_yanboa">Faculty of Business Administration at Yanboa</string>
+    <string name="faculty_society_in_3ola">Faculty of Society in Al Ola</string>
+    <string name="faculty_society_in_badr">Faculty of Society in Badr</string>
+    <string name="faculty_society">Faculty of Society</string>
+    <string name="faculty_society_in_El3ahd">Faculty of Society in Al 3a7d</string>
+    <string name="faculty_society_in_7nakia">Faculty of Society in Al 7nakia</string>
+    <string name="faculty_of_dentistry">Faculty of Dentistry</string>
+    <string name="faculty_of_Education">Faculty of Education</string>
+    <string name="faculty_of_Engineering">Faculty of Engineering</string>
+    <string name="faculty_Engineering_in_Yanboa">Faculty of Engineering in Yanboa</string>
+    <string name="faculty_of_family_sciences">Faculty of Family Sciences</string>
+    <string name="faculty_of_Law">Faculty of Law</string>
+    <string name="faculty_of_medicine">Faculty of Medicine</string>
+    <string name="faculty_of_Pharmacy">Faculty of Pharmacy</string>
+    <string name="faculty_of_Sciences">Faculty of Sciences</string>
+    <string name="faculty_of_Sciences_literatures">Faculty of Sciences and Literatures in Al Ola</string>
+    <string name="faculty_of_sciences_computers_in_yanboa">Faculty of Sciences and Computer in Yanboa</string>
+    <string name="faculty_of_sciences_in_yanboa">Faculty of Sciences in Yanboa</string>
+    <string name="faculty_of_Society_in_Khaibar">Faculty of Society in Khaibar</string>
+    <string name="faculty_of_literature_and_human_sciences_in_yanboa">Faculty of Literature and Human Sciences in Yanboa</string>
+    <string name="faculty_of_Nursing">Faculty of Nursing</string>
+    <string name="faculty_of__medical_rehab_sciences">Faculty of Medical Rehabilitation Sciences</string>
+    <string name="faculty_of_applied_medical_sciences">Faculty of Applied Medical Sciences</string>
+    <string name="faculty_of_applied_medical_sciences_in_yanboa">Faculty of Applied Medical Sciences in Yanboa</string>
+    <string name="faculty_of_applied_medical_sciences_in_al_ola">Faculty of Applied Medical Sciencesin Al Ola</string>
+    <string name="faculty_of_business_administration_yanboa">Faculty of Business Administration in Yanboa</string>
+    <string name="faculty_of_business_administration">Faculty of Business Administration</string>
+    <string name="Sign_in">Sign in</string>
+    <string name="Sign_up">Sign Up</string>
+    <string name="Success">Success</string>
+    <string name="Loading">Loading..</string>
 </resources>

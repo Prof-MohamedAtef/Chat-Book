@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 import mo.ed.prof.yusor.R;
-import mo.ed.prof.yusor.helpers.OptionsEntity;
+import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 
 /**
  * Created by Prof-Mohamed Atef on 2/12/2019.
@@ -21,10 +21,10 @@ import mo.ed.prof.yusor.helpers.OptionsEntity;
 public class SimilarBooksAdapter extends RecyclerView.Adapter<SimilarBooksAdapter.ViewHOlder> implements Serializable {
 
     Context mContext;
-    ArrayList<OptionsEntity> feedItemList;
+    ArrayList<StudentsEntity> feedItemList;
     boolean TwoPane;
 
-    public SimilarBooksAdapter(Context mContext, ArrayList<OptionsEntity> feedItemList, boolean twoPane) {
+    public SimilarBooksAdapter(Context mContext, ArrayList<StudentsEntity> feedItemList, boolean twoPane) {
         this.mContext = mContext;
         this.feedItemList = feedItemList;
         TwoPane = twoPane;
@@ -40,7 +40,7 @@ public class SimilarBooksAdapter extends RecyclerView.Adapter<SimilarBooksAdapte
 
     @Override
     public void onBindViewHolder(@NonNull SimilarBooksAdapter.ViewHOlder holder, final int position) {
-        final OptionsEntity feedItem = feedItemList.get(position);
+        final StudentsEntity feedItem = feedItemList.get(position);
         if (feedItem!=null){
             if (feedItem.getBookTitle()!=null) {
                 holder.Title.setText(feedItem.getBookTitle());

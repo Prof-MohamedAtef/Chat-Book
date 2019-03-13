@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.SessionManagement;
-
 import java.util.HashMap;
 
 public class Activity_Splash extends AppCompatActivity {
@@ -42,17 +40,17 @@ public class Activity_Splash extends AppCompatActivity {
                     startActivity(new Intent(Activity_Splash.this, MainActivity.class));
                     finish();
                 }
-            },5500);
+            },2000);
         }
         else {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    startActivity(new Intent(Activity_Splash.this, AuthenticationActivity.class));
+                    startActivity(new Intent(Activity_Splash.this, TaibahAuthActivity.class));
                     hideProgressDialog();
                     finish();
                 }
-            },5500);
+            },2000);
         }
     }
 

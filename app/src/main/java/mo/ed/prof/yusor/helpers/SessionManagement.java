@@ -22,6 +22,9 @@ public class SessionManagement {
     public static final String KEY_idToken= "idToken";
     public static final String KEY_userID= "userID";
     public static final String KEY_LoginType= "LoginType";
+    public static final String KEY_UserName= "UserName";
+    public static final String KEY_Gender= "Gender";
+    public static final String KEY_DepartmentName= "DepartmentName";
 
     public SessionManagement(Context context) {
         this._context = context;
@@ -68,12 +71,24 @@ public class SessionManagement {
         editor.commit();
     }
 
+
+    public void createYusorLoginSession(String P_name, String email, String userName,String gender, String departmentName){
+        editor.putBoolean(IS_LOGIN, true);
+        editor.putString(KEY_NAME, P_name);
+        editor.putString(KEY_EMAIL, email);
+        editor.putString(KEY_UserName, userName);
+        editor.putString(KEY_Gender, gender);
+        editor.putString(KEY_DepartmentName, departmentName);
+        editor.commit();
+    }
+
     public HashMap<String, String> getUserDetails(){
         HashMap<String, String> user = new HashMap<String, String>();
         user.put(KEY_NAME, pref.getString(KEY_NAME, null));
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
-        user.put(KEY_Profile_Pic, pref.getString(KEY_Profile_Pic, null));
-        user.put(KEY_idToken, pref.getString(KEY_idToken, null));
+        user.put(KEY_UserName, pref.getString(KEY_UserName, null));
+        user.put(KEY_Gender, pref.getString(KEY_Gender, null));
+        user.put(KEY_DepartmentName, pref.getString(KEY_DepartmentName, null));
         return user;
     }
 

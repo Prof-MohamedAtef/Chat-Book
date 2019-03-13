@@ -17,27 +17,22 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
-import mo.ed.prof.yusor.Adapter.CustomSpinnerAdapter;
 import mo.ed.prof.yusor.Fragments.DatePickerFragment;
 import mo.ed.prof.yusor.Fragments.FragmentPriecsSuggestions;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.Config;
 
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-import static android.media.tv.TvContract.Programs.Genres.SPORTS;
 
 public class AddBookActivity extends AppCompatActivity {
 
@@ -115,13 +110,14 @@ public class AddBookActivity extends AppCompatActivity {
             }
         });
 
-        ArrayList<String> FacultiesList= new ArrayList<String>();
-        FacultiesList.add(Science);
-        FacultiesList.add(LITERATURE);
-        FacultiesList.add(AGRICULTURAL_SCIENCES);
-        FacultiesList.add(EDUCATION);
-        CustomSpinnerAdapter customSpinnerAdapterFaculties = new CustomSpinnerAdapter(getApplicationContext(), FacultiesList);
-        faculties_spinner.setAdapter(customSpinnerAdapterFaculties);
+//        ArrayList<StudentsEntity> FacultiesList= new ArrayList<String>();
+//        FacultiesList.add(Science);
+//        FacultiesList.add(LITERATURE);
+//        FacultiesList.add(AGRICULTURAL_SCIENCES);
+//        FacultiesList.add(EDUCATION);
+//        CustomSpinnerAdapter customSpinnerAdapterFaculties = new CustomSpinnerAdapter(getApplicationContext(), FacultiesList);
+//        faculties_spinner.setAdapter(customSpinnerAdapterFaculties);
+
         calendar = new Calendar() {
             @Override
             protected void computeTime() {

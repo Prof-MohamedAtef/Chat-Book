@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,10 +18,7 @@ import mo.ed.prof.yusor.Adapter.SimilarBooksAdapter;
 import mo.ed.prof.yusor.GenericAsyncTasks.RetrieveBooksAsyncTask;
 import mo.ed.prof.yusor.Network.SnackBarClassLauncher;
 import mo.ed.prof.yusor.R;
-import mo.ed.prof.yusor.helpers.Config;
-import mo.ed.prof.yusor.helpers.OptionsEntity;
-
-import static mo.ed.prof.yusor.helpers.Config.TwoPane;
+import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 
 /**
  * Created by Prof-Mohamed Atef on 2/6/2019.
@@ -53,7 +49,7 @@ public class BooksGalleryFragment extends Fragment implements RetrieveBooksAsync
         return  rootView;
     }
 
-    private void PopulateBooksGallery(ArrayList<OptionsEntity> BooksList) {
+    private void PopulateBooksGallery(ArrayList<StudentsEntity> BooksList) {
         SimilarBooksAdapter mAdapter=new SimilarBooksAdapter(getActivity(),BooksList, TwoPane);
         mAdapter.notifyDataSetChanged();
         RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(getActivity());
@@ -63,7 +59,7 @@ public class BooksGalleryFragment extends Fragment implements RetrieveBooksAsync
     }
 
     @Override
-    public void onBooksRetrievalApiTaskCompleted(ArrayList<OptionsEntity> result) {
+    public void onBooksRetrievalApiTaskCompleted(ArrayList<StudentsEntity> result) {
 
     }
 }

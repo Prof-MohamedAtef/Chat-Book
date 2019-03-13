@@ -15,11 +15,10 @@ import com.squareup.picasso.Picasso;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import mo.ed.prof.yusor.Activities.ChatActivity;
 import mo.ed.prof.yusor.R;
-import mo.ed.prof.yusor.helpers.OptionsEntity;
+import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 
 /**
  * Created by Prof-Mohamed Atef on 2/12/2019.
@@ -28,11 +27,11 @@ import mo.ed.prof.yusor.helpers.OptionsEntity;
 public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapter.ViewHOlder> implements Serializable {
 
     Context mContext;
-    ArrayList<OptionsEntity> feedItemList;
+    ArrayList<StudentsEntity> feedItemList;
     boolean TwoPane;
     public static String BookOwnerID_KEY="BookOwnerID_KEY";
 
-    public BooksGalleryAdapter(Context mContext, ArrayList<OptionsEntity> feedItemList, boolean twoPane) {
+    public BooksGalleryAdapter(Context mContext, ArrayList<StudentsEntity> feedItemList, boolean twoPane) {
         this.mContext = mContext;
         this.feedItemList = feedItemList;
         TwoPane = twoPane;
@@ -48,7 +47,7 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
 
     @Override
     public void onBindViewHolder(@NonNull BooksGalleryAdapter.ViewHOlder holder, final int position) {
-        final OptionsEntity feedItem = feedItemList.get(position);
+        final StudentsEntity feedItem = feedItemList.get(position);
         if (feedItem != null) {
             if (feedItem.getBookTitle() != null) {
                 holder.Title.setText(feedItem.getBookTitle());
@@ -100,7 +99,7 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
             super(converview);
             this.Title = (TextView) converview.findViewById(R.id.book_title);
             this.Price = (TextView) converview.findViewById(R.id.book_price);
-            this.Status = (TextView) converview.findViewById(R.id.book_status);
+//            this.Status = (TextView) converview.findViewById(R.id.book_status);
             this.Image = (CircleImageView) converview.findViewById(R.id.book_image);
             this.StartChat=(Button)converview.findViewById(R.id.start_chat);
         }
