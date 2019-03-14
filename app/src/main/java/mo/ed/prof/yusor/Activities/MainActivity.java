@@ -13,6 +13,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 import mo.ed.prof.yusor.Fragments.BooksGalleryFragment;
@@ -41,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     private DrawerLayout drawerLayout;
     NoInternetFragment noInternetFragment;
     private BooksGalleryFragment booksGalleryFragment;
+    private String LoggedType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,11 +123,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                         startActivity(intent4);
                         return true;
                     case R.id.logout:
-//                        bundle.putString(ArticleType,REPORTS);
-//                        Intent intent5=new Intent(getApplicationContext(), ArticleTypesListActivity.class);
-//                        intent5.putExtras(bundle);
-//                        startActivity(intent5);
-                        // get data from content provider or firebase
+                        SignOut();
                         return true;
                     default:
                         return true;
@@ -160,6 +164,23 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         actionBarDrawerToggle.syncState();
         SnackBasedConnection();
 
+    }
+
+    private void SignOut() {
+        VerifyConnection verifyConnection=new VerifyConnection(getApplicationContext());
+        if (verifyConnection.isConnected()){
+            user =sessionManagement.getLoginType();
+            if (user!=null){
+                LoggedType = user.get(SessionManagement.KEY_LoginType);
+                if (LoggedType!=null){
+                    if (LoggedType.equals("EP")) {
+                        sessionManagement.logoutUser();
+                    }
+                }
+            }
+        }else {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

@@ -1,4 +1,4 @@
-package mo.ed.prof.yusor.Activities;
+package mo.ed.prof.yusor.Activities.Authentication;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import mo.ed.prof.yusor.Activities.MainActivity;
 import mo.ed.prof.yusor.Listeners.SnackBarLauncher;
 import mo.ed.prof.yusor.Network.SnackBarClassLauncher;
 import mo.ed.prof.yusor.Network.VerifyConnection;

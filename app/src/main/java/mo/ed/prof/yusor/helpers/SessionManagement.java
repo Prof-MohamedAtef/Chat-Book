@@ -1,9 +1,12 @@
 package mo.ed.prof.yusor.helpers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 import java.util.HashMap;
+
+import mo.ed.prof.yusor.Activities.SplashActivity;
 
 /**
  * Created by Prof-Mohamed Atef on 2/5/2019.
@@ -38,15 +41,15 @@ public class SessionManagement {
         editor.commit();
 
         // After logout redirect user to Loing Activity
-//        Intent i = new Intent(_context, SplashScreen.class);
+        Intent i = new Intent(_context, SplashActivity.class);
         // Closing all the Activities
-//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        // Add new Flag to start new Activity
-//        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        // Add new Flag to startSignUp new Activity
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         // Staring Login Activity
-//        _context.startActivity(i);
+        _context.startActivity(i);
     }
 
     public void createLoginSessionType(String type){
@@ -72,13 +75,15 @@ public class SessionManagement {
     }
 
 
-    public void createYusorLoginSession(String P_name, String email, String userName,String gender, String departmentName){
+    public void createYusorLoginSession(String idToken, String P_name, String email, String userName,String gender, String departmentName){
         editor.putBoolean(IS_LOGIN, true);
+        editor.putString(KEY_idToken, idToken);
         editor.putString(KEY_NAME, P_name);
         editor.putString(KEY_EMAIL, email);
         editor.putString(KEY_UserName, userName);
         editor.putString(KEY_Gender, gender);
         editor.putString(KEY_DepartmentName, departmentName);
+
         editor.commit();
     }
 
@@ -89,6 +94,7 @@ public class SessionManagement {
         user.put(KEY_UserName, pref.getString(KEY_UserName, null));
         user.put(KEY_Gender, pref.getString(KEY_Gender, null));
         user.put(KEY_DepartmentName, pref.getString(KEY_DepartmentName, null));
+        user.put(KEY_idToken, pref.getString(KEY_idToken, null));
         return user;
     }
 

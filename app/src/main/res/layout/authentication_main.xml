@@ -7,7 +7,7 @@
     android:padding="@dimen/padding_authentication"
     android:gravity="bottom"
     android:background="@drawable/logo"
-    tools:context="mo.ed.prof.yusor.Activities.AuthenticationActivity"
+    tools:context="mo.ed.prof.yusor.Activities.Authentication.AuthenticationActivity"
     android:orientation="vertical">
     <LinearLayout
         android:id="@+id/linearLayout"

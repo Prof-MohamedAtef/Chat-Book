@@ -122,4 +122,12 @@
     <string name="Loading">Loading..</string>
 
 
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_forgot_password">Forgot password?</string>
+    <string name="btn_link_to_register">Not a member? Get registered now!</string>
+    <string name="enter_email">Enter email address!</string>
+    <string name="enter_password">Enter password!</string>
+
+
 </resources>

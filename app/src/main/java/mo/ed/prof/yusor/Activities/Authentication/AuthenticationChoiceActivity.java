@@ -1,4 +1,4 @@
-package mo.ed.prof.yusor.Activities;
+package mo.ed.prof.yusor.Activities.Authentication;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import mo.ed.prof.yusor.Activities.TaibahRegistrationActivity;
 import mo.ed.prof.yusor.R;
 
 public class AuthenticationChoiceActivity extends AppCompatActivity {
@@ -35,7 +36,7 @@ public class AuthenticationChoiceActivity extends AppCompatActivity {
         btn_Sign_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_Login=new Intent(AuthenticationChoiceActivity.this,TaibahAuthActivity.class);
+                Intent intent_Login=new Intent(AuthenticationChoiceActivity.this,TaibahRegistrationActivity.class);
                 startActivity(intent_Login);
             }
         });

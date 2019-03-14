@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:background="@color/white"
     android:padding="@dimen/fab_margin"
-    tools:context="mo.ed.prof.yusor.Activities.TaibahAuthActivity">
+    tools:context="mo.ed.prof.yusor.Activities.TaibahRegistrationActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -115,6 +115,7 @@
                 <EditText
                     android:id="@+id/Edit_password"
                     android:textColor="@color/black"
+                    android:inputType="textPassword"
                     android:gravity="center_vertical|center_horizontal"
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_width="0dp"
@@ -131,6 +132,7 @@
                 <EditText
                     android:id="@+id/Edit_confirmedPassword"
                     android:textColor="@color/black"
+                    android:inputType="textPassword"
                     android:gravity="center_vertical|center_horizontal"
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_width="0dp"
@@ -302,20 +304,6 @@
         android:layout_weight="1"
         android:gravity="center_vertical|center_horizontal"
         android:layout_gravity="center_horizontal|center_vertical">
-        <!--<com.dd.processbutton.iml.ActionProcessButton-->
-            <!--android:id="@+id/btnRegister"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="48dp"-->
-            <!--android:layout_marginBottom="16dp"-->
-            <!--android:text="@string/Sign_in"-->
-            <!--android:textColor="@android:color/white"-->
-            <!--android:textSize="18sp"-->
-            <!--custom:pb_colorComplete="@color/yellow"-->
-            <!--custom:pb_colorNormal="@color/red_pressed"-->
-            <!--custom:pb_colorPressed="@color/red"-->
-            <!--custom:pb_colorProgress="@color/grey"-->
-            <!--custom:pb_textComplete="@string/Success"-->
-            <!--custom:pb_textProgress="@string/Loading" />-->
 
         <com.dd.processbutton.iml.GenerateProcessButton
             android:id="@+id/btnUpload"

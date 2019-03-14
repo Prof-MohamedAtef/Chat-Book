@@ -1,12 +1,10 @@
 package mo.ed.prof.yusor.helpers.Designsers;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -15,14 +13,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dd.processbutton.ProcessButton;
-
+import com.dd.processbutton.iml.GenerateProcessButton;
 import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.Volley.JsonParser;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
@@ -43,6 +39,21 @@ public class ProgressGenerator {
     public static String KEY_DepartmentID="department_id";
     public static String KEY_ConfirmPass="password_confirmation";
 
+    public void startSignIn(final GenerateProcessButton btn_login, final String email, final String password) {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mProgress += 10;
+                btn_login.setProgress(mProgress);
+                signInStudent(email, password);
+                if (mProgress < 5&&done!=Done_Key) {
+                    handler.postDelayed(this, generateDelay());
+                }
+            }
+        }, generateDelay());
+    }
+
     public interface OnCompleteListener {
         public void onComplete(ArrayList<StudentsEntity> studentsEntities);
     }
@@ -56,7 +67,7 @@ public class ProgressGenerator {
         this.mContext=context;
     }
 
-    public void start(final ProcessButton button, final String P_name, final String Email, final String userName, final String Password, final String confirmPassword, final String Gender, final String departmentid) {
+    public void startSignUp(final ProcessButton button, final String P_name, final String Email, final String userName, final String Password, final String confirmPassword, final String Gender, final String departmentid) {
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -90,7 +101,7 @@ public class ProgressGenerator {
                         }else {
                             try {
                                 JsonParser jsonParser = new JsonParser();
-                                ArrayList<StudentsEntity> studentsEntities = jsonParser.jsonParse(response);
+                                ArrayList<StudentsEntity> studentsEntities = jsonParser.signUpJsonParse(response);
                                 if (studentsEntities != null) {
                                     done = Done_Key;
                                     if (studentsEntities.size() > 0) {
@@ -108,7 +119,7 @@ public class ProgressGenerator {
 //                loading.dismiss();
                 //Showing toast
                 if (error!=null){
-                    NetworkAbortedDialouge();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
                 }else {
                     Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
                 }
@@ -130,16 +141,51 @@ public class ProgressGenerator {
         requestQueue.add(stringRequest);
     }
 
-    private void NetworkAbortedDialouge() {
-        AlertDialog.Builder builder=new AlertDialog.Builder(mContext);
-        builder.setTitle(mContext.getString(R.string.Opps));
-        builder.setMessage(mContext.getString(R.string.no_internet));
-        builder.setPositiveButton(mContext.getString(R.string.ok), new DialogInterface.OnClickListener() {
+    public void signInStudent(final String email, final String password) {
+//        final ProgressDialog loading = ProgressDialog.show(mContext, mContext.getResources().getString(R.string.loading), mContext.getResources().getString(R.string.uploading), false, false);
+        final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
+        StringRequest stringRequest=new StringRequest(Request.Method.POST,
+                "http://fla4news.com/Yusor/api/v1/login",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.matches("")){
+                            Toast.makeText(mContext, mContext.getResources().getString(R.string.failed), Toast.LENGTH_LONG).show();
+                        }else {
+                            try {
+                                JsonParser jsonParser = new JsonParser();
+                                ArrayList<StudentsEntity> studentsEntities = jsonParser.signInJsonParse(response);
+                                if (studentsEntities != null) {
+                                    done = Done_Key;
+                                    if (studentsEntities.size() > 0) {
+                                        mListener.onComplete(studentsEntities);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onErrorResponse(VolleyError error) {
+//                loading.dismiss();
+                //Showing toast
+                if (error!=null){
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }
             }
-        });
-        AlertDialog Dialogue=builder.create();
-        Dialogue.show();
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> hashMap=new HashMap<>();
+                hashMap.put(KEY_Email,email);
+                hashMap.put(KEY_Password,password);
+                return  hashMap;
+            }
+        };
+        requestQueue.add(stringRequest);
     }
 }

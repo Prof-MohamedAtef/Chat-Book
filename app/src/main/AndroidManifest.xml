@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.AuthenticationActivity"
+            android:name=".Activities.Authentication.AuthenticationActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".Activities.AddBookActivity" />
 
@@ -51,14 +51,20 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.ProfileActivity" />
+        <activity android:name=".Activities.ProfileActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
             android:name=".Activities.ChatActivity"
-            android:parentActivityName=".Activities.MainActivity" />
-        <activity android:name=".Activities.BillsActivity" />
-        <activity android:name=".Activities.TaibahAuthActivity" />
-        <activity android:name=".Activities.AuthenticationChoiceActivity" />
-        <activity android:name=".Activities.LoginActivity"></activity>
+            android:parentActivityName=".Activities.MainActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity android:name=".Activities.BillsActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity android:name=".Activities.TaibahRegistrationActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity android:name=".Activities.Authentication.AuthenticationChoiceActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity android:name=".Activities.Authentication.LoginActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
     </application>
 
 </manifest>

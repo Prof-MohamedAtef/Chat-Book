@@ -14,8 +14,6 @@ import android.widget.Toast;
 
 import com.dd.processbutton.iml.GenerateProcessButton;
 
-import org.json.JSONException;
-
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -24,13 +22,12 @@ import mo.ed.prof.yusor.Adapter.CustomSpinnerAdapter;
 import mo.ed.prof.yusor.GenericAsyncTasks.RetrieveDepartmentsAsyncTask;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
-import mo.ed.prof.yusor.Volley.JsonParser;
 import mo.ed.prof.yusor.helpers.Config;
 import mo.ed.prof.yusor.helpers.Designsers.ProgressGenerator;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
-public class TaibahAuthActivity extends AppCompatActivity implements RetrieveDepartmentsAsyncTask.OnDepartmentsRetrievalTaskCompleted,
+public class TaibahRegistrationActivity extends AppCompatActivity implements RetrieveDepartmentsAsyncTask.OnDepartmentsRetrievalTaskCompleted,
 ProgressGenerator.OnCompleteListener{
 
 
@@ -88,6 +85,7 @@ ProgressGenerator.OnCompleteListener{
     private String ConfirmPassword;
     private String EmailConst;
     private String FinalEmail;
+    private String mToken;
 
     @Override
     protected void onResume() {
@@ -123,8 +121,8 @@ ProgressGenerator.OnCompleteListener{
                 checkedRadioButtion=(RadioButton)radioGenderGroup.findViewById(radioGenderGroup.getCheckedRadioButtonId());
                 selectedGender= checkedRadioButtion.getText().toString();
                 if (verifyConnection.isConnected()){
-                    progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener)TaibahAuthActivity.this, getApplicationContext());
-                    progressGenerator.start(btnUpload, PersonName, FinalEmail, UserName, Password, ConfirmPassword, selectedGender, DepartmentID );
+                    progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener)TaibahRegistrationActivity.this, getApplicationContext());
+                    progressGenerator.startSignUp(btnUpload, PersonName, FinalEmail, UserName, Password, ConfirmPassword, selectedGender, DepartmentID );
                 }
             }
         });
@@ -172,11 +170,13 @@ ProgressGenerator.OnCompleteListener{
             Email=studentsEntity.getEmail();
             UserName=studentsEntity.getUserName();
             selectedGender=studentsEntity.getGender();
+            mToken=studentsEntity.getAPI_TOKEN();
 //            DepartmentName=studentsEntity.getDepartmentName();
         }
-        sessionManagement.createLoginSession(PersonName,Email,UserName,selectedGender, DepartmentName);
+        sessionManagement.createYusorLoginSession(mToken,PersonName,Email,UserName,selectedGender, DepartmentName);
         sessionManagement.createLoginSessionType("EP");
         Intent intent_create=new Intent(this,MainActivity.class);
         startActivity(intent_create);
+        finish();
     }
 }
