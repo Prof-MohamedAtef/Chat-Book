@@ -35,12 +35,13 @@ public class ProgressGenerator {
 
     private int Done_Key=1;
     private int done=0;
-    private String KEY_PersonName="";
-    private String KEY_Email="";
-    private String KEY_UserName="";
-    private String KEY_Password="";
-    private String KEY_Gender="";
-    private String KEY_DepartmentName="";
+    public static String KEY_PersonName="perso_name";
+    public static String KEY_Email="Email";
+    public static String KEY_UserName="UserName";
+    public static String KEY_Password="password";
+    public static String KEY_Gender="Gender";
+    public static String KEY_DepartmentID="department_id";
+    public static String KEY_ConfirmPass="password_confirmation";
 
     public interface OnCompleteListener {
         public void onComplete(ArrayList<StudentsEntity> studentsEntities);
@@ -55,15 +56,15 @@ public class ProgressGenerator {
         this.mContext=context;
     }
 
-    public void start(final ProcessButton button, final String P_name, final String Email, final String userName, final String Password, final String Gender, final String departmentName) {
+    public void start(final ProcessButton button, final String P_name, final String Email, final String userName, final String Password, final String confirmPassword, final String Gender, final String departmentid) {
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 mProgress += 10;
                 button.setProgress(mProgress);
-                signUpStudent(P_name,Email,userName,Password,Gender, departmentName);
-                if (mProgress < 100&&done!=Done_Key) {
+                signUpStudent(P_name,Email,userName,Password, confirmPassword,Gender, departmentid);
+                if (mProgress < 5&&done!=Done_Key) {
                     handler.postDelayed(this, generateDelay());
                 }
             }
@@ -76,11 +77,11 @@ public class ProgressGenerator {
         return random.nextInt(1000);
     }
 
-    public void signUpStudent(final String personName, final String email, final String userName, final String password, final String selectedGender, final String departmentName) {
+    public void signUpStudent(final String personName, final String email, final String userName, final String password, final String confirmPassword ,final String selectedGender, final String departmentID) {
 //        final ProgressDialog loading = ProgressDialog.show(mContext, mContext.getResources().getString(R.string.loading), mContext.getResources().getString(R.string.uploading), false, false);
         final RequestQueue requestQueue  = Volley.newRequestQueue(mContext);
         StringRequest stringRequest=new StringRequest(Request.Method.POST,
-                "",
+                "http://fla4news.com/Yusor/api/v1/register",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -88,12 +89,12 @@ public class ProgressGenerator {
                             Toast.makeText(mContext, mContext.getResources().getString(R.string.failed), Toast.LENGTH_LONG).show();
                         }else {
                             try {
-                                ArrayList<StudentsEntity> studentsEntities=JsonParser.jsonParse(response);
-                                if (studentsEntities!=null){
-                                    done =Done_Key;
-                                    if (studentsEntities.size()>0){
+                                JsonParser jsonParser = new JsonParser();
+                                ArrayList<StudentsEntity> studentsEntities = jsonParser.jsonParse(response);
+                                if (studentsEntities != null) {
+                                    done = Done_Key;
+                                    if (studentsEntities.size() > 0) {
                                         mListener.onComplete(studentsEntities);
-                                        Toast.makeText(mContext, response.toString(), Toast.LENGTH_LONG).show();
                                     }
                                 }
                             } catch (JSONException e) {
@@ -120,8 +121,9 @@ public class ProgressGenerator {
                 hashMap.put(KEY_Email,email);
                 hashMap.put(KEY_UserName,userName);
                 hashMap.put(KEY_Password,password);
+                hashMap.put(KEY_ConfirmPass,confirmPassword);
                 hashMap.put(KEY_Gender,selectedGender);
-                hashMap.put(KEY_DepartmentName,departmentName);
+                hashMap.put(KEY_DepartmentID,departmentID);
                 return  hashMap;
             }
         };

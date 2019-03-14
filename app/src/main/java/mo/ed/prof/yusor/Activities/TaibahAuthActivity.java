@@ -10,6 +10,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dd.processbutton.iml.GenerateProcessButton;
 
@@ -56,6 +57,9 @@ ProgressGenerator.OnCompleteListener{
     @BindView(R.id.Edit_password)
     EditText Edit_password;
 
+    @BindView(R.id.Edit_confirmedPassword)
+    EditText Edit_confirmedPassword;
+
     @BindView(R.id.radioGenderGroup)
     RadioGroup radioGenderGroup;
 
@@ -78,11 +82,16 @@ ProgressGenerator.OnCompleteListener{
     private String PersonName;
     private ProgressGenerator progressGenerator;
     private SessionManagement sessionManagement;
+    private String DepartmentID;
+
+    VerifyConnection verifyConnection;
+    private String ConfirmPassword;
+    private String EmailConst;
+    private String FinalEmail;
 
     @Override
     protected void onResume() {
         super.onResume();
-        VerifyConnection verifyConnection=new VerifyConnection(getApplicationContext());
         if (verifyConnection.isConnected()){
             RetrieveDepartmentsAsyncTask retrieveDepartmentsAsyncTask= new RetrieveDepartmentsAsyncTask(this, getApplicationContext());
             retrieveDepartmentsAsyncTask.execute(URL);
@@ -95,33 +104,36 @@ ProgressGenerator.OnCompleteListener{
         setContentView(R.layout.activity_taibah_auth);
         ButterKnife.bind(this);
         FacultiesList = new ArrayList<StudentsEntity>();
-
+        verifyConnection=new VerifyConnection(getApplicationContext());
         sessionManagement= new SessionManagement(getApplicationContext());
-
-        FirstName= Edit_first_name.getText().toString();
-        LastName=Edit_last_name.getText().toString();
-        PersonName=FirstName+" "+LastName;
-        Email=email_type.getText().toString();
-        UserName=Edit_Username.getText().toString();
-        Password=Edit_password.getText().toString();
-        checkedRadioButtion=(RadioButton)radioGenderGroup.findViewById(radioGenderGroup.getCheckedRadioButtonId());
-        selectedGender= checkedRadioButtion.getText().toString();
-
 
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 btnUpload.setEnabled(false);
-                progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener) getApplicationContext(), getApplicationContext());
-                progressGenerator.start(btnUpload, PersonName, Email, UserName, Password, selectedGender, DepartmentName);
+                FirstName= Edit_first_name.getText().toString();
+                LastName=Edit_last_name.getText().toString();
+                PersonName=FirstName+" "+LastName;
+                EmailConst=email_type.getText().toString();
+                Email=Edit_email.getText().toString();
+                FinalEmail=Email+EmailConst;
+                UserName=Edit_Username.getText().toString();
+                Password=Edit_password.getText().toString();
+                ConfirmPassword=Edit_confirmedPassword.getText().toString();
+                checkedRadioButtion=(RadioButton)radioGenderGroup.findViewById(radioGenderGroup.getCheckedRadioButtonId());
+                selectedGender= checkedRadioButtion.getText().toString();
+                if (verifyConnection.isConnected()){
+                    progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener)TaibahAuthActivity.this, getApplicationContext());
+                    progressGenerator.start(btnUpload, PersonName, FinalEmail, UserName, Password, ConfirmPassword, selectedGender, DepartmentID );
+                }
             }
         });
 
         Faculties_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                DepartmentName = FacultiesList.get(position).getDepartmentName();
+                DepartmentName = Config.FacultiesList.get(position).getDepartmentName();
+                DepartmentID = Config.FacultiesList.get(position).getDepartmentID();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -143,7 +155,13 @@ ProgressGenerator.OnCompleteListener{
     public void onComplete(ArrayList<StudentsEntity> studentsEntities) {
         if (studentsEntities!=null){
             if (studentsEntities.size()>0){
-                SharedPrefThenGalleryHomeRedirect(studentsEntities);
+                for (StudentsEntity studentsEntity:studentsEntities){
+                    if (studentsEntity.getException()!=null){
+                        Toast.makeText(getApplicationContext(), studentsEntity.getException().toString(), Toast.LENGTH_LONG).show();
+                    }else {
+                        SharedPrefThenGalleryHomeRedirect(studentsEntities);
+                    }
+                }
             }
         }
     }
@@ -154,7 +172,7 @@ ProgressGenerator.OnCompleteListener{
             Email=studentsEntity.getEmail();
             UserName=studentsEntity.getUserName();
             selectedGender=studentsEntity.getGender();
-            DepartmentName=studentsEntity.getDepartmentName();
+//            DepartmentName=studentsEntity.getDepartmentName();
         }
         sessionManagement.createLoginSession(PersonName,Email,UserName,selectedGender, DepartmentName);
         sessionManagement.createLoginSessionType("EP");

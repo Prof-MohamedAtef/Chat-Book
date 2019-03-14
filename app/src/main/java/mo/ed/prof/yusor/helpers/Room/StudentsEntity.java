@@ -13,9 +13,43 @@ public class StudentsEntity implements Serializable {
     String BookImage;
     String BookOwnerID;
 
+    String Exception;
+
+    public String getException() {
+        return Exception;
+    }
+
+    public void setException(String exception) {
+        Exception = exception;
+    }
+
     String DepartmentID, DepartmentName;
 
     String UserName, PersonName, Email, Password, Gender;
+
+    String API_TOKEN;
+
+    public String getAPI_TOKEN() {
+        return API_TOKEN;
+    }
+
+    public void setAPI_TOKEN(String API_TOKEN) {
+        this.API_TOKEN = API_TOKEN;
+    }
+
+    public StudentsEntity(){
+
+    }
+
+    //Registration Constructor
+    public StudentsEntity(String api_token_str, String personName_str, String email_str, String userName_str, String gender_str, String department_str) {
+        this.API_TOKEN=api_token_str;
+        this.PersonName=personName_str;
+        this.Email=email_str;
+        this.UserName=userName_str;
+        this.Gender=gender_str;
+        this.DepartmentName="NULL_DEPARTMENT";
+    }
 
     public String getUserName() {
         return UserName;

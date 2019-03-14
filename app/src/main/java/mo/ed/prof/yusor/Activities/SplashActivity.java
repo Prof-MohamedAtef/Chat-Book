@@ -9,7 +9,7 @@ import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 import java.util.HashMap;
 
-public class Activity_Splash extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class Activity_Splash extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {hideProgressDialog();
-                    startActivity(new Intent(Activity_Splash.this, MainActivity.class));
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     finish();
                 }
             },2000);
@@ -46,7 +46,7 @@ public class Activity_Splash extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    startActivity(new Intent(Activity_Splash.this, TaibahAuthActivity.class));
+                    startActivity(new Intent(SplashActivity.this, AuthenticationChoiceActivity.class));
                     hideProgressDialog();
                     finish();
                 }

@@ -82,10 +82,10 @@
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="password">Password</string>
+    <string name="confirmed_password">Confirm Password</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="email_key">"@taibahu.edu.sa"</string>
-
 
 
     <string name="faculty_computer_sciences_engineering">Faculty of Computer Sciences Engineering</string>
@@ -120,4 +120,6 @@
     <string name="Sign_up">Sign Up</string>
     <string name="Success">Success</string>
     <string name="Loading">Loading..</string>
+
+
 </resources>
