@@ -8,7 +8,6 @@ import android.widget.Button;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import mo.ed.prof.yusor.Activities.TaibahRegistrationActivity;
 import mo.ed.prof.yusor.R;
 
 public class AuthenticationChoiceActivity extends AppCompatActivity {

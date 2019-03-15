@@ -19,7 +19,7 @@ import mo.ed.prof.yusor.GenericAsyncTasks.RetrieveBooksAsyncTask;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 
-import static mo.ed.prof.yusor.Activities.AddBookActivity.BOOK_NAME;
+//import static mo.ed.prof.yusor.Activities.AddBookActivity.BOOK_NAME;
 import static mo.ed.prof.yusor.helpers.Config.TwoPane;
 
 /**
@@ -38,7 +38,7 @@ public class FragmentPriecsSuggestions extends Fragment implements RetrieveBooks
         View rootview=inflater.inflate(R.layout.fragment_prices_suggestions,container,false);
         Bundle bundle=getArguments();
         if (bundle!=null){
-            BOOK_NAME_STR=(String)bundle.get(BOOK_NAME);
+//            BOOK_NAME_STR=(String)bundle.get(BOOK_NAME);
             // send to api and get all similar books with their prices and display on this fragment,
             // on this fragment enter the price, once entered,redirect to add book activity with the entered price here to submit book
         }

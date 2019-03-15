@@ -23,8 +23,10 @@ public class Config {
     public static String selectedImagePath;
     public static File StorageDir;
     public static ArrayList<StudentsEntity> FacultiesList;
-
-
+    public static ArrayList<StudentsEntity> BooksList;
+    public static String BookTitle;
+    public static String BookID;
+    public static int BookPosition;
 
 
     // public static final String[] Faculties={

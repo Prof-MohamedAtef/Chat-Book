@@ -1,4 +1,4 @@
-package mo.ed.prof.yusor.Activities;
+package mo.ed.prof.yusor.Activities.Authentication;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import mo.ed.prof.yusor.Activities.MainActivity;
 import mo.ed.prof.yusor.Adapter.CustomSpinnerAdapter;
 import mo.ed.prof.yusor.GenericAsyncTasks.RetrieveDepartmentsAsyncTask;
 import mo.ed.prof.yusor.Network.VerifyConnection;
@@ -33,7 +34,7 @@ ProgressGenerator.OnCompleteListener{
 
     String URL="http://fla4news.com/Yusor/api/v1/departments?fbclid=IwAR3iTd672TyD6ZHfFdJvf_DWgrjBVqOE649MB_oUZWLI2zO0PsVBhimTOcA";
 
-    ArrayList<StudentsEntity> FacultiesList;
+
     private String Category;
 
     @BindView(R.id.Edit_first_name)
@@ -101,7 +102,6 @@ ProgressGenerator.OnCompleteListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_taibah_auth);
         ButterKnife.bind(this);
-        FacultiesList = new ArrayList<StudentsEntity>();
         verifyConnection=new VerifyConnection(getApplicationContext());
         sessionManagement= new SessionManagement(getApplicationContext());
 

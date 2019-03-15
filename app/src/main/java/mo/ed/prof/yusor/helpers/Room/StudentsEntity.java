@@ -8,10 +8,19 @@ import java.io.Serializable;
 
 public class StudentsEntity implements Serializable {
     public static Object FBAccessToken;
+    String BookID;
     String BookTitle;
     String BookPrice;
     String BookImage;
     String BookOwnerID;
+
+    public String getBookID() {
+        return BookID;
+    }
+
+    public void setBookID(String bookID) {
+        BookID = bookID;
+    }
 
     String Exception;
 

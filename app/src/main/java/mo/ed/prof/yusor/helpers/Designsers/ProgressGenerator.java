@@ -89,7 +89,6 @@ public class ProgressGenerator {
     }
 
     public void signUpStudent(final String personName, final String email, final String userName, final String password, final String confirmPassword ,final String selectedGender, final String departmentID) {
-//        final ProgressDialog loading = ProgressDialog.show(mContext, mContext.getResources().getString(R.string.loading), mContext.getResources().getString(R.string.uploading), false, false);
         final RequestQueue requestQueue  = Volley.newRequestQueue(mContext);
         StringRequest stringRequest=new StringRequest(Request.Method.POST,
                 "http://fla4news.com/Yusor/api/v1/register",

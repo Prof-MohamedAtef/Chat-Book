@@ -1,5 +1,6 @@
 package mo.ed.prof.yusor.GenericAsyncTasks;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -21,49 +22,75 @@ import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 
 /**
- * Created by Prof-Mohamed Atef on 2/6/2019.
+ * Created by Prof-Mohamed Atef on 3/15/2019.
  */
 
-public class RetrieveBooksAsyncTask extends AsyncTask<String, Void, ArrayList<StudentsEntity>> {
+public class BooksAsyncTask extends AsyncTask<String, Void, ArrayList<StudentsEntity>> {
 
-    private final String LOG_TAG = RetrieveBooksAsyncTask.class.getSimpleName();
-    public JSONArray BooksDataArray;
+    private final String LOG_TAG = RetrieveDepartmentsAsyncTask.class.getSimpleName();
+    public JSONObject BookssJson;
+    public JSONArray BookssDataArray;
     public JSONObject oneBookData;
     private ProgressDialog dialog;
-    public RetrieveBooksAsyncTask retrieveBooksAsyncTask;
     private ArrayList<StudentsEntity> list = new ArrayList<StudentsEntity>();
-    OnBooksRetrievalTaskCompleted onBooksRetrievalTaskCompleted;
+    RetrieveBooksAsyncTask.OnBooksRetrievalTaskCompleted onBooksRetrievalTaskCompleted;
     Context mContext;
-    private JSONObject BooksJson;
-    private String ID_KEY="id";
-    private String BookName_KEY="title";
     private String ID_STR;
-    private String BookNAME_STR;
+    private String NAME_STR;
     private StudentsEntity studentsEntity;
+    private String ID_KEY="id";
+    private String Name_KEY="name";
+    private Activity activity;
 
-    public RetrieveBooksAsyncTask(OnBooksRetrievalTaskCompleted onBooksRetrievalTaskCompleted,Context context){
-        this.onBooksRetrievalTaskCompleted=onBooksRetrievalTaskCompleted;
+    public BooksAsyncTask(RetrieveBooksAsyncTask.OnBooksRetrievalTaskCompleted onBooksRetrievalTaskCompleted, Context context) {
+        this.onBooksRetrievalTaskCompleted = onBooksRetrievalTaskCompleted;
         dialog = new ProgressDialog(context);
-        this.mContext=context;
+        this.mContext = context;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        try{
-            if (dialog!=null&&dialog.isShowing()){
+        try {
+            dialog.setOwnerActivity((Activity) mContext);
+            activity = dialog.getOwnerActivity();
+            if (dialog != null && dialog.isShowing()) {
                 this.dialog.dismiss();
-            }else {
-                this.dialog.setMessage(mContext.getResources().getString(R.string.loading));
-                this.dialog.show();
+            } else {
+                if (dialog != null) {
+                    dialog.dismiss();
+                    this.dialog.setMessage(mContext.getResources().getString(R.string.loading));
+                    if (!activity.isFinishing()) {
+                        this.dialog.show();
+                    }
+                } else {
+                    this.dialog.setMessage(mContext.getResources().getString(R.string.loading));
+                    if (!activity.isFinishing()) {
+                        this.dialog.show();
+                    }
+                }
             }
-        }catch (Exception e){
-            Log.v(LOG_TAG, "Problem in ProgressDialogue" );
+        } catch (Exception e) {
+            Log.v(LOG_TAG, "Problem in ProgressDialogue");
+        }
+    }
+
+    @Override
+    protected void onPostExecute(ArrayList<StudentsEntity> result) {
+        super.onPostExecute(result);
+        if (result != null) {
+            if (onBooksRetrievalTaskCompleted != null) {
+                onBooksRetrievalTaskCompleted.onBooksRetrievalApiTaskCompleted(result);
+            }
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
         }
     }
 
     @Override
     protected ArrayList<StudentsEntity> doInBackground(String... strings) {
+
         String Articles_JsonSTR = null;
 
         HttpURLConnection urlConnection = null;
@@ -78,7 +105,7 @@ public class RetrieveBooksAsyncTask extends AsyncTask<String, Void, ArrayList<St
             URL url = new URL(strings[0]);
             urlConnection = (HttpURLConnection) url.openConnection();
 
-            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
             InputStream inputStream = urlConnection.getInputStream();
@@ -114,7 +141,7 @@ public class RetrieveBooksAsyncTask extends AsyncTask<String, Void, ArrayList<St
             }
         }
         try {
-            return getBookssJson(Articles_JsonSTR );
+            return getBooksJson(Articles_JsonSTR );
         } catch (JSONException e) {
             Log.e(LOG_TAG, "didn't got Articles Data from getJsonData method", e);
             e.printStackTrace();
@@ -122,51 +149,35 @@ public class RetrieveBooksAsyncTask extends AsyncTask<String, Void, ArrayList<St
         return null;
     }
 
-    private ArrayList<StudentsEntity> getBookssJson(String usersDesires_jsonSTR) throws JSONException {
-        BooksJson = new JSONObject(usersDesires_jsonSTR);
-        BooksDataArray= BooksJson.getJSONArray("data");
+    private ArrayList<StudentsEntity> getBooksJson(String usersDesires_jsonSTR) throws JSONException {
+        BookssJson = new JSONObject(usersDesires_jsonSTR);
+        BookssDataArray = BookssJson.getJSONArray("data");
         list.clear();
-        for (int i = 0; i < BooksDataArray.length(); i++) {
+        for (int i = 0; i < BookssDataArray.length(); i++) {
             try {
-                oneBookData = BooksDataArray.getJSONObject(i);
+                oneBookData = BookssDataArray.getJSONObject(i);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
             ID_STR= oneBookData.getString(ID_KEY);
-            BookNAME_STR= oneBookData.getString(BookName_KEY);
+            NAME_STR= oneBookData.getString(Name_KEY);
 
 
             if (ID_STR==null){
                 ID_STR="";
             }
-            if (BookNAME_STR==null){
-                BookNAME_STR="";
+            if (NAME_STR==null){
+                NAME_STR="";
             }
 
-            studentsEntity = new StudentsEntity(ID_STR, BookNAME_STR);
+            studentsEntity = new StudentsEntity(ID_STR, NAME_STR);
             list.add(studentsEntity);
         }
         return list;
     }
 
-    @Override
-    protected void onPostExecute(ArrayList<StudentsEntity> result) {
-        super.onPostExecute(result);
-        if (result != null) {
-            if (onBooksRetrievalTaskCompleted!=null){
-                onBooksRetrievalTaskCompleted.onBooksRetrievalApiTaskCompleted(result);
-            }
-            if (dialog.isShowing()){
-                dialog.dismiss();
-            }
-        }
-
-    }
-
-
-
-    public interface OnBooksRetrievalTaskCompleted{
+    public interface OnBookssRetrievalTaskCompleted {
         void onBooksRetrievalApiTaskCompleted(ArrayList<StudentsEntity> result);
     }
 }

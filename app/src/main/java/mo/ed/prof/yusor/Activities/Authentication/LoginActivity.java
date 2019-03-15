@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.dd.processbutton.iml.GenerateProcessButton;
 import java.util.ArrayList;
@@ -16,13 +14,11 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import mo.ed.prof.yusor.Activities.MainActivity;
-import mo.ed.prof.yusor.Activities.TaibahRegistrationActivity;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.Designsers.ProgressGenerator;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
-import static mo.ed.prof.yusor.Volley.JsonParser.Error_;
 
 public class LoginActivity extends AppCompatActivity implements ProgressGenerator.OnCompleteListener{
 
