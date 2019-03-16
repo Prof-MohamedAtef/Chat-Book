@@ -1,8 +1,10 @@
 package mo.ed.prof.yusor.helpers;
 
 import android.content.res.Resources;
+import android.net.Uri;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import mo.ed.prof.yusor.R;
@@ -27,6 +29,18 @@ public class Config {
     public static String BookTitle;
     public static String BookID;
     public static int BookPosition;
+    public static int AuthPosition;
+    public static ArrayList<StudentsEntity> AuthList;
+    public static String AuthorTitle;
+    public static String AuthorID;
+    public static Uri ImageFileUri;
+    public static boolean Author_Edit;
+    public static String FacultyName;
+    public static String FacultyID;
+    public static int FacultyPosition;
+    public static String NextNewBook;
+    public static String ExistingBook;
+    public static String BookExistence;
 
 
     // public static final String[] Faculties={

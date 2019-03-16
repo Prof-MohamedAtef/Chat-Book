@@ -32,7 +32,7 @@ public class TaibahRegistrationActivity extends AppCompatActivity implements Ret
 ProgressGenerator.OnCompleteListener{
 
 
-    String URL="http://fla4news.com/Yusor/api/v1/departments?fbclid=IwAR3iTd672TyD6ZHfFdJvf_DWgrjBVqOE649MB_oUZWLI2zO0PsVBhimTOcA";
+    String URL="http://fla4news.com/Yusor/api/v1/departments";
 
 
     private String Category;

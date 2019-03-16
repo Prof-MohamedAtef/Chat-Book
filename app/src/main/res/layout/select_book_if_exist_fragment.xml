@@ -40,20 +40,23 @@
         <Button
             android:background="@drawable/button_shape"
             style="@style/ButtonText"
-            android:text="@string/add_btn"
-            android:id="@+id/AddBook_BTN"
+            android:text="@string/next_btn"
+            android:id="@+id/Next_BTN"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="match_parent"></LinearLayout>
+            android:layout_height="match_parent">
+
+        </LinearLayout>
         <Button
             android:background="@drawable/button_shape"
             style="@style/ButtonText"
-            android:text="@string/next_btn"
-            android:id="@+id/Next_BTN"
+            android:text="@string/add_btn"
+            android:id="@+id/AddBook_BTN"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
