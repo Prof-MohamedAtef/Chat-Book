@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -30,6 +31,16 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
     ArrayList<StudentsEntity> feedItemList;
     boolean TwoPane;
     public static String BookOwnerID_KEY="BookOwnerID_KEY";
+    public static String BookID_KEY="BookID_KEY";
+    public static String BookName_KEY="BookName_KEY";
+    public static String SellerFacultyName_KEY="SellerFacultyName_KEY";
+    public static String SellerEmail_KEY="SellerEmail_KEY";
+    public static String Transaction_KEY="Transaction_KEY";
+    public static String Price_KEY="Price_KEY";
+    public static String ISBN_KEY="ISBN_KEY";
+    public static String AuthorName_KEY="AuthorName_KEY";
+    public static String PublishYear_KEY="PublishYear_KEY";
+    public static String BookDescription_KEY="BookDescription_KEY";
 
     public BooksGalleryAdapter(Context mContext, ArrayList<StudentsEntity> feedItemList, boolean twoPane) {
         this.mContext = mContext;
@@ -50,20 +61,46 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
         final StudentsEntity feedItem = feedItemList.get(position);
         if (feedItem != null) {
             if (feedItem.getBookTitle() != null) {
-                holder.Title.setText(feedItem.getBookTitle());
-                if (feedItem.getBookStatus() != null) {
-                    holder.Status.setText(feedItem.getBookStatus());
+                holder.BookName.setText(feedItem.getBookTitle());
+                if (feedItem.getAuthorTitle() != null) {
+                    holder.AuthorName.setText(feedItem.getAuthorTitle());
                     if (feedItem.getBookPrice() != null) {
                         holder.Price.setText(feedItem.getBookPrice());
+                        if (feedItem.getBookImage()!=null){
+                            Picasso.with(mContext).load(feedItem.getBookImage())
+                                    .error(R.drawable.logo)
+                                    .into(holder.Image);
+                        }
                         if (feedItem.getBookOwnerID() != null) {
-                            holder.StartChat.setOnClickListener(new View.OnClickListener() {
+                            holder.BTN_StartChat.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     // go to chat with book owner
                                     // get owner id
-                                    String BookOwnerID =feedItem.getBookOwnerID();
+                                    String SellerUserName =feedItem.getSellerUserName();
+                                    String BookID=feedItem.getBookID();
+                                    String BookName=feedItem.getBookTitle();
+                                    String BookDescription=feedItem.getBookDescription();
+                                    String PublishYear=feedItem.getPublishYear();
+                                    String AuthorName=feedItem.getAuthorTitle();
+                                    String ISBN=feedItem.getISBN_NUM();
+                                    String Price=feedItem.getBookPrice();
+                                    String Transaction=feedItem.getTransactionType();
+                                    String SellerEmail=feedItem.getSellerEmail();
+                                    String SellerFacultyName=feedItem.getDepartmentName();
                                     Intent intent=new Intent(mContext,ChatActivity.class);
-                                    intent.putExtra(BookOwnerID_KEY,BookOwnerID);
+                                    intent.putExtra(BookOwnerID_KEY,SellerUserName);
+                                    intent.putExtra(BookID_KEY,BookID);
+                                    intent.putExtra(BookName_KEY,BookName);
+                                    intent.putExtra(BookDescription_KEY,BookDescription);
+                                    intent.putExtra(PublishYear_KEY,PublishYear);
+                                    intent.putExtra(AuthorName_KEY,AuthorName);
+                                    intent.putExtra(ISBN_KEY,ISBN);
+                                    intent.putExtra(Price_KEY,Price);
+                                    intent.putExtra(Transaction_KEY,Transaction);
+                                    intent.putExtra(SellerEmail_KEY,SellerEmail);
+                                    intent.putExtra(SellerFacultyName_KEY,SellerFacultyName);
+
                                     mContext.startActivity(intent);
                                 }
                             });
@@ -72,14 +109,11 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
                         holder.Price.setText("");
                     }
                 } else {
-                    holder.Status.setText("");
+                    holder.AuthorName.setText("");
                 }
             } else {
-                holder.Title.setText("");
+                holder.BookName.setText("");
             }
-            Picasso.with(mContext).load(feedItem.getBookImage())
-                    .error(R.drawable.logo)
-                    .into(holder.Image);
         }
     }
 
@@ -89,19 +123,22 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
     }
 
     class ViewHOlder extends RecyclerView.ViewHolder {
-        protected TextView Title;
-        protected TextView Status;
+        protected Button BTN_Details;
+        protected TextView BookName;
+        protected TextView AuthorName;
         protected TextView Price;
-        protected CircleImageView Image;
-        protected Button StartChat;
+        protected ImageView Image;
+        protected Button BTN_StartChat;
 
         public ViewHOlder(View converview) {
             super(converview);
-            this.Title = (TextView) converview.findViewById(R.id.book_title);
+
+            this.BookName = (TextView) converview.findViewById(R.id.book_name);
+            this.AuthorName= (TextView) converview.findViewById(R.id.author_name);
             this.Price = (TextView) converview.findViewById(R.id.book_price);
-//            this.Status = (TextView) converview.findViewById(R.id.book_status);
-            this.Image = (CircleImageView) converview.findViewById(R.id.book_image);
-            this.StartChat=(Button)converview.findViewById(R.id.start_chat);
+            this.Image = (ImageView) converview.findViewById(R.id.book_image);
+            this.BTN_Details=(Button)converview.findViewById(R.id.details_btn);
+            this.BTN_StartChat=(Button)converview.findViewById(R.id.start_chat_btn);
         }
     }
 }

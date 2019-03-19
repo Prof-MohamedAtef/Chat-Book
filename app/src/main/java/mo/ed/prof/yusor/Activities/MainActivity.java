@@ -1,7 +1,11 @@
 package mo.ed.prof.yusor.Activities;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
@@ -9,6 +13,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -96,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                 drawerLayout.closeDrawers();
                 switch (menuItem.getItemId()){
                     case R.id.add_book:
-                        Intent intent=new Intent(getApplicationContext(),AddBookActivity.class);
+                        Intent intent=new Intent(getApplicationContext(),AddNewBookActivity.class);
                         startActivity(intent);
                         return true;
                     case R.id.browse_book:
@@ -163,7 +169,31 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
         SnackBasedConnection();
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        /* Use the inflater's inflate method to inflate our menu layout to this menu */
+        inflater.inflate(R.menu.main_menu, menu);
+        /* Return true so that the menu is displayed in the Toolbar */
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId()== R.id.action_search) {
+            DisplaySearchActivity();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    private void DisplaySearchActivity() {
+        Intent intent=new Intent(getApplicationContext(), SearchActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.transition.fade_in, R.transition.fade_out);
     }
 
     private void SignOut() {

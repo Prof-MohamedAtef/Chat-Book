@@ -26,7 +26,6 @@ public class Config {
     public static File StorageDir;
     public static ArrayList<StudentsEntity> FacultiesList;
     public static ArrayList<StudentsEntity> BooksList;
-    public static String BookTitle;
     public static String BookID;
     public static int BookPosition;
     public static int AuthPosition;
@@ -41,7 +40,11 @@ public class Config {
     public static String NextNewBook;
     public static String ExistingBook;
     public static String BookExistence;
-
+    public static String BookName;
+    public static String ISBN_Number;
+    public static String PublishYear;
+    public static String BookDescription;
+    public static String URL_Completed="http://fla4news.com/Yusor/";
 
     // public static final String[] Faculties={
 //            Resources.getSystem().getResourceName(R.string.faculty_computer_sciences_engineering).toString(),

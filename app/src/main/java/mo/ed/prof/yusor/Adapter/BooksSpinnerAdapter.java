@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 
 import mo.ed.prof.yusor.R;
@@ -16,12 +17,12 @@ import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 /**
  * Created by Prof-Mohamed Atef on 1/28/2019.
  */
-public class CustomSpinnerAdapter extends BaseAdapter {
+public class BooksSpinnerAdapter extends BaseAdapter {
 
     private final Context mContext;
     private ArrayList<StudentsEntity> SpinnerFeedItemList;
 
-    public CustomSpinnerAdapter(Context mContext, ArrayList<StudentsEntity> spinnerFeedItemList) {
+    public BooksSpinnerAdapter(Context mContext, ArrayList<StudentsEntity> spinnerFeedItemList) {
         this.mContext= mContext;
         SpinnerFeedItemList = spinnerFeedItemList;
     }
@@ -47,7 +48,7 @@ public class CustomSpinnerAdapter extends BaseAdapter {
         txt.setPadding(16, 16, 16, 16);
         txt.setTextSize(18);
         txt.setGravity(Gravity.CENTER_VERTICAL);
-        txt.setText(SpinnerFeedItemList.get(position).getDepartmentName().toString());
+        txt.setText(SpinnerFeedItemList.get(position).getBookTitle().toString());
         txt.setTextColor(Color.parseColor("#FFFFFF"));
         txt.setBackgroundResource(R.color.red);
         return  txt;
@@ -60,7 +61,7 @@ public class CustomSpinnerAdapter extends BaseAdapter {
         txt.setGravity(Gravity.CENTER);
         txt.setPadding(10, 10, 10, 10);
         txt.setTextSize(16);
-        txt.setText(SpinnerFeedItemList.get(position).getDepartmentName().toString());
+        txt.setText(SpinnerFeedItemList.get(position).getBookTitle().toString());
         txt.setTextColor(Color.parseColor("#FFFFFF"));
         txt.setBackgroundResource(R.color.red);
         return  txt;

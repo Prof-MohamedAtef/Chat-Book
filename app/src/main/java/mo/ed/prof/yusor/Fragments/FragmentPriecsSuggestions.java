@@ -13,14 +13,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import mo.ed.prof.yusor.Adapter.SimilarBooksAdapter;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
 import mo.ed.prof.yusor.helpers.Config;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
+import mo.ed.prof.yusor.helpers.SessionManagement;
 
 //import static mo.ed.prof.yusor.Activities.AddBookActivity.BOOK_NAME;
+import static com.facebook.FacebookSdk.getApplicationContext;
+import static mo.ed.prof.yusor.Activities.AddBookActivity.BookID_KEY;
 import static mo.ed.prof.yusor.Activities.CompleteAddBookActivity.BOOK_NAME;
 import static mo.ed.prof.yusor.helpers.Config.TwoPane;
 
@@ -30,35 +36,53 @@ import static mo.ed.prof.yusor.helpers.Config.TwoPane;
 
 public class FragmentPriecsSuggestions extends Fragment implements MakeVolleyRequests.OnCompleteListener {
 
-    private RecyclerView recyclerView;
     private GridLayoutManager layoutManager;
     String BOOK_NAME_STR;
     Bundle bundle;
     private MakeVolleyRequests makeVolleyRequests;
+    private RecyclerView recyclerView;
+    private String BookID_STR;
+    private SessionManagement sessionManagement;
+    private HashMap<String, String> user;
+    private String TokenID;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sessionManagement=new SessionManagement(getApplicationContext());
+        user=sessionManagement.getUserDetails();
+        if (user != null) {
+            TokenID = user.get(SessionManagement.KEY_idToken);
+        }
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootview=inflater.inflate(R.layout.fragment_prices_suggestions,container,false);
+        recyclerView=(RecyclerView)rootview.findViewById(R.id.recyclerView);
         bundle=getArguments();
         makeVolleyRequests=new MakeVolleyRequests(getActivity(),FragmentPriecsSuggestions.this);
         if (bundle!=null){
-            BOOK_NAME_STR=(String)bundle.get(BOOK_NAME);
-            Config.BookTitle=BOOK_NAME_STR;
-            makeVolleyRequests.searchSuggestedBooks(BOOK_NAME_STR);
+            BookID_STR=(String)bundle.get(BookID_KEY);
+            Config.BookID=BookID_STR;
+            makeVolleyRequests.searchSuggestedBooks(BookID_STR, TokenID);
             // send to api and get all similar books with their prices and display on this fragment,
             // on this fragment enter the price, once entered,redirect to add book activity with the entered price here to submit book
         }
-        rootview.findViewById(R.id.recycler_view_horizontal);
         return rootview;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+    }
 
     private void PopulateSimilarBooks(ArrayList<StudentsEntity> urgentArticlesList) {
         SimilarBooksAdapter mAdapter=new SimilarBooksAdapter(getActivity(),urgentArticlesList, TwoPane);
         mAdapter.notifyDataSetChanged();
-        layoutManager=(GridLayoutManager) recyclerView.getLayoutManager();
-        RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);

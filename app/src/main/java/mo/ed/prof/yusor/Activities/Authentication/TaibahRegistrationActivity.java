@@ -11,20 +11,22 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.dd.processbutton.iml.GenerateProcessButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import mo.ed.prof.yusor.Activities.MainActivity;
-import mo.ed.prof.yusor.Adapter.CustomSpinnerAdapter;
+import mo.ed.prof.yusor.Adapter.FacultiesSpinnerAdapter;
 import mo.ed.prof.yusor.GenericAsyncTasks.RetrieveDepartmentsAsyncTask;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.Config;
 import mo.ed.prof.yusor.helpers.Designsers.ProgressGenerator;
+import mo.ed.prof.yusor.helpers.Firebase.AuthenticationHandler.FirebaseUserHandler;
+import mo.ed.prof.yusor.helpers.Firebase.FirebaseEntites;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
@@ -87,6 +89,11 @@ ProgressGenerator.OnCompleteListener{
     private String EmailConst;
     private String FinalEmail;
     private String mToken;
+    private String UserID;
+    private FirebaseUserHandler firebaseUserHandler;
+    private FirebaseEntites firebaseEntities;
+    private DatabaseReference mDatabase;
+    private String Users_KEY ="users";
 
     @Override
     protected void onResume() {
@@ -101,9 +108,17 @@ ProgressGenerator.OnCompleteListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_taibah_auth);
+        setTheme(R.style.ArishTheme);
         ButterKnife.bind(this);
         verifyConnection=new VerifyConnection(getApplicationContext());
         sessionManagement= new SessionManagement(getApplicationContext());
+
+        if (mDatabase==null){
+            FirebaseDatabase database= FirebaseDatabase.getInstance();
+            mDatabase=database.getReference(Users_KEY);
+//            mDatabase.keepSynced(true);
+        }
+
 
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,7 +158,7 @@ ProgressGenerator.OnCompleteListener{
     public void onDepartmentsRetrievalApiTaskCompleted(ArrayList<StudentsEntity> result) {
         if (result.size() > 0) {
             Config.FacultiesList=result;
-            CustomSpinnerAdapter customSpinnerAdapterFaculties = new CustomSpinnerAdapter(getApplicationContext(), result);
+            FacultiesSpinnerAdapter customSpinnerAdapterFaculties = new FacultiesSpinnerAdapter(getApplicationContext(), result);
             Faculties_spinner.setAdapter(customSpinnerAdapterFaculties);
         }
     }
@@ -171,9 +186,14 @@ ProgressGenerator.OnCompleteListener{
             UserName=studentsEntity.getUserName();
             selectedGender=studentsEntity.getGender();
             mToken=studentsEntity.getAPI_TOKEN();
+            UserID=studentsEntity.getUserID();
 //            DepartmentName=studentsEntity.getDepartmentName();
+            //send authenticated user to firebase database
+            firebaseUserHandler =new FirebaseUserHandler(UserID,mToken,selectedGender,UserName,Email,PersonName);
+            firebaseEntities=new FirebaseEntites(mDatabase);
+            firebaseEntities.AddUser(mDatabase,firebaseUserHandler);
         }
-        sessionManagement.createYusorLoginSession(mToken,PersonName,Email,UserName,selectedGender, DepartmentName);
+        sessionManagement.createYusorLoginSession(mToken,PersonName,Email,UserName,selectedGender, DepartmentName,UserID);
         sessionManagement.createLoginSessionType("EP");
         Intent intent_create=new Intent(this,MainActivity.class);
         startActivity(intent_create);

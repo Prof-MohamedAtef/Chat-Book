@@ -75,10 +75,11 @@ public class SessionManagement {
     }
 
 
-    public void createYusorLoginSession(String idToken, String P_name, String email, String userName,String gender, String departmentName){
+    public void createYusorLoginSession(String idToken, String P_name, String email, String userName,String gender, String departmentName, String user_id){
         editor.putBoolean(IS_LOGIN, true);
         editor.putString(KEY_idToken, idToken);
         editor.putString(KEY_NAME, P_name);
+        editor.putString(KEY_userID, user_id);
         editor.putString(KEY_EMAIL, email);
         editor.putString(KEY_UserName, userName);
         editor.putString(KEY_Gender, gender);

@@ -144,7 +144,7 @@ public class RetrieveAuthorsAsyncTask extends AsyncTask<String, Void, ArrayList<
                 AuthorNAME_STR ="";
             }
 
-            studentsEntity = new StudentsEntity(ID_STR, AuthorNAME_STR);
+            studentsEntity = new StudentsEntity(ID_STR, AuthorNAME_STR,"","");
             list.add(studentsEntity);
         }
         return list;

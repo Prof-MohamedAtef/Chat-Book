@@ -23,6 +23,7 @@ public class AuthenticationChoiceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication_choice);
+        setTheme(R.style.ArishTheme);
         ButterKnife.bind(this);
         btn_sign_in.setOnClickListener(new View.OnClickListener() {
             @Override

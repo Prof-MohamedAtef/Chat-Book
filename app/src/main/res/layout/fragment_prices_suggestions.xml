@@ -2,20 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/padding_authentication">
+    android:padding="@dimen/padding_authentication"
+    android:gravity="center">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:gravity="top|center_vertical"
+        android:layout_marginBottom="@dimen/top_margin">
         <TextView
-
-            android:gravity="left|center_vertical"
+            android:gravity="right|center_vertical"
             android:textStyle="bold"
             android:textColor="@color/red"
             android:textSize="@dimen/text_size"
             android:text="@string/similar_books"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -23,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="2">
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view_horizontal"
+            android:id="@+id/recyclerView"
             android:scrollbars="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

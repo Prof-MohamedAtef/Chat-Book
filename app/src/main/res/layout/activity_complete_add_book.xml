@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/padding_authentication"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     tools:context="mo.ed.prof.yusor.Activities.CompleteAddBookActivity">
     <LinearLayout
         android:padding="@dimen/padding_authentication"
@@ -113,18 +114,6 @@
         </RadioGroup>
     </LinearLayout>
     <LinearLayout
-        android:padding="@dimen/padding_authentication"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:background="@drawable/button_shape"
-            style="@style/ButtonText"
-            android:text="@string/btn_check"
-            android:id="@+id/Check_BTN"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-    <LinearLayout
         android:gravity="right"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -144,7 +133,26 @@
             android:layout_weight="1"
             android:layout_height="wrap_content" />
     </LinearLayout>
+    <LinearLayout
+        android:padding="@dimen/padding_authentication"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.dd.processbutton.iml.GenerateProcessButton
+            android:id="@+id/Publish_BTN"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/btn_publish"
+            android:textColor="@color/white"
+            custom:pb_colorComplete="@color/yellow"
+            custom:pb_colorNormal="@color/red_pressed"
+            custom:pb_colorPressed="@color/red"
+            custom:pb_colorProgress="@color/grey"
+            android:textSize="18sp"
+            custom:pb_textComplete="@string/done"
+            custom:pb_textProgress="@string/uploading" />
+    </LinearLayout>
     <FrameLayout
+        android:layout_gravity="center"
         android:id="@+id/frame_prices_suggestions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

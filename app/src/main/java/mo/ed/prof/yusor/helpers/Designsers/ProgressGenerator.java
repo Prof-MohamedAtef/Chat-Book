@@ -38,6 +38,12 @@ public class ProgressGenerator {
     public static String KEY_Gender="Gender";
     public static String KEY_DepartmentID="department_id";
     public static String KEY_ConfirmPass="password_confirmation";
+    private String KEY_TokenID="api_token";
+    private String KEY_Availability="availability";
+    private String KEY_TransactionType="transaction_types_id";
+    private String KEY_BookStatus="book_status";
+    private String KEY_Price="price";
+    private String KEY_BookID="book_id";
 
     public void startSignIn(final GenerateProcessButton btn_login, final String email, final String password) {
         final Handler handler = new Handler();
@@ -52,6 +58,73 @@ public class ProgressGenerator {
                 }
             }
         }, generateDelay());
+    }
+
+    public void PublishBook(final GenerateProcessButton publish_BTN, final String bookID, final String bookPrice, final String sentBookStatus, final String sentAvailability, final String sentTransactionType, final String tokenID) {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mProgress += 10;
+                publish_BTN.setProgress(mProgress);
+                publishBookToServer(bookID,bookPrice,sentBookStatus,sentTransactionType, sentAvailability,tokenID);
+                if (mProgress < 5&&done!=Done_Key) {
+                    handler.postDelayed(this, generateDelay());
+                }
+            }
+        }, generateDelay());
+    }
+
+    private void publishBookToServer(final String bookID, final String bookPrice, final String sentBookStatus, final String sentTransactionType, final String sentAvailability, final String tokenID) {
+
+        final RequestQueue requestQueue  = Volley.newRequestQueue(mContext);
+        StringRequest stringRequest=new StringRequest(Request.Method.POST,
+                "http://fla4news.com/Yusor/api/v1/create_offer",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.matches("")){
+                            Toast.makeText(mContext, mContext.getResources().getString(R.string.failed), Toast.LENGTH_LONG).show();
+                        }else {
+                            try {
+                                JsonParser jsonParser = new JsonParser();
+                                ArrayList<StudentsEntity> studentsEntities = jsonParser.BookAddedJsonParse(response);
+                                if (studentsEntities != null) {
+                                    done = Done_Key;
+                                    if (studentsEntities.size() > 0) {
+                                        mListener.onComplete(studentsEntities);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                loading.dismiss();
+                //Showing toast
+                if (error!=null){
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> hashMap=new HashMap<>();
+                hashMap.put(KEY_BookID,bookID);
+                hashMap.put(KEY_Price,bookPrice);
+                hashMap.put(KEY_BookStatus,sentBookStatus);
+                hashMap.put(KEY_TransactionType,sentTransactionType);
+                hashMap.put(KEY_Availability,sentAvailability);
+                hashMap.put(KEY_TokenID,tokenID);
+                return  hashMap;
+            }
+        };
+        requestQueue.add(stringRequest);
     }
 
     public interface OnCompleteListener {
@@ -139,6 +212,8 @@ public class ProgressGenerator {
         };
         requestQueue.add(stringRequest);
     }
+
+
 
     public void signInStudent(final String email, final String password) {
 //        final ProgressDialog loading = ProgressDialog.show(mContext, mContext.getResources().getString(R.string.loading), mContext.getResources().getString(R.string.uploading), false, false);

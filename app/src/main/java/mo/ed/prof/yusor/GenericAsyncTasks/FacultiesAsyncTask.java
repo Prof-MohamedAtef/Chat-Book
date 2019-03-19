@@ -25,15 +25,15 @@ import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
  * Created by Prof-Mohamed Atef on 3/15/2019.
  */
 
-public class BooksAsyncTask extends AsyncTask<String, Void, ArrayList<StudentsEntity>> {
+public class FacultiesAsyncTask extends AsyncTask<String, Void, ArrayList<StudentsEntity>> {
 
     private final String LOG_TAG = RetrieveDepartmentsAsyncTask.class.getSimpleName();
-    public JSONObject BookssJson;
-    public JSONArray BookssDataArray;
-    public JSONObject oneBookData;
+    public JSONObject FacultiesJson;
+    public JSONArray FacultiesDataArray;
+    public JSONObject oneFacultyData;
     private ProgressDialog dialog;
     private ArrayList<StudentsEntity> list = new ArrayList<StudentsEntity>();
-    RetrieveBooksAsyncTask.OnBooksRetrievalTaskCompleted onBooksRetrievalTaskCompleted;
+    OnFacultiesRetrievalTaskCompleted onFacultiesRetrievalTaskCompleted;
     Context mContext;
     private String ID_STR;
     private String NAME_STR;
@@ -42,8 +42,8 @@ public class BooksAsyncTask extends AsyncTask<String, Void, ArrayList<StudentsEn
     private String Name_KEY="name";
     private Activity activity;
 
-    public BooksAsyncTask(RetrieveBooksAsyncTask.OnBooksRetrievalTaskCompleted onBooksRetrievalTaskCompleted, Context context) {
-        this.onBooksRetrievalTaskCompleted = onBooksRetrievalTaskCompleted;
+    public FacultiesAsyncTask(OnFacultiesRetrievalTaskCompleted onFacultiesRetrievalTaskCompleted, Context context) {
+        this.onFacultiesRetrievalTaskCompleted = onFacultiesRetrievalTaskCompleted;
         dialog = new ProgressDialog(context);
         this.mContext = context;
     }
@@ -79,8 +79,8 @@ public class BooksAsyncTask extends AsyncTask<String, Void, ArrayList<StudentsEn
     protected void onPostExecute(ArrayList<StudentsEntity> result) {
         super.onPostExecute(result);
         if (result != null) {
-            if (onBooksRetrievalTaskCompleted != null) {
-                onBooksRetrievalTaskCompleted.onBooksRetrievalApiTaskCompleted(result);
+            if (onFacultiesRetrievalTaskCompleted != null) {
+                onFacultiesRetrievalTaskCompleted.onFacultiesRetrievalApiTaskCompleted(result);
             }
             if (dialog.isShowing()) {
                 dialog.dismiss();
@@ -150,18 +150,18 @@ public class BooksAsyncTask extends AsyncTask<String, Void, ArrayList<StudentsEn
     }
 
     private ArrayList<StudentsEntity> getBooksJson(String usersDesires_jsonSTR) throws JSONException {
-        BookssJson = new JSONObject(usersDesires_jsonSTR);
-        BookssDataArray = BookssJson.getJSONArray("data");
+        FacultiesJson = new JSONObject(usersDesires_jsonSTR);
+        FacultiesDataArray = FacultiesJson.getJSONArray("data");
         list.clear();
-        for (int i = 0; i < BookssDataArray.length(); i++) {
+        for (int i = 0; i < FacultiesDataArray.length(); i++) {
             try {
-                oneBookData = BookssDataArray.getJSONObject(i);
+                oneFacultyData = FacultiesDataArray.getJSONObject(i);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            ID_STR= oneBookData.getString(ID_KEY);
-            NAME_STR= oneBookData.getString(Name_KEY);
+            ID_STR= oneFacultyData.getString(ID_KEY);
+            NAME_STR= oneFacultyData.getString(Name_KEY);
 
 
             if (ID_STR==null){
@@ -177,7 +177,7 @@ public class BooksAsyncTask extends AsyncTask<String, Void, ArrayList<StudentsEn
         return list;
     }
 
-    public interface OnBookssRetrievalTaskCompleted {
-        void onBooksRetrievalApiTaskCompleted(ArrayList<StudentsEntity> result);
+    public interface OnFacultiesRetrievalTaskCompleted {
+        void onFacultiesRetrievalApiTaskCompleted(ArrayList<StudentsEntity> result);
     }
 }

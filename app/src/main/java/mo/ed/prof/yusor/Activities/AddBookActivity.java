@@ -53,15 +53,6 @@ public class AddBookActivity extends AppCompatActivity implements SelectBookFrag
         super.onStart();
     }
 
-
-
-//    @Override
-//    public void onNextNewBookNameDetailsNeeded() {
-//        getSupportFragmentManager().beginTransaction()
-//                .replace(R.id.container_frame_existence2, newBookDetailsFragment, NewBookDetialsFrag_KEY)
-//                .commit();
-//    }
-
     @Override
     public void onNewBookAdditionNeeded(String bookID, String bookTitle) {
         Bundle bundle=new Bundle();
@@ -74,14 +65,10 @@ public class AddBookActivity extends AppCompatActivity implements SelectBookFrag
     }
 
     @Override
-    public void onNextNewBookNameDetailsNeeded(String BookName, String AuthorName, String ISBN_Num, String FacultyName, String PublishYear, String ImageUri) {
+    public void onNextNewBookNameDetailsNeeded(String BookName, String Book_ID) {
         Intent intent = new Intent(this, CompleteAddBookActivity.class)
                 .putExtra(BookTitle_KEY, BookName)
-                .putExtra(AUTHOR_NAME_KEY, AuthorName)
-                .putExtra(ISBN_KEY, ISBN_Num)
-                .putExtra(FacultyName_KEY, FacultyName)
-                .putExtra(PublishYear_KEY, PublishYear)
-                .putExtra(ImageUri_KEY, ImageUri);
+                .putExtra(BookID_KEY, Book_ID);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.startActivity(intent);
         Config.BookExistence=NextNewBook;

@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.dd.processbutton.iml.GenerateProcessButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import butterknife.BindView;
@@ -17,6 +20,8 @@ import mo.ed.prof.yusor.Activities.MainActivity;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.Designsers.ProgressGenerator;
+import mo.ed.prof.yusor.helpers.Firebase.AuthenticationHandler.FirebaseUserHandler;
+import mo.ed.prof.yusor.helpers.Firebase.FirebaseEntites;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
@@ -51,16 +56,26 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
     private String UserName;
     private String selectedGender;
     private String mToken;
+    private String UserID;
+    private FirebaseUserHandler firebaseUserHandler;
+    private DatabaseReference mDatabase;
+    private String Users_KEY ="users";
+    private FirebaseEntites firebaseEntities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        setTheme(R.style.ArishTheme);
         ButterKnife.bind(this);
         verifyConnection=new VerifyConnection(getApplicationContext());
         sessionManagement = new SessionManagement(getApplicationContext());
         user = sessionManagement.getUserDetails();
+        if (mDatabase==null){
+            FirebaseDatabase database= FirebaseDatabase.getInstance();
+            mDatabase=database.getReference(Users_KEY);
+//            mDatabase.keepSynced(true);
+        }
         if (user != null) {
             LoggedEmail = user.get(SessionManagement.KEY_EMAIL);
             if (LoggedEmail != null || LoggedLocation1 != null) {
@@ -141,9 +156,14 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
             UserName=studentsEntity.getUserName();
             selectedGender=studentsEntity.getGender();
             mToken=studentsEntity.getAPI_TOKEN();
+            UserID=studentsEntity.getUserID();
 //            DepartmentName=studentsEntity.getDepartmentName();
+            //send authenticated user to firebase database
+            firebaseUserHandler =new FirebaseUserHandler(UserID,mToken,selectedGender,UserName,Email,PersonName);
+            firebaseEntities=new FirebaseEntites(mDatabase);
+            firebaseEntities.AddUser(mDatabase,firebaseUserHandler);
         }
-        sessionManagement.createYusorLoginSession(mToken,PersonName,Email,UserName,selectedGender, "DepartmentName");
+        sessionManagement.createYusorLoginSession(mToken,PersonName,Email,UserName,selectedGender, "DepartmentName",UserID);
         sessionManagement.createLoginSessionType("EP");
         Intent intent_create=new Intent(this,MainActivity.class);
         startActivity(intent_create);

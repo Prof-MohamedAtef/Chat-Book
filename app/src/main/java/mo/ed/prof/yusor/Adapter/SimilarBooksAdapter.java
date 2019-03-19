@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import java.io.Serializable;
@@ -41,21 +42,37 @@ public class SimilarBooksAdapter extends RecyclerView.Adapter<SimilarBooksAdapte
     @Override
     public void onBindViewHolder(@NonNull SimilarBooksAdapter.ViewHOlder holder, final int position) {
         final StudentsEntity feedItem = feedItemList.get(position);
-        if (feedItem!=null){
-            if (feedItem.getBookTitle()!=null) {
+        if (feedItem != null) {
+            if (feedItem.getBookTitle() != null) {
                 holder.Title.setText(feedItem.getBookTitle());
-                if (feedItem.getBookPrice() != null) {
-                    holder.Price.setText(feedItem.getBookPrice());
+                if (feedItem.getAuthorTitle() != null) {
+                    holder.AuthorName.setText(feedItem.getAuthorTitle());
+                    if (feedItem.getAvailability() != null) {
+                        holder.BookAvailability.setText(feedItem.getAvailability());
+                        if (feedItem.getBookStatus() != null) {
+                            holder.BookStatus.setText(feedItem.getBookStatus());
+                            if (feedItem.getBookPrice() != null) {
+                                holder.Price.setText(feedItem.getBookPrice());
+                                if (feedItem.getBookImage()!=null){
+                                    Picasso.with(mContext).load(feedItem.getBookImage())
+                                            .error(R.drawable.logo)
+                                            .into(holder.Image);
+                                }
+                            } else {
+                                holder.Price.setText("");
+                            }
+                        } else {
+                            holder.BookStatus.setText("");
+                        }
+                    } else {
+                        holder.BookAvailability.setText("");
+                    }
                 } else {
-                    holder.Price.setText("");
+                    holder.AuthorName.setText("");
                 }
-            }
-            else {
+            } else {
                 holder.Title.setText("");
             }
-            Picasso.with(mContext).load(feedItem.getBookImage())
-                    .error(R.drawable.logo)
-                    .into(holder.Image);
         }
     }
 
@@ -65,15 +82,21 @@ public class SimilarBooksAdapter extends RecyclerView.Adapter<SimilarBooksAdapte
     }
 
     class ViewHOlder extends RecyclerView.ViewHolder {
+        protected TextView BookStatus;
+        protected TextView BookAvailability;
+        protected TextView AuthorName;
         protected TextView Title;
         protected TextView Price;
-        protected CircleImageView Image;
+        protected ImageView Image;
 
         public ViewHOlder(View converview) {
             super(converview);
-            this.Title = (TextView) converview.findViewById(R.id.book_title);
-            this.Price= (TextView) converview.findViewById(R.id.book_price);
-            this.Image =(CircleImageView)converview.findViewById(R.id.book_image);
+            this.Title = (TextView) converview.findViewById(R.id.book_name);
+            this.Price= (TextView) converview.findViewById(R.id.book_price_val);
+            this.AuthorName =(TextView)converview.findViewById(R.id.author_name);
+            this.BookAvailability =(TextView)converview.findViewById(R.id.book_availability);
+            this.BookStatus=(TextView)converview.findViewById(R.id.book_status_val);
+            this.Image =(ImageView)converview.findViewById(R.id.book_image);
         }
     }
 }

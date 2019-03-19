@@ -1,7 +1,5 @@
 package mo.ed.prof.yusor.Fragments;
 
-import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,17 +14,13 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import mo.ed.prof.yusor.Adapter.CustomSpinnerAdapter;
-import mo.ed.prof.yusor.GenericAsyncTasks.BooksAsyncTask;
+import mo.ed.prof.yusor.Adapter.BooksSpinnerAdapter;
 import mo.ed.prof.yusor.GenericAsyncTasks.RetrieveBooksAsyncTask;
-import mo.ed.prof.yusor.GenericAsyncTasks.RetrieveDepartmentsAsyncTask;
 import mo.ed.prof.yusor.Network.SnackBarClassLauncher;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
-import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
 import mo.ed.prof.yusor.helpers.Config;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 
@@ -95,9 +89,10 @@ public class SelectBookFragmentIFExist extends Fragment implements RetrieveBooks
         Books_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Config.BookTitle = Config.BooksList.get(position).getDepartmentName();
-                Config.BookID = Config.BooksList.get(position).getDepartmentID();
+                Config.BookName = Config.BooksList.get(position).getBookTitle();
+                Config.BookID = Config.BooksList.get(position).getBookID();
                 Config.BookPosition=position;
+//                ((SelectBookFragmentIFExist.OnBookChangedValue) getActivity()).OnBookChangedValue(Config.BookTitle,Config.BookID,Config.BookPosition);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -106,8 +101,8 @@ public class SelectBookFragmentIFExist extends Fragment implements RetrieveBooks
         AddBook_BTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Config.BookTitle!=null){
-                    ((SelectBookFragmentIFExist.OnNewBookAddition) getActivity()).onNewBookAdditionNeeded(Config.BookID, Config.BookTitle);
+                if (Config.BookName!=null){
+                    ((SelectBookFragmentIFExist.OnNewBookAddition) getActivity()).onNewBookAdditionNeeded(Config.BookID, Config.BookName);
                 }else {
                     Toast.makeText(getActivity(), getString(R.string.select_spinner), Toast.LENGTH_SHORT).show();
                 }
@@ -116,8 +111,8 @@ public class SelectBookFragmentIFExist extends Fragment implements RetrieveBooks
         Next_BTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Config.BookTitle!=null){
-                    ((SelectBookFragmentIFExist.OnExistingBookDetailsRequired) getActivity()).onExistingBookDetailsRequired(Config.BookID, Config.BookTitle);
+                if (Config.BookName!=null){
+                    ((SelectBookFragmentIFExist.OnExistingBookDetailsRequired) getActivity()).onExistingBookDetailsRequired(Config.BookID, Config.BookName);
                 }else {
                     Toast.makeText(getActivity(), getString(R.string.select_spinner), Toast.LENGTH_SHORT).show();
                 }
@@ -135,8 +130,8 @@ public class SelectBookFragmentIFExist extends Fragment implements RetrieveBooks
     }
 
     private void PopulateExistingBooksList(ArrayList<StudentsEntity> result, int position) {
-        CustomSpinnerAdapter customSpinnerAdapterFaculties = new CustomSpinnerAdapter(getActivity(), result);
-        Books_spinner.setAdapter(customSpinnerAdapterFaculties);
+        BooksSpinnerAdapter booksSpinnerAdapter= new BooksSpinnerAdapter(getActivity(), result);
+        Books_spinner.setAdapter(booksSpinnerAdapter);
         Books_spinner.setSelection(position);
     }
 
@@ -146,5 +141,9 @@ public class SelectBookFragmentIFExist extends Fragment implements RetrieveBooks
 
     public interface OnExistingBookDetailsRequired{
         void onExistingBookDetailsRequired(String bookID, String bookTitle);
+    }
+
+    public interface OnBookChangedValue{
+        void OnBookChangedValue(String BookName, String BookID, int Position);
     }
 }

@@ -31,12 +31,14 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import mo.ed.prof.yusor.Adapter.CustomSpinnerAdapter;
+import mo.ed.prof.yusor.Adapter.AuthorsSpinnerAdapter;
+import mo.ed.prof.yusor.Adapter.FacultiesSpinnerAdapter;
+import mo.ed.prof.yusor.GenericAsyncTasks.FacultiesAsyncTask;
 import mo.ed.prof.yusor.GenericAsyncTasks.RetrieveAuthorsAsyncTask;
-import mo.ed.prof.yusor.GenericAsyncTasks.RetrieveBooksAsyncTask;
 import mo.ed.prof.yusor.Network.SnackBarClassLauncher;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
+import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
 import mo.ed.prof.yusor.helpers.Config;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 
@@ -53,7 +55,8 @@ import static mo.ed.prof.yusor.helpers.Config.selectedImagePath;
  */
 
 public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsAsyncTask.OnAuthorsRetrievalTaskCompleted,
-        RetrieveBooksAsyncTask.OnBooksRetrievalTaskCompleted{
+        FacultiesAsyncTask.OnFacultiesRetrievalTaskCompleted ,
+        MakeVolleyRequests.OnCompleteListener{
 
     @BindView(R.id.camera)
     ImageView Camera;
@@ -82,19 +85,25 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
     @BindView(R.id.Edit_PublishYear)
     EditText Edit_PublishYear;
 
+    @BindView(R.id.Edit_enterDescription)
+    EditText Edit_enterDescription;
+
     @BindView(R.id.Next_BTN)
     Button Next_BTN;
+
+    @BindView(R.id.Back_BTN)
+    Button Back_BTN;
 
     private SnackBarClassLauncher snackBarLauncher;
     private java.lang.String KEY_AuthPosition="KEY_AuthPosition";
     private String KEY_AUTHList="KEY_AUTHList";
-    private String KEY_BooksLIST="KEY_BooksLIST";
+    private String KEY_FacultiesLIST ="KEY_FacultiesLIST";
     private String KEY_POSITION="KEY_POSITION";
     private java.lang.String SampleDateFormat_KEY="yyyyMMdd_HHmmss";
     private String JPEG_KEY="JPEG_";
     private VerifyConnection verifyConnection;
     private String AuthURL ="http://fla4news.com/Yusor/api/v1/authers";
-    private String BooksURL="http://fla4news.com/Yusor/api/v1/books";
+    private String FacultiesURL ="http://fla4news.com/Yusor/api/v1/departments";
     private String IMAGE_TYPE="image/*";
     final static int SELECT_PICTURE=12;
     public static final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 55;
@@ -123,6 +132,15 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
     private String PublishYear;
     private Uri ImageUri;
     private String FacultyName;
+    private String KEY_BookName="KEY_BookName";
+    private String KEY_AutherName="KEY_AutherName";
+    private String KEY_ISBN_Num="KEY_ISBN_Num";
+    private String KEY_FacultyName="KEY_FacultyName";
+    private String KEY_PublishYear="KEY_PublishYear";
+    private MakeVolleyRequests makeVolleyRequests;
+    private String KEY_BookDescription="KEY_BookDescription";
+    private String KEY_AuthorID="KEY_AuthorID";
+    private String KEY_FacultyID="KEY_FacultyID";
 
 
     @Override
@@ -130,13 +148,13 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
         super.onCreate(savedInstanceState);
 //        Auth_spinner
         verifyConnection=new VerifyConnection(getActivity());
-        Bundle bundle=getArguments();
-        if (bundle!=null){
-            BookID= bundle.getString(BookID_KEY);
-            BookTitle=bundle.getString(BookTitle_KEY);
-        }
-
-
+//        Bundle bundle=getArguments();
+//        if (bundle!=null){
+//            BookID= bundle.getString(BookID_KEY);
+//            BookTitle=bundle.getString(BookTitle_KEY);
+//            Config.BookName=BookTitle;
+//            Config.BookID=BookID;
+//        }
     }
 
     @Nullable
@@ -151,12 +169,41 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(KEY_AUTHList, Config.AuthList);
+        if (Config.AuthList!=null){
+            outState.putSerializable(KEY_AUTHList, Config.AuthList);
+        }
         outState.putInt(KEY_AuthPosition,Config.AuthPosition);
-        outState.putSerializable(KEY_BooksLIST, Config.BooksList);
+        if (Config.FacultiesList!=null){
+            outState.putSerializable(KEY_FacultiesLIST, Config.FacultiesList);
+        }
         outState.putInt(KEY_POSITION,Config.BookPosition);
         if (Config.ImageFileUri!=null){
             outState.putString(ImageURL_KEY, Config.ImageFileUri.toString());
+        }
+        if (Config.BookName!=null){
+            outState.putString(KEY_BookName,Config.BookName);
+        }
+        if (EditAuthorName.getText().length()>0) {
+            Config.AuthorTitle = EditAuthorName.getText().toString();
+            outState.putString(KEY_AutherName, Config.AuthorTitle);
+        }
+        if (Config.AuthorID!=null){
+            outState.putString(KEY_AuthorID, Config.AuthorID);
+        }
+        if (Config.ISBN_Number!=null){
+            outState.putString(KEY_ISBN_Num,Config.ISBN_Number);
+        }
+        if (Config.FacultyName!=null){
+            outState.putString(KEY_FacultyName,Config.FacultyName);
+        }
+        if (Config.FacultyID!=null){
+            outState.putString(KEY_FacultyID, Config.FacultyID);
+        }
+        if (Config.PublishYear!=null){
+            outState.putString(KEY_PublishYear,Config.PublishYear);
+        }
+        if (Config.BookDescription!=null){
+            outState.putString(KEY_BookDescription, Config.BookDescription);
         }
     }
 
@@ -225,8 +272,10 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
                     fileNaming=new File(imageFileName);
                     imageName= fileNaming.getName();
                     filePathColumn = new String[]{MediaStore.Images.Media.DATA};
-                    imageBitmap= LoadThenDecodeBitmap();
-                    setBitmapToImageView(imageBitmap);
+                    if (ImageFileUri!=null){
+                        imageBitmap= LoadThenDecodeBitmap();
+                        setBitmapToImageView(imageBitmap);
+                    }
                 }
             }else if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK){
                 if (data!=null){
@@ -280,26 +329,55 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState!=null) {
-            Config.AuthList = (ArrayList<StudentsEntity>) savedInstanceState.getSerializable(KEY_AUTHList);
-            Config.AuthPosition = savedInstanceState.getInt(KEY_AuthPosition);
+            if (savedInstanceState.getSerializable(KEY_AUTHList)!=null){
+                Config.AuthList = (ArrayList<StudentsEntity>) savedInstanceState.getSerializable(KEY_AUTHList);
+                Config.AuthPosition = savedInstanceState.getInt(KEY_AuthPosition);
+            }
             if (Config.AuthList != null) {
                 PopulateExistingAuthorsList(Config.AuthList, Config.AuthPosition);
             }
-            Config.BooksList = (ArrayList<StudentsEntity>) savedInstanceState.getSerializable(KEY_BooksLIST);
-            Config.BookPosition = savedInstanceState.getInt(KEY_POSITION);
-            if (Config.BooksList != null) {
-                PopulateExistingBooksList(Config.BooksList, Config.BookPosition);
+            if (savedInstanceState.getSerializable(KEY_FacultiesLIST)!=null){
+                Config.FacultiesList= (ArrayList<StudentsEntity>) savedInstanceState.getSerializable(KEY_FacultiesLIST);
+                Config.FacultyPosition = savedInstanceState.getInt(KEY_POSITION);
             }
-            ImageFileUri= Uri.parse(savedInstanceState.getString(ImageURL_KEY));
-            if (ImageFileUri!=null){
-                setUriToImageView(ImageFileUri);
+            if (Config.FacultiesList != null) {
+                PopulateExistingFacultiesList(Config.FacultiesList, Config.FacultyPosition);
+            }
+            if (savedInstanceState.getString(ImageURL_KEY)!=null){
+                ImageFileUri= Uri.parse(savedInstanceState.getString(ImageURL_KEY));
+                if (ImageFileUri!=null){
+                    setUriToImageView(ImageFileUri);
+                }
+            }
+            if (savedInstanceState.getString(KEY_BookName)!=null){
+                Config.BookName=savedInstanceState.getString(KEY_BookName);
+                Edit_addBook.setText(Config.BookName);
+            }
+            if (Config.Author_Edit){
+                if (savedInstanceState.getString(KEY_AutherName)!=null){
+                    Config.AuthorTitle= savedInstanceState.getString(KEY_AutherName);
+                    EditAuthorName.setText(Config.AuthorTitle);
+                }
+                if (savedInstanceState.getString(KEY_AuthorID)!=null){
+                    Config.AuthorID= savedInstanceState.getString(KEY_AuthorID);
+                }
+                EditAuthorName.setVisibility(View.VISIBLE);
+            }
+            if (Config.ISBN_Number!=null) {
+                Edit_isbnNum.setText(Config.ISBN_Number);
+            }
+            if (Config.PublishYear!=null) {
+                Edit_PublishYear.setText(Config.PublishYear);
+            }
+            if (Config.BookDescription!=null){
+                Edit_enterDescription.setText(Config.BookDescription);
             }
         }else {
             if (verifyConnection.isConnected()) {
                 RetrieveAuthorsAsyncTask retrieveAuthorsAsyncTask = new RetrieveAuthorsAsyncTask((RetrieveAuthorsAsyncTask.OnAuthorsRetrievalTaskCompleted) FragmentNewBookDetails.this, getActivity());
                 retrieveAuthorsAsyncTask.execute(AuthURL);
-                RetrieveBooksAsyncTask retrieveBooksAsyncTask = new RetrieveBooksAsyncTask((RetrieveBooksAsyncTask.OnBooksRetrievalTaskCompleted) FragmentNewBookDetails.this, getActivity());
-                retrieveBooksAsyncTask.execute(BooksURL);
+                FacultiesAsyncTask facultiesAsyncTask= new FacultiesAsyncTask((FacultiesAsyncTask.OnFacultiesRetrievalTaskCompleted) FragmentNewBookDetails.this, getActivity());
+                facultiesAsyncTask.execute(FacultiesURL);
             }
         }
 
@@ -311,20 +389,61 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
             }
         });
 
+        Back_BTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((FragmentNewBookDetails.OnBackButtonPressed) getActivity()).OnBackButtonPressed();
+            }
+        });
+
         Next_BTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                makeVolleyRequests=new MakeVolleyRequests(getActivity(),FragmentNewBookDetails.this);
                 BookName= Edit_addBook.getText().toString();
+                Config.BookName=BookName;
                 if (Config.Author_Edit){
                     AuthorName=EditAuthorName.getText().toString();
-                }else {
-                    AuthorName= Auth_spinner.getSelectedItem().toString();
+                    Config.AuthorTitle=AuthorName;
                 }
                 ISBN_Num= Edit_isbnNum.getText().toString();
-                FacultyName= Faculty_spinner.getSelectedItem().toString();
+                Config.ISBN_Number=ISBN_Num;
                 PublishYear= Edit_PublishYear.getText().toString();
+                Config.BookDescription=Edit_enterDescription.getText().toString();
+                Config.PublishYear=PublishYear;
                 ImageUri=Config.ImageFileUri;
-                ((FragmentNewBookDetails.OnNextDetailsRequired) getActivity()).onNextNewBookNameDetailsNeeded(BookName,AuthorName,ISBN_Num,FacultyName,PublishYear, ImageUri.toString());
+                if (Config.BookName!=null&&Config.BookName.length()>0){
+                    if (Config.BookDescription!=null&&Config.BookDescription.length()>0){
+                            if (Config.PublishYear!=null&&Config.PublishYear.length()>0){
+                                if (Config.FacultyID!=null){
+                                    if (Config.ISBN_Number!=null&&Config.ISBN_Number.length()>0){
+//                                        if (Config.ImageFileUri!=null&&Config.ImageFileUri.toString().length()>0){
+                                            if (Config.AuthorID!=null&&Config.AuthorID.length()>0){
+                                                if (Config.AuthorTitle!=null&&Config.AuthorTitle.length()>0){
+                                                    makeVolleyRequests.sendBookDetails(Config.BookName, Config.BookDescription, "",Config.PublishYear, Config.FacultyID,Config.ISBN_Number,Config.AuthorTitle, ImageUri.toString());
+                                                }else {
+                                                    makeVolleyRequests.sendBookDetails(Config.BookName, Config.BookDescription, Config.AuthorID, Config.PublishYear, Config.FacultyID,Config.ISBN_Number,"", "");
+                                                }
+                                            }
+//                                        }else{
+//                                            Toast.makeText(getActivity(), getString(R.string.enter_image), Toast.LENGTH_SHORT).show();
+//                                        }
+                                    }else {
+                                        Toast.makeText(getActivity(), getString(R.string.enter_isbn_num), Toast.LENGTH_SHORT).show();
+                                    }
+                                }else {
+                                    Toast.makeText(getActivity(), getString(R.string.enter_faculty_id), Toast.LENGTH_SHORT).show();
+                                }
+                            }else {
+                                Toast.makeText(getActivity(), getString(R.string.enter_publish_year), Toast.LENGTH_SHORT).show();
+                            }
+
+                    }else {
+                        Toast.makeText(getActivity(), getString(R.string.enter_desc), Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Toast.makeText(getActivity(), getString(R.string.enter_book_name), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -338,7 +457,6 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
         Auth_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Config.AuthorTitle= Config.AuthList.get(position).getAuthorTitle();
                 Config.AuthorID= Config.AuthList.get(position).getAuthorID();
                 Config.AuthPosition= position;
             }
@@ -349,8 +467,8 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
         Faculty_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Config.FacultyName = Config.BooksList.get(position).getFacultyName();
-                Config.FacultyID= Config.BooksList.get(position).getFacultyID();
+                Config.FacultyName = Config.FacultiesList.get(position).getDepartmentName();
+                Config.FacultyID= Config.FacultiesList.get(position).getDepartmentID();
                 Config.FacultyPosition=position;
             }
             @Override
@@ -360,8 +478,8 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
     }
 
     private void PopulateExistingAuthorsList(ArrayList<StudentsEntity> AuthorssList, int auth_Position) {
-        CustomSpinnerAdapter customSpinnerAdapterFaculties = new CustomSpinnerAdapter(getActivity(), AuthorssList);
-        Auth_spinner.setAdapter(customSpinnerAdapterFaculties);
+        AuthorsSpinnerAdapter authorsSpinnerAdapter= new AuthorsSpinnerAdapter(getActivity(), AuthorssList);
+        Auth_spinner.setAdapter(authorsSpinnerAdapter);
         Auth_spinner.setSelection(auth_Position);
     }
 
@@ -374,15 +492,15 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
     }
 
     @Override
-    public void onBooksRetrievalApiTaskCompleted(ArrayList<StudentsEntity> result) {
+    public void onFacultiesRetrievalApiTaskCompleted(ArrayList<StudentsEntity> result) {
         if (result.size() > 0) {
-            Config.BooksList=result;
-            PopulateExistingBooksList(result, 0);
+            Config.FacultiesList=result;
+            PopulateExistingFacultiesList(result, 0);
         }
     }
 
-    private void PopulateExistingBooksList(ArrayList<StudentsEntity> result, int position) {
-        CustomSpinnerAdapter customSpinnerAdapterFaculties = new CustomSpinnerAdapter(getActivity(), result);
+    private void PopulateExistingFacultiesList(ArrayList<StudentsEntity> result, int position) {
+        FacultiesSpinnerAdapter customSpinnerAdapterFaculties = new FacultiesSpinnerAdapter(getActivity(), result);
         Faculty_spinner.setAdapter(customSpinnerAdapterFaculties);
         Faculty_spinner.setSelection(position);
     }
@@ -498,7 +616,28 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
         getActivity().sendBroadcast(mediaScanIntent);
     }
 
+    @Override
+    public void onComplete(ArrayList<StudentsEntity> studentsEntities) {
+        if (studentsEntities!=null){
+            if (studentsEntities.size()>0){
+                for (StudentsEntity studentsEntity:studentsEntities){
+                    if (studentsEntity.getException()!=null){
+                        Toast.makeText(getActivity(), studentsEntity.getException().toString(),Toast.LENGTH_SHORT).show();
+                    }else {
+                        ((FragmentNewBookDetails.OnNextDetailsRequired) getActivity()).onNextNewBookNameDetailsNeeded(studentsEntity.getBookTitle(),studentsEntity.getBookID());
+                    }
+                }
+            }
+        }
+    }
+
+
+
     public interface OnNextDetailsRequired{
-        void onNextNewBookNameDetailsNeeded(String BookName, String  AuthorName, String  ISBN_Num, String FacultyName, String PublishYear, String ImageUri);
+        void onNextNewBookNameDetailsNeeded(String BookName, String BookID);
+    }
+
+    public interface OnBackButtonPressed{
+        void OnBackButtonPressed();
     }
 }

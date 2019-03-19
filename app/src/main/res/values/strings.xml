@@ -40,7 +40,8 @@
     <string name="author_name">Author Name</string>
     <string name="isbn_number">ISBN Number</string>
     <string name="enter_ISBN">Enter ISBN Number</string>
-    <string name="enter_publish_year">Enter Publish Year</string>
+    <string name="enter_description">Enter Description</string>
+    <string name="hint_enter_description">Enter Description</string>
     <string name="hint_isbn_number">Enter ISBN Number</string>
     <string name="author_name_">Author Name :</string>
     <string name="hint_author_name">Enter Author Name</string>
@@ -51,8 +52,10 @@
     <string name="hint_Faculty">Enter Your Faculty</string>
     <string name="Faculty">Faculty</string>
     <string name="Book_status">Book Status</string>
+    <string name="book_availability">Book Availability</string>
     <string name="purpose">Purpose</string>
-    <string name="btn_check">Check</string>
+    <string name="btn_publish">Publish</string>
+    <string name="search">Search</string>
     <string name="hint_Book_status">Select Book Status</string>
     <string name="_new">New</string>
     <string name="Intermediate">Intermediate</string>
@@ -140,6 +143,31 @@
     <string name="add_book_btn">Add Book</string>
     <string name="add_btn">Add</string>
     <string name="next_btn">Next</string>
+    <string name="back_btn">Back</string>
 
+    <string name="error_network_timeout">Network Timeout Erro</string>
+
+    <string name="enter_book_name">Enter Book Name</string>
+    <string name="enter_desc">Enter Book Description</string>
+    <string name="enter_auth_id">Enter Author Name</string>
+    <string name="enter_publish_year">Enter Publish Year</string>
+    <string name="enter_faculty_id">Enter Faculty Name</string>
+    <string name="enter_isbn_num">Enter ISBN Number</string>
+    <string name="enter_image">Capture Book Photo</string>
+
+
+
+    <!--book status-->
+    <string name="new_book">1</string>
+    <string name="intermediate_book">2</string>
+    <string name="not_bad_book">3</string>
+
+    <!--purpose-->
+    <string name="sale_book">1</string>
+    <string name="exchange_book">2</string>
+    <string name="gift_book">3</string>
+
+
+    <string name="enter_price">Enter Book Price</string>
 
 </resources>
