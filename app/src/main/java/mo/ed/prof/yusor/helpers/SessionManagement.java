@@ -95,6 +95,7 @@ public class SessionManagement {
         user.put(KEY_UserName, pref.getString(KEY_UserName, null));
         user.put(KEY_Gender, pref.getString(KEY_Gender, null));
         user.put(KEY_DepartmentName, pref.getString(KEY_DepartmentName, null));
+        user.put(KEY_userID, pref.getString(KEY_userID, null));
         user.put(KEY_idToken, pref.getString(KEY_idToken, null));
         return user;
     }

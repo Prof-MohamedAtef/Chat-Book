@@ -45,6 +45,7 @@ public class Config {
     public static String PublishYear;
     public static String BookDescription;
     public static String URL_Completed="http://fla4news.com/Yusor/";
+    public static boolean Buyer;
 
     // public static final String[] Faculties={
 //            Resources.getSystem().getResourceName(R.string.faculty_computer_sciences_engineering).toString(),

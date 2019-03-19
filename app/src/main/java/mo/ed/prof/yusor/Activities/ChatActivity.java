@@ -1,6 +1,7 @@
 package mo.ed.prof.yusor.Activities;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,8 +16,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
@@ -25,7 +30,9 @@ import java.util.List;
 
 import mo.ed.prof.yusor.Adapter.Chat.MessageAdapter;
 import mo.ed.prof.yusor.R;
+import mo.ed.prof.yusor.helpers.Config;
 import mo.ed.prof.yusor.helpers.Firebase.ChatHandler.FirebaseChatHandler;
+import mo.ed.prof.yusor.helpers.Firebase.FirebaseEntites;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
 import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.AuthorName_KEY;
@@ -33,6 +40,7 @@ import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.BookDescription_KEY;
 import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.BookID_KEY;
 import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.BookName_KEY;
 import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.BookOwnerID_KEY;
+import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.BookSellerID_KEY;
 import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.ISBN_KEY;
 import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.Price_KEY;
 import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.PublishYear_KEY;
@@ -42,7 +50,6 @@ import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.Transaction_KEY;
 
 public class ChatActivity extends AppCompatActivity {
 
-    private DatabaseReference mDatabase;
     private String Messages_KEY="messages";
     private String FacultyName;
     private String TransactionType;
@@ -68,30 +75,31 @@ public class ChatActivity extends AppCompatActivity {
     private SessionManagement sessionManagement;
     private HashMap<String, String> user;
     private String UserName;
+    private FirebaseEntites firebaseEntities;
+    private String UserID;
+    private String SellerID;
+    public static String BuyerSellerMessagingKey;
+    private String Buyer="buyer";
+    private String Seller="seller";
+    private String SellerBuyerMessagingKey;
+    private FirebaseDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         setTheme(R.style.AppTheme);
-        if (mMessagesDatabase ==null){
-            FirebaseDatabase database= FirebaseDatabase.getInstance();
-            mMessagesDatabase =database.getReference().child(Messages_KEY);
-            mFirebaseAuth = FirebaseAuth.getInstance();
-            mFirebaseStorage = FirebaseStorage.getInstance();
-
-//            mMessagesDatabase.keepSynced(true);
-        }
-
         sessionManagement=new SessionManagement(getApplicationContext());
         user=sessionManagement.getUserDetails();
         if (user!=null) {
             UserName= user.get(SessionManagement.KEY_UserName);
+            UserID= user.get(SessionManagement.KEY_userID);
         }
 
         Intent intent=getIntent();
         BookOwnerID = intent.getExtras().getString(BookOwnerID_KEY);
         BookID = intent.getExtras().getString(BookID_KEY);
+        SellerID= intent.getExtras().getString(BookSellerID_KEY);
         BookName= intent.getExtras().getString(BookName_KEY);
         BookDescription= intent.getExtras().getString(BookDescription_KEY);
         PublishYear= intent.getExtras().getString(PublishYear_KEY);
@@ -101,6 +109,68 @@ public class ChatActivity extends AppCompatActivity {
         TransactionType= intent.getExtras().getString(Transaction_KEY);
         SellerEmail= intent.getExtras().getString(SellerEmail_KEY);
         FacultyName= intent.getExtras().getString(SellerFacultyName_KEY);
+        firebaseChatHandler=new FirebaseChatHandler();
+        BuyerSellerMessagingKey =UserID+Buyer+SellerID+Seller;
+        SellerBuyerMessagingKey=UserID+Buyer+SellerID+Seller;
+        if (mMessagesDatabase ==null){
+            database= FirebaseDatabase.getInstance();
+            mMessagesDatabase =database.getReference().child(Messages_KEY);
+            if (Config.Buyer){
+//                .child(BuyerSellerMessagingKey).child(UserID+Buyer);
+//                mMessagesDatabase =database.getReference();
+                mMessagesDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.child(BuyerSellerMessagingKey).exists()){
+                            if (dataSnapshot.child(BuyerSellerMessagingKey).child(UserID+Buyer).exists()){
+                                //do nothing
+                            }else {
+                                firebaseChatHandler.setWelcomeMessage(UserName+" started the Conversation");
+                                mMessagesDatabase.child(BuyerSellerMessagingKey).child(UserID+Buyer).setValue(firebaseChatHandler);
+                            }
+                        }else {
+                            firebaseChatHandler.setWelcomeMessage(UserName+" started the Conversation");
+                            mMessagesDatabase.child(BuyerSellerMessagingKey).child(UserID+Buyer).setValue(firebaseChatHandler);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }else {
+                mMessagesDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.child(SellerBuyerMessagingKey).exists()){
+                            if (dataSnapshot.child(SellerBuyerMessagingKey).child(SellerID+Seller).exists()){
+                                //do nothing
+                            }else {
+                                firebaseChatHandler.setWelcomeMessage(UserName+" started the Conversation");
+                                mMessagesDatabase.child(SellerBuyerMessagingKey).child(SellerID+Seller).setValue(firebaseChatHandler);
+                            }
+                        }else {
+                            firebaseChatHandler.setWelcomeMessage(UserName+" started the Conversation");
+                            mMessagesDatabase.child(SellerBuyerMessagingKey).child(SellerID+Seller).setValue(firebaseChatHandler);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+//            mDatabase.child(messaging_key).child(buyer_id+"buyer");
+//            String key= mDatabase.child(messaging_key).child(buyer_id+"buyer").push().getKey();
+
+            mFirebaseAuth = FirebaseAuth.getInstance();
+            mFirebaseStorage = FirebaseStorage.getInstance();
+
+//            mMessagesDatabase.keepSynced(true);
+        }
 
         mListViewMessage = findViewById(R.id.listViewMessage);
         mEditTextMessage = findViewById(R.id.editTextMessage);
@@ -130,15 +200,42 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
-
         mEditTextMessage.setFilters(new InputFilter[] {new InputFilter.LengthFilter(DEFAULT_MSG_LENGTH_LIMIT)});
-
         mButtonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                firebaseChatHandler= new FirebaseChatHandler(mEditTextMessage.getText().toString(), UserName, UserID, SellerID,null);
+                firebaseChatHandler.setWelcomeMessage(null);
+                firebaseEntities=new FirebaseEntites(mMessagesDatabase);
 
-                FirebaseChatHandler chatMessage = new FirebaseChatHandler(mEditTextMessage.getText().toString(), UserName, null);
-                mMessagesDatabase.push().setValue(chatMessage);
+                if (mMessagesDatabase!=null){
+                    database= FirebaseDatabase.getInstance();
+                    mMessagesDatabase =database.getReference().child(Messages_KEY).child(BuyerSellerMessagingKey).child(UserID+Buyer);
+                }else {
+                    database= FirebaseDatabase.getInstance();
+                    mMessagesDatabase =database.getReference().child(Messages_KEY).child(BuyerSellerMessagingKey).child(UserID+Buyer);
+                }
+//                mMessagesDatabase
+                if (Config.Buyer){
+                    if (mMessagesDatabase!=null){
+                        database= FirebaseDatabase.getInstance();
+                        mMessagesDatabase =database.getReference().child(Messages_KEY).child(BuyerSellerMessagingKey).child(UserID+Buyer);
+                    }else {
+                        database= FirebaseDatabase.getInstance();
+                        mMessagesDatabase =database.getReference().child(Messages_KEY).child(BuyerSellerMessagingKey).child(UserID+Buyer);
+                    }
+                    firebaseEntities.AddMessage(mMessagesDatabase, BuyerSellerMessagingKey,firebaseChatHandler,UserID,SellerID);
+                }else {
+                    if (mMessagesDatabase!=null){
+                        database= FirebaseDatabase.getInstance();
+                        mMessagesDatabase =database.getReference().child(Messages_KEY).child(SellerBuyerMessagingKey).child(SellerID+Seller);
+                    }else {
+                        database= FirebaseDatabase.getInstance();
+                        mMessagesDatabase =database.getReference().child(Messages_KEY).child(SellerBuyerMessagingKey).child(SellerID+Seller);
+                    }
+                    firebaseEntities.AddMessage(mMessagesDatabase, SellerBuyerMessagingKey,firebaseChatHandler,UserID,SellerID);
+                }
+
                 mEditTextMessage.setText("");
             }
         });

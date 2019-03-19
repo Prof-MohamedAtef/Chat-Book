@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 import mo.ed.prof.yusor.Activities.ChatActivity;
 import mo.ed.prof.yusor.R;
+import mo.ed.prof.yusor.helpers.Config;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 
 /**
@@ -41,6 +42,7 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
     public static String AuthorName_KEY="AuthorName_KEY";
     public static String PublishYear_KEY="PublishYear_KEY";
     public static String BookDescription_KEY="BookDescription_KEY";
+    public static String BookSellerID_KEY="BookSellerID_KEY";
 
     public BooksGalleryAdapter(Context mContext, ArrayList<StudentsEntity> feedItemList, boolean twoPane) {
         this.mContext = mContext;
@@ -78,6 +80,7 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
                                     // go to chat with book owner
                                     // get owner id
                                     String SellerUserName =feedItem.getSellerUserName();
+                                    String SellerID=feedItem.getBookOwnerID();
                                     String BookID=feedItem.getBookID();
                                     String BookName=feedItem.getBookTitle();
                                     String BookDescription=feedItem.getBookDescription();
@@ -90,6 +93,7 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
                                     String SellerFacultyName=feedItem.getDepartmentName();
                                     Intent intent=new Intent(mContext,ChatActivity.class);
                                     intent.putExtra(BookOwnerID_KEY,SellerUserName);
+                                    intent.putExtra(BookSellerID_KEY,SellerID);
                                     intent.putExtra(BookID_KEY,BookID);
                                     intent.putExtra(BookName_KEY,BookName);
                                     intent.putExtra(BookDescription_KEY,BookDescription);
@@ -102,6 +106,7 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
                                     intent.putExtra(SellerFacultyName_KEY,SellerFacultyName);
 
                                     mContext.startActivity(intent);
+                                    Config.Buyer=true;
                                 }
                             });
                         }
