@@ -8,10 +8,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-
 import mo.ed.prof.yusor.helpers.Firebase.AuthenticationHandler.FirebaseUserHandler;
 import mo.ed.prof.yusor.helpers.Firebase.ChatHandler.FirebaseChatHandler;
+import mo.ed.prof.yusor.helpers.Firebase.TalksHandler.FirebaseTalksHandler;
 
 /**
  * Created by Prof-Mohamed Atef on 3/19/2019.
@@ -20,14 +19,19 @@ import mo.ed.prof.yusor.helpers.Firebase.ChatHandler.FirebaseChatHandler;
 public class FirebaseEntites {
 
     private final String LOG_TAG = FirebaseEntites.class.getSimpleName();
+    DatabaseReference mTalksDatabase;
 
 
     private String currentUserID;
-    DatabaseReference mDatabase;
+    DatabaseReference mMessagesDatabase;
     private String currentMessageID;
 
+    public FirebaseEntites(DatabaseReference mTalksDatabase,String x){
+        this.mTalksDatabase=mTalksDatabase;
+    }
+
     public FirebaseEntites(DatabaseReference databaseReference){
-        this.mDatabase=databaseReference;
+        this.mMessagesDatabase =databaseReference;
     }
 
     public void AddUser(DatabaseReference databaseReference, FirebaseUserHandler firebaseUserHandler){
@@ -39,7 +43,7 @@ public class FirebaseEntites {
 
     private void UserChangeListener(final String articleID) {
 
-        mDatabase.child(articleID).addValueEventListener(new ValueEventListener() {
+        mMessagesDatabase.child(articleID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 FirebaseUserHandler firebaseUserHandler=dataSnapshot.getValue(FirebaseUserHandler.class);
@@ -54,20 +58,22 @@ public class FirebaseEntites {
                 Log.e(LOG_TAG, "Failed to read options", databaseError.toException());
             }
         });
-//        mDatabase.keepSynced(true);
+//        mMessagesDatabase.keepSynced(true);
     }
 
     public void AddMessage(DatabaseReference mDatabase,String messaging_key, FirebaseChatHandler firebaseChatHandler,String buyer_id, String seller_id) {
-//        mDatabase.child(messaging_key).child(buyer_id+"buyer").setValue(firebaseChatHandler);
-//        mDatabase.child(messaging_key).child(buyer_id+"buyer");
-//        String key= mDatabase.child(messaging_key).child(buyer_id+"buyer").push().getKey();
+//        mMessagesDatabase.child(messaging_key).child(buyer_id+"buyer").setValue(firebaseChatHandler);
+//        mMessagesDatabase.child(messaging_key).child(buyer_id+"buyer");
+//        String key= mMessagesDatabase.child(messaging_key).child(buyer_id+"buyer").push().getKey();
 //        firebaseChatHandler.setMessageID(key);
         String key=mDatabase.push().getKey();
         mDatabase.child(key).setValue(firebaseChatHandler);
-//        currentMessageID=mDatabase.push().getKey();
-//        mDatabase.child(currentMessageID).setValue(firebaseChatHandler);
-        MessageChangeListener(mDatabase, messaging_key);
+//        currentMessageID=mMessagesDatabase.push().getKey();
+//        mMessagesDatabase.child(currentMessageID).setValue(firebaseChatHandler);
+//        MessageChangeListener(mMessagesDatabase, messaging_key);
     }
+
+
 
     private void MessageChangeListener(DatabaseReference mDatabase, String currentMessageID) {
         mDatabase.child(currentMessageID).addValueEventListener(new ValueEventListener() {
@@ -85,5 +91,10 @@ public class FirebaseEntites {
                 Log.e(LOG_TAG, "Failed to read options", databaseError.toException());
             }
         });
+    }
+
+    public void AddTalk(DatabaseReference mTalksDatabase, FirebaseTalksHandler firebaseTalksHandler) {
+        String key=mTalksDatabase.push().getKey();
+        mTalksDatabase.child(key).setValue(firebaseTalksHandler);
     }
 }

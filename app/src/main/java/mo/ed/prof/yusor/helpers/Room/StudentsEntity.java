@@ -8,11 +8,20 @@ import java.io.Serializable;
 
 public class StudentsEntity implements Serializable {
     public static Object FBAccessToken;
+    String PivotID;
     String SellerEmail;
     String SellerGender;
     String SellerUserName;
     String SellerDepartmentID;
     String SellerID;
+
+    public String getPivotID() {
+        return PivotID;
+    }
+
+    public void setPivotID(String pivotID) {
+        PivotID = pivotID;
+    }
 
     public String getSellerEmail() {
         return SellerEmail;
@@ -58,7 +67,8 @@ public class StudentsEntity implements Serializable {
                           String bookID_str1, String book_title_str, String book_description_str, String publishYear_str,
                           String authorID_str, String departmentID_str, String isbn_str, String photo_str, String studentID_str,
                           String personName_str, String userName_str, String gender_str, String email_str, String departmentID_str1,
-                          String department_name, String author_name) {
+                          String department_name, String author_name, String pivot_id_str) {
+        this.PivotID=pivot_id_str;
         this.BookOwnerID=sellerID_str;
         this.BookID=bookID_str;
         this.BookPrice=price_str;

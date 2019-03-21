@@ -137,6 +137,14 @@
     <string name="enter_email">Enter email address!</string>
     <string name="enter_password">Enter password!</string>
 
+    <string name="enter_message">Enter Your Message!</string>
+    <string name="invalid_username">Invalid User Name!</string>
+    <string name="invalid_userid">Invalid User ID!</string>
+    <string name="invalid_bookname">Invalid Book Name!</string>
+    <string name="invalid_bookid">Invalid Book ID!</string>
+    <string name="invalid_sellerid">Invalid Seller ID!</string>
+
+
 
     <string name="select_book_ifexist">Select Book if Exist</string>
 

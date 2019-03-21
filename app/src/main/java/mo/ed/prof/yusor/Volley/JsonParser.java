@@ -94,6 +94,7 @@ public class JsonParser {
     private JSONArray DepartmentJsonArray;
     private String DepartmentName_STR;
     private String DepartmentName_KEY="name";
+    private String PivotID_STR;
 
     public JsonParser( ){
 
@@ -448,7 +449,7 @@ public class JsonParser {
                 }
                 for (int x = 0; x < pivotJsonArray.length(); x++) {
                     JSONObject onePivotJsonObject =pivotJsonArray.getJSONObject(x);
-                    BookID_STR = onePivotJsonObject.getString(BookID_KEY);
+                    PivotID_STR = onePivotJsonObject.getString(BookID_KEY);
                     Book_Title_STR = onePivotJsonObject.getString(Book_Title_KEY);
                     Book_Description_STR= onePivotJsonObject.getString(Book_Description_KEY);
                     PublishYear_STR= onePivotJsonObject.getString(PublishYear_KEY);
@@ -493,7 +494,7 @@ public class JsonParser {
                                     TransactionType_STR, BookID_STR, Book_Title_STR, Book_Description_STR,
                                     PublishYear_STR,AuthorID_STR, DepartmentID_STR
                         ,ISBN_STR,PHOTO_STR, StudentID_STR,PersonName_STR, UserName_STR,
-                                    Gender_STR, Email_STR, DepartmentID_STR,DepartmentName_STR,AuthorName_STR);
+                                    Gender_STR, Email_STR, DepartmentID_STR,DepartmentName_STR,AuthorName_STR,PivotID_STR);
                         list.add(studentsEntity);
                     }
                 }

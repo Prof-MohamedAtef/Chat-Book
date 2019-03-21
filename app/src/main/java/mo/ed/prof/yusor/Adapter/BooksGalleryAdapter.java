@@ -43,6 +43,7 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
     public static String PublishYear_KEY="PublishYear_KEY";
     public static String BookDescription_KEY="BookDescription_KEY";
     public static String BookSellerID_KEY="BookSellerID_KEY";
+    public static String PivotID_KEY="PivotID_KEY";
 
     public BooksGalleryAdapter(Context mContext, ArrayList<StudentsEntity> feedItemList, boolean twoPane) {
         this.mContext = mContext;
@@ -79,6 +80,7 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
                                 public void onClick(View v) {
                                     // go to chat with book owner
                                     // get owner id
+                                    String PivotID=feedItem.getPivotID();
                                     String SellerUserName =feedItem.getSellerUserName();
                                     String SellerID=feedItem.getBookOwnerID();
                                     String BookID=feedItem.getBookID();
@@ -92,6 +94,7 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
                                     String SellerEmail=feedItem.getSellerEmail();
                                     String SellerFacultyName=feedItem.getDepartmentName();
                                     Intent intent=new Intent(mContext,ChatActivity.class);
+                                    intent.putExtra(PivotID_KEY,PivotID);
                                     intent.putExtra(BookOwnerID_KEY,SellerUserName);
                                     intent.putExtra(BookSellerID_KEY,SellerID);
                                     intent.putExtra(BookID_KEY,BookID);
