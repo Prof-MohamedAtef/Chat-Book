@@ -16,7 +16,6 @@ import com.squareup.picasso.Picasso;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import mo.ed.prof.yusor.Activities.ChatActivity;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.Config;
@@ -31,7 +30,7 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
     Context mContext;
     ArrayList<StudentsEntity> feedItemList;
     boolean TwoPane;
-    public static String BookOwnerID_KEY="BookOwnerID_KEY";
+    public static String SellerUserName_KEY ="SellerUserName_KEY";
     public static String BookID_KEY="BookID_KEY";
     public static String BookName_KEY="BookName_KEY";
     public static String SellerFacultyName_KEY="SellerFacultyName_KEY";
@@ -95,7 +94,7 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
                                     String SellerFacultyName=feedItem.getDepartmentName();
                                     Intent intent=new Intent(mContext,ChatActivity.class);
                                     intent.putExtra(PivotID_KEY,PivotID);
-                                    intent.putExtra(BookOwnerID_KEY,SellerUserName);
+                                    intent.putExtra(SellerUserName_KEY,SellerUserName);
                                     intent.putExtra(BookSellerID_KEY,SellerID);
                                     intent.putExtra(BookID_KEY,BookID);
                                     intent.putExtra(BookName_KEY,BookName);

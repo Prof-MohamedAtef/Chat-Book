@@ -112,8 +112,8 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                         //retrive chat history
                         // if chatarray.size>0 -- send with intent
                         //else show dialogue no chat history exist
-//                        Intent intent2=new Intent(getApplicationContext(),ArticleTypesListActivity.class);
-//                        startActivity(intent2);
+                        Intent intent2=new Intent(getApplicationContext(),ChatHistoryActivity.class);
+                        startActivity(intent2);
                         return true;
                     case R.id.bills:
                         //retrive bills
@@ -205,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                 if (LoggedType!=null){
                     if (LoggedType.equals("EP")) {
                         sessionManagement.logoutUser();
+                        FirebaseAuth.getInstance().signOut();
                     }
                 }
             }

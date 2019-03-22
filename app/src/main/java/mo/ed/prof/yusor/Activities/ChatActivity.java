@@ -41,12 +41,11 @@ import mo.ed.prof.yusor.helpers.Firebase.FirebaseEntites;
 import mo.ed.prof.yusor.helpers.Firebase.TalksHandler.FirebaseTalksHandler;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
 import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.AuthorName_KEY;
 import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.BookDescription_KEY;
 import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.BookID_KEY;
 import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.BookName_KEY;
-import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.BookOwnerID_KEY;
+import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.SellerUserName_KEY;
 import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.BookSellerID_KEY;
 import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.ISBN_KEY;
 import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.PivotID_KEY;
@@ -55,7 +54,6 @@ import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.PublishYear_KEY;
 import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.SellerEmail_KEY;
 import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.SellerFacultyName_KEY;
 import static mo.ed.prof.yusor.Adapter.BooksGalleryAdapter.Transaction_KEY;
-import static mo.ed.prof.yusor.helpers.Config.TwoPane;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -69,7 +67,7 @@ public class ChatActivity extends AppCompatActivity {
     private String PublishYear;
     private String AuthorName;
     private String ISBN;
-    private String BookOwnerID;
+    private String SellerUserName;
     private String BookID;
     private String BookName;
     FirebaseChatHandler firebaseChatHandler;
@@ -131,7 +129,7 @@ public class ChatActivity extends AppCompatActivity {
 
         Intent intent=getIntent();
         PivotID = intent.getExtras().getString(PivotID_KEY);
-        BookOwnerID = intent.getExtras().getString(BookOwnerID_KEY);
+        SellerUserName = intent.getExtras().getString(SellerUserName_KEY);
         BookID = intent.getExtras().getString(BookID_KEY);
         Config.BookID=BookID;
         SellerID= intent.getExtras().getString(BookSellerID_KEY);
@@ -274,7 +272,7 @@ public class ChatActivity extends AppCompatActivity {
                                     if (Config.BookName!=null){
                                         firebaseChatHandler= new FirebaseChatHandler(mEditTextMessage.getText().toString(),Now.toString(), UserName, UserID, Config.SellerID,null, Config.BookID, Config.BookName);
                                         firebaseChatHandler.setWelcomeMessage(null);
-                                        firebaseTalksHandler=new FirebaseTalksHandler(SellerID);
+                                        firebaseTalksHandler=new FirebaseTalksHandler(SellerID,SellerUserName,UserName, UserID);
                                         firebaseEntities=new FirebaseEntites(mMessagesDatabase);
                                         firebaseEntities=new FirebaseEntites(mTalksDatabase,"");
 //                if (mMessagesDatabase!=null){

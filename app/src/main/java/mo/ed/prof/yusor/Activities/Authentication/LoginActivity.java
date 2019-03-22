@@ -1,14 +1,20 @@
 package mo.ed.prof.yusor.Activities.Authentication;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.dd.processbutton.iml.GenerateProcessButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -16,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import mo.ed.prof.yusor.Activities.ChatActivity;
 import mo.ed.prof.yusor.Activities.MainActivity;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
@@ -27,6 +34,7 @@ import mo.ed.prof.yusor.helpers.SessionManagement;
 
 public class LoginActivity extends AppCompatActivity implements ProgressGenerator.OnCompleteListener{
 
+    private final String LOG_TAG = LoginActivity.class.getSimpleName();
 
     @BindView(R.id.email_signin)
     EditText email_signin;
@@ -61,6 +69,7 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
     private DatabaseReference mDatabase;
     private String Users_KEY ="users";
     private FirebaseEntites firebaseEntities;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +80,7 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
         verifyConnection=new VerifyConnection(getApplicationContext());
         sessionManagement = new SessionManagement(getApplicationContext());
         user = sessionManagement.getUserDetails();
+        firebaseAuth=FirebaseAuth.getInstance();
         if (mDatabase==null){
             FirebaseDatabase database= FirebaseDatabase.getInstance();
             mDatabase=database.getReference(Users_KEY);
@@ -119,8 +129,7 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
 
                 if (email.length()>0&&password.length()>0){
                     if (verifyConnection.isConnected()){
-                        progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener)LoginActivity.this, getApplicationContext());
-                        progressGenerator.startSignIn(btn_login, email, password);
+                        LoginFirebase(email, password);
                     }
                 }
             }
@@ -142,14 +151,14 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
                         btn_login.setEnabled(true);
                         btn_login.setText(getApplicationContext().getResources().getString(R.string.Sign_in));
                     }else {
-                        SharedPrefThenGalleryHomeRedirect(studentsEntities);
+                        DoneLogin(studentsEntities);
                     }
                 }
             }
         }
     }
 
-    private void SharedPrefThenGalleryHomeRedirect(ArrayList<StudentsEntity> studentsEntities) {
+    private void DoneLogin(ArrayList<StudentsEntity> studentsEntities) {
         for (StudentsEntity studentsEntity: studentsEntities){
             PersonName= studentsEntity.getPersonName();
             Email=studentsEntity.getEmail();
@@ -159,14 +168,30 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
             UserID=studentsEntity.getUserID();
 //            DepartmentName=studentsEntity.getDepartmentName();
             //send authenticated user to firebase database
-            firebaseUserHandler =new FirebaseUserHandler(UserID,mToken,selectedGender,UserName,Email,PersonName);
-            firebaseEntities=new FirebaseEntites(mDatabase);
-            firebaseEntities.AddUser(mDatabase,firebaseUserHandler);
+//            firebaseUserHandler =new FirebaseUserHandler(UserID,mToken,selectedGender,show_message,Email,PersonName);
+//            firebaseEntities=new FirebaseEntites(mDatabase);
+//            firebaseEntities.AddUser(mDatabase,firebaseUserHandler);
         }
         sessionManagement.createYusorLoginSession(mToken,PersonName,Email,UserName,selectedGender, "DepartmentName",UserID);
         sessionManagement.createLoginSessionType("EP");
-        Intent intent_create=new Intent(this,MainActivity.class);
+        Intent intent_create=new Intent(LoginActivity.this,MainActivity.class);
         startActivity(intent_create);
         finish();
+    }
+
+    private void LoginFirebase(final String email, final String password) {
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener) LoginActivity.this, getApplicationContext());
+                            progressGenerator.startSignIn(btn_login, email, password);
+                        } else {
+                            Toast.makeText(getApplicationContext(), task.getException().toString(), Toast.LENGTH_LONG).show();
+                            Log.e(LOG_TAG, "Error ******** Error reason : " + task.getException());
+                        }
+                    }
+                });
     }
 }

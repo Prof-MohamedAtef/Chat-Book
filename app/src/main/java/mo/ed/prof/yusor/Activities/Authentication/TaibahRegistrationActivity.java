@@ -1,8 +1,10 @@
 package mo.ed.prof.yusor.Activities.Authentication;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -12,12 +14,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.dd.processbutton.iml.GenerateProcessButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import mo.ed.prof.yusor.Activities.ChatActivity;
 import mo.ed.prof.yusor.Activities.MainActivity;
 import mo.ed.prof.yusor.Adapter.FacultiesSpinnerAdapter;
 import mo.ed.prof.yusor.GenericAsyncTasks.RetrieveDepartmentsAsyncTask;
@@ -33,6 +43,7 @@ import mo.ed.prof.yusor.helpers.SessionManagement;
 public class TaibahRegistrationActivity extends AppCompatActivity implements RetrieveDepartmentsAsyncTask.OnDepartmentsRetrievalTaskCompleted,
 ProgressGenerator.OnCompleteListener{
 
+    private final String LOG_TAG = TaibahRegistrationActivity.class.getSimpleName();
 
     String URL="http://fla4news.com/Yusor/api/v1/departments";
 
@@ -94,6 +105,8 @@ ProgressGenerator.OnCompleteListener{
     private FirebaseEntites firebaseEntities;
     private DatabaseReference mDatabase;
     private String Users_KEY ="users";
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference reference;
 
     @Override
     protected void onResume() {
@@ -112,7 +125,7 @@ ProgressGenerator.OnCompleteListener{
         ButterKnife.bind(this);
         verifyConnection=new VerifyConnection(getApplicationContext());
         sessionManagement= new SessionManagement(getApplicationContext());
-
+        firebaseAuth= FirebaseAuth.getInstance();
         if (mDatabase==null){
             FirebaseDatabase database= FirebaseDatabase.getInstance();
             mDatabase=database.getReference(Users_KEY);
@@ -130,14 +143,16 @@ ProgressGenerator.OnCompleteListener{
                 EmailConst=email_type.getText().toString();
                 Email=Edit_email.getText().toString();
                 FinalEmail=Email+EmailConst;
+                Config.FinalEmail=FinalEmail;
                 UserName=Edit_Username.getText().toString();
+                Config.UserName=UserName;
                 Password=Edit_password.getText().toString();
+                Config.Password=Password;
                 ConfirmPassword=Edit_confirmedPassword.getText().toString();
                 checkedRadioButtion=(RadioButton)radioGenderGroup.findViewById(radioGenderGroup.getCheckedRadioButtonId());
                 selectedGender= checkedRadioButtion.getText().toString();
                 if (verifyConnection.isConnected()){
-                    progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener)TaibahRegistrationActivity.this, getApplicationContext());
-                    progressGenerator.startSignUp(btnUpload, PersonName, FinalEmail, UserName, Password, ConfirmPassword, selectedGender, DepartmentID );
+                    signUpFirebase();
                 }
             }
         });
@@ -172,14 +187,46 @@ ProgressGenerator.OnCompleteListener{
                     if (studentsEntity.getException()!=null){
                         Toast.makeText(getApplicationContext(), studentsEntity.getException().toString(), Toast.LENGTH_LONG).show();
                     }else {
-                        SharedPrefThenGalleryHomeRedirect(studentsEntities);
+                        DoneSignUp(studentsEntities);
                     }
                 }
             }
         }
     }
 
-    private void SharedPrefThenGalleryHomeRedirect(ArrayList<StudentsEntity> studentsEntities) {
+    private void signUpFirebase() {
+        firebaseAuth.createUserWithEmailAndPassword(Config.UserName,Config.Password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()){
+                            FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
+                            String userID=firebaseUser.getUid();
+                            reference=FirebaseDatabase.getInstance().getReference("yusor-chat").child("Users").child(userID);
+
+                            HashMap<String,String> hashMap=new HashMap<>();
+                            hashMap.put("id",userID);
+                            hashMap.put("userName",Config.FinalEmail);
+                            hashMap.put("imageUrl","default");
+
+                            reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()){
+                                        progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener)TaibahRegistrationActivity.this, getApplicationContext());
+                                        progressGenerator.startSignUp(btnUpload, PersonName, FinalEmail, UserName, Password, ConfirmPassword, selectedGender, DepartmentID );
+                                    }
+                                }
+                            });
+                        }else {
+                            Toast.makeText(getApplicationContext(), task.getException().toString(), Toast.LENGTH_LONG).show();
+                            Log.e(LOG_TAG, "Error ******** Error reason : "+ task.getException());
+                        }
+                    }
+                });
+    }
+
+    private void DoneSignUp(ArrayList<StudentsEntity> studentsEntities) {
         for (StudentsEntity studentsEntity: studentsEntities){
             PersonName= studentsEntity.getPersonName();
             Email=studentsEntity.getEmail();
@@ -189,13 +236,13 @@ ProgressGenerator.OnCompleteListener{
             UserID=studentsEntity.getUserID();
 //            DepartmentName=studentsEntity.getDepartmentName();
             //send authenticated user to firebase database
-            firebaseUserHandler =new FirebaseUserHandler(UserID,mToken,selectedGender,UserName,Email,PersonName);
-            firebaseEntities=new FirebaseEntites(mDatabase);
-            firebaseEntities.AddUser(mDatabase,firebaseUserHandler);
+//            firebaseUserHandler =new FirebaseUserHandler(UserID,mToken,selectedGender,show_message,Email,PersonName);
+//            firebaseEntities=new FirebaseEntites(mDatabase);
+//            firebaseEntities.AddUser(mDatabase,firebaseUserHandler);
         }
         sessionManagement.createYusorLoginSession(mToken,PersonName,Email,UserName,selectedGender, DepartmentName,UserID);
         sessionManagement.createLoginSessionType("EP");
-        Intent intent_create=new Intent(this,MainActivity.class);
+        Intent intent_create=new Intent(TaibahRegistrationActivity.this,MainActivity.class);
         startActivity(intent_create);
         finish();
     }

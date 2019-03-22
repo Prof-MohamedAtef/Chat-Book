@@ -8,17 +8,44 @@ public class FirebaseTalksHandler {
 
     public FirebaseTalksHandler(){}
 
-    public FirebaseTalksHandler(String seller){
-        this.Seller=seller;
+    String SellerName, SellerID, BuyerName, BuyerID;
+
+    public FirebaseTalksHandler(String sellerName, String sellerID, String buyerName, String buyerID) {
+        SellerName = sellerName;
+        SellerID = sellerID;
+        BuyerName = buyerName;
+        BuyerID = buyerID;
     }
 
-    String Seller;
-
-    public String getSeller() {
-        return Seller;
+    public String getSellerName() {
+        return SellerName;
     }
 
-    public void setSeller(String seller) {
-        Seller = seller;
+    public void setSellerName(String sellerName) {
+        SellerName = sellerName;
+    }
+
+    public String getSellerID() {
+        return SellerID;
+    }
+
+    public void setSellerID(String sellerID) {
+        SellerID = sellerID;
+    }
+
+    public String getBuyerName() {
+        return BuyerName;
+    }
+
+    public void setBuyerName(String buyerName) {
+        BuyerName = buyerName;
+    }
+
+    public String getBuyerID() {
+        return BuyerID;
+    }
+
+    public void setBuyerID(String buyerID) {
+        BuyerID = buyerID;
     }
 }

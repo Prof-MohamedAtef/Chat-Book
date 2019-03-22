@@ -8,6 +8,16 @@ import java.io.Serializable;
 
 public class StudentsEntity implements Serializable {
     public static Object FBAccessToken;
+    String ProfilePhoto;
+
+    public String getProfilePhoto() {
+        return ProfilePhoto;
+    }
+
+    public void setProfilePhoto(String profilePhoto) {
+        ProfilePhoto = profilePhoto;
+    }
+
     String PivotID;
     String SellerEmail;
     String SellerGender;

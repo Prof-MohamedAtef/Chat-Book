@@ -25,7 +25,7 @@ public class SessionManagement {
     public static final String KEY_idToken= "idToken";
     public static final String KEY_userID= "userID";
     public static final String KEY_LoginType= "LoginType";
-    public static final String KEY_UserName= "UserName";
+    public static final String KEY_UserName= "show_message";
     public static final String KEY_Gender= "Gender";
     public static final String KEY_DepartmentName= "DepartmentName";
 

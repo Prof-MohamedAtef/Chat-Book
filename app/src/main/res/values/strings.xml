@@ -145,7 +145,6 @@
     <string name="invalid_sellerid">Invalid Seller ID!</string>
 
 
-
     <string name="select_book_ifexist">Select Book if Exist</string>
 
     <string name="add_book_btn">Add Book</string>
@@ -159,10 +158,10 @@
     <string name="enter_desc">Enter Book Description</string>
     <string name="enter_auth_id">Enter Author Name</string>
     <string name="enter_publish_year">Enter Publish Year</string>
+    <string name="type_message">Type a message ...</string>
     <string name="enter_faculty_id">Enter Faculty Name</string>
     <string name="enter_isbn_num">Enter ISBN Number</string>
     <string name="enter_image">Capture Book Photo</string>
-
 
 
     <!--book status-->

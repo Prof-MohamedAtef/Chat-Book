@@ -23,5 +23,6 @@
     <dimen name="AppBarLayout_height">200dp</dimen>
     <dimen name="Overlap_top">240dp</dimen>
     <dimen name="text_padding">6dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
 
 </resources>

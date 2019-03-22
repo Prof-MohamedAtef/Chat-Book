@@ -71,7 +71,7 @@
         <activity
             android:name=".Activities.Authentication.TaibahRegistrationActivity"
             android:parentActivityName=".Activities.Authentication.AuthenticationChoiceActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"  />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".Activities.Authentication.AuthenticationChoiceActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -79,15 +79,20 @@
             android:name=".Activities.Authentication.LoginActivity"
             android:parentActivityName=".Activities.Authentication.AuthenticationChoiceActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".Activities.CompleteAddBookActivity"
+        <activity
+            android:name=".Activities.CompleteAddBookActivity"
             android:parentActivityName=".Activities.AddNewBookActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".Activities.SearchActivity"
+        <activity
+            android:name=".Activities.SearchActivity"
             android:parentActivityName=".Activities.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".Activities.AddNewBookActivity"
+        <activity
+            android:name=".Activities.AddNewBookActivity"
             android:parentActivityName=".Activities.MainActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" ></activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".Activities.ChatHistoryActivity" />
+        <activity android:name=".Dev.MessageActivity"></activity>
     </application>
 
 </manifest>

@@ -47,6 +47,9 @@ public class Config {
     public static String URL_Completed="http://fla4news.com/Yusor/";
     public static boolean Buyer;
     public static String SellerID;
+    public static String FinalEmail;
+    public static String Password;
+    public static String UserName;
 
     // public static final String[] Faculties={
 //            Resources.getSystem().getResourceName(R.string.faculty_computer_sciences_engineering).toString(),
