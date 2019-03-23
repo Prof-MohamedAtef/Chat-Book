@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:padding="@dimen/text_size"
+android:id="@+id/user_container">
+<de.hdodenhof.circleimageview.CircleImageView
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:id="@id/profile_image"
+    android:src="@drawable/logo"/>
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/username"
+    android:id="@+id/UserName"
+    android:textColor="@color/red"
+    android:layout_toRightOf="@id/profile_image"
+    android:layout_toEndOf="@id/profile_image"
+    android:layout_marginLeft="10dp"
+    android:layout_centerVertical="true"
+    android:textSize="18sp"/>
+
+<de.hdodenhof.circleimageview.CircleImageView
+    android:layout_width="15dp"
+    android:layout_height="15dp"
+    app:civ_border_width="10dp"
+    app:civ_border_color="#05df29"
+    android:id="@+id/img_on"
+    android:visibility="gone"
+    android:src="@drawable/logo"
+    android:layout_below="@+id/UserName"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="-15dp"
+    android:layout_toRightOf="@id/profile_image"
+    android:layout_toEndOf="@id/profile_image"/>
+
+<de.hdodenhof.circleimageview.CircleImageView
+    android:layout_width="15dp"
+    android:layout_height="15dp"
+    app:civ_border_width="10dp"
+    app:civ_border_color="#bfbfbf"
+    android:id="@+id/img_off"
+    android:visibility="gone"
+    android:src="@drawable/logo"
+    android:layout_below="@+id/UserName"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="-15dp"
+    android:layout_toRightOf="@id/profile_image"
+    android:layout_toEndOf="@id/profile_image"/>
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/UserName"
+    android:layout_toRightOf="@+id/profile_image"
+    android:layout_toEndOf="@+id/profile_image"
+    android:layout_marginTop="5dp"
+    android:paddingTop="5dp"
+    android:id="@+id/last_msg"
+    android:textColor="@color/yellow"
+    android:layout_marginLeft="20dp"
+    android:maxLines="1"
+    />
+    <Button
+        android:id="@+id/btn_approve"
+        style="@style/ButtonText"
+        android:textColor="@color/white"
+        android:background="@drawable/button_shape"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="approve"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#05df29"
+        android:id="@+id/img_approved"
+        android:visibility="gone"
+        android:src="@drawable/ic_action_approved"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+    <TextView
+        android:visibility="gone"
+        android:layout_below="@+id/img_approved"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/txt_done"
+        android:textColor="#05df29"
+        android:text="@string/done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

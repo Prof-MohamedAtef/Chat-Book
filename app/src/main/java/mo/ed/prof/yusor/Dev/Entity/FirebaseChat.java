@@ -10,6 +10,16 @@ public class FirebaseChat {
 
     private String sender, receiver, message;
     private boolean isseen;
+//    private boolean receiver_approve;
+    private boolean sender_approve;
+
+    public boolean getSender_approve() {
+        return sender_approve;
+    }
+
+    public void setSender_approve(boolean sender_approve) {
+        this.sender_approve = sender_approve;
+    }
 
     public boolean isIsseen() {
         return isseen;
@@ -19,11 +29,12 @@ public class FirebaseChat {
         this.isseen = isseen;
     }
 
-    public FirebaseChat(String sender, String receiver, String message, boolean is_seen) {
+    public FirebaseChat(String sender, String receiver, String message, boolean is_seen, boolean sender_approve) {
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;
         this.isseen=is_seen;
+        this.sender_approve=sender_approve;
     }
 
     public String getSender() {

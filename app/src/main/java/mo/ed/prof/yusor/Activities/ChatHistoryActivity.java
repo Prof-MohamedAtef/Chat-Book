@@ -92,14 +92,12 @@ public class ChatHistoryActivity extends AppCompatActivity {
                     }
                 }
 
+                mSectionsPagerAdapter.addFragment(new UsersFragment(), "Students");
                 if (unread==0){
                     mSectionsPagerAdapter.addFragment(new ChatsFragment(), "Chats");
                 }else {
                     mSectionsPagerAdapter.addFragment(new ChatsFragment(), "("+unread+")Chats");
                 }
-
-                mSectionsPagerAdapter.addFragment(new UsersFragment(), "Students");
-
                 mSectionsPagerAdapter.addFragment(new BooksFragment(), "Books");
 
                 mViewPager.setAdapter(mSectionsPagerAdapter);

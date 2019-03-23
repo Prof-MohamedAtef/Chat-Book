@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -57,7 +58,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHOld
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MessageAdapter.ViewHOlder holder, final int position) {
+    public void onBindViewHolder(@NonNull final MessageAdapter.ViewHOlder holder, final int position) {
         final FirebaseChat feedItem = feedItemList.get(position);
         if (feedItem!=null){
             if (feedItem.getMessage()!=null){
@@ -81,6 +82,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHOld
             }else {
                 holder.text_seen.setVisibility(View.GONE);
             }
+
+
         }
     }
 
@@ -110,10 +113,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHOld
         protected CircleImageView ProfileImage;
         protected TextView show_message;
         public TextView text_seen;
-
+//        protected Button btn_approve;
+//        protected CircleImageView img_approved;
 
         public ViewHOlder(View converview) {
             super(converview);
+//            this.img_approved=(CircleImageView)converview.findViewById(R.id.img_approved);
             this.show_message = (TextView) converview.findViewById(R.id.show_message);
             this.text_seen= (TextView) converview.findViewById(R.id.text_seen);
             this.ProfileImage=(CircleImageView)converview.findViewById(R.id.profile_image);

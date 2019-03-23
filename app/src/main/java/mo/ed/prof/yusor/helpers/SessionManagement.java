@@ -76,7 +76,7 @@ public class SessionManagement {
     }
 
 
-    public void createYusorLoginSession(String idToken, String P_name, String email, String userName,String gender, String departmentName, String user_id){
+    public void createYusorLoginSession(String idToken, String P_name, String email, String userName,String gender, String departmentName, String user_id, String firbase_id){
         editor.putBoolean(IS_LOGIN, true);
         editor.putString(KEY_idToken, idToken);
         editor.putString(KEY_NAME, P_name);
@@ -85,7 +85,7 @@ public class SessionManagement {
         editor.putString(KEY_UserName, userName);
         editor.putString(KEY_Gender, gender);
         editor.putString(KEY_DepartmentName, departmentName);
-        editor.putString(firebase_UID_KEY, departmentName);
+        editor.putString(firebase_UID_KEY, firbase_id);
 
         editor.commit();
     }

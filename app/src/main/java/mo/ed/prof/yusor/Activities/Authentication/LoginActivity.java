@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import mo.ed.prof.yusor.Activities.ChatActivity;
 import mo.ed.prof.yusor.Activities.MainActivity;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
@@ -72,6 +71,7 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
     private String Users_KEY ="users";
     private FirebaseEntites firebaseEntities;
     private FirebaseAuth firebaseAuth;
+    private String firebaseUiD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,13 +168,14 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
             selectedGender=studentsEntity.getGender();
             mToken=studentsEntity.getAPI_TOKEN();
             UserID=studentsEntity.getUserID();
+            firebaseUiD=studentsEntity.getFirebaseUiD();
 //            DepartmentName=studentsEntity.getDepartmentName();
             //send authenticated user to firebase database
 //            firebaseUserHandler =new FirebaseUserHandler(UserID,mToken,selectedGender,show_message,Email,PersonName);
 //            firebaseEntities=new FirebaseEntites(mDatabase);
 //            firebaseEntities.AddUser(mDatabase,firebaseUserHandler);
         }
-        sessionManagement.createYusorLoginSession(mToken,PersonName,Email,UserName,selectedGender, "DepartmentName",UserID);
+        sessionManagement.createYusorLoginSession(mToken,PersonName,Email,UserName,selectedGender, "DepartmentName",UserID,firebaseUiD);
         sessionManagement.createLoginSessionType("EP");
         Intent intent_create=new Intent(LoginActivity.this,MainActivity.class);
         startActivity(intent_create);
@@ -191,7 +192,7 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
                             String userID=firebaseUser.getUid();
                             Config.FirebaseUserID=userID;
                             progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener) LoginActivity.this, getApplicationContext());
-                            progressGenerator.startSignIn(btn_login, email, password);
+                            progressGenerator.startSignIn(btn_login, email, password, Config.FirebaseUserID);
                         } else {
                             Toast.makeText(getApplicationContext(), task.getException().toString(), Toast.LENGTH_LONG).show();
                             Log.e(LOG_TAG, "Error ******** Error reason : " + task.getException());

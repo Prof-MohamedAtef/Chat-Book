@@ -6,7 +6,15 @@ package mo.ed.prof.yusor.Dev.Entity;
 
 public class FirebaseUsers {
 
-    private String imageUrl, userName, ID, Status;
+    private String imageUrl, userName, ID, Status, approved;
+
+    public String getApproved() {
+        return approved;
+    }
+
+    public void setApproved(String approved) {
+        this.approved = approved;
+    }
 
     public String getStatus() {
         return Status;
@@ -18,11 +26,12 @@ public class FirebaseUsers {
 
     public FirebaseUsers(){}
 
-    public FirebaseUsers(String imageUrl, String userName, String ID, String status) {
+    public FirebaseUsers(String imageUrl, String userName, String ID, String status, String approved_) {
         this.imageUrl = imageUrl;
         this.userName = userName;
         this.ID = ID;
         this.Status=status;
+        this.approved=approved_;
     }
 
     public String getID() {

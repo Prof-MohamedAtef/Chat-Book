@@ -73,11 +73,15 @@ public class ChatsFragment extends Fragment{
                 mChatssList.clear();
                 for (DataSnapshot snapshot:dataSnapshot.getChildren()){
                     FirebaseChat chat=snapshot.getValue(FirebaseChat.class);
-                    if (chat.getSender().equals(fUser.getUid())){
-                        mChatssList.add(chat.getReceiver().toString());
+                    String senderID=chat.getSender();
+                    String currentUID=fUser.getUid();
+                    String receiverID=chat.getReceiver().toString();
+                    if (senderID.equals(currentUID)){
+
+                        mChatssList.add(receiverID);
                     }
-                    if (chat.getReceiver().equals(fUser.getUid())){
-                        mChatssList.add(chat.getSender().toString());
+                    if (receiverID.equals(currentUID)){
+                        mChatssList.add(senderID.toString());
                     }
                 }
                 readChats();

@@ -16,7 +16,6 @@ import com.squareup.picasso.Picasso;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import mo.ed.prof.yusor.Activities.ChatActivity;
 import mo.ed.prof.yusor.Dev.MessageActivity;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.Config;
@@ -80,6 +79,7 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
                                 public void onClick(View v) {
                                     // go to chat with book owner
                                     // get owner id
+
                                     String PivotID=feedItem.getPivotID();
                                     String SellerUserName =feedItem.getSellerUserName();
                                     String SellerID=feedItem.getBookOwnerID();
@@ -94,6 +94,7 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
                                     String SellerEmail=feedItem.getSellerEmail();
                                     String SellerFacultyName=feedItem.getDepartmentName();
                                     Intent intent=new Intent(mContext,MessageActivity.class);
+                                    intent.putExtra("userid",feedItem.getFirebaseUiD());
                                     intent.putExtra(PivotID_KEY,PivotID);
                                     intent.putExtra(SellerUserName_KEY,SellerUserName);
                                     intent.putExtra(BookSellerID_KEY,SellerID);
@@ -107,7 +108,6 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
                                     intent.putExtra(Transaction_KEY,Transaction);
                                     intent.putExtra(SellerEmail_KEY,SellerEmail);
                                     intent.putExtra(SellerFacultyName_KEY,SellerFacultyName);
-
                                     mContext.startActivity(intent);
                                     Config.Buyer=true;
                                 }

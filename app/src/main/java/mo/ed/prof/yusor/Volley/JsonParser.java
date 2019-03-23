@@ -39,6 +39,7 @@ public class JsonParser {
     private static String book_Not_found_KEY="book Not found";
     private static String USER_ID_KEY="id";
     private static String UserID_STR;
+    private static String firbase_id_STR;
     private JSONArray BookEntityJsonAray;
     private JSONObject oneBookJsonObjectData;
     private String Book_Title_KEY ="title";
@@ -131,6 +132,7 @@ public class JsonParser {
                     UserName_STR= oneUserJsonObject.getString(KEY_UserName);
                     Gender_STR= oneUserJsonObject.getString(KEY_Gender);
                     UserID_STR=oneUserJsonObject.getString(USER_ID_KEY);
+                    firbase_id_STR=oneUserJsonObject.getString("firbase_id");
 //                JSONArray departmentJsonArray=null;
 //                try {
 //                    departmentJsonArray=oneUserJsonObject.getJSONArray(Department_KEY);
@@ -143,7 +145,7 @@ public class JsonParser {
 //                    Department_STR= oneDepartmentJsonObject.getString(Department_Name_KEY);
 //
 //                }
-                    studentsEntity= new StudentsEntity(API_Token_STR, PersonName_STR, Email_STR, UserName_STR,Gender_STR,Department_STR,UserID_STR,"","");
+                    studentsEntity= new StudentsEntity(API_Token_STR, PersonName_STR, Email_STR, UserName_STR,Gender_STR,Department_STR,UserID_STR,firbase_id_STR,"");
                     list.add(studentsEntity);
                 }
             }
@@ -207,6 +209,7 @@ public class JsonParser {
                     UserName_STR= oneUserJsonObject.getString(KEY_UserName);
                     Gender_STR= oneUserJsonObject.getString(KEY_Gender);
                     UserID_STR=oneUserJsonObject.getString(USER_ID_KEY);
+                    firbase_id_STR=oneUserJsonObject.getString("firbase_id");
 //                JSONArray departmentJsonArray=null;
 //                try {
 //                    departmentJsonArray=oneUserJsonObject.getJSONArray(Department_KEY);
@@ -219,7 +222,7 @@ public class JsonParser {
 //                    Department_STR= oneDepartmentJsonObject.getString(Department_Name_KEY);
 //
 //                }
-                    studentsEntity= new StudentsEntity(API_Token_STR, PersonName_STR, Email_STR, UserName_STR,Gender_STR,Department_STR,UserID_STR,"","");
+                    studentsEntity= new StudentsEntity(API_Token_STR, PersonName_STR, Email_STR, UserName_STR,Gender_STR,Department_STR,UserID_STR,firbase_id_STR,"");
                     list.add(studentsEntity);
                 }
             }
@@ -470,6 +473,7 @@ public class JsonParser {
                         Gender_STR= oneStudentJsonObject.getString(Gender_KEY);
                         Email_STR= oneStudentJsonObject.getString(Emai_KEY);
                         DepartmentID_STR= oneStudentJsonObject.getString(DepartmentID_KEY);
+                        firbase_id_STR= oneStudentJsonObject.getString("firbase_id");
 
                         try {
                             AuthorJsonArray= oneBookJsonObjectData.getJSONArray(AUTHOR_Obj_KEY);
@@ -494,7 +498,7 @@ public class JsonParser {
                                     TransactionType_STR, BookID_STR, Book_Title_STR, Book_Description_STR,
                                     PublishYear_STR,AuthorID_STR, DepartmentID_STR
                         ,ISBN_STR,PHOTO_STR, StudentID_STR,PersonName_STR, UserName_STR,
-                                    Gender_STR, Email_STR, DepartmentID_STR,DepartmentName_STR,AuthorName_STR,PivotID_STR);
+                                    Gender_STR, Email_STR, DepartmentID_STR,DepartmentName_STR,AuthorName_STR,PivotID_STR, firbase_id_STR);
                         list.add(studentsEntity);
                     }
                 }

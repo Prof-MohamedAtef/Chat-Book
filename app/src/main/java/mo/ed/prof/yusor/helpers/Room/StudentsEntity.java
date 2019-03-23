@@ -8,7 +8,16 @@ import java.io.Serializable;
 
 public class StudentsEntity implements Serializable {
     public static Object FBAccessToken;
-    String ProfilePhoto;
+    public String FirebaseUiD;
+    public String ProfilePhoto;
+
+    public String getFirebaseUiD() {
+        return FirebaseUiD;
+    }
+
+    public void setFirebaseUiD(String firebaseUiD) {
+        FirebaseUiD = firebaseUiD;
+    }
 
     public String getProfilePhoto() {
         return ProfilePhoto;
@@ -77,7 +86,7 @@ public class StudentsEntity implements Serializable {
                           String bookID_str1, String book_title_str, String book_description_str, String publishYear_str,
                           String authorID_str, String departmentID_str, String isbn_str, String photo_str, String studentID_str,
                           String personName_str, String userName_str, String gender_str, String email_str, String departmentID_str1,
-                          String department_name, String author_name, String pivot_id_str) {
+                          String department_name, String author_name, String pivot_id_str, String firbase_id_STR) {
         this.PivotID=pivot_id_str;
         this.BookOwnerID=sellerID_str;
         this.BookID=bookID_str;
@@ -98,6 +107,7 @@ public class StudentsEntity implements Serializable {
         this.SellerDepartmentID=departmentID_str1;
         this.AuthorTitle=author_name;
         this.DepartmentName=department_name;
+        this.FirebaseUiD=firbase_id_STR;
     }
 
     public String getUserID() {
@@ -293,7 +303,7 @@ public class StudentsEntity implements Serializable {
     }
 
     //Registration Constructor
-    public StudentsEntity(String api_token_str, String personName_str, String email_str, String userName_str, String gender_str, String department_str, String user_id,String x1,String x2) {
+    public StudentsEntity(String api_token_str, String personName_str, String email_str, String userName_str, String gender_str, String department_str, String user_id,String firbase_id,String x2) {
         this.API_TOKEN=api_token_str;
         this.PersonName=personName_str;
         this.Email=email_str;
@@ -301,6 +311,7 @@ public class StudentsEntity implements Serializable {
         this.Gender=gender_str;
         this.DepartmentName="NULL_DEPARTMENT";
         this.UserID=user_id;
+        this.FirebaseUiD=firbase_id;
     }
 
     public String getUserName() {

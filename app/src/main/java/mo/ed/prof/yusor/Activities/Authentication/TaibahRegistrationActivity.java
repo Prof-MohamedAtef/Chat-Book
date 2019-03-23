@@ -27,7 +27,6 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import mo.ed.prof.yusor.Activities.ChatActivity;
 import mo.ed.prof.yusor.Activities.MainActivity;
 import mo.ed.prof.yusor.Adapter.FacultiesSpinnerAdapter;
 import mo.ed.prof.yusor.GenericAsyncTasks.RetrieveDepartmentsAsyncTask;
@@ -107,6 +106,7 @@ ProgressGenerator.OnCompleteListener{
     private String Users_KEY ="users";
     private FirebaseAuth firebaseAuth;
     private DatabaseReference reference;
+    private String FirebaseUiD;
 
     @Override
     protected void onResume() {
@@ -214,7 +214,7 @@ ProgressGenerator.OnCompleteListener{
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()){
                                         progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener)TaibahRegistrationActivity.this, getApplicationContext());
-                                        progressGenerator.startSignUp(btnUpload, PersonName, FinalEmail, UserName, Password, ConfirmPassword, selectedGender, DepartmentID );
+                                        progressGenerator.startSignUp(btnUpload, PersonName, FinalEmail, UserName, Password, ConfirmPassword, selectedGender, DepartmentID,Config.FirebaseUserID );
                                     }
                                 }
                             });
@@ -234,13 +234,14 @@ ProgressGenerator.OnCompleteListener{
             selectedGender=studentsEntity.getGender();
             mToken=studentsEntity.getAPI_TOKEN();
             UserID=studentsEntity.getUserID();
+            FirebaseUiD=studentsEntity.getFirebaseUiD();
 //            DepartmentName=studentsEntity.getDepartmentName();
             //send authenticated user to firebase database
 //            firebaseUserHandler =new FirebaseUserHandler(UserID,mToken,selectedGender,show_message,Email,PersonName);
 //            firebaseEntities=new FirebaseEntites(mDatabase);
 //            firebaseEntities.AddUser(mDatabase,firebaseUserHandler);
         }
-        sessionManagement.createYusorLoginSession(mToken,PersonName,Email,UserName,selectedGender, DepartmentName,UserID);
+        sessionManagement.createYusorLoginSession(mToken,PersonName,Email,UserName,selectedGender, DepartmentName,UserID,FirebaseUiD);
         sessionManagement.createLoginSessionType("EP");
         Intent intent_create=new Intent(TaibahRegistrationActivity.this,MainActivity.class);
         startActivity(intent_create);

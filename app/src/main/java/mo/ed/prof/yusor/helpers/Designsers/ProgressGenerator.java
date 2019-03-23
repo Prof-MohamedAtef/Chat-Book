@@ -45,14 +45,14 @@ public class ProgressGenerator {
     private String KEY_Price="price";
     private String KEY_BookID="book_id";
 
-    public void startSignIn(final GenerateProcessButton btn_login, final String email, final String password) {
+    public void startSignIn(final GenerateProcessButton btn_login, final String email, final String password, final  String firebase_uid) {
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 mProgress += 10;
                 btn_login.setProgress(mProgress);
-                signInStudent(email, password);
+                signInStudent(email, password, firebase_uid);
                 if (mProgress < 5&&done!=Done_Key) {
                     handler.postDelayed(this, generateDelay());
                 }
@@ -140,14 +140,14 @@ public class ProgressGenerator {
         this.mContext=context;
     }
 
-    public void startSignUp(final ProcessButton button, final String P_name, final String Email, final String userName, final String Password, final String confirmPassword, final String Gender, final String departmentid) {
+    public void startSignUp(final ProcessButton button, final String P_name, final String Email, final String userName, final String Password, final String confirmPassword, final String Gender, final String departmentid, final String firbase_id) {
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 mProgress += 10;
                 button.setProgress(mProgress);
-                signUpStudent(P_name,Email,userName,Password, confirmPassword,Gender, departmentid);
+                signUpStudent(P_name,Email,userName,Password, confirmPassword,Gender, departmentid, firbase_id);
                 if (mProgress < 5&&done!=Done_Key) {
                     handler.postDelayed(this, generateDelay());
                 }
@@ -161,7 +161,7 @@ public class ProgressGenerator {
         return random.nextInt(1000);
     }
 
-    public void signUpStudent(final String personName, final String email, final String userName, final String password, final String confirmPassword ,final String selectedGender, final String departmentID) {
+    public void signUpStudent(final String personName, final String email, final String userName, final String password, final String confirmPassword ,final String selectedGender, final String departmentID, final String firbase_id) {
         final RequestQueue requestQueue  = Volley.newRequestQueue(mContext);
         StringRequest stringRequest=new StringRequest(Request.Method.POST,
                 "http://fla4news.com/Yusor/api/v1/register",
@@ -207,6 +207,7 @@ public class ProgressGenerator {
                 hashMap.put(KEY_ConfirmPass,confirmPassword);
                 hashMap.put(KEY_Gender,selectedGender);
                 hashMap.put(KEY_DepartmentID,departmentID);
+                hashMap.put("firbase_id",firbase_id);
                 return  hashMap;
             }
         };
@@ -215,7 +216,7 @@ public class ProgressGenerator {
 
 
 
-    public void signInStudent(final String email, final String password) {
+    public void signInStudent(final String email, final String password, final String firebase_uid) {
 //        final ProgressDialog loading = ProgressDialog.show(mContext, mContext.getResources().getString(R.string.loading), mContext.getResources().getString(R.string.uploading), false, false);
         final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
         StringRequest stringRequest=new StringRequest(Request.Method.POST,
@@ -257,6 +258,7 @@ public class ProgressGenerator {
                 HashMap<String,String> hashMap=new HashMap<>();
                 hashMap.put(KEY_Email,email);
                 hashMap.put(KEY_Password,password);
+                hashMap.put("firbase_id", firebase_uid);
                 return  hashMap;
             }
         };

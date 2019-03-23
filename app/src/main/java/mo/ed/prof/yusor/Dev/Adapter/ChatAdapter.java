@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,9 +22,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import mo.ed.prof.yusor.Activities.Authentication.TaibahRegistrationActivity;
 import mo.ed.prof.yusor.Dev.Entity.FirebaseChat;
 import mo.ed.prof.yusor.Dev.Entity.FirebaseUsers;
 import mo.ed.prof.yusor.Dev.MessageActivity;
@@ -34,6 +38,7 @@ import mo.ed.prof.yusor.R;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHOlder> implements Serializable {
 
+    private final String LOG_TAG = ChatAdapter.class.getSimpleName();
     private final boolean isChat;
     Context mContext;
     List<FirebaseUsers> feedItemList;
@@ -49,13 +54,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHOlder> im
     @NonNull
     @Override
     public ChatAdapter.ViewHOlder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_item, null);
         RecyclerView.ViewHolder viewHolder = new ChatAdapter.ViewHOlder(view);
         return (ChatAdapter.ViewHOlder) viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ChatAdapter.ViewHOlder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ChatAdapter.ViewHOlder holder, final int position) {
         final FirebaseUsers feedItem = feedItemList.get(position);
         if (feedItem != null) {
             if (feedItem.getUserName()!=null){
@@ -67,9 +72,38 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHOlder> im
                             .error(R.drawable.logo)
                             .into(holder.ProfileImage);
                 }
+                /*if (feedItem.getApproved().equals("none")){
+                    holder.btn_approve.setVisibility(View.VISIBLE);
+                }else {
+                    holder.img_approved.setVisibility(View.VISIBLE);
+                    Picasso.with(mContext).load(R.drawable.ic_action_approved)
+                            .error(R.drawable.logo)
+                            .into(holder.img_approved);
+                    holder.btn_approve.setVisibility(View.GONE);
+                    holder.Done.setVisibility(View.VISIBLE);
+                }*/
             }else{
                 holder.UserName.setText("");
             }
+            /*holder.btn_approve.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //send approval to server
+                    // if sent to mysql successfully {
+                    // push "approved" to approved node on firebase yusor-chat/Users childs
+                    // if (done){
+                    Approval("approved", feedItem.getID());
+                    holder.img_approved.setVisibility(View.VISIBLE);
+                    holder.Done.setVisibility(View.VISIBLE);
+                    Picasso.with(mContext).load(R.drawable.ic_action_approved)
+                            .error(R.drawable.logo)
+                            .into(holder.img_approved);
+                    holder.btn_approve.setVisibility(View.GONE);
+                    //}
+                    // }
+                }
+            });*/
+
             holder.RelativeUserContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -116,17 +150,35 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHOlder> im
         private final CircleImageView img_on;
         protected RelativeLayout RelativeUserContainer;
         protected CircleImageView ProfileImage;
+        protected CircleImageView img_approved;
         protected TextView UserName;
+        protected TextView Done;
+        protected Button btn_approve;
 
 
         public ViewHOlder(View converview) {
             super(converview);
             this.UserName= (TextView) converview.findViewById(R.id.UserName);
+            this.Done= (TextView) converview.findViewById(R.id.txt_done);
             this.ProfileImage=(CircleImageView)converview.findViewById(R.id.profile_image);
             this.RelativeUserContainer=(RelativeLayout)converview.findViewById(R.id.user_container);
             this.img_off=(CircleImageView)converview.findViewById(R.id.img_off);
             this.img_on=(CircleImageView)converview.findViewById(R.id.img_on);
+            this.img_approved=(CircleImageView)converview.findViewById(R.id.img_approved);
             this.last_msg= (TextView) converview.findViewById(R.id.last_msg);
+            this.btn_approve=(Button)converview.findViewById(R.id.btn_approve);
+        }
+    }
+
+    private void Approval(String status, String anotherUID){
+        try {
+            FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
+            DatabaseReference reference=FirebaseDatabase.getInstance().getReference("yusor-chat").child("Users").child(anotherUID);
+            HashMap<String, Object> hashMap=new HashMap<>();
+            hashMap.put("approved", status);
+            reference.updateChildren(hashMap);
+        }catch (Exception e){
+            Log.e(LOG_TAG, "Error ******** Error in Firebase Approval Method: ");
         }
     }
 
