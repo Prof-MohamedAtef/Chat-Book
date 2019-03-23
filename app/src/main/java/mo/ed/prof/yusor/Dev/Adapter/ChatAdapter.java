@@ -19,46 +19,43 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.io.Serializable;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import mo.ed.prof.yusor.Dev.Entity.FirebaseChat;
-import mo.ed.prof.yusor.Dev.MessageActivity;
 import mo.ed.prof.yusor.Dev.Entity.FirebaseUsers;
+import mo.ed.prof.yusor.Dev.MessageActivity;
 import mo.ed.prof.yusor.R;
 
 /**
- * Created by Prof-Mohamed Atef on 3/21/2019.
+ * Created by Prof-Mohamed Atef on 3/22/2019.
  */
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHOlder> implements Serializable {
+public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHOlder> implements Serializable {
 
+    private final boolean isChat;
     Context mContext;
     List<FirebaseUsers> feedItemList;
     public static String Default_KEY="default";
-    private boolean isChat;
     String mLastMessage;
 
-    public UserAdapter(Context mContext, List<FirebaseUsers> feedItemList, boolean is_chat) {
+    public ChatAdapter(Context mContext, List<FirebaseUsers> feedItemList, boolean is_chat) {
         this.mContext = mContext;
         this.feedItemList = feedItemList;
         this.isChat=is_chat;
-
     }
 
     @NonNull
     @Override
-    public ViewHOlder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ChatAdapter.ViewHOlder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item, null);
-        RecyclerView.ViewHolder viewHolder = new ViewHOlder(view);
-        return (ViewHOlder) viewHolder;
+        RecyclerView.ViewHolder viewHolder = new ChatAdapter.ViewHOlder(view);
+        return (ChatAdapter.ViewHOlder) viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHOlder holder, final int position) {
+    public void onBindViewHolder(@NonNull ChatAdapter.ViewHOlder holder, final int position) {
         final FirebaseUsers feedItem = feedItemList.get(position);
         if (feedItem != null) {
             if (feedItem.getUserName()!=null){
@@ -114,22 +111,22 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHOlder> im
 
     class ViewHOlder extends RecyclerView.ViewHolder {
 
+        protected TextView last_msg;
+        private final CircleImageView img_off;
+        private final CircleImageView img_on;
         protected RelativeLayout RelativeUserContainer;
         protected CircleImageView ProfileImage;
         protected TextView UserName;
-        protected CircleImageView img_off;
-        protected CircleImageView img_on;
-        protected TextView last_msg;
 
 
         public ViewHOlder(View converview) {
             super(converview);
             this.UserName= (TextView) converview.findViewById(R.id.UserName);
-            this.last_msg= (TextView) converview.findViewById(R.id.last_msg);
             this.ProfileImage=(CircleImageView)converview.findViewById(R.id.profile_image);
             this.RelativeUserContainer=(RelativeLayout)converview.findViewById(R.id.user_container);
             this.img_off=(CircleImageView)converview.findViewById(R.id.img_off);
             this.img_on=(CircleImageView)converview.findViewById(R.id.img_on);
+            this.last_msg= (TextView) converview.findViewById(R.id.last_msg);
         }
     }
 

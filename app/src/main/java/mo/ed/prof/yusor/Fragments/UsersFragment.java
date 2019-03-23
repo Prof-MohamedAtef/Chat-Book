@@ -26,7 +26,6 @@ import java.util.List;
 import mo.ed.prof.yusor.Dev.Adapter.UserAdapter;
 import mo.ed.prof.yusor.Dev.Entity.FirebaseUsers;
 import mo.ed.prof.yusor.R;
-import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 
 /**
  * Created by Prof-Mohamed Atef on 3/21/2019.
@@ -54,10 +53,9 @@ public class UsersFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View mainView = inflater.inflate(R.layout.user_list, container, false);
+        View mainView = inflater.inflate(R.layout.fragment_user_list, container, false);
         recyclerView=(RecyclerView)mainView.findViewById(R.id.recycler_view);
         mUsers=new ArrayList<>();
-
         return mainView;
     }
 
@@ -77,14 +75,13 @@ public class UsersFragment extends Fragment{
                 for (DataSnapshot snapshot:dataSnapshot.getChildren()){
                     FirebaseUsers users=snapshot.getValue(FirebaseUsers.class);
                     assert users!=null;
-                    if (!users.getID().equals(firebaseUser.getUid())){
+                     String fuser=firebaseUser.getUid();
+                    if (!users.getID().equals(fuser)){
                         mUsers.add(users);
                     }
                 }
                 PopulateUsersList(mUsers);
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -95,7 +92,7 @@ public class UsersFragment extends Fragment{
 
 
     private void PopulateUsersList(List<FirebaseUsers> typesArticlesList) {
-        UserAdapter mAdapter=new UserAdapter(getActivity(),typesArticlesList);
+        UserAdapter mAdapter=new UserAdapter(getActivity(),typesArticlesList, false);
         mAdapter.notifyDataSetChanged();
         recyclerView.setHasFixedSize(true);
         mLayoutManager=new LinearLayoutManager(getActivity());

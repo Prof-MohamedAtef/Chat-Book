@@ -140,13 +140,13 @@ ProgressGenerator.OnCompleteListener{
                 FirstName= Edit_first_name.getText().toString();
                 LastName=Edit_last_name.getText().toString();
                 PersonName=FirstName+" "+LastName;
-                EmailConst=email_type.getText().toString();
-                Email=Edit_email.getText().toString();
+                EmailConst=email_type.getText().toString().trim();
+                Email=Edit_email.getText().toString().trim();
                 FinalEmail=Email+EmailConst;
                 Config.FinalEmail=FinalEmail;
-                UserName=Edit_Username.getText().toString();
+                UserName=Edit_Username.getText().toString().trim();
                 Config.UserName=UserName;
-                Password=Edit_password.getText().toString();
+                Password=Edit_password.getText().toString().trim();
                 Config.Password=Password;
                 ConfirmPassword=Edit_confirmedPassword.getText().toString();
                 checkedRadioButtion=(RadioButton)radioGenderGroup.findViewById(radioGenderGroup.getCheckedRadioButtonId());
@@ -195,20 +195,20 @@ ProgressGenerator.OnCompleteListener{
     }
 
     private void signUpFirebase() {
-        firebaseAuth.createUserWithEmailAndPassword(Config.UserName,Config.Password)
+        firebaseAuth.createUserWithEmailAndPassword(Config.FinalEmail,Config.Password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
                             FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
                             String userID=firebaseUser.getUid();
+                            Config.FirebaseUserID=userID;
                             reference=FirebaseDatabase.getInstance().getReference("yusor-chat").child("Users").child(userID);
-
                             HashMap<String,String> hashMap=new HashMap<>();
                             hashMap.put("id",userID);
                             hashMap.put("userName",Config.FinalEmail);
                             hashMap.put("imageUrl","default");
-
+                            hashMap.put("status","offline");
                             reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {

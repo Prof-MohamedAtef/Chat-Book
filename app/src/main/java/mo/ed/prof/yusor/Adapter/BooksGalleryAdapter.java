@@ -17,6 +17,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import mo.ed.prof.yusor.Activities.ChatActivity;
+import mo.ed.prof.yusor.Dev.MessageActivity;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.Config;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
@@ -92,7 +93,7 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
                                     String Transaction=feedItem.getTransactionType();
                                     String SellerEmail=feedItem.getSellerEmail();
                                     String SellerFacultyName=feedItem.getDepartmentName();
-                                    Intent intent=new Intent(mContext,ChatActivity.class);
+                                    Intent intent=new Intent(mContext,MessageActivity.class);
                                     intent.putExtra(PivotID_KEY,PivotID);
                                     intent.putExtra(SellerUserName_KEY,SellerUserName);
                                     intent.putExtra(BookSellerID_KEY,SellerID);

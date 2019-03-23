@@ -50,6 +50,7 @@ public class Config {
     public static String FinalEmail;
     public static String Password;
     public static String UserName;
+    public static String FirebaseUserID;
 
     // public static final String[] Faculties={
 //            Resources.getSystem().getResourceName(R.string.faculty_computer_sciences_engineering).toString(),

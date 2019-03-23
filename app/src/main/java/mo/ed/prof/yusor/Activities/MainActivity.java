@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     NoInternetFragment noInternetFragment;
     private BooksGalleryFragment booksGalleryFragment;
     private String LoggedType;
+    private String firebaseUserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
             LoggedUserName=user.get(SessionManagement.KEY_NAME);
             LoggedProfilePic=user.get(SessionManagement.KEY_Profile_Pic);
             TokenID=user.get(SessionManagement.KEY_idToken);
+            firebaseUserID=user.get(SessionManagement.firebase_UID_KEY);
             if (LoggedEmail!=null){
                 EmailText.setText(LoggedEmail);
             }

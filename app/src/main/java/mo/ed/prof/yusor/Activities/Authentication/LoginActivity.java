@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -26,6 +27,7 @@ import mo.ed.prof.yusor.Activities.ChatActivity;
 import mo.ed.prof.yusor.Activities.MainActivity;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
+import mo.ed.prof.yusor.helpers.Config;
 import mo.ed.prof.yusor.helpers.Designsers.ProgressGenerator;
 import mo.ed.prof.yusor.helpers.Firebase.AuthenticationHandler.FirebaseUserHandler;
 import mo.ed.prof.yusor.helpers.Firebase.FirebaseEntites;
@@ -185,6 +187,9 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
+                            String userID=firebaseUser.getUid();
+                            Config.FirebaseUserID=userID;
                             progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener) LoginActivity.this, getApplicationContext());
                             progressGenerator.startSignIn(btn_login, email, password);
                         } else {

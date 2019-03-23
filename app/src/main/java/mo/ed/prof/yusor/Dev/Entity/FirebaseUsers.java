@@ -6,14 +6,23 @@ package mo.ed.prof.yusor.Dev.Entity;
 
 public class FirebaseUsers {
 
-    private String imageUrl, userName, ID;
+    private String imageUrl, userName, ID, Status;
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
+    }
 
     public FirebaseUsers(){}
 
-    public FirebaseUsers(String imageUrl, String userName, String ID) {
+    public FirebaseUsers(String imageUrl, String userName, String ID, String status) {
         this.imageUrl = imageUrl;
         this.userName = userName;
         this.ID = ID;
+        this.Status=status;
     }
 
     public String getID() {

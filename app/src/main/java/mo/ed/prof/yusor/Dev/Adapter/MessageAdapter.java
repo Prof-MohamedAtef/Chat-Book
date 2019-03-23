@@ -60,13 +60,26 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHOld
     public void onBindViewHolder(@NonNull MessageAdapter.ViewHOlder holder, final int position) {
         final FirebaseChat feedItem = feedItemList.get(position);
         if (feedItem!=null){
-            holder.show_message.setText(feedItem.getMessage());
-            if (imgUrl.equals("default")){
-                holder.ProfileImage.setImageResource(R.drawable.logo);
+            if (feedItem.getMessage()!=null){
+                holder.show_message.setText(feedItem.getMessage());
+                if (imgUrl.equals("default")){
+                    holder.ProfileImage.setImageResource(R.drawable.logo);
+                }else {
+                    Picasso.with(mContext).load(imgUrl)
+                            .error(R.drawable.logo)
+                            .into(holder.ProfileImage);
+                }
             }else {
-                Picasso.with(mContext).load(imgUrl)
-                        .error(R.drawable.logo)
-                        .into(holder.ProfileImage);
+                holder.show_message.setText("");
+            }
+            if (position==feedItemList.size()-1){
+                if (feedItem.isIsseen()){
+                    holder.text_seen.setText("Seen");
+                }else {
+                    holder.text_seen.setText("Delivered");
+                }
+            }else {
+                holder.text_seen.setVisibility(View.GONE);
             }
         }
     }
@@ -79,7 +92,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHOld
         }
         return size;
     }
-
 
     @Override
     public int getItemViewType(int position) {
@@ -97,14 +109,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHOld
         protected RelativeLayout RelativeUserContainer;
         protected CircleImageView ProfileImage;
         protected TextView show_message;
+        public TextView text_seen;
 
 
         public ViewHOlder(View converview) {
             super(converview);
-            this.show_message = (TextView) converview.findViewById(R.id.UserName);
+            this.show_message = (TextView) converview.findViewById(R.id.show_message);
+            this.text_seen= (TextView) converview.findViewById(R.id.text_seen);
             this.ProfileImage=(CircleImageView)converview.findViewById(R.id.profile_image);
         }
     }
-
-
 }

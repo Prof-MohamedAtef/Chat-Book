@@ -28,6 +28,7 @@ public class SessionManagement {
     public static final String KEY_UserName= "show_message";
     public static final String KEY_Gender= "Gender";
     public static final String KEY_DepartmentName= "DepartmentName";
+    public static final String firebase_UID_KEY="firebase_UID_KEY";
 
     public SessionManagement(Context context) {
         this._context = context;
@@ -84,6 +85,7 @@ public class SessionManagement {
         editor.putString(KEY_UserName, userName);
         editor.putString(KEY_Gender, gender);
         editor.putString(KEY_DepartmentName, departmentName);
+        editor.putString(firebase_UID_KEY, departmentName);
 
         editor.commit();
     }
@@ -97,6 +99,7 @@ public class SessionManagement {
         user.put(KEY_DepartmentName, pref.getString(KEY_DepartmentName, null));
         user.put(KEY_userID, pref.getString(KEY_userID, null));
         user.put(KEY_idToken, pref.getString(KEY_idToken, null));
+        user.put(firebase_UID_KEY, pref.getString(firebase_UID_KEY, null));
         return user;
     }
 

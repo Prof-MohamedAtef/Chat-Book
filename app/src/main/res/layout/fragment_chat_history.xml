@@ -5,7 +5,7 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context="mo.ed.prof.yusor.Activities.ChatHistoryActivity">
 <ListView
-    android:id="@+id/bloodbank_listView"
+    android:id="@+id/listView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"/>
 </RelativeLayout>

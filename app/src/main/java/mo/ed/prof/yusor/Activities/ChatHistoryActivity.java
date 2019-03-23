@@ -24,10 +24,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import mo.ed.prof.yusor.Dev.Entity.FirebaseChat;
 import mo.ed.prof.yusor.Dev.Entity.FirebaseUsers;
-import mo.ed.prof.yusor.Fragments.Fragment_Books;
-import mo.ed.prof.yusor.Fragments.Fragment_Chats;
+import mo.ed.prof.yusor.Fragments.BooksFragment;
+import mo.ed.prof.yusor.Fragments.ChatsFragment;
 import mo.ed.prof.yusor.Fragments.UsersFragment;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
@@ -52,6 +54,8 @@ public class ChatHistoryActivity extends AppCompatActivity {
     private StudentsEntity studentsEntity;
     private FirebaseUser firebaseUser;
     private DatabaseReference reference;
+    private int unread;
+    private TabLayout tabLayout;
 
 
     @Override
@@ -62,30 +66,65 @@ public class ChatHistoryActivity extends AppCompatActivity {
         this.setTitle("Chat");
         studentsEntity = new StudentsEntity();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar_layout);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.chat_container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
 
-        firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
-        reference= FirebaseDatabase.getInstance().getReference("yusor-chat").child("Users").child(firebaseUser.getUid());
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+        reference=FirebaseDatabase.getInstance().getReference("yusor-chat").child("Chats");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                FirebaseUsers users= dataSnapshot.getValue(FirebaseUsers.class);
+                unread=0;
+                for (DataSnapshot snapshot:dataSnapshot.getChildren()){
+                    FirebaseChat chat=snapshot.getValue(FirebaseChat.class);
+                    if (chat.getReceiver().equals(firebaseUser.getUid()) && !chat.isIsseen()){
+                        unread++;
+                    }
+                }
 
+                if (unread==0){
+                    mSectionsPagerAdapter.addFragment(new ChatsFragment(), "Chats");
+                }else {
+                    mSectionsPagerAdapter.addFragment(new ChatsFragment(), "("+unread+")Chats");
+                }
+
+                mSectionsPagerAdapter.addFragment(new UsersFragment(), "Students");
+
+                mSectionsPagerAdapter.addFragment(new BooksFragment(), "Books");
+
+                mViewPager.setAdapter(mSectionsPagerAdapter);
+                tabLayout.setupWithViewPager(mViewPager);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+
+
+
+
+
+        reference= FirebaseDatabase.getInstance().getReference("yusor-chat").child("Users").child(firebaseUser.getUid());
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                FirebaseUsers users= dataSnapshot.getValue(FirebaseUsers.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
     }
@@ -156,43 +195,82 @@ public class ChatHistoryActivity extends AppCompatActivity {
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
+        private ArrayList<Fragment> fragments;
+        private ArrayList<String> titles;
+
+
+
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
+            this.fragments=new ArrayList<>();
+            this.titles=new ArrayList<>();
         }
 
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            switch (position) {
-                case 0:
-                    return UsersFragment.newInstance(0);
-                case 1:
-                    return Fragment_Chats.newInstance(1);
-                case 2:
-                    return Fragment_Books.newInstance(2);
-                default:
-                    return PlaceholderFragment.newInstance(position + 3);
-            }
+//            switch (position) {
+//                case 0:
+//                    return UsersFragment.newInstance(0);
+//                case 1:
+//                    return ChatsFragment.newInstance(1);
+//                case 2:
+//                    return BooksFragment.newInstance(2);
+//                default:
+//                    return PlaceholderFragment.newInstance(position + 3);
+//            }
+
+            return fragments.get(position);
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return fragments.size();
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-                switch (position) {
-                    case 0:
-                        return "Users";
-                    case 1:
-                        return "Chat";
-                    case 2:
-                        return "Books";
-                }
-            return super.getPageTitle(position);
+//                switch (position) {
+//                    case 0:
+//                        return "Users";
+//                    case 1:
+//                        return "Chat";
+//                    case 2:
+//                        return "Books";
+//                }
+//            return super.getPageTitle(position);
+
+            return titles.get(position);
         }
+
+        public void addFragment(Fragment fragment,String title){
+            fragments.add(fragment);
+            titles.add(title);
+        }
+
+
+
+    }
+
+    private void Status(String status){
+        reference=FirebaseDatabase.getInstance().getReference("yusor-chat").child("Users").child(firebaseUser.getUid());
+        HashMap<String, Object> hashMap=new HashMap<>();
+        hashMap.put("status", status);
+
+        reference.updateChildren(hashMap);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Status("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Status("offline");
     }
 }
