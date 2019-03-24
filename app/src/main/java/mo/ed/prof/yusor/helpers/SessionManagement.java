@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 
 import java.util.HashMap;
 
-import mo.ed.prof.yusor.Activities.SplashActivity;
+import mo.ed.prof.yusor.Activities.Authentication.SplashActivity;
 
 /**
  * Created by Prof-Mohamed Atef on 2/5/2019.

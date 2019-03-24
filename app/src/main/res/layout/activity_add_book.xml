@@ -12,7 +12,7 @@
     android:orientation="vertical"
     android:background="@color/white"
     android:gravity="center_vertical|center_horizontal"
-    tools:context="mo.ed.prof.yusor.Activities.AddBookActivity">
+    tools:context="mo.ed.prof.yusor.Activities.AddBook.AddBookActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

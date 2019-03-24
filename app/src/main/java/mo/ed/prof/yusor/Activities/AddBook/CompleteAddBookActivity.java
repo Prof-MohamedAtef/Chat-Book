@@ -1,4 +1,4 @@
-package mo.ed.prof.yusor.Activities;
+package mo.ed.prof.yusor.Activities.AddBook;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -16,25 +16,14 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import mo.ed.prof.yusor.Activities.Authentication.TaibahRegistrationActivity;
+import mo.ed.prof.yusor.Activities.MainActivity;
 import mo.ed.prof.yusor.Fragments.FragmentPriecsSuggestions;
-import mo.ed.prof.yusor.Fragments.SelectBookFragmentIFExist;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.Config;
 import mo.ed.prof.yusor.helpers.Designsers.ProgressGenerator;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
-
-import static mo.ed.prof.yusor.Activities.AddBookActivity.AUTHOR_NAME_KEY;
-import static mo.ed.prof.yusor.Activities.AddBookActivity.BookID_KEY;
-import static mo.ed.prof.yusor.Activities.AddBookActivity.BookTitle_KEY;
-import static mo.ed.prof.yusor.Activities.AddBookActivity.ExistingBook;
-import static mo.ed.prof.yusor.Activities.AddBookActivity.FacultyName_KEY;
-import static mo.ed.prof.yusor.Activities.AddBookActivity.ISBN_KEY;
-import static mo.ed.prof.yusor.Activities.AddBookActivity.ImageUri_KEY;
-import static mo.ed.prof.yusor.Activities.AddBookActivity.NextNewBook;
-import static mo.ed.prof.yusor.Activities.AddBookActivity.PublishYear_KEY;
 
 public class CompleteAddBookActivity extends AppCompatActivity implements ProgressGenerator.OnCompleteListener{
 
@@ -85,12 +74,12 @@ public class CompleteAddBookActivity extends AppCompatActivity implements Progre
         verifyConnection=new VerifyConnection(getApplicationContext());
         sessionManagement=new SessionManagement(getApplicationContext());
         user=sessionManagement.getUserDetails();
-        if (Config.BookExistence.equals(ExistingBook)){
-            BookTitle= getIntent().getExtras().getString(BookTitle_KEY);
-            BookID= getIntent().getExtras().getString(BookID_KEY);
+        if (Config.BookExistence.equals(AddBookActivity.ExistingBook)){
+            BookTitle= getIntent().getExtras().getString(AddBookActivity.BookTitle_KEY);
+            BookID= getIntent().getExtras().getString(AddBookActivity.BookID_KEY);
             Config.BookID=BookID;
-            bundle.putString(BookTitle_KEY,BookTitle);
-            bundle.putString(BookID_KEY,BookID);
+            bundle.putString(AddBookActivity.BookTitle_KEY,BookTitle);
+            bundle.putString(AddBookActivity.BookID_KEY,BookID);
         }
         NavigatToFragments(BookID);
     }
@@ -144,7 +133,7 @@ public class CompleteAddBookActivity extends AppCompatActivity implements Progre
     }
 
     private void NavigatToFragments(String bookID) {
-        bundle.putString(BookID_KEY,bookID);
+        bundle.putString(AddBookActivity.BookID_KEY,bookID);
         fragmentPriecsSuggestions.setArguments(bundle);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame_prices_suggestions, fragmentPriecsSuggestions, FragsSuggest_KEY)

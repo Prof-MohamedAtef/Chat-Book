@@ -3,10 +3,14 @@ package mo.ed.prof.yusor.helpers;
 import android.content.res.Resources;
 import android.net.Uri;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
+import mo.ed.prof.yusor.Dev.Entity.FirebaseUsers;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 
@@ -51,6 +55,11 @@ public class Config {
     public static String Password;
     public static String UserName;
     public static String FirebaseUserID;
+    public static CopyOnWriteArrayList<FirebaseUsers> ChatList;
+    public static String billSpinbuyerID;
+    public static String billSpBookName;
+    public static int billSpinBuyPos;
+    public static CopyOnWriteArrayList<FirebaseUsers> chattingList;
 
     // public static final String[] Faculties={
 //            Resources.getSystem().getResourceName(R.string.faculty_computer_sciences_engineering).toString(),

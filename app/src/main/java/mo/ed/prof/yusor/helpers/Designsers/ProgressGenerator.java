@@ -1,9 +1,7 @@
 package mo.ed.prof.yusor.helpers.Designsers;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Handler;
-import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -16,6 +14,7 @@ import com.dd.processbutton.ProcessButton;
 import com.dd.processbutton.iml.GenerateProcessButton;
 import org.json.JSONException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -121,6 +120,72 @@ public class ProgressGenerator {
                 hashMap.put(KEY_TransactionType,sentTransactionType);
                 hashMap.put(KEY_Availability,sentAvailability);
                 hashMap.put(KEY_TokenID,tokenID);
+                return  hashMap;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+    public void addBill(final GenerateProcessButton createBill_btn, final String buyerID, final String bookPrice, final String owner_status , final String buyer_status, final String book_id, final String APIToken) {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mProgress += 10;
+                createBill_btn.setProgress(mProgress);
+                addBill(buyerID,bookPrice,owner_status,buyer_status,book_id,APIToken);
+                if (mProgress < 5&&done!=Done_Key) {
+                    handler.postDelayed(this, generateDelay());
+                }
+            }
+        }, generateDelay());
+    }
+
+    private void addBill(final String buyerID, final String Price, final String owner_Status, final String buyer_status, final String book_id, final String APIToken) {
+        final RequestQueue requestQueue  = Volley.newRequestQueue(mContext);
+        StringRequest stringRequest=new StringRequest(Request.Method.POST,
+                "http://fla4news.com/Yusor/api/v1/create_bill",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.matches("")){
+                            Toast.makeText(mContext, mContext.getResources().getString(R.string.failed), Toast.LENGTH_LONG).show();
+                        }else {
+                            try {
+                                JsonParser jsonParser = new JsonParser();
+                                ArrayList<StudentsEntity> studentsEntities = jsonParser.returnCreatedBill(response);
+                                if (studentsEntities != null) {
+                                    done = Done_Key;
+                                    if (studentsEntities.size() > 0) {
+                                        mListener.onComplete(studentsEntities);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                loading.dismiss();
+                //Showing toast
+                if (error!=null){
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> hashMap=new HashMap<>();
+                hashMap.put("firbase_id",buyerID);
+                hashMap.put("TotalAmount",Price);
+                hashMap.put("owner_status",owner_Status);
+                hashMap.put("buyer_status",buyer_status);
+                hashMap.put("book_id",book_id);
+                hashMap.put("api_token",APIToken);
                 return  hashMap;
             }
         };

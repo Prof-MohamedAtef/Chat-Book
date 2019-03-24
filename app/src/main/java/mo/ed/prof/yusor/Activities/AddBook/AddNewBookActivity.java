@@ -1,4 +1,4 @@
-package mo.ed.prof.yusor.Activities;
+package mo.ed.prof.yusor.Activities.AddBook;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import mo.ed.prof.yusor.Activities.AddBook.CompleteAddBookActivity;
 import mo.ed.prof.yusor.Fragments.FragmentNewBookDetails;
 import mo.ed.prof.yusor.Fragments.SelectBookFragmentIFExist;
 import mo.ed.prof.yusor.R;

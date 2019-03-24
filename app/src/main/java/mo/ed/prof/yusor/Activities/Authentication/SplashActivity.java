@@ -1,4 +1,4 @@
-package mo.ed.prof.yusor.Activities;
+package mo.ed.prof.yusor.Activities.Authentication;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import mo.ed.prof.yusor.Activities.Authentication.AuthenticationChoiceActivity;
+import mo.ed.prof.yusor.Activities.MainActivity;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 import java.util.HashMap;

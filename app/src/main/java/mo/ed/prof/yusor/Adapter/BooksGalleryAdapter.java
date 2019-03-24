@@ -2,6 +2,7 @@ package mo.ed.prof.yusor.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.squareup.picasso.Picasso;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import mo.ed.prof.yusor.Activities.BillApprove.BookDetailActivity;
 import mo.ed.prof.yusor.Dev.MessageActivity;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.Config;
@@ -43,6 +45,20 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
     public static String BookDescription_KEY="BookDescription_KEY";
     public static String BookSellerID_KEY="BookSellerID_KEY";
     public static String PivotID_KEY="PivotID_KEY";
+    private Intent intent;
+    private String PivotID;
+    private String SellerUserName;
+    private String SellerID;
+    private String BookID;
+    private String BookName;
+    private String BookDescription;
+    private String PublishYear;
+    private String AuthorName;
+    private String ISBN;
+    private String Price;
+    private String Transaction;
+    private String SellerEmail;
+    private String SellerFacultyName;
 
     public BooksGalleryAdapter(Context mContext, ArrayList<StudentsEntity> feedItemList, boolean twoPane) {
         this.mContext = mContext;
@@ -74,26 +90,25 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
                                     .into(holder.Image);
                         }
                         if (feedItem.getBookOwnerID() != null) {
+                            PivotID=feedItem.getPivotID();
+                            SellerUserName =feedItem.getSellerUserName();
+                            SellerID=feedItem.getBookOwnerID();
+                            BookID=feedItem.getBookID();
+                            BookName=feedItem.getBookTitle();
+                            BookDescription=feedItem.getBookDescription();
+                            PublishYear=feedItem.getPublishYear();
+                            AuthorName=feedItem.getAuthorTitle();
+                            ISBN=feedItem.getISBN_NUM();
+                            Price=feedItem.getBookPrice();
+                            Transaction=feedItem.getTransactionType();
+                            SellerEmail=feedItem.getSellerEmail();
+                            SellerFacultyName=feedItem.getDepartmentName();
                             holder.BTN_StartChat.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     // go to chat with book owner
                                     // get owner id
-
-                                    String PivotID=feedItem.getPivotID();
-                                    String SellerUserName =feedItem.getSellerUserName();
-                                    String SellerID=feedItem.getBookOwnerID();
-                                    String BookID=feedItem.getBookID();
-                                    String BookName=feedItem.getBookTitle();
-                                    String BookDescription=feedItem.getBookDescription();
-                                    String PublishYear=feedItem.getPublishYear();
-                                    String AuthorName=feedItem.getAuthorTitle();
-                                    String ISBN=feedItem.getISBN_NUM();
-                                    String Price=feedItem.getBookPrice();
-                                    String Transaction=feedItem.getTransactionType();
-                                    String SellerEmail=feedItem.getSellerEmail();
-                                    String SellerFacultyName=feedItem.getDepartmentName();
-                                    Intent intent=new Intent(mContext,MessageActivity.class);
+                                    intent=new Intent(mContext,MessageActivity.class);
                                     intent.putExtra("userid",feedItem.getFirebaseUiD());
                                     intent.putExtra(PivotID_KEY,PivotID);
                                     intent.putExtra(SellerUserName_KEY,SellerUserName);
@@ -108,6 +123,18 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
                                     intent.putExtra(Transaction_KEY,Transaction);
                                     intent.putExtra(SellerEmail_KEY,SellerEmail);
                                     intent.putExtra(SellerFacultyName_KEY,SellerFacultyName);
+                                    mContext.startActivity(intent);
+                                    Config.Buyer=true;
+                                }
+                            });
+
+                            holder.BTN_Details.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    intent=new Intent(mContext,BookDetailActivity.class);
+                                    Bundle bundle=new Bundle();
+                                    bundle.putSerializable("feedItem",feedItem);
+                                    intent.putExtras(bundle);
                                     mContext.startActivity(intent);
                                     Config.Buyer=true;
                                 }

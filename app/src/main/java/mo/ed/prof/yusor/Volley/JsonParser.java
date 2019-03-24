@@ -96,6 +96,26 @@ public class JsonParser {
     private String DepartmentName_STR;
     private String DepartmentName_KEY="name";
     private String PivotID_STR;
+    private String billAdded_KEY="bill added";
+    private JSONArray billEntityJsonAray;
+    private JSONObject oneBillJsonObjectData;
+    private JSONArray BookJsonArray;
+    private String BuyerID_STR;
+    private String OwnerStatus_STR;
+    private String BuyerStatus_STR;
+    private String BillID_STR;
+    private String SellerPName_STR;
+    private String SellerUserName_STR;
+    private String SellerGender_STR;
+    private String SellerEmail_STR;
+    private String SellerFireBUiD_STR;
+    private JSONArray buyerJsonArray;
+    private String BuyerPName_STR;
+    private String BuyerUserName_STR;
+    private String BuyerGender_STR;
+    private String BuyerEmail_STR;
+    private String BuyerDepartmentID_STR;
+    private String BuyerFireBUiD_STR;
 
     public JsonParser( ){
 
@@ -498,7 +518,7 @@ public class JsonParser {
                                     TransactionType_STR, BookID_STR, Book_Title_STR, Book_Description_STR,
                                     PublishYear_STR,AuthorID_STR, DepartmentID_STR
                         ,ISBN_STR,PHOTO_STR, StudentID_STR,PersonName_STR, UserName_STR,
-                                    Gender_STR, Email_STR, DepartmentID_STR,DepartmentName_STR,AuthorName_STR,PivotID_STR, firbase_id_STR);
+                                    Gender_STR, Email_STR, DepartmentID_STR,DepartmentName_STR,AuthorName_STR,PivotID_STR, firbase_id_STR, BookStatus_STR);
                         list.add(studentsEntity);
                     }
                 }
@@ -514,6 +534,93 @@ public class JsonParser {
             list.add(studentsEntity);
         }else if (MSG_STR.equals(Invalid_Format)){
             studentsEntity.setException(Invalid_Format);
+            list.add(studentsEntity);
+        }
+        return list;
+    }
+
+    public ArrayList<StudentsEntity> returnCreatedBill(String response) throws JSONException{
+        studentsEntity= new StudentsEntity();
+        UsersDesiresJson = new JSONObject(response);
+        MSG_STR = UsersDesiresJson.getString("msg");
+        if (MSG_STR.equals(billAdded_KEY)){
+            try {
+                billEntityJsonAray = UsersDesiresJson.getJSONArray("data");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            list.clear();
+            for (int i = 0; i < billEntityJsonAray.length(); i++) {
+                oneBillJsonObjectData = billEntityJsonAray.getJSONObject(i);
+                BillID_STR=oneBillJsonObjectData.getString("id");
+                Price_STR=oneBillJsonObjectData.getString("TotalAmount");
+                OwnerStatus_STR=oneBillJsonObjectData.getString("owner_status");
+                BuyerStatus_STR=oneBillJsonObjectData.getString("buyer_status");
+                StudentID_STR=oneBillJsonObjectData.getString("student_id");
+
+
+
+                JSONArray authorJsonArray = null;
+                try {
+                    BookJsonArray= oneBillJsonObjectData.getJSONArray("book");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                for (int x = 0; x < BookJsonArray.length(); x++) {
+                    JSONObject oneBookJsonObject = BookJsonArray.getJSONObject(x);
+                    BookID_STR=oneBookJsonObject .getString("id");
+                    Book_Title_STR = oneBookJsonObject .getString(Book_Title_KEY);
+                    Book_Description_STR = oneBookJsonObject .getString(Book_Description_KEY);
+                    PublishYear_STR = oneBookJsonObject .getString(PublishYear_KEY);
+                    AuthorID_STR = oneBookJsonObject .getString(AuthorID_KEY);
+                    DepartmentID_STR = oneBookJsonObject .getString(KEY_DepartmentID);
+                    ISBN_STR = oneBookJsonObject .getString(ISBN_Num_KEY);
+                    PHOTO_STR = oneBookJsonObject .getString(PHOTO_KEY);
+                    ISBN_STR= oneBookJsonObject .getString("ISBN_num");
+                    StudentID_STR= oneBookJsonObject .getString("student_id");
+                    try {
+                        studentJsonArray= oneBillJsonObjectData.getJSONArray("student");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    for (int k = 0; k < studentJsonArray.length(); k++) {
+                        JSONObject oneStudentJsonObjectData = studentJsonArray.getJSONObject(k);
+                        BookID_STR = oneStudentJsonObjectData.getString("id");
+                        SellerPName_STR = oneStudentJsonObjectData.getString("perso_name");
+                        SellerUserName_STR= oneStudentJsonObjectData.getString("UserName");
+                        SellerGender_STR= oneStudentJsonObjectData.getString("Gender");
+                        SellerEmail_STR= oneStudentJsonObjectData.getString("Email");
+                        DepartmentID_STR = oneStudentJsonObjectData.getString("department_id");
+                        SellerFireBUiD_STR = oneStudentJsonObjectData.getString("firbase_id");
+                        try {
+                            buyerJsonArray= oneBillJsonObjectData.getJSONArray("buyer");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        for (int l = 0; l < buyerJsonArray.length(); l++) {
+                            JSONObject oneBuyerJsonObjectData = buyerJsonArray.getJSONObject(l);
+                            BuyerID_STR = oneBuyerJsonObjectData.getString("id");
+                            BuyerPName_STR = oneBuyerJsonObjectData.getString("perso_name");
+                            BuyerUserName_STR= oneBuyerJsonObjectData.getString("UserName");
+                            BuyerGender_STR= oneBuyerJsonObjectData.getString("Gender");
+                            BuyerEmail_STR= oneBuyerJsonObjectData.getString("Email");
+                            BuyerDepartmentID_STR = oneBuyerJsonObjectData.getString("department_id");
+                            BuyerFireBUiD_STR = oneBuyerJsonObjectData.getString("firbase_id");
+                            studentsEntity= new StudentsEntity(BillID_STR, Price_STR,OwnerStatus_STR, BuyerStatus_STR, StudentID_STR, BuyerID_STR,
+                                    BookID_STR, Book_Title_STR, Book_Description_STR, PublishYear_STR, AuthorID_STR, DepartmentID_STR, ISBN_STR,
+                                    PHOTO_STR, StudentID_STR, BookID_STR, SellerPName_STR, SellerUserName_STR, SellerGender_STR, SellerEmail_STR,
+                                    DepartmentID_STR, SellerFireBUiD_STR, BuyerPName_STR,BuyerUserName_STR, BuyerGender_STR, BuyerEmail_STR,
+                                    BuyerDepartmentID_STR, BuyerFireBUiD_STR);
+                            list.add(studentsEntity);
+                        }
+                    }
+                }
+            }
+        }else if (MSG_STR.equals( "bill  not added")){
+            studentsEntity.setException("bill  not added");
+            list.add(studentsEntity);
+        }else if (MSG_STR.equals("book Not found")){
+            studentsEntity.setException("book Not found");
             list.add(studentsEntity);
         }
         return list;

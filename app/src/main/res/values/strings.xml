@@ -31,16 +31,21 @@
     <string name="date_time">Date and Time</string>
     <string name="chat">Start Chat</string>
 
-    <string name="book_name">Book Name :</string>
+    <string name="book_name">Book Name</string>
+    <string name="book_name_">Book Name :</string>
     <string name="call">call</string>
     <string name="book_status">Book Statue :</string>
     <string name="book_price">Book Price :</string>
+    <string name="price">in SR</string>
     <string name="agreement">This Bill has been issued after request of the buyer and the agrrement had been made upon sale with the mentioned price, hence both of the seller and buyer should assign on this bill to complete the transaction.</string>
     <string name="hint_book_name">Enter Book Name</string>
     <string name="author_name">Author Name</string>
     <string name="isbn_number">ISBN Number</string>
+    <string name="isbn_number_">ISBN Number :</string>
     <string name="enter_ISBN">Enter ISBN Number</string>
     <string name="enter_description">Enter Description</string>
+    <string name="description">Description</string>
+    <string name="description_">Description :</string>
     <string name="hint_enter_description">Enter Description</string>
     <string name="hint_isbn_number">Enter ISBN Number</string>
     <string name="author_name_">Author Name :</string>
@@ -48,10 +53,13 @@
     <string name="bill_num">Bill Number :</string>
     <string name="profile_name">ProfileName</string>
     <string name="gender">Gender</string>
+    <string name="gender_">Gender :</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="hint_Faculty">Enter Your Faculty</string>
     <string name="Faculty">Faculty</string>
+    <string name="Faculty_">Faculty :</string>
     <string name="Book_status">Book Status</string>
+    <string name="Book_status_">Book Status :</string>
     <string name="book_availability">Book Availability</string>
     <string name="purpose">Purpose</string>
     <string name="btn_publish">Publish</string>
@@ -68,6 +76,7 @@
     <string name="transaction_type">Transaction Type</string>
     <string name="hint_transaction_type">Select Transaction Type</string>
     <string name="sale">Sale</string>
+    <string name="add_to_bills">Add To Bills</string>
     <string name="exchange">Exchange</string>
     <string name="gift">Gift</string>
     <string name="Attach_Photo">Attach Book Photo</string>
@@ -79,6 +88,11 @@
     <string name="hint_checkPrices">Enter to Check Prices</string>
     <string name="submit">Submit</string>
 
+    <string name="bill_approve_msg">Are you sure proceeding to bill approval!</string>
+    <string name="yes">Yes</string>
+    <string name="dismiss">dismiss</string>
+
+
     <string name="tap2retry">Please, Press to retry!</string>
     <string name="chooser_Intent_select_or_take_picture">Post Image via</string>
     <string name="canceled">Canceled</string>
@@ -87,6 +101,7 @@
 
     <string name="username">User Name</string>
     <string name="email">Email</string>
+    <string name="email_">Email :</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="password">Password</string>
@@ -126,6 +141,8 @@
     <string name="faculty_of_business_administration">Faculty of Business Administration</string>
     <string name="Sign_in">Sign in</string>
     <string name="Sign_up">Sign Up</string>
+    <string name="approve">Approve</string>
+    <string name="approving">Approving</string>
     <string name="Success">Success</string>
     <string name="Loading">Loading..</string>
 
@@ -144,12 +161,16 @@
     <string name="invalid_bookid">Invalid Book ID!</string>
     <string name="invalid_sellerid">Invalid Seller ID!</string>
 
-
+    <string name="offered_for_">Offered For :</string>
+    <string name="Seller_name">Seller Name :</string>
+    <string name="select_buyer_ifexist">Select Buyer if Exist</string>
     <string name="select_book_ifexist">Select Book if Exist</string>
-
+    <string name="available_">Available in Store :</string>
     <string name="add_book_btn">Add Book</string>
     <string name="add_btn">Add</string>
     <string name="next_btn">Next</string>
+    <string name="order">Order</string>
+    <string name="create_bill">Create Bill</string>
     <string name="back_btn">Back</string>
 
     <string name="error_network_timeout">Network Timeout Erro</string>

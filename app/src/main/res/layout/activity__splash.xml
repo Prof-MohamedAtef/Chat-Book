@@ -5,7 +5,7 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:background="@drawable/logo"
 android:id="@+id/fullscreen_content"
-tools:context="mo.ed.prof.yusor.Activities.SplashActivity">
+tools:context="mo.ed.prof.yusor.Activities.Authentication.SplashActivity">
 <LinearLayout
     android:gravity="center_horizontal|center_vertical"
     android:orientation="horizontal"

@@ -1,4 +1,4 @@
-package mo.ed.prof.yusor.Adapter;
+package mo.ed.prof.yusor.Adapter.Chat;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -19,25 +19,24 @@ import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 /**
  * Created by Prof-Mohamed Atef on 1/28/2019.
  */
-public class BooksSpinnerAdapter extends BaseAdapter {
+public class ChatterSpinnerAdapter extends BaseAdapter {
 
     private Context mContext;
-    private ArrayList<StudentsEntity> SpinnerFeedItemList;
+    List<FirebaseUsers> feedItemList;
 
-    public BooksSpinnerAdapter(Context mContext, ArrayList<StudentsEntity> spinnerFeedItemList) {
-        this.mContext= mContext;
-        SpinnerFeedItemList = spinnerFeedItemList;
+    public ChatterSpinnerAdapter(Context applicationContext, List<FirebaseUsers> firebaseUsers) {
+        mContext=applicationContext;
+        feedItemList=firebaseUsers;
     }
-
 
     @Override
     public int getCount() {
-        return SpinnerFeedItemList.size();
+        return feedItemList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return SpinnerFeedItemList.get(position);
+        return feedItemList.get(position);
     }
 
     @Override
@@ -51,7 +50,7 @@ public class BooksSpinnerAdapter extends BaseAdapter {
         txt.setPadding(16, 16, 16, 16);
         txt.setTextSize(18);
         txt.setGravity(Gravity.CENTER_VERTICAL);
-        txt.setText(SpinnerFeedItemList.get(position).getBookTitle().toString());
+        txt.setText(feedItemList.get(position).getUserName().toString());
         txt.setTextColor(Color.parseColor("#FFFFFF"));
         txt.setBackgroundResource(R.color.red);
         return  txt;
@@ -64,7 +63,7 @@ public class BooksSpinnerAdapter extends BaseAdapter {
         txt.setGravity(Gravity.CENTER);
         txt.setPadding(10, 10, 10, 10);
         txt.setTextSize(16);
-        txt.setText(SpinnerFeedItemList.get(position).getBookTitle().toString());
+        txt.setText(feedItemList.get(position).getUserName().toString());
         txt.setTextColor(Color.parseColor("#FFFFFF"));
         txt.setBackgroundResource(R.color.red);
         return  txt;

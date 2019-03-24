@@ -1,4 +1,4 @@
-package mo.ed.prof.yusor.Activities;
+package mo.ed.prof.yusor.Activities.Chat;
 
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;

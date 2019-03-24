@@ -45,8 +45,6 @@ import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
-import static mo.ed.prof.yusor.Activities.AddBookActivity.BookID_KEY;
-import static mo.ed.prof.yusor.Activities.AddBookActivity.BookTitle_KEY;
 import static mo.ed.prof.yusor.helpers.Config.currentImagePAth;
 import static mo.ed.prof.yusor.helpers.Config.selectedImagePath;
 

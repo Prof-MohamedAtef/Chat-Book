@@ -8,8 +8,42 @@ import java.io.Serializable;
 
 public class StudentsEntity implements Serializable {
     public static Object FBAccessToken;
+    public String BuyerFirebaseUiD;
+    public String BuyerEmail;
+    public String BuyerUserName;
+    public String BuyerPName;
+    public String BuyerGender;
+    public String BuyerDepartmentID;
+    public String SellerFirebaseUid;
+    public String BillID;
+    public String OwnerStatus;
+    public String BuyerStatus;
+    public String BuyerID;
+    public String SellerPersonName;
     public String FirebaseUiD;
     public String ProfilePhoto;
+
+    public StudentsEntity(String billID_str, String price_str, String ownerStatus_str, String buyerStatus_str, String studentID_str,
+                          String buyerID_str, String bookID_str, String book_title_str, String book_description_str,
+                          String publishYear_str, String authorID_str, String departmentID_str, String isbn_str, String photo_str,
+                          String studentID_str1, String bookID_str1, String sellerPName_str, String sellerUserName_str,
+                          String sellerGender_str, String sellerEmail_str, String departmentID_str1, String sellerFireBUiD_str,
+                          String buyerPName_STR,String buyerUserName_STR, String buyerGender_STR, String buyerEmail_STR,
+                          String buyerDepartmentID_STR, String buyerFireBUiD_STR) {
+        this.BillID=billID_str;                 this.PublishYear=publishYear_str;
+        this.BookPrice=price_str;               this.AuthorID=authorID_str;
+        this.OwnerStatus=ownerStatus_str;       this.DepartmentID=departmentID_str;
+        this.BuyerStatus=buyerStatus_str;       this.ISBN_NUM=isbn_str;
+        this.SellerID=studentID_str;           this.BookPhoto=photo_str;
+        this.BuyerID=buyerID_str;               this.SellerPersonName=sellerPName_str;
+        this.BookID=bookID_str;                 this.SellerUserName=sellerUserName_str;
+        this.BookTitle=book_title_str;          this.SellerGender=sellerGender_str;
+        this.BookDescription=book_description_str;  this.SellerEmail=sellerEmail_str;
+        this.SellerFirebaseUid=sellerFireBUiD_str;
+        this.BuyerPName=buyerPName_STR;         this.BuyerUserName=buyerUserName_STR;
+        this.BuyerGender=buyerGender_STR;       this.BuyerEmail=buyerEmail_STR;
+        this.BuyerDepartmentID=buyerDepartmentID_STR;       this.BuyerFirebaseUiD=buyerFireBUiD_STR;
+    }
 
     public String getFirebaseUiD() {
         return FirebaseUiD;
@@ -86,7 +120,7 @@ public class StudentsEntity implements Serializable {
                           String bookID_str1, String book_title_str, String book_description_str, String publishYear_str,
                           String authorID_str, String departmentID_str, String isbn_str, String photo_str, String studentID_str,
                           String personName_str, String userName_str, String gender_str, String email_str, String departmentID_str1,
-                          String department_name, String author_name, String pivot_id_str, String firbase_id_STR) {
+                          String department_name, String author_name, String pivot_id_str, String firbase_id_STR, String bookStatus_STR) {
         this.PivotID=pivot_id_str;
         this.BookOwnerID=sellerID_str;
         this.BookID=bookID_str;
@@ -108,6 +142,7 @@ public class StudentsEntity implements Serializable {
         this.AuthorTitle=author_name;
         this.DepartmentName=department_name;
         this.FirebaseUiD=firbase_id_STR;
+        this.BookStatus=bookStatus_STR;
     }
 
     public String getUserID() {

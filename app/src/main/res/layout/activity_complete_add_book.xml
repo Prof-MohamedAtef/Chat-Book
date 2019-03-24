@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="@dimen/padding_authentication"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    tools:context="mo.ed.prof.yusor.Activities.CompleteAddBookActivity">
+    tools:context="mo.ed.prof.yusor.Activities.AddBook.CompleteAddBookActivity">
     <LinearLayout
         android:padding="@dimen/padding_authentication"
         android:gravity="right"
