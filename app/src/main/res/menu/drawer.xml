@@ -21,6 +21,11 @@
             android:title="@string/bills" />
         <!--android:icon="@drawable/stadiums"-->
         <item
+            android:id="@+id/books"
+            android:checked="false"
+            android:title="@string/myBooks" />
+        <!--android:icon="@drawable/stadiums"-->
+        <item
             android:id="@+id/user_profile"
             android:checked="false"
             android:title="@string/user_profile" />

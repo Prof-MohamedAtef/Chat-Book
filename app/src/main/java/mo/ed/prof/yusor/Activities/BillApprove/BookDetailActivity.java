@@ -198,19 +198,19 @@ public class BookDetailActivity extends AppCompatActivity {
                 });
             }
 
-            txt_bookName.append(BookName);
-            txt_authorName.append(AuthorTitle);
-            txt_publishYear.append(PublishYear);
-            txt_Isbn_Num.append(ISBN);
-            txt_Available_txt.append(BookAvailability);
-            txt_Book_Status.append(BookStatus);
-            txt_TransactionType_txt.append(TransactionType);
-            txt_SellerName_txt.append(SellerName);
-            txt_SellerEmail_txt.append(SellerEmail);
-            txt_SellerGender_txt.append(SellerGender);
-            txt_SellerFaculty_txt.append(SellerFaculty);
-            txt_desc.append(BookDescription);
-            txt_price.append(BookPrice+ " ");
+            txt_bookName.setText(BookName);
+            txt_authorName.setText(AuthorTitle);
+            txt_publishYear.setText(PublishYear);
+            txt_Isbn_Num.setText(ISBN);
+            txt_Available_txt.setText(BookAvailability);
+            txt_Book_Status.setText(BookStatus);
+            txt_TransactionType_txt.setText(TransactionType);
+            txt_SellerName_txt.setText(SellerName);
+            txt_SellerEmail_txt.setText(SellerEmail);
+            txt_SellerGender_txt.setText(SellerGender);
+            txt_SellerFaculty_txt.setText(SellerFaculty);
+            txt_desc.setText(BookDescription);
+            txt_price.setText(BookPrice+ " ");
 
             Picasso.with(getApplicationContext()).load(BookPhoto)
                     .error(R.drawable.logo)

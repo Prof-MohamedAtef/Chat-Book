@@ -51,7 +51,7 @@ public class MakeVolleyRequests {
 
     private String KEY_BOOKNAME="book_name";
 
-    public void searchSuggestedBooks(final String BookID, final String tokenID) {
+    public void searchSuggestedBooks(final String BookID, final String BookName, final String tokenID) {
         final RequestQueue requestQueue  = Volley.newRequestQueue(mContext);
         StringRequest stringRequest=new StringRequest(Request.Method.POST,
                 "http://fla4news.com/Yusor/api/v1/similar_books",
@@ -90,6 +90,7 @@ public class MakeVolleyRequests {
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> hashMap=new HashMap<>();
                 hashMap.put(KEY_BOOKID,BookID);
+                hashMap.put(KEY_BOOKNAME,BookName);
                 hashMap.put(KEY_APIKEY,tokenID);
                 return  hashMap;
             }
@@ -142,7 +143,7 @@ public class MakeVolleyRequests {
         requestQueue.add(stringRequest);
     }
 
-    public void sendBookDetails(final String bookName, final String bookDescription, final String authorID, final String publishYear, final String facultyID, final String isbn_num, final String authorName, final String photo) {
+    public void sendBookDetails(final String bookName, final String bookDescription, final String authorID, final String publishYear, final String facultyID, final String isbn_num, final String authorName, final String photo, final String api_token) {
         final RequestQueue requestQueue  = Volley.newRequestQueue(mContext);
         StringRequest stringRequest=new StringRequest(Request.Method.POST,
                 "http://fla4news.com/Yusor/api/v1/add_book",
@@ -202,6 +203,7 @@ public class MakeVolleyRequests {
                 hashMap.put(KEY_DepartID,facultyID);
                 hashMap.put(KEY_ISBN,isbn_num);
 //                hashMap.put(KEY_PHOTO,photo);
+                hashMap.put("api_token",api_token);
                 return  hashMap;
             }
         };
@@ -260,6 +262,118 @@ public class MakeVolleyRequests {
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> hashMap=new HashMap<>();
                 hashMap.put(KEY_APIKEY,api_token);
+                return  hashMap;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+    public void getSoldBills(final String apiToken) {
+        final RequestQueue requestQueue  = Volley.newRequestQueue(mContext);
+        StringRequest stringRequest=new StringRequest(Request.Method.POST,
+                "http://fla4news.com/Yusor/api/v1/Bills_sold",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.matches("")){
+                            Toast.makeText(mContext, mContext.getResources().getString(R.string.failed), Toast.LENGTH_LONG).show();
+                        }else {
+                            try {
+                                JsonParser jsonParser = new JsonParser();
+                                ArrayList<StudentsEntity> studentsEntities = jsonParser.getSoldBills(response);
+                                if (studentsEntities != null) {
+                                    if (studentsEntities.size() > 0) {
+                                        mListener.onComplete(studentsEntities);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                loading.dismiss();
+                //Showing toast
+                if (error!=null){
+                    if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof AuthFailureError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ServerError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof NetworkError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ParseError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+//                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> hashMap=new HashMap<>();
+                hashMap.put(KEY_APIKEY,apiToken);
+                return  hashMap;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+    public void getAllBooksForUser(final String userID) {
+        final RequestQueue requestQueue  = Volley.newRequestQueue(mContext);
+        StringRequest stringRequest=new StringRequest(Request.Method.POST,
+                "",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.matches("")){
+                            Toast.makeText(mContext, mContext.getResources().getString(R.string.failed), Toast.LENGTH_LONG).show();
+                        }else {
+                            try {
+                                JsonParser jsonParser = new JsonParser();
+                                ArrayList<StudentsEntity> studentsEntities = jsonParser.getSimilarBooks(response);
+                                if (studentsEntities != null) {
+                                    if (studentsEntities.size() > 0) {
+                                        mListener.onComplete(studentsEntities);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                loading.dismiss();
+                //Showing toast
+                if (error!=null){
+                    if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof AuthFailureError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ServerError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof NetworkError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ParseError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+//                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> hashMap=new HashMap<>();
+                hashMap.put("student_id",userID);
                 return  hashMap;
             }
         };

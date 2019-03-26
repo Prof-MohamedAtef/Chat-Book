@@ -16,12 +16,16 @@ import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import mo.ed.prof.yusor.Activities.BillApprove.BookDetailActivity;
 import mo.ed.prof.yusor.Dev.MessageActivity;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.Config;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
+import mo.ed.prof.yusor.helpers.SessionManagement;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by Prof-Mohamed Atef on 2/12/2019.
@@ -29,6 +33,9 @@ import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 
 public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapter.ViewHOlder> implements Serializable {
 
+    String firebaseUiD;
+    HashMap<String, String> user;
+    SessionManagement sessionManagement;
     Context mContext;
     ArrayList<StudentsEntity> feedItemList;
     boolean TwoPane;
@@ -59,11 +66,17 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
     private String Transaction;
     private String SellerEmail;
     private String SellerFacultyName;
+    private String BookFireBUiD;
 
     public BooksGalleryAdapter(Context mContext, ArrayList<StudentsEntity> feedItemList, boolean twoPane) {
         this.mContext = mContext;
         this.feedItemList = feedItemList;
         TwoPane = twoPane;
+        sessionManagement=new SessionManagement(getApplicationContext());
+        user=sessionManagement.getUserDetails();
+        if (user!=null){
+            firebaseUiD=user.get(SessionManagement.firebase_UID_KEY);
+        }
     }
 
     @NonNull
@@ -103,30 +116,36 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
                             Transaction=feedItem.getTransactionType();
                             SellerEmail=feedItem.getSellerEmail();
                             SellerFacultyName=feedItem.getDepartmentName();
-                            holder.BTN_StartChat.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    // go to chat with book owner
-                                    // get owner id
-                                    intent=new Intent(mContext,MessageActivity.class);
-                                    intent.putExtra("userid",feedItem.getFirebaseUiD());
-                                    intent.putExtra(PivotID_KEY,PivotID);
-                                    intent.putExtra(SellerUserName_KEY,SellerUserName);
-                                    intent.putExtra(BookSellerID_KEY,SellerID);
-                                    intent.putExtra(BookID_KEY,BookID);
-                                    intent.putExtra(BookName_KEY,BookName);
-                                    intent.putExtra(BookDescription_KEY,BookDescription);
-                                    intent.putExtra(PublishYear_KEY,PublishYear);
-                                    intent.putExtra(AuthorName_KEY,AuthorName);
-                                    intent.putExtra(ISBN_KEY,ISBN);
-                                    intent.putExtra(Price_KEY,Price);
-                                    intent.putExtra(Transaction_KEY,Transaction);
-                                    intent.putExtra(SellerEmail_KEY,SellerEmail);
-                                    intent.putExtra(SellerFacultyName_KEY,SellerFacultyName);
-                                    mContext.startActivity(intent);
-                                    Config.Buyer=true;
-                                }
-                            });
+                            BookFireBUiD= feedItem.getFirebaseUiD();
+                            if (BookFireBUiD.equals(firebaseUiD)){
+                                holder.BTN_StartChat.setVisibility(View.GONE);
+                            }else {
+                                holder.BTN_StartChat.setVisibility(View.VISIBLE);
+                                holder.BTN_StartChat.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        // go to chat with book owner
+                                        // get owner id
+                                        intent=new Intent(mContext,MessageActivity.class);
+                                        intent.putExtra("userid",feedItem.getFirebaseUiD());
+                                        intent.putExtra(PivotID_KEY,PivotID);
+                                        intent.putExtra(SellerUserName_KEY,SellerUserName);
+                                        intent.putExtra(BookSellerID_KEY,SellerID);
+                                        intent.putExtra(BookID_KEY,BookID);
+                                        intent.putExtra(BookName_KEY,BookName);
+                                        intent.putExtra(BookDescription_KEY,BookDescription);
+                                        intent.putExtra(PublishYear_KEY,PublishYear);
+                                        intent.putExtra(AuthorName_KEY,AuthorName);
+                                        intent.putExtra(ISBN_KEY,ISBN);
+                                        intent.putExtra(Price_KEY,Price);
+                                        intent.putExtra(Transaction_KEY,Transaction);
+                                        intent.putExtra(SellerEmail_KEY,SellerEmail);
+                                        intent.putExtra(SellerFacultyName_KEY,SellerFacultyName);
+                                        mContext.startActivity(intent);
+                                        Config.Buyer=true;
+                                    }
+                                });
+                            }
 
                             holder.BTN_Details.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -167,7 +186,6 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
 
         public ViewHOlder(View converview) {
             super(converview);
-
             this.BookName = (TextView) converview.findViewById(R.id.book_name);
             this.AuthorName= (TextView) converview.findViewById(R.id.author_name);
             this.Price = (TextView) converview.findViewById(R.id.book_price);

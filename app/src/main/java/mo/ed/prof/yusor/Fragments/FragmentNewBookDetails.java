@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,10 +42,12 @@ import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
 import mo.ed.prof.yusor.helpers.Config;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
+import mo.ed.prof.yusor.helpers.SessionManagement;
 
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static mo.ed.prof.yusor.helpers.Config.currentImagePAth;
 import static mo.ed.prof.yusor.helpers.Config.selectedImagePath;
 
@@ -139,6 +142,9 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
     private String KEY_BookDescription="KEY_BookDescription";
     private String KEY_AuthorID="KEY_AuthorID";
     private String KEY_FacultyID="KEY_FacultyID";
+    private SessionManagement sessionManagement;
+    private HashMap<String, String> user;
+    private String ApiToken;
 
 
     @Override
@@ -146,6 +152,11 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
         super.onCreate(savedInstanceState);
 //        Auth_spinner
         verifyConnection=new VerifyConnection(getActivity());
+        sessionManagement=new SessionManagement(getActivity());
+        user =sessionManagement.getUserDetails();
+        if (user!=null) {
+            ApiToken = user.get(SessionManagement.KEY_idToken);
+        }
 //        Bundle bundle=getArguments();
 //        if (bundle!=null){
 //            BookID= bundle.getString(BookID_KEY);
@@ -384,6 +395,7 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
             public void onClick(View v) {
                 EditAuthorName.setVisibility(View.VISIBLE);
                 Config.Author_Edit=true;
+                Auth_spinner.setEnabled(false);
             }
         });
 
@@ -395,6 +407,8 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
         });
 
         Next_BTN.setOnClickListener(new View.OnClickListener() {
+            public String AuthTit;
+
             @Override
             public void onClick(View v) {
                 makeVolleyRequests=new MakeVolleyRequests(getActivity(),FragmentNewBookDetails.this);
@@ -414,20 +428,31 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
                     if (Config.BookDescription!=null&&Config.BookDescription.length()>0){
                             if (Config.PublishYear!=null&&Config.PublishYear.length()>0){
                                 if (Config.FacultyID!=null){
-                                    if (Config.ISBN_Number!=null&&Config.ISBN_Number.length()>0){
+                                    if (user!=null){
+                                        ApiToken = user.get(SessionManagement.KEY_idToken);
+                                        if (ApiToken!=null){
+                                            if (Config.ISBN_Number!=null&&Config.ISBN_Number.length()>0){
 //                                        if (Config.ImageFileUri!=null&&Config.ImageFileUri.toString().length()>0){
-                                            if (Config.AuthorID!=null&&Config.AuthorID.length()>0){
-                                                if (Config.AuthorTitle!=null&&Config.AuthorTitle.length()>0){
-                                                    makeVolleyRequests.sendBookDetails(Config.BookName, Config.BookDescription, "",Config.PublishYear, Config.FacultyID,Config.ISBN_Number,Config.AuthorTitle, ImageUri.toString());
-                                                }else {
-                                                    makeVolleyRequests.sendBookDetails(Config.BookName, Config.BookDescription, Config.AuthorID, Config.PublishYear, Config.FacultyID,Config.ISBN_Number,"", "");
+                                                if (Config.AuthorID!=null&&Config.AuthorID.length()>0){
+                                                    if (Config.AuthorTitle!=null&&Config.AuthorTitle.length()>0){
+//                                                        AuthTit= Auth_spinner.getAdapter().getItem(Integer.parseInt(Config.AuthorID)).toString();
+//                                                        AuthTit= Auth_spinner.getAdapter().
+//                                                        if (Config.AuthorTitle.equals(AuthTit)){
+//                                                            makeVolleyRequests.sendBookDetails(Config.BookName, Config.BookDescription, Config.AuthorID, Config.PublishYear, Config.FacultyID,Config.ISBN_Number,"", "", ApiToken);
+//                                                        }else {
+                                                            makeVolleyRequests.sendBookDetails(Config.BookName, Config.BookDescription, "",Config.PublishYear, Config.FacultyID,Config.ISBN_Number,Config.AuthorTitle,"", ApiToken);
+//                                                        }
+                                                    }else {
+                                                        makeVolleyRequests.sendBookDetails(Config.BookName, Config.BookDescription, Config.AuthorID, Config.PublishYear, Config.FacultyID,Config.ISBN_Number,"", "", ApiToken);
+                                                    }
                                                 }
-                                            }
 //                                        }else{
 //                                            Toast.makeText(getActivity(), getString(R.string.enter_image), Toast.LENGTH_SHORT).show();
 //                                        }
-                                    }else {
-                                        Toast.makeText(getActivity(), getString(R.string.enter_isbn_num), Toast.LENGTH_SHORT).show();
+                                            }else {
+                                                Toast.makeText(getActivity(), getString(R.string.enter_isbn_num), Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
                                     }
                                 }else {
                                     Toast.makeText(getActivity(), getString(R.string.enter_faculty_id), Toast.LENGTH_SHORT).show();

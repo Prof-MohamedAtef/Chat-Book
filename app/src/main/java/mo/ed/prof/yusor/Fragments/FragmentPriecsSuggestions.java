@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import mo.ed.prof.yusor.Activities.AddBook.AddNewBookActivity;
 import mo.ed.prof.yusor.Adapter.SimilarBooksAdapter;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
@@ -25,6 +26,7 @@ import mo.ed.prof.yusor.helpers.SessionManagement;
 //import static mo.ed.prof.yusor.Activities.AddBook.AddBookActivity.BOOK_NAME;
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static mo.ed.prof.yusor.Activities.AddBook.AddBookActivity.BookID_KEY;
+import static mo.ed.prof.yusor.Activities.AddBook.AddBookActivity.BookTitle_KEY;
 import static mo.ed.prof.yusor.helpers.Config.TwoPane;
 
 /**
@@ -62,8 +64,9 @@ public class FragmentPriecsSuggestions extends Fragment implements MakeVolleyReq
         makeVolleyRequests=new MakeVolleyRequests(getActivity(),FragmentPriecsSuggestions.this);
         if (bundle!=null){
             BookID_STR=(String)bundle.get(BookID_KEY);
+            BOOK_NAME_STR=(String)bundle.get(AddNewBookActivity.BookTitle_KEY);
             Config.BookID=BookID_STR;
-            makeVolleyRequests.searchSuggestedBooks(BookID_STR, TokenID);
+            makeVolleyRequests.searchSuggestedBooks(BookID_STR, BOOK_NAME_STR, TokenID);
             // send to api and get all similar books with their prices and display on this fragment,
             // on this fragment enter the price, once entered,redirect to add book activity with the entered price here to submit book
         }

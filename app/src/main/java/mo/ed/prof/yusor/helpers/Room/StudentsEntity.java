@@ -8,6 +8,25 @@ import java.io.Serializable;
 
 public class StudentsEntity implements Serializable {
     public static Object FBAccessToken;
+    public String CreatedAt;
+
+    public String getCreatedAt() {
+        return CreatedAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        CreatedAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return UpdatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        UpdatedAt = updatedAt;
+    }
+
+    public String UpdatedAt;
     public String BuyerFirebaseUiD;
     public String BuyerEmail;
     public String BuyerUserName;
@@ -30,19 +49,180 @@ public class StudentsEntity implements Serializable {
                           String sellerGender_str, String sellerEmail_str, String departmentID_str1, String sellerFireBUiD_str,
                           String buyerPName_STR,String buyerUserName_STR, String buyerGender_STR, String buyerEmail_STR,
                           String buyerDepartmentID_STR, String buyerFireBUiD_STR) {
-        this.BillID=billID_str;                 this.PublishYear=publishYear_str;
-        this.BookPrice=price_str;               this.AuthorID=authorID_str;
-        this.OwnerStatus=ownerStatus_str;       this.DepartmentID=departmentID_str;
-        this.BuyerStatus=buyerStatus_str;       this.ISBN_NUM=isbn_str;
-        this.SellerID=studentID_str;           this.BookPhoto=photo_str;
-        this.BuyerID=buyerID_str;               this.SellerPersonName=sellerPName_str;
-        this.BookID=bookID_str;                 this.SellerUserName=sellerUserName_str;
-        this.BookTitle=book_title_str;          this.SellerGender=sellerGender_str;
-        this.BookDescription=book_description_str;  this.SellerEmail=sellerEmail_str;
+        this.BillID = billID_str;
+        this.BookPrice = price_str;
+        this.OwnerStatus = ownerStatus_str;
+        this.BuyerStatus = buyerStatus_str;
+        this.SellerID = studentID_str;
+        this.BuyerID = buyerID_str;
+        this.BookID = bookID_str;
+        this.BookTitle = book_title_str;
+        this.BookDescription = book_description_str;
+        this.SellerFirebaseUid = sellerFireBUiD_str;
+        this.BuyerPName = buyerPName_STR;
+        this.BuyerGender = buyerGender_STR;
+        this.BuyerDepartmentID = buyerDepartmentID_STR;
+        this.AuthorID = authorID_str;
+        this.DepartmentID = departmentID_str;
+        this.ISBN_NUM = isbn_str;
+        this.BookPhoto = photo_str;
+        this.SellerPersonName = sellerPName_str;
+        this.SellerUserName = sellerUserName_str;
+        this.SellerGender = sellerGender_str;
+        this.SellerEmail = sellerEmail_str;
+        this.BuyerUserName = buyerUserName_STR;
+        this.BuyerEmail = buyerEmail_STR;
+        this.BuyerFirebaseUiD = buyerFireBUiD_STR;
+    }
+
+    public StudentsEntity(String billID_str, String bookID_str, String buyerID_str, String ownerStatus_str, String buyerStatus_str,
+                          String studentID_str, String book_title_str, String book_description_str, String publishYear_str,
+                          String authorID_str, String departmentID_str, String isbn_str) {
+        this.BillID=billID_str;
+        this.BookID=bookID_str;
+        this.BuyerID=buyerID_str;
+        this.OwnerStatus=ownerStatus_str;
+        this.BuyerStatus=buyerStatus_str;
+        this.SellerID=studentID_str;
+        this.BookTitle=book_title_str;
+        this.BookDescription=book_description_str;
+        this.PublishYear=publishYear_str;
+        this.AuthorID=authorID_str;
+        this.DepartmentID=departmentID_str;
+        this.ISBN_NUM=isbn_str;
+    }
+
+    public String getBuyerFirebaseUiD() {
+        return BuyerFirebaseUiD;
+    }
+
+    public void setBuyerFirebaseUiD(String buyerFirebaseUiD) {
+        BuyerFirebaseUiD = buyerFirebaseUiD;
+    }
+
+    public String getBuyerEmail() {
+        return BuyerEmail;
+    }
+
+    public void setBuyerEmail(String buyerEmail) {
+        BuyerEmail = buyerEmail;
+    }
+
+    public String getBuyerUserName() {
+        return BuyerUserName;
+    }
+
+    public void setBuyerUserName(String buyerUserName) {
+        BuyerUserName = buyerUserName;
+    }
+
+    public String getBuyerPName() {
+        return BuyerPName;
+    }
+
+    public void setBuyerPName(String buyerPName) {
+        BuyerPName = buyerPName;
+    }
+
+    public String getBuyerGender() {
+        return BuyerGender;
+    }
+
+    public void setBuyerGender(String buyerGender) {
+        BuyerGender = buyerGender;
+    }
+
+    public String getBuyerDepartmentID() {
+        return BuyerDepartmentID;
+    }
+
+    public void setBuyerDepartmentID(String buyerDepartmentID) {
+        BuyerDepartmentID = buyerDepartmentID;
+    }
+
+    public String getSellerFirebaseUid() {
+        return SellerFirebaseUid;
+    }
+
+    public void setSellerFirebaseUid(String sellerFirebaseUid) {
+        SellerFirebaseUid = sellerFirebaseUid;
+    }
+
+    public String getBillID() {
+        return BillID;
+    }
+
+    public void setBillID(String billID) {
+        BillID = billID;
+    }
+
+    public String getOwnerStatus() {
+        return OwnerStatus;
+    }
+
+    public void setOwnerStatus(String ownerStatus) {
+        OwnerStatus = ownerStatus;
+    }
+
+    public String getBuyerStatus() {
+        return BuyerStatus;
+    }
+
+    public void setBuyerStatus(String buyerStatus) {
+        BuyerStatus = buyerStatus;
+    }
+
+    public String getBuyerID() {
+        return BuyerID;
+    }
+
+    public void setBuyerID(String buyerID) {
+        BuyerID = buyerID;
+    }
+
+    public String getSellerPersonName() {
+        return SellerPersonName;
+    }
+
+    public void setSellerPersonName(String sellerPersonName) {
+        SellerPersonName = sellerPersonName;
+    }
+
+    //get bills
+    public StudentsEntity(String billID_str, String bookID_str, String buyerID_str, String ownerStatus_str, String buyerStatus_str,
+                          String studentID_str, String book_title_str, String book_description_str, String publishYear_str,
+                          String authorID_str, String departmentID_str, String isbn_str, String sellerID_str, String sellerPersonName_str,
+                          String sellerUserName_str, String sellerGender_str, String sellerEmail_str, String sellerFacultyID_str,
+                          String sellerFireBUiD_str, String buyerID_str1, String buyerPersonName_str, String buyerUserName_str,
+                          String buyerGender_str, String buyerEmail_str, String buyerDepartmentID_str, String buyerFireBUiD_str,
+                          String created_at, String updated_at,String x, String x1, String x2) {
+        this.BillID=billID_str;
+        this.BookID=bookID_str;
+        this.BuyerID=buyerID_str;
+        this.OwnerStatus=ownerStatus_str;
+        this.BuyerStatus=buyerStatus_str;
+        this.SellerID=studentID_str;
+        this.BookTitle=book_title_str;
+        this.BookDescription=book_description_str;
+        this.PublishYear=publishYear_str;
+        this.AuthorID=authorID_str;
+        this.DepartmentID=departmentID_str;
+        this.ISBN_NUM=isbn_str;
+        this.SellerID=sellerID_str;
+        this.SellerPersonName=sellerPersonName_str;
+        this.SellerUserName=sellerUserName_str;
+        this.SellerGender=sellerGender_str;
+        this.SellerEmail=sellerEmail_str;
+        this.SellerDepartmentID=sellerFacultyID_str;
         this.SellerFirebaseUid=sellerFireBUiD_str;
-        this.BuyerPName=buyerPName_STR;         this.BuyerUserName=buyerUserName_STR;
-        this.BuyerGender=buyerGender_STR;       this.BuyerEmail=buyerEmail_STR;
-        this.BuyerDepartmentID=buyerDepartmentID_STR;       this.BuyerFirebaseUiD=buyerFireBUiD_STR;
+        this.BuyerPName=buyerPersonName_str;
+        this.BuyerUserName=buyerUserName_str;
+        this.BuyerGender=buyerGender_str;
+        this.BuyerEmail=buyerEmail_str;
+        this.BuyerDepartmentID=buyerDepartmentID_str;
+        this.BuyerFirebaseUiD=buyerFireBUiD_str;
+        this.CreatedAt=created_at;
+        this.UpdatedAt=updated_at;
     }
 
     public String getFirebaseUiD() {

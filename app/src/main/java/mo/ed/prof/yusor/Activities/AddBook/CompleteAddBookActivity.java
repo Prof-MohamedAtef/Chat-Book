@@ -81,7 +81,7 @@ public class CompleteAddBookActivity extends AppCompatActivity implements Progre
             bundle.putString(AddBookActivity.BookTitle_KEY,BookTitle);
             bundle.putString(AddBookActivity.BookID_KEY,BookID);
         }
-        NavigatToFragments(BookID);
+        NavigatToFragments(BookID, BookTitle);
     }
 
     @Override
@@ -132,8 +132,9 @@ public class CompleteAddBookActivity extends AppCompatActivity implements Progre
         });
     }
 
-    private void NavigatToFragments(String bookID) {
-        bundle.putString(AddBookActivity.BookID_KEY,bookID);
+    private void NavigatToFragments(String bookID, String book_title) {
+        bundle.putString(AddNewBookActivity.BookID_KEY,bookID);
+        bundle.putString(AddNewBookActivity.BookTitle_KEY,book_title);
         fragmentPriecsSuggestions.setArguments(bundle);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame_prices_suggestions, fragmentPriecsSuggestions, FragsSuggest_KEY)

@@ -12,10 +12,8 @@ import mo.ed.prof.yusor.R;
 
 public class AuthenticationChoiceActivity extends AppCompatActivity {
 
-
     @BindView(R.id.btn_sign_in)
     Button btn_sign_in;
-
     @BindView(R.id.btn_Sign_up)
     Button btn_Sign_up;
 

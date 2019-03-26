@@ -4,7 +4,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:background="@drawable/custom_background"
+    android:background="@drawable/white_stroke"
     android:padding="@dimen/padding_authentication"
     android:weightSum="4"
     android:gravity="center_vertical|center_horizontal">
@@ -39,28 +39,56 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
-            <TextView
-                android:padding="@dimen/fab_elevation"
-                android:id="@+id/author_name"
-                android:textSize="@dimen/medium_text_size"
-                android:textStyle="bold"
-                android:gravity="center_horizontal"
-                android:textColor="@color/white"
-                android:text="@string/author_name_"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-            <TextView
-                android:padding="@dimen/fab_elevation"
-                android:id="@+id/book_price"
-                android:textSize="@dimen/medium_text_size"
-                android:textStyle="bold"
-                android:gravity="center_horizontal"
-                android:textColor="@color/white"
-                android:text="@string/book_price"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:padding="@dimen/fab_elevation"
+                    android:id="@+id/author_name"
+                    android:textSize="@dimen/medium_text_size"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    android:text="@string/author_name_"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:padding="@dimen/fab_elevation"
+                    android:textSize="@dimen/text_size"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    android:text="@string/author_name_"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_height="wrap_content">
+                <TextView
+                    android:padding="@dimen/fab_elevation"
+                    android:id="@+id/book_price"
+                    android:textSize="@dimen/medium_text_size"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    android:text="@string/book_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:padding="@dimen/fab_elevation"
+                    android:textSize="@dimen/text_size"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    android:text="@string/book_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"

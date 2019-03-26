@@ -22,6 +22,7 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 
 import mo.ed.prof.yusor.Activities.AddBook.AddNewBookActivity;
+import mo.ed.prof.yusor.Activities.BillApprove.DisplayBillActivity;
 import mo.ed.prof.yusor.Activities.Chat.ChatHistoryActivity;
 import mo.ed.prof.yusor.Fragments.BooksGalleryFragment;
 import mo.ed.prof.yusor.Fragments.NoInternetFragment;
@@ -117,9 +118,16 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                         // if bills_array.size>0 -- send with intent
                         //else show dialogue
 //                        bundle.putString(ArticleType,ARTS);
-//                        Intent intent3=new Intent(getApplicationContext(),ArticleTypesListActivity.class);
-//                        intent3.putExtras(bundle);
-//                        startActivity(intent3);
+                        Intent intent3=new Intent(getApplicationContext(),DisplayBillActivity.class);
+                        startActivity(intent3);
+                        return true;
+                    case R.id.books:
+                        //retrive bills
+                        // if bills_array.size>0 -- send with intent
+                        //else show dialogue
+//                        bundle.putString(ArticleType,ARTS);
+                        Intent intent3_=new Intent(getApplicationContext(),MyBooksActivity.class);
+                        startActivity(intent3_);
                         return true;
                     case R.id.user_profile:
                         Intent intent4=new Intent(getApplicationContext(), ProfileActivity.class);

@@ -24,5 +24,7 @@
     <dimen name="Overlap_top">240dp</dimen>
     <dimen name="text_padding">6dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
+    <dimen name="CollapsingToolbarMArginright">48dp</dimen>
+    <dimen name="CollapsingToolbarMArginleft">64dp</dimen>
 
 </resources>

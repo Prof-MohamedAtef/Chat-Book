@@ -18,6 +18,7 @@
     <string name="browse_books">Browse</string>
     <string name="chat_history">Chat History</string>
     <string name="bills">Bills</string>
+    <string name="myBooks">My Books</string>
     <string name="user_profile">Profile</string>
     <string name="contact">Contact Us</string>
     <string name="logout">logout</string>
@@ -29,6 +30,8 @@
     <string name="seller_profile">Seller</string>
     <string name="buyer_profile">buyer</string>
     <string name="date_time">Date and Time</string>
+    <string name="created_at">Created At</string>
+    <string name="updated_at">Updated At</string>
     <string name="chat">Start Chat</string>
 
     <string name="book_name">Book Name</string>
@@ -42,6 +45,7 @@
     <string name="author_name">Author Name</string>
     <string name="isbn_number">ISBN Number</string>
     <string name="isbn_number_">ISBN Number :</string>
+    <string name="bill_Cover">ISBN Number :</string>
     <string name="enter_ISBN">Enter ISBN Number</string>
     <string name="enter_description">Enter Description</string>
     <string name="description">Description</string>
