@@ -7,9 +7,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -39,6 +44,7 @@ public class BooksGalleryFragment extends Fragment implements MakeVolleyRequests
     private SessionManagement sessionManagement;
     private HashMap<String, String> user;
     private String TokenID;
+    private BooksGalleryAdapter mBooksGalleryAdapter;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -57,6 +63,36 @@ public class BooksGalleryFragment extends Fragment implements MakeVolleyRequests
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.main_menu, menu);
+
+        MenuItem searchItem=menu.findItem(R.id.search_btn);
+        SearchView searchView=(SearchView) searchItem.getActionView();
+
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String searchedText) {
+                mBooksGalleryAdapter.getFilter().filter(searchedText);
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -68,12 +104,12 @@ public class BooksGalleryFragment extends Fragment implements MakeVolleyRequests
     }
 
     private void PopulateBooksGallery(ArrayList<StudentsEntity> BooksList) {
-        BooksGalleryAdapter mAdapter=new BooksGalleryAdapter(getActivity(),BooksList, TwoPane);
-        mAdapter.notifyDataSetChanged();
+        mBooksGalleryAdapter=new BooksGalleryAdapter(getActivity(),BooksList, TwoPane);
+        mBooksGalleryAdapter.notifyDataSetChanged();
         RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(mAdapter);
+        recyclerView.setAdapter(mBooksGalleryAdapter);
     }
 
 //    @Override

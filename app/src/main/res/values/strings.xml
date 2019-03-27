@@ -67,6 +67,7 @@
     <string name="book_availability">Book Availability</string>
     <string name="purpose">Purpose</string>
     <string name="btn_publish">Publish</string>
+    <string name="btn_edit">Edit</string>
     <string name="search">Search</string>
     <string name="hint_Book_status">Select Book Status</string>
     <string name="_new">New</string>

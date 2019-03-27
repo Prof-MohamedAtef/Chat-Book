@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,13 +33,14 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by Prof-Mohamed Atef on 2/12/2019.
  */
 
-public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapter.ViewHOlder> implements Serializable {
+public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapter.ViewHOlder> implements Serializable, Filterable {
 
     String firebaseUiD;
     HashMap<String, String> user;
     SessionManagement sessionManagement;
     Context mContext;
     ArrayList<StudentsEntity> feedItemList;
+    ArrayList<StudentsEntity> feedItemListFull;
     boolean TwoPane;
     public static String SellerUserName_KEY ="SellerUserName_KEY";
     public static String BookID_KEY="BookID_KEY";
@@ -77,6 +80,7 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
         if (user!=null){
             firebaseUiD=user.get(SessionManagement.firebase_UID_KEY);
         }
+        this.feedItemListFull=new ArrayList<>(feedItemList);
     }
 
     @NonNull
@@ -175,6 +179,38 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
     public int getItemCount() {
         return (null != feedItemList ? feedItemList.size() : 0);
     }
+
+    @Override
+    public Filter getFilter() {
+        return BooksFilter;
+    }
+
+    private Filter BooksFilter=new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<StudentsEntity> filteredList=new ArrayList<>();
+            if (constraint==null || constraint.length()==0){
+                filteredList.addAll(feedItemListFull);
+            }else {
+                String filterPattern=constraint.toString().toLowerCase().trim();
+                for (StudentsEntity entity:feedItemListFull){
+                    if (entity.getBookTitle().toLowerCase().contains(filterPattern)){
+                        filteredList.add(entity);
+                    }
+                }
+            }
+            FilterResults results=new FilterResults();
+            results.values=filteredList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            feedItemList.clear();
+            feedItemList.addAll((ArrayList<StudentsEntity>)results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     class ViewHOlder extends RecyclerView.ViewHolder {
         protected Button BTN_Details;

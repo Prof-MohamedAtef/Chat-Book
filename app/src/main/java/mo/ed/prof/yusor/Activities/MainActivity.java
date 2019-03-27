@@ -9,8 +9,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 
-import mo.ed.prof.yusor.Activities.AddBook.AddNewBookActivity;
+import mo.ed.prof.yusor.Activities.Book.AddNewBookActivity;
 import mo.ed.prof.yusor.Activities.BillApprove.DisplayBillActivity;
 import mo.ed.prof.yusor.Activities.Chat.ChatHistoryActivity;
 import mo.ed.prof.yusor.Fragments.BooksGalleryFragment;
@@ -176,23 +174,23 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         SnackBasedConnection();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
         /* Use the inflater's inflate method to inflate our menu layout to this menu */
-        inflater.inflate(R.menu.main_menu, menu);
+//        inflater.inflate(R.menu.main_menu, menu);
         /* Return true so that the menu is displayed in the Toolbar */
-        return true;
-    }
+//        return true;
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId()== R.id.action_search) {
-            DisplaySearchActivity();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if (item.getItemId()== R.id.action_search) {
+//            DisplaySearchActivity();
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
 
     private void DisplaySearchActivity() {

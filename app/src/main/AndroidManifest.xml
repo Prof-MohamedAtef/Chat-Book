@@ -18,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.MainActivity"></activity>
+        <activity android:name=".Activities.MainActivity" />
         <activity
             android:name=".Activities.Authentication.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -35,7 +35,7 @@
         <activity
             android:name=".Activities.Authentication.AuthenticationActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".Activities.AddBook.AddBookActivity" />
+        <activity android:name=".Activities.Book.AddBookActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -80,15 +80,15 @@
             android:theme="@style/ArishTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".Activities.AddBook.CompleteAddBookActivity"
-            android:parentActivityName=".Activities.AddBook.AddNewBookActivity"
+            android:name=".Activities.Book.CompleteAddBookActivity"
+            android:parentActivityName=".Activities.Book.AddNewBookActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".Activities.SearchActivity"
             android:parentActivityName=".Activities.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".Activities.AddBook.AddNewBookActivity"
+            android:name=".Activities.Book.AddNewBookActivity"
             android:parentActivityName=".Activities.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
@@ -121,7 +121,8 @@
             android:parentActivityName=".Activities.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".Activities.BillApprove.DisplayBillActivity" />
-        <activity android:name=".Activities.MyBooksActivity"></activity>
+        <activity android:name=".Activities.MyBooksActivity" />
+        <activity android:name=".Activities.Book.EditBookActivity"></activity>
     </application>
 
 </manifest>

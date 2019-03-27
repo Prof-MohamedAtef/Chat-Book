@@ -1,4 +1,4 @@
-package mo.ed.prof.yusor.Activities.AddBook;
+package mo.ed.prof.yusor.Activities.Book;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +8,6 @@ import android.widget.FrameLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import mo.ed.prof.yusor.Activities.AddBook.CompleteAddBookActivity;
 import mo.ed.prof.yusor.Fragments.FragmentNewBookDetails;
 import mo.ed.prof.yusor.Fragments.SelectBookFragmentIFExist;
 import mo.ed.prof.yusor.R;
@@ -48,8 +47,6 @@ public class AddNewBookActivity extends AppCompatActivity implements SelectBookF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_book);
         ButterKnife.bind(this);
-
-
         selectBookFragmentIFExist = new SelectBookFragmentIFExist();
         newBookDetailsFragment = new FragmentNewBookDetails();
 
@@ -85,6 +82,7 @@ public class AddNewBookActivity extends AppCompatActivity implements SelectBookF
     @Override
     public void onNextNewBookNameDetailsNeeded(String BookName, String book_id) {
         Intent intent = new Intent(this, CompleteAddBookActivity.class)
+                .putExtra(BookTitle_KEY, BookName)
                 .putExtra(BookTitle_KEY, BookName)
                 .putExtra(BookID_KEY, book_id);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

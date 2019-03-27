@@ -1,4 +1,4 @@
-package mo.ed.prof.yusor.Activities.AddBook;
+package mo.ed.prof.yusor.Activities.Book;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

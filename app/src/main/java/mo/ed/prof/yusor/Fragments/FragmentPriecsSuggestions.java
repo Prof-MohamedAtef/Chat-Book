@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import mo.ed.prof.yusor.Activities.AddBook.AddNewBookActivity;
+import mo.ed.prof.yusor.Activities.Book.AddNewBookActivity;
 import mo.ed.prof.yusor.Adapter.SimilarBooksAdapter;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
@@ -25,8 +25,7 @@ import mo.ed.prof.yusor.helpers.SessionManagement;
 
 //import static mo.ed.prof.yusor.Activities.AddBook.AddBookActivity.BOOK_NAME;
 import static com.facebook.FacebookSdk.getApplicationContext;
-import static mo.ed.prof.yusor.Activities.AddBook.AddBookActivity.BookID_KEY;
-import static mo.ed.prof.yusor.Activities.AddBook.AddBookActivity.BookTitle_KEY;
+import static mo.ed.prof.yusor.Activities.Book.AddBookActivity.BookID_KEY;
 import static mo.ed.prof.yusor.helpers.Config.TwoPane;
 
 /**
