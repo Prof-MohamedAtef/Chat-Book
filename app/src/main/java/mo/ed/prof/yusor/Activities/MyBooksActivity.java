@@ -27,7 +27,7 @@ public class MyBooksActivity extends AppCompatActivity implements MakeVolleyRequ
     private LinearLayoutManager mLayoutManager;
     private SessionManagement sessionManagement;
     private HashMap<String, String> user;
-    private String userID;
+    private String ApiToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +37,19 @@ public class MyBooksActivity extends AppCompatActivity implements MakeVolleyRequ
         sessionManagement=new SessionManagement(getApplicationContext());
         user=sessionManagement.getUserDetails();
         if (user!=null) {
-            userID = user.get(SessionManagement.KEY_userID);
+            ApiToken = user.get(SessionManagement.KEY_idToken);
         }
         verifyConn=new VerifyConnection(getApplicationContext());
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         if (verifyConn.isConnected()){
             // get books
             makeVolleyRequest=new MakeVolleyRequests(getApplicationContext(), this);
-            makeVolleyRequest.getAllBooksForUser(userID);
+            makeVolleyRequest.getAllBooksForUser(ApiToken);
         }
     }
 

@@ -23,6 +23,8 @@ public class Config {
     public static int Year;
     public static int Month;
     public static int Day;
+    public static String AuthURL ="http://fla4news.com/Yusor/api/v1/authers";
+    public static String FacultiesURL ="http://fla4news.com/Yusor/api/v1/departments";
     public static String imageBitmap;
     public static String image_name;
     public static String currentImagePAth;
@@ -60,6 +62,9 @@ public class Config {
     public static String billSpBookName;
     public static int billSpinBuyPos;
     public static CopyOnWriteArrayList<FirebaseUsers> chattingList;
+    public static String TransactionType;
+    public static String BookStatus;
+    public static String Availability;
 
     // public static final String[] Faculties={
 //            Resources.getSystem().getResourceName(R.string.faculty_computer_sciences_engineering).toString(),

@@ -324,10 +324,10 @@ public class MakeVolleyRequests {
         requestQueue.add(stringRequest);
     }
 
-    public void getAllBooksForUser(final String userID) {
+    public void getAllBooksForUser(final String apiToken) {
         final RequestQueue requestQueue  = Volley.newRequestQueue(mContext);
         StringRequest stringRequest=new StringRequest(Request.Method.POST,
-                "http://fla4news.com/Yusor/api/v1/books",
+                "http://fla4news.com/Yusor/api/v1/Mybooks",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -336,7 +336,7 @@ public class MakeVolleyRequests {
                         }else {
                             try {
                                 JsonParser jsonParser = new JsonParser();
-                                ArrayList<StudentsEntity> studentsEntities = jsonParser.getSimilarBooks(response);
+                                ArrayList<StudentsEntity> studentsEntities = jsonParser.getMyBooks(response);
                                 if (studentsEntities != null) {
                                     if (studentsEntities.size() > 0) {
                                         mListener.onComplete(studentsEntities);
@@ -373,7 +373,135 @@ public class MakeVolleyRequests {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> hashMap=new HashMap<>();
-                hashMap.put("student_id",userID);
+                hashMap.put("api_token",apiToken);
+                return  hashMap;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+    public void ApproveBill(final String billID, final String apiToken) {
+        final RequestQueue requestQueue  = Volley.newRequestQueue(mContext);
+        StringRequest stringRequest=new StringRequest(Request.Method.POST,
+                "http://fla4news.com/Yusor/api/v1/update_buyer_atatus",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.matches("")){
+                            Toast.makeText(mContext, mContext.getResources().getString(R.string.failed), Toast.LENGTH_LONG).show();
+                        }else {
+                            try {
+                                JsonParser jsonParser = new JsonParser();
+                                ArrayList<StudentsEntity> studentsEntities = jsonParser.ApproveBill(response);
+                                if (studentsEntities != null) {
+                                    if (studentsEntities.size() > 0) {
+                                        mListener.onComplete(studentsEntities);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                loading.dismiss();
+                //Showing toast
+                if (error!=null){
+                    if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof AuthFailureError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ServerError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof NetworkError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ParseError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+//                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> hashMap=new HashMap<>();
+                hashMap.put("api_token",apiToken);
+                hashMap.put("bill_id",billID);
+                return  hashMap;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+    public void updateBookDetails(final String bookName, final String bookDescription, final String author_id, final String publishYear, final String facultyID,
+                                  final String isbn_number, final String apiToken, final String bookID, final String bookStatus, final String availability,
+                                  final String transactionTypesId, final String price , final String authorTitle) {
+        //http://fla4news.com/Yusor/api/v1/update_book
+        final RequestQueue requestQueue  = Volley.newRequestQueue(mContext);
+        StringRequest stringRequest=new StringRequest(Request.Method.POST,
+                "http://fla4news.com/Yusor/api/v1/update_book",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.matches("")){
+                            Toast.makeText(mContext, mContext.getResources().getString(R.string.failed), Toast.LENGTH_LONG).show();
+                        }else {
+                            try {
+                                JsonParser jsonParser = new JsonParser();
+                                ArrayList<StudentsEntity> studentsEntities = jsonParser.updateBook(response);
+                                if (studentsEntities != null) {
+                                    if (studentsEntities.size() > 0) {
+                                        mListener.onComplete(studentsEntities);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                loading.dismiss();
+                //Showing toast
+                if (error!=null){
+                    if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof AuthFailureError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ServerError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof NetworkError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ParseError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+//                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> hashMap=new HashMap<>();
+                hashMap.put("title",bookName);
+                hashMap.put("desc",bookDescription);
+                hashMap.put("author_id",author_id);
+                hashMap.put("publish_year",publishYear);
+                hashMap.put("department_id",facultyID);
+                hashMap.put("ISBN_num",isbn_number);
+                hashMap.put("api_token",apiToken);
+                hashMap.put("book_id",bookID);
+                hashMap.put("book_status",bookStatus);
+                hashMap.put("availability",availability);
+                hashMap.put("transaction_types_id",transactionTypesId);
+                hashMap.put("price",price);
+                hashMap.put("name",authorTitle);
                 return  hashMap;
             }
         };

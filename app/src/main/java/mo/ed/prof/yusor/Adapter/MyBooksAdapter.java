@@ -2,6 +2,7 @@ package mo.ed.prof.yusor.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -17,6 +19,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import mo.ed.prof.yusor.Activities.Book.EditBookActivity;
+import mo.ed.prof.yusor.Dev.MessageActivity;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
@@ -34,35 +38,6 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.ViewHOld
     SessionManagement sessionManagement;
     Context mContext;
     ArrayList<StudentsEntity> feedItemList;
-    boolean TwoPane;
-    public static String SellerUserName_KEY ="SellerUserName_KEY";
-    public static String BookID_KEY="BookID_KEY";
-    public static String BookName_KEY="BookName_KEY";
-    public static String SellerFacultyName_KEY="SellerFacultyName_KEY";
-    public static String SellerEmail_KEY="SellerEmail_KEY";
-    public static String Transaction_KEY="Transaction_KEY";
-    public static String Price_KEY="Price_KEY";
-    public static String ISBN_KEY="ISBN_KEY";
-    public static String AuthorName_KEY="AuthorName_KEY";
-    public static String PublishYear_KEY="PublishYear_KEY";
-    public static String BookDescription_KEY="BookDescription_KEY";
-    public static String BookSellerID_KEY="BookSellerID_KEY";
-    public static String PivotID_KEY="PivotID_KEY";
-    private Intent intent;
-    private String PivotID;
-    private String SellerUserName;
-    private String SellerID;
-    private String BookID;
-    private String BookName;
-    private String BookDescription;
-    private String PublishYear;
-    private String AuthorName;
-    private String ISBN;
-    private String Price;
-    private String Transaction;
-    private String SellerEmail;
-    private String SellerFacultyName;
-    private String BookFireBUiD;
 
     public MyBooksAdapter(Context mContext, ArrayList<StudentsEntity> feedItemList) {
         this.mContext = mContext;
@@ -112,37 +87,55 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.ViewHOld
                 holder.price.setText("");
             }
             if (feedItem.getAvailability()!=null){
-                if (feedItem.getAvailability().equals("")){
-                    holder.available_in_store.setText("");
-                }else if (feedItem.getAvailability().equals("")){
-                    holder.available_in_store.setText("");
+                if (feedItem.getAvailability().equals("1")){
+                    holder.available_in_store.setText("on show");
+                }else if (feedItem.getAvailability().equals("0")){
+                    holder.available_in_store.setText("sold");
                 }
             }
             if (feedItem.getBookStatus()!=null){
-                holder.book_status.setText(feedItem.getBookStatus());
+                if (feedItem.getBookStatus().equals("1")){
+                    holder.book_status.setText(mContext.getResources().getString(R.string._new));
+                }else if (feedItem.getBookStatus().equals("2")){
+                    holder.book_status.setText(mContext.getResources().getString(R.string.Intermediate));
+                }else if (feedItem.getBookStatus().equals("3")){
+                    holder.book_status.setText(mContext.getResources().getString(R.string.not_bad));
+                }
             }else {
                 holder.book_status.setText("");
             }
             if (feedItem.getTransactionType()!=null){
-                holder.transaction_type.setText(feedItem.getTransactionType());
+                if (feedItem.getTransactionType().equals("1")){
+                    holder.transaction_type.setText("sale");
+                }else if (feedItem.getTransactionType().equals("2")){
+                    holder.transaction_type.setText("exchange");
+                }else if (feedItem.getTransactionType().equals("3")){
+                    holder.transaction_type.setText("gift");
+                }
             }else {
                 holder.transaction_type.setText("");
             }
             if (feedItem.getBookTitle() != null) {
                 holder.BookName.setText(feedItem.getBookTitle());
-                if (feedItem.getAuthorTitle() != null) {
-                    holder.AuthorName.setText(feedItem.getAuthorTitle());
-                    if (feedItem.getBookPrice() != null) {
-                        holder.price.setText(feedItem.getBookPrice());
-                    } else {
-                        holder.price.setText("");
-                    }
+                if (feedItem.getBookPrice() != null) {
+                    holder.price.setText(feedItem.getBookPrice());
                 } else {
-                    holder.AuthorName.setText("");
+                    holder.price.setText("");
                 }
             } else {
                 holder.BookName.setText("");
             }
+            holder.Linear_EditBook.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(mContext, EditBookActivity.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putSerializable("feedItem",feedItem);
+                    intent.putExtras(bundle);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 
@@ -160,14 +153,13 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.ViewHOld
         private final TextView available_in_store;
         private final TextView book_status;
         private final TextView transaction_type;
+        private final LinearLayout Linear_EditBook;
         protected TextView BookName;
-        protected TextView AuthorName;
 
         public ViewHOlder(View converview) {
             super(converview);
             this.book_photo=(ImageView)converview.findViewById(R.id.book_photo);
             this.BookName = (TextView) converview.findViewById(R.id.book_name);
-            this.AuthorName= (TextView) converview.findViewById(R.id.author_name);
             this.PublishYear = (TextView) converview.findViewById(R.id.publish_year);
             this.ISBN = (TextView) converview.findViewById(R.id.num_isbn);
             this.desc=(TextView)converview.findViewById(R.id.desc);
@@ -175,6 +167,7 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.ViewHOld
             this.available_in_store=(TextView)converview.findViewById(R.id.available_in_store);
             this.book_status=(TextView)converview.findViewById(R.id.book_status);
             this.transaction_type=(TextView)converview.findViewById(R.id.transaction_type);
+            this.Linear_EditBook=(LinearLayout)converview.findViewById(R.id.Linear_EditBook);
         }
     }
 }

@@ -177,46 +177,22 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
     <LinearLayout
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RadioGroup
-            android:gravity="center_horizontal|center_vertical"
-            android:id="@+id/radioBookStatusGroup"
-            android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <Spinner
+            android:layout_margin="@dimen/top_margin"
+            android:background="#000000"
+            android:layout_marginLeft="3dp"
+            android:id="@+id/BookStatus_spinner"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
-            android:layout_weight="2"
-            android:layout_height="match_parent">
-            <RadioButton
-                android:id="@+id/Radio_new"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/grey"
-                android:textStyle="bold"
-                android:padding="2dp"
-                android:layout_height="wrap_content"
-                android:text="@string/_new"
-                android:checked="true" />
-            <RadioButton
-                android:id="@+id/Radio_intermediate"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/grey"
-                android:textStyle="bold"
-                android:padding="2dp"
-                android:layout_height="wrap_content"
-                android:text="@string/Intermediate"
-                android:checked="true" />
-            <RadioButton
-                android:id="@+id/Radio_notbad"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/grey"
-                android:textStyle="bold"
-                android:padding="2dp"
-                android:layout_height="wrap_content"
-                android:text="@string/not_bad"
-                android:checked="true" />
-        </RadioGroup>
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
     </LinearLayout>
     <LinearLayout
         android:padding="@dimen/padding_authentication"
@@ -229,46 +205,22 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
     <LinearLayout
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RadioGroup
-            android:gravity="center_horizontal|center_vertical"
-            android:id="@+id/radioTransactionGroup"
-            android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <Spinner
+            android:layout_margin="@dimen/top_margin"
+            android:background="#000000"
+            android:layout_marginLeft="3dp"
+            android:id="@+id/Purpose_spinner"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
-            android:layout_weight="2"
-            android:layout_height="match_parent">
-            <RadioButton
-                android:id="@+id/Radio_Sale"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/grey"
-                android:textStyle="bold"
-                android:padding="2dp"
-                android:layout_height="wrap_content"
-                android:text="@string/sale"
-                android:checked="true" />
-            <RadioButton
-                android:id="@+id/Radio_exchange"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/grey"
-                android:textStyle="bold"
-                android:padding="2dp"
-                android:layout_height="wrap_content"
-                android:text="@string/exchange"
-                android:checked="true" />
-            <RadioButton
-                android:id="@+id/Radio_gift"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/grey"
-                android:textStyle="bold"
-                android:padding="2dp"
-                android:layout_height="wrap_content"
-                android:text="@string/gift"
-                android:checked="true" />
-        </RadioGroup>
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
     </LinearLayout>
     <LinearLayout
         android:gravity="right"

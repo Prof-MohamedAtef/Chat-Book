@@ -48,6 +48,8 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static mo.ed.prof.yusor.helpers.Config.AuthURL;
+import static mo.ed.prof.yusor.helpers.Config.FacultiesURL;
 import static mo.ed.prof.yusor.helpers.Config.currentImagePAth;
 import static mo.ed.prof.yusor.helpers.Config.selectedImagePath;
 
@@ -103,8 +105,6 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
     private java.lang.String SampleDateFormat_KEY="yyyyMMdd_HHmmss";
     private String JPEG_KEY="JPEG_";
     private VerifyConnection verifyConnection;
-    private String AuthURL ="http://fla4news.com/Yusor/api/v1/authers";
-    private String FacultiesURL ="http://fla4news.com/Yusor/api/v1/departments";
     private String IMAGE_TYPE="image/*";
     final static int SELECT_PICTURE=12;
     public static final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 55;

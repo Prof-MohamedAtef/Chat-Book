@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <ImageView
-        android:layout_alignParentTop="true"
-        android:src="@drawable/logo"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:scaleType="fitXY"
-        android:id="@+id/logo"/>
+    android:layout_height="match_parent"
+    android:id="@+id/Linear_EditBook">
     <LinearLayout
         android:padding="10dp"
         android:layout_marginTop="10dp"
@@ -49,23 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/book_name"/>
-            <TextView
-                android:layout_marginTop="10dp"
-                android:textSize="@dimen/medium_text_size"
-                android:text="@string/author_name_"
-                android:src="@color/grey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/author_name"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginEnd="20dp"
-                android:textSize="@dimen/medium_text_size"
-                android:text="@string/author_name_"
-                android:src="@color/grey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+
             <TextView
                 android:layout_marginTop="10dp"
                 android:textSize="@dimen/medium_text_size"
@@ -165,7 +143,7 @@
             android:layout_marginTop="10dp"
             android:layout_below="@+id/num_isbn"
             android:layout_width="match_parent"
-            android:background="@color/red"
+            android:background="@color/yellow"
             android:layout_height="1dp"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -233,7 +211,6 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
                 android:textSize="@dimen/medium_text_size"
-                android:text="@string/offered_for_"
                 android:layout_below="@id/book_status"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
@@ -252,4 +229,11 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
+    <View
+        android:id="@+id/view_line2"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/num_isbn"
+        android:layout_width="match_parent"
+        android:background="@color/red"
+        android:layout_height="1.5dp"/>
 </LinearLayout>

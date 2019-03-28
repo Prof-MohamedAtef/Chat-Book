@@ -123,6 +123,7 @@ public class JsonParser {
     private String buyerGender_STR;
     private String CreatedAt_STR;
     private String UpdatedAt_STR;
+    private JSONArray oneBookDetailsJsonArray;
 
     public JsonParser( ){
 
@@ -353,6 +354,7 @@ public class JsonParser {
             for (int i = 0; i < BookEntityJsonAray.length(); i++) {
                 // Get the JSON object representing a movie per each loop
                 oneBookJsonObjectData = BookEntityJsonAray.getJSONObject(i);
+                BookID_STR = oneBookJsonObjectData.getString("id");
                 Book_Title_STR = oneBookJsonObjectData.getString(Book_Title_KEY);
                 Book_Description_STR = oneBookJsonObjectData.getString(Description_KEY);
                 PublishYear_STR = oneBookJsonObjectData.getString(PublishYear_KEY);
@@ -380,7 +382,7 @@ public class JsonParser {
                         Availability_STR = onePivotJsonObject.getString(Availability_KEY);
                         TransactionType_STR = onePivotJsonObject.getString(TransactionType_KEY);
                         studentsEntity= new StudentsEntity(Book_Title_STR, Book_Description_STR, PublishYear_STR, PHOTO_STR,
-                                ISBN_STR, AuthorName_STR, Price_STR, BookStatus_STR,Availability_STR,TransactionType_KEY);
+                                ISBN_STR, AuthorName_STR, Price_STR, BookStatus_STR,Availability_STR,TransactionType_KEY, BookID_STR);
                         list.add(studentsEntity);
                     }
                 }
@@ -714,6 +716,96 @@ public class JsonParser {
             list.add(studentsEntity);
         }else if (MSG_STR.equals(UserName_Already_Taken)){
             studentsEntity.setException(UserName_Already_Taken);
+            list.add(studentsEntity);
+        }else if (MSG_STR.equals( Error_)){
+            studentsEntity.setException(Error_);
+            list.add(studentsEntity);
+        }else if (MSG_STR.equals(Invalid_Format)){
+            studentsEntity.setException(Invalid_Format);
+            list.add(studentsEntity);
+        }
+        return list;
+    }
+
+    public ArrayList<StudentsEntity> getMyBooks(String response) throws JSONException {
+        studentsEntity= new StudentsEntity();
+        UsersDesiresJson = new JSONObject(response);
+        MSG_STR = UsersDesiresJson.getString("msg");
+        if (MSG_STR.equals(DONE_KEY)){
+            try {
+                BookEntityJsonAray = UsersDesiresJson.getJSONArray("data");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            list.clear();
+            for (int i = 0; i < BookEntityJsonAray.length(); i++) {
+                // Get the JSON object representing a movie per each loop
+                oneBookJsonObjectData = BookEntityJsonAray.getJSONObject(i);
+                BookID_STR = oneBookJsonObjectData.getString("id");
+                Book_Title_STR = oneBookJsonObjectData.getString(Book_Title_KEY);
+                Book_Description_STR = oneBookJsonObjectData.getString(Description_KEY);
+                PublishYear_STR = oneBookJsonObjectData.getString(PublishYear_KEY);
+                ISBN_STR = oneBookJsonObjectData.getString(ISBN_Num_KEY);
+                PHOTO_STR = oneBookJsonObjectData.getString(PHOTO_KEY);
+                JSONArray authorJsonArray = null;
+                try {
+                    oneBookDetailsJsonArray = oneBookJsonObjectData.getJSONArray("bookdetails");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                for (int x = 0; x < oneBookDetailsJsonArray.length(); x++) {
+                    JSONObject oneAuthorJsonObject = oneBookDetailsJsonArray.getJSONObject(x);
+                    Price_STR = oneAuthorJsonObject.getString("price");
+                    BookStatus_STR = oneAuthorJsonObject.getString("book_status");
+                    Availability_STR = oneAuthorJsonObject.getString("availability");
+                    TransactionType_STR = oneAuthorJsonObject.getString("transaction_types_id");
+                    studentsEntity = new StudentsEntity(Book_Title_STR, Book_Description_STR, PublishYear_STR, PHOTO_STR,
+                            ISBN_STR, AuthorName_STR, Price_STR, BookStatus_STR, Availability_STR, TransactionType_STR, BookID_STR);
+                    list.add(studentsEntity);
+                }
+            }
+        }else if (MSG_STR.equals( Email_Already_Taken)){
+            studentsEntity.setException(Email_Already_Taken);
+            list.add(studentsEntity);
+        }else if (MSG_STR.equals(UserName_Already_Taken)){
+            studentsEntity.setException(UserName_Already_Taken);
+            list.add(studentsEntity);
+        }else if (MSG_STR.equals( Error_)){
+            studentsEntity.setException(Error_);
+            list.add(studentsEntity);
+        }else if (MSG_STR.equals(Invalid_Format)){
+            studentsEntity.setException(Invalid_Format);
+            list.add(studentsEntity);
+        }
+        return list;
+    }
+
+    public ArrayList<StudentsEntity> ApproveBill(String response) throws JSONException{
+        studentsEntity= new StudentsEntity();
+        UsersDesiresJson = new JSONObject(response);
+        MSG_STR = UsersDesiresJson.getString("msg");
+        list.clear();
+        if (MSG_STR.equals(DONE_KEY)){
+            studentsEntity.setServerMessage(DONE_KEY);
+            list.add(studentsEntity);
+        }else if (MSG_STR.equals( Error_)){
+            studentsEntity.setException(Error_);
+            list.add(studentsEntity);
+        }else if (MSG_STR.equals(Invalid_Format)){
+            studentsEntity.setException(Invalid_Format);
+            list.add(studentsEntity);
+        }
+        return list;
+    }
+
+    public ArrayList<StudentsEntity> updateBook(String response) throws JSONException{
+        studentsEntity= new StudentsEntity();
+        UsersDesiresJson = new JSONObject(response);
+        MSG_STR = UsersDesiresJson.getString("msg");
+        list.clear();
+        if (MSG_STR.equals(DONE_KEY)){
+            studentsEntity.setServerMessage(DONE_KEY);
             list.add(studentsEntity);
         }else if (MSG_STR.equals( Error_)){
             studentsEntity.setException(Error_);

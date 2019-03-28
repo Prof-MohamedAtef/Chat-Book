@@ -12,7 +12,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1">
@@ -21,8 +21,8 @@
                 style="@style/ButtonText"
                 android:textColor="@color/white"
                 android:background="@drawable/button_shape"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
                 android:text="approve"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -33,27 +33,23 @@
                 app:civ_border_width="2dp"
                 app:civ_border_color="#05df29"
                 android:id="@+id/img_approved"
-                android:visibility="gone"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
                 android:src="@drawable/ic_action_approved"
                 android:layout_marginTop="6dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginEnd="40dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"/>
+                android:layout_marginLeft="40dp"
+                android:layout_marginStart="40dp" />
             <TextView
-                android:visibility="gone"
                 android:layout_below="@+id/img_approved"
                 android:layout_marginTop="5dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginEnd="40dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="40dp"
+                android:layout_marginStart="40dp"
                 android:id="@+id/txt_done"
                 android:textColor="#05df29"
                 android:text="@string/done"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-        </LinearLayout>
+        </RelativeLayout>
         <LinearLayout
             android:gravity="end"
             android:layout_width="match_parent"

@@ -9,29 +9,46 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import mo.ed.prof.yusor.Fragments.FragmentNewBookDetails;
+import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
+import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
+import mo.ed.prof.yusor.helpers.SessionManagement;
 
 /**
  * Created by Prof-Mohamed Atef on 3/25/2019.
  */
 
-public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.ViewHOlder> implements Serializable {
+public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.ViewHOlder> implements Serializable,MakeVolleyRequests.OnCompleteListener {
 
+    private final SessionManagement sessionManagement;
+    private final HashMap<String, String> user;
+    private String ApiToken = null;
     Context mContext;
     List<StudentsEntity> feedItemList;
     Cursor mCursor;
+    private MakeVolleyRequests makeRequest;
+    private VerifyConnection verifyConn;
 
     public BillsAdapter(Context mContext, List<StudentsEntity> feedItemList) {
         this.mContext = mContext;
         this.feedItemList = feedItemList;
+        sessionManagement=new SessionManagement(mContext);
+        user =sessionManagement.getUserDetails();
+        if (user!=null) {
+            ApiToken = user.get(SessionManagement.KEY_idToken);
+        }
     }
 
     @NonNull
@@ -58,31 +75,34 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.ViewHOlder> 
             }
             if (feedItem.getOwnerStatus()!=null&&feedItem.getBuyerStatus()!=null){
                 if (feedItem.getOwnerStatus().equals("1")&&feedItem.getBuyerStatus().equals("0")){
-                    holder.bill_status.setText("Pending");
-                    holder.bill_status.setTextColor(mContext.getResources().getColor(R.color.red));
                     holder.img_approved.setVisibility(View.GONE);
                     holder.Done.setVisibility(View.GONE);
                     holder.btn_approve.setVisibility(View.VISIBLE);
                 }else if (feedItem.getOwnerStatus().equals("1")&&feedItem.getBuyerStatus().equals("1")){
-                    holder.bill_status.setText("Completed");
-                    holder.bill_status.setTextColor(mContext.getResources().getColor(R.color.green));
                     holder.btn_approve.setVisibility(View.GONE);
                     holder.img_approved.setVisibility(View.VISIBLE);
                     holder.Done.setVisibility(View.VISIBLE);
                 }
             }
-            holder.btn_approve.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                    Approval("1", );
-                    holder.img_approved.setVisibility(View.VISIBLE);
-                    holder.Done.setVisibility(View.VISIBLE);
-                    Picasso.with(mContext).load(R.drawable.ic_action_approved)
-                            .error(R.drawable.logo)
-                            .into(holder.img_approved);
-                    holder.btn_approve.setVisibility(View.GONE);
-                }
-            });
+            if (ApiToken!=null&&feedItem.getBillID()!=null){
+                holder.btn_approve.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        verifyConn = new VerifyConnection(mContext);
+                        if (verifyConn.isConnected()) {
+                            makeRequest = new MakeVolleyRequests(mContext, BillsAdapter.this);
+                            makeRequest.ApproveBill(feedItem.getBillID(), ApiToken);
+
+                            holder.img_approved.setVisibility(View.VISIBLE);
+                            holder.Done.setVisibility(View.VISIBLE);
+                            Picasso.with(mContext).load(R.drawable.ic_action_approved)
+                                    .error(R.drawable.logo)
+                                    .into(holder.img_approved);
+                            holder.btn_approve.setVisibility(View.GONE);
+                        }
+                    }
+                });
+            }
             if (feedItem.getBillID()!=null){
                 holder.bill_number.setText(feedItem.getBillID());
                 if (feedItem.getSellerPersonName()!=null){
@@ -120,6 +140,21 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.ViewHOlder> 
             size=(null != mCursor ? mCursor.getCount() : 0);
         }
         return size;
+    }
+
+    @Override
+    public void onComplete(ArrayList<StudentsEntity> studentsEntities) {
+        if (studentsEntities!=null){
+            if (studentsEntities.size()>0){
+                for (StudentsEntity studentsEntity:studentsEntities){
+                    if (studentsEntity.getException()!=null){
+                        Toast.makeText(mContext, studentsEntity.getException().toString(),Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(mContext, studentsEntity.getServerMessage().toString(),Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        }
     }
 
     class ViewHOlder extends RecyclerView.ViewHolder {

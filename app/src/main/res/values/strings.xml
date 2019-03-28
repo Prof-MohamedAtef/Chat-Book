@@ -38,6 +38,7 @@
     <string name="book_name_">Book Name :</string>
     <string name="call">call</string>
     <string name="book_status">Book Statue :</string>
+    <string name="book_status_null">Book Statue is Null!</string>
     <string name="book_price">Book Price :</string>
     <string name="price">in SR</string>
     <string name="agreement">This Bill has been issued after request of the buyer and the agrrement had been made upon sale with the mentioned price, hence both of the seller and buyer should assign on this bill to complete the transaction.</string>
@@ -65,6 +66,7 @@
     <string name="Book_status">Book Status</string>
     <string name="Book_status_">Book Status :</string>
     <string name="book_availability">Book Availability</string>
+    <string name="book_availability_null">Book Availability is Null!</string>
     <string name="purpose">Purpose</string>
     <string name="btn_publish">Publish</string>
     <string name="btn_edit">Edit</string>
@@ -79,6 +81,7 @@
     <string name="hint_Publish_year">Select Publish Year</string>
     <string name="slash">/</string>
     <string name="transaction_type">Transaction Type</string>
+    <string name="transaction_type_null">Transaction Type is Null!</string>
     <string name="hint_transaction_type">Select Transaction Type</string>
     <string name="sale">Sale</string>
     <string name="add_to_bills">Add To Bills</string>
@@ -188,6 +191,7 @@
     <string name="enter_faculty_id">Enter Faculty Name</string>
     <string name="enter_isbn_num">Enter ISBN Number</string>
     <string name="enter_image">Capture Book Photo</string>
+    <string name="null_book_id">Book ID is null!</string>
 
 
     <!--book status-->

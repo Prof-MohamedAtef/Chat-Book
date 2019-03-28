@@ -345,6 +345,15 @@ public class StudentsEntity implements Serializable {
     String BookPrice;
     String BookImage;
     String BookOwnerID;
+    String ServerMessage;
+
+    public String getServerMessage() {
+        return ServerMessage;
+    }
+
+    public void setServerMessage(String serverMessage) {
+        ServerMessage = serverMessage;
+    }
 
     String FacultyName;
     String FacultyID;
@@ -360,7 +369,7 @@ public class StudentsEntity implements Serializable {
     }
 
     //suggest Books
-    public StudentsEntity(String book_title_str, String book_description_str, String publishYear_str, String photo_str, String isbn_str, String authorName_str, String price_str, String BookStatus, String Book_Availability, String Transaction_Type) {
+    public StudentsEntity(String book_title_str, String book_description_str, String publishYear_str, String photo_str, String isbn_str, String authorName_str, String price_str, String BookStatus, String Book_Availability, String Transaction_Type, String book_id) {
         this.BookTitle=book_title_str;
         this.BookDescription=book_description_str;
         this.PublishYear=publishYear_str;
@@ -371,9 +380,10 @@ public class StudentsEntity implements Serializable {
         this.BookStatus=BookStatus;
         this.Availability=Book_Availability;
         this.TransactionType=Transaction_Type;
+        this.BookID=book_id;
     }
 
-    String DoneStatus;
+    String DoneStatus   ;
 
     public String getDoneStatus() {
         return DoneStatus;
