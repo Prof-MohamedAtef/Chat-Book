@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -20,8 +21,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import mo.ed.prof.yusor.Activities.Book.EditBookActivity;
+import mo.ed.prof.yusor.Activities.MainActivity;
 import mo.ed.prof.yusor.Dev.MessageActivity;
 import mo.ed.prof.yusor.R;
+import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
@@ -31,13 +34,16 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by Prof-Mohamed Atef on 3/26/2019.
  */
 
-public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.ViewHOlder> implements Serializable {
+public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.ViewHOlder> implements Serializable, MakeVolleyRequests.OnCompleteListener{
 
+    String ApiToken;
     String firebaseUiD;
     HashMap<String, String> user;
     SessionManagement sessionManagement;
     Context mContext;
     ArrayList<StudentsEntity> feedItemList;
+    private MakeVolleyRequests makeVolleyRequest;
+    private String BookID;
 
     public MyBooksAdapter(Context mContext, ArrayList<StudentsEntity> feedItemList) {
         this.mContext = mContext;
@@ -46,6 +52,7 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.ViewHOld
         user=sessionManagement.getUserDetails();
         if (user!=null){
             firebaseUiD=user.get(SessionManagement.firebase_UID_KEY);
+            ApiToken = user.get(SessionManagement.KEY_idToken);
         }
     }
 
@@ -136,12 +143,39 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.ViewHOld
                     mContext.startActivity(intent);
                 }
             });
+
+            holder.btn_remove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    makeVolleyRequest=new MakeVolleyRequests(mContext,MyBooksAdapter.this);
+                    BookID= feedItem.getBookID();
+                    makeVolleyRequest.removeBook(ApiToken,BookID);
+                }
+            });
         }
     }
 
     @Override
     public int getItemCount() {
         return (null != feedItemList ? feedItemList.size() : 0);
+    }
+
+    @Override
+    public void onComplete(ArrayList<StudentsEntity> studentsEntities) {
+        if (studentsEntities!=null){
+            Intent intent=new Intent(mContext,MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            if (studentsEntities.size()>0){
+                for (StudentsEntity studentsEntity:studentsEntities){
+                    if (studentsEntity.getException()!=null){
+                        Toast.makeText(mContext, studentsEntity.getException().toString(),Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(mContext, studentsEntity.getServerMessage().toString(),Toast.LENGTH_SHORT).show();
+                        mContext.startActivity(intent);
+                    }
+                }
+            }
+        }
     }
 
     class ViewHOlder extends RecyclerView.ViewHolder {
@@ -154,6 +188,7 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.ViewHOld
         private final TextView book_status;
         private final TextView transaction_type;
         private final LinearLayout Linear_EditBook;
+        private final Button btn_remove;
         protected TextView BookName;
 
         public ViewHOlder(View converview) {
@@ -168,6 +203,7 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.ViewHOld
             this.book_status=(TextView)converview.findViewById(R.id.book_status);
             this.transaction_type=(TextView)converview.findViewById(R.id.transaction_type);
             this.Linear_EditBook=(LinearLayout)converview.findViewById(R.id.Linear_EditBook);
+            this.btn_remove=(Button)converview.findViewById(R.id.btn_remove);
         }
     }
 }

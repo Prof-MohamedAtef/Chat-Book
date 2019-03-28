@@ -172,18 +172,23 @@ public class BookDetailActivity extends AppCompatActivity {
 
             if (BookSellerFBUi.equals(loggedFirebaseUserID)){
                 // seller
-                create_bill.setVisibility(View.VISIBLE);
-                create_bill.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        intent =new Intent(getApplicationContext(),BillsActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        Bundle bundle=new Bundle();
-                        bundle.putSerializable("feedItem",studentsEntity);
-                        intent.putExtras(bundle);
-                        getApplicationContext().startActivity(intent);
-                    }
-                });
+                if (!BookAvailabilityID.equals("1")){
+                    create_bill.setText("pending Approval");
+                    create_bill.setEnabled(false);
+                }else {
+                    create_bill.setVisibility(View.VISIBLE);
+                    create_bill.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            intent =new Intent(getApplicationContext(),BillsActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            Bundle bundle=new Bundle();
+                            bundle.putSerializable("feedItem",studentsEntity);
+                            intent.putExtras(bundle);
+                            getApplicationContext().startActivity(intent);
+                        }
+                    });
+                }
             }else {
                 // buyer
                 startChat_btn.setVisibility(View.VISIBLE);

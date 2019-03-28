@@ -1,5 +1,6 @@
 package mo.ed.prof.yusor.Activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -58,6 +59,10 @@ public class MyBooksActivity extends AppCompatActivity implements MakeVolleyRequ
         if (studentsEntities!=null){
             if (studentsEntities.size()>0){
                 populateBookList(studentsEntities);
+            }else if (studentsEntities.size()==0){
+                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getApplicationContext().startActivity(intent);
             }
         }
     }

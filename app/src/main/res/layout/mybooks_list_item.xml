@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/Linear_EditBook">
+    android:id="@+id/Linear_EditBook"
+    android:background="@color/white">
     <LinearLayout
         android:padding="10dp"
         android:layout_marginTop="10dp"
@@ -137,14 +138,6 @@
         android:layout_below="@id/logo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <View
-            android:id="@+id/view_line1"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/num_isbn"
-            android:layout_width="match_parent"
-            android:background="@color/yellow"
-            android:layout_height="1dp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -156,7 +149,6 @@
                 android:layout_marginRight="20dp"
                 android:textSize="@dimen/medium_text_size"
                 android:text="@string/available_"
-                android:layout_below="@+id/view_line1"
                 android:src="@color/grey"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
@@ -166,7 +158,6 @@
                 android:layout_marginTop="10dp"
                 android:textSize="@dimen/medium_text_size"
                 android:text="@string/available_"
-                android:layout_below="@+id/view_line1"
                 android:src="@color/grey"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
@@ -228,6 +219,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="10dp">
+        <Button
+            style="@style/ButtonText"
+            android:id="@+id/btn_remove"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:background="@drawable/button_shape"
+            android:text="@string/btn_remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
     <View
         android:id="@+id/view_line2"
