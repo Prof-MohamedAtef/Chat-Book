@@ -21,7 +21,12 @@
     <string name="myBooks">كتبى</string>
     <string name="user_profile">الصفحة الشخصية</string>
     <string name="contact">إتصل بنا</string>
+    <string name="reports">أرسل شكوى</string>
+    <string name="write_report">أكتب شكوى</string>
+    <string name="send">أرسل</string>
     <string name="logout">تسجيل الخروج</string>
+
+    <string name="enter_report">أدخل شكواك !</string>
 
 
     <string name="openDrawer">غلق شاشة الولوج</string>

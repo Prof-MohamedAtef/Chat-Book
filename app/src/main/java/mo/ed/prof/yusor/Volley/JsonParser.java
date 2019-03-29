@@ -879,4 +879,22 @@ public class JsonParser {
         }
         return list;
     }
+
+    public ArrayList<StudentsEntity> sendReports(String response) throws  JSONException {
+        studentsEntity= new StudentsEntity();
+        UsersDesiresJson = new JSONObject(response);
+        MSG_STR = UsersDesiresJson.getString("msg");
+        list.clear();
+        if (MSG_STR.equals(DONE_KEY)){
+            studentsEntity.setServerMessage(DONE_KEY);
+            list.add(studentsEntity);
+        }else if (MSG_STR.equals( Error_)){
+            studentsEntity.setException(Error_);
+            list.add(studentsEntity);
+        }else if (MSG_STR.equals(Invalid_Format)){
+            studentsEntity.setException(Invalid_Format);
+            list.add(studentsEntity);
+        }
+        return list;
+    }
 }

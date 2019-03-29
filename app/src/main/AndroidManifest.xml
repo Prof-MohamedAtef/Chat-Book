@@ -120,9 +120,18 @@
             android:name=".Activities.BillApprove.BookDetailActivity"
             android:parentActivityName=".Activities.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".Activities.BillApprove.DisplayBillActivity" />
-        <activity android:name=".Activities.MyBooksActivity" />
-        <activity android:name=".Activities.Book.EditBookActivity"></activity>
+        <activity android:name=".Activities.BillApprove.DisplayBillActivity"
+            android:parentActivityName=".Activities.MainActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".Activities.Book.MyBooksActivity"
+            android:parentActivityName=".Activities.MainActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".Activities.Book.EditBookActivity"
+            android:parentActivityName=".Activities.Book.MyBooksActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".Activities.ReportsActivity"
+            android:parentActivityName=".Activities.MainActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" ></activity>
     </application>
 
 </manifest>

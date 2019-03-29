@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/medium_text_size"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="mo.ed.prof.yusor.Activities.ReportsActivity">
+    <EditText
+        android:layout_weight="5"
+        android:background="@color/grey"
+        android:id="@+id/txt_shareideas"
+        android:hint="@string/write_report"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:lines="40"
+        android:minLines="5"
+        android:gravity="center_vertical|center_horizontal"
+        android:maxLines="40"
+        android:inputType="textMultiLine"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="vertical" />
+    <LinearLayout
+        android:layout_below="@id/txt_shareideas"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="40dp"
+        android:gravity="center">
+        <Button
+            android:id="@+id/BTN_SEND"
+            android:textStyle="bold"
+            android:text="@string/send"
+            style="@style/ButtonText"
+            android:background="@drawable/button_shape"
+            android:layout_below="@id/txt_shareideas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>

@@ -221,6 +221,9 @@ public class MakeVolleyRequests {
                     public void onResponse(String response) {
                         if (response.matches("")){
                             Toast.makeText(mContext, mContext.getResources().getString(R.string.failed), Toast.LENGTH_LONG).show();
+                            ArrayList<StudentsEntity> studentsEntities=new ArrayList<>();
+                            studentsEntities.clear();
+                            mListener.onComplete(studentsEntities);
                         }else {
                             try {
                                 JsonParser jsonParser = new JsonParser();
@@ -562,6 +565,63 @@ public class MakeVolleyRequests {
                 HashMap<String,String> hashMap=new HashMap<>();
                 hashMap.put("api_token",apiToken);
                 hashMap.put("book_id",bookID);
+                return  hashMap;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+    public void sendReport(final String apiToken, final String text_sharedIdeas) {
+        final RequestQueue requestQueue  = Volley.newRequestQueue(mContext);
+        StringRequest stringRequest=new StringRequest(Request.Method.POST,
+                "http://fla4news.com/Yusor/api/v1/reports",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.matches("")){
+                            Toast.makeText(mContext, mContext.getResources().getString(R.string.failed), Toast.LENGTH_LONG).show();
+                        }else {
+                            try {
+                                JsonParser jsonParser = new JsonParser();
+                                ArrayList<StudentsEntity> studentsEntities = jsonParser.sendReports(response);
+                                if (studentsEntities != null) {
+                                    if (studentsEntities.size() > 0) {
+                                        mListener.onComplete(studentsEntities);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                loading.dismiss();
+                //Showing toast
+                if (error!=null){
+                    if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof AuthFailureError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ServerError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof NetworkError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ParseError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+//                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> hashMap=new HashMap<>();
+                hashMap.put("api_token",apiToken);
+                hashMap.put("text",text_sharedIdeas);
                 return  hashMap;
             }
         };

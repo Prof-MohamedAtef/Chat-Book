@@ -21,6 +21,7 @@ import java.util.HashMap;
 
 import mo.ed.prof.yusor.Activities.Book.AddNewBookActivity;
 import mo.ed.prof.yusor.Activities.BillApprove.DisplayBillActivity;
+import mo.ed.prof.yusor.Activities.Book.MyBooksActivity;
 import mo.ed.prof.yusor.Activities.Chat.ChatHistoryActivity;
 import mo.ed.prof.yusor.Fragments.BooksGalleryFragment;
 import mo.ed.prof.yusor.Fragments.NoBooksInGalleryFragment;
@@ -133,6 +134,10 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                     case R.id.user_profile:
                         Intent intent4=new Intent(getApplicationContext(), ProfileActivity.class);
                         startActivity(intent4);
+                        return true;
+                    case R.id.reports:
+                        Intent intent_reports=new Intent(getApplicationContext(), ReportsActivity.class);
+                        startActivity(intent_reports);
                         return true;
                     case R.id.logout:
                         SignOut();
