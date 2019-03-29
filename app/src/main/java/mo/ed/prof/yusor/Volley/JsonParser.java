@@ -124,6 +124,10 @@ public class JsonParser {
     private String CreatedAt_STR;
     private String UpdatedAt_STR;
     private JSONArray oneBookDetailsJsonArray;
+    private JSONArray userEntityJsonAray;
+    private JSONObject oneUserJsonObjectData;
+    private JSONArray oneDepartmentJsonArray;
+    private String FirebaseUserID_STR;
 
     public JsonParser( ){
 
@@ -888,6 +892,55 @@ public class JsonParser {
         if (MSG_STR.equals(DONE_KEY)){
             studentsEntity.setServerMessage(DONE_KEY);
             list.add(studentsEntity);
+        }else if (MSG_STR.equals( Error_)){
+            studentsEntity.setException(Error_);
+            list.add(studentsEntity);
+        }else if (MSG_STR.equals(Invalid_Format)){
+            studentsEntity.setException(Invalid_Format);
+            list.add(studentsEntity);
+        }
+        return list;
+    }
+
+    public ArrayList<StudentsEntity> getProfile(String response) throws  JSONException {
+        studentsEntity= new StudentsEntity();
+        UsersDesiresJson = new JSONObject(response);
+        MSG_STR = UsersDesiresJson.getString("msg");
+        if (MSG_STR.equals(DONE_KEY)){
+            try {
+                userEntityJsonAray = UsersDesiresJson.getJSONArray("data");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            list.clear();
+            for (int i = 0; i < userEntityJsonAray.length(); i++) {
+                // Get the JSON object representing a movie per each loop
+                oneUserJsonObjectData = userEntityJsonAray.getJSONObject(i);
+                UserID_STR= oneUserJsonObjectData.getString("id");
+                UserName_STR = oneUserJsonObjectData.getString("UserName");
+                Gender_STR= oneUserJsonObjectData.getString("Gender");
+                Email_STR= oneUserJsonObjectData.getString("Email");
+                FirebaseUserID_STR = oneUserJsonObjectData.getString("firbase_id");
+                JSONArray authorJsonArray = null;
+                try {
+                    oneDepartmentJsonArray= oneBookJsonObjectData.getJSONArray("department");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                for (int x = 0; x < oneDepartmentJsonArray.length(); x++) {
+                    JSONObject oneAuthorJsonObject = oneDepartmentJsonArray.getJSONObject(x);
+                    Department_STR = oneAuthorJsonObject.getString("name");
+                    studentsEntity = new StudentsEntity(UserID_STR, UserName_STR, Gender_STR, Email_STR, FirebaseUserID_STR, Department_STR);
+                    list.add(studentsEntity);
+                }
+            }
+        }else if (MSG_STR.equals( Email_Already_Taken)){
+            studentsEntity.setException(Email_Already_Taken);
+            list.add(studentsEntity);
+        }else if (MSG_STR.equals(UserName_Already_Taken)){
+            studentsEntity.setException(UserName_Already_Taken);
+            list.add    (studentsEntity);
         }else if (MSG_STR.equals( Error_)){
             studentsEntity.setException(Error_);
             list.add(studentsEntity);

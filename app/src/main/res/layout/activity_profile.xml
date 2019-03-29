@@ -124,6 +124,7 @@
                         android:text="@string/profile_name"
                         android:layout_height="match_parent" />
                     <TextView
+                        android:id="@+id/txt_profile_name"
                         android:textColor="@color/red"
                         android:padding="@dimen/padding_authentication"
                         android:layout_width="0dp"
@@ -145,6 +146,7 @@
                         android:text="@string/gender"
                         android:layout_height="match_parent" />
                     <TextView
+                        android:id="@+id/txt_gender"
                         android:textColor="@color/red"
                         android:padding="@dimen/padding_authentication"
                         android:layout_width="0dp"
@@ -175,6 +177,7 @@
                             android:layout_height="50dp" />
                     </LinearLayout>
                     <TextView
+                        android:id="@+id/txt_email"
                         android:padding="@dimen/padding_authentication"
                         android:gravity="center_vertical|left"
                         android:text="@string/static_price"
@@ -199,6 +202,7 @@
                             android:layout_height="50dp" />
                     </LinearLayout>
                     <TextView
+                        android:id="@+id/txt_major"
                         android:padding="@dimen/padding_authentication"
                         android:gravity="center_vertical|left"
                         android:text="@string/static_price"

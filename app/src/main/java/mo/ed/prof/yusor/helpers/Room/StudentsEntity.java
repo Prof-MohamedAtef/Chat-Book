@@ -12,6 +12,16 @@ public class StudentsEntity implements Serializable {
     public static Object FBAccessToken;
     public String CreatedAt;
 
+    public StudentsEntity(String userID_str, String userName_str, String gender_str,
+                          String email_str, String firebaseUserID_str, String department_str) {
+        this.UserID=userID_str;
+        this.UserName=userName_str;
+        this.Gender=gender_str;
+        this.Email=email_str;
+        this.FirebaseUiD=firebaseUserID_str;
+        this.DepartmentName=department_str;
+    }
+
     public String getCreatedAt() {
         return CreatedAt;
     }
@@ -373,6 +383,9 @@ public class StudentsEntity implements Serializable {
         this.AuthorTitle=authorName_str;
         this.DepartmentName=department_str;
     }
+
+
+
 
     //suggest Books
     public StudentsEntity(String book_title_str, String book_description_str, String publishYear_str, String photo_str, String isbn_str, String authorName_str, String price_str, String BookStatus, String Book_Availability, String Transaction_Type, String book_id) {
