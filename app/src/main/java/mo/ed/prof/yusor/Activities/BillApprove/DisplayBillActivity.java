@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import java.io.Serializable;
 
+import mo.ed.prof.yusor.Activities.MainActivity;
 import mo.ed.prof.yusor.Fragments.BillsFragment;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
@@ -36,5 +37,14 @@ public class DisplayBillActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.master_list_fragment, billsFragment, Frags_KEY)
                 .commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplicationContext().startActivity(intent);
+        finish();
     }
 }

@@ -1,5 +1,7 @@
 package mo.ed.prof.yusor.helpers.Room;
 
+import com.google.firebase.storage.StorageReference;
+
 import java.io.Serializable;
 
 /**
@@ -296,11 +298,13 @@ public class StudentsEntity implements Serializable {
         SellerID = sellerID;
     }
 
+    // OnSale Books
     public StudentsEntity(String sellerID_str, String bookID_str, String price_str, String availability_str, String transactionType_str,
                           String bookID_str1, String book_title_str, String book_description_str, String publishYear_str,
                           String authorID_str, String departmentID_str, String isbn_str, String photo_str, String studentID_str,
                           String personName_str, String userName_str, String gender_str, String email_str, String departmentID_str1,
-                          String department_name, String author_name, String pivot_id_str, String firbase_id_STR, String bookStatus_STR) {
+                          String department_name, String author_name, String pivot_id_str, String firbase_id_STR, String bookStatus_STR,
+                          String billID, String buyerID, String ownerStatus, String buyerStatus, String buyerFirebaseUiD) {
         this.PivotID=pivot_id_str;
         this.BookOwnerID=sellerID_str;
         this.BookID=bookID_str;
@@ -321,8 +325,10 @@ public class StudentsEntity implements Serializable {
         this.SellerDepartmentID=departmentID_str1;
         this.AuthorTitle=author_name;
         this.DepartmentName=department_name;
-        this.FirebaseUiD=firbase_id_STR;
+        this.SellerFirebaseUid=firbase_id_STR;
         this.BookStatus=bookStatus_STR;
+        this.BillID=billID; this.BuyerID=buyerID;   this.OwnerStatus=ownerStatus;   this.BuyerStatus=buyerStatus;
+        this.BuyerFirebaseUiD=buyerFirebaseUiD;
     }
 
     public String getUserID() {

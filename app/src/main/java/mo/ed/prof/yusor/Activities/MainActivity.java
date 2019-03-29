@@ -23,6 +23,7 @@ import mo.ed.prof.yusor.Activities.Book.AddNewBookActivity;
 import mo.ed.prof.yusor.Activities.BillApprove.DisplayBillActivity;
 import mo.ed.prof.yusor.Activities.Chat.ChatHistoryActivity;
 import mo.ed.prof.yusor.Fragments.BooksGalleryFragment;
+import mo.ed.prof.yusor.Fragments.NoBooksInGalleryFragment;
 import mo.ed.prof.yusor.Fragments.NoInternetFragment;
 import mo.ed.prof.yusor.Network.SnackBarClassLauncher;
 import mo.ed.prof.yusor.Network.VerifyConnection;
@@ -30,7 +31,7 @@ import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
 public class MainActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener,
-        NoInternetFragment.onReloadInternetServiceListener{
+        NoInternetFragment.onReloadInternetServiceListener, BooksGalleryFragment.NoBooksFragment{
 
     Snackbar snackbar;
     SnackBarClassLauncher snackBarLauncher;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     private BooksGalleryFragment booksGalleryFragment;
     private String LoggedType;
     private String firebaseUserID;
+    private NoBooksInGalleryFragment noBooksInGalleryFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         final Bundle bundle=new Bundle();
         noInternetFragment=new NoInternetFragment();
         booksGalleryFragment=new BooksGalleryFragment();
+        noBooksInGalleryFragment=new NoBooksInGalleryFragment();
         sessionManagement=new SessionManagement(getApplicationContext());
         user=sessionManagement.getUserDetails();
         if (user!=null){
@@ -258,5 +261,12 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     @Override
     public void ReloadInternetService() {
         SnackBasedConnection();
+    }
+
+    @Override
+    public void noBooksFragment() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container_frame, noBooksInGalleryFragment , "newsApi")
+                .commit();
     }
 }

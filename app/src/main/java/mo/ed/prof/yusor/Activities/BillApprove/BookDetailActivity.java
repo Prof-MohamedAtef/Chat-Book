@@ -9,24 +9,28 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dd.processbutton.iml.GenerateProcessButton;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import mo.ed.prof.yusor.Activities.Authentication.TaibahRegistrationActivity;
+import mo.ed.prof.yusor.Adapter.Bills.BillsAdapter;
 import mo.ed.prof.yusor.Dev.MessageActivity;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
+import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
 import mo.ed.prof.yusor.helpers.Config;
 import mo.ed.prof.yusor.helpers.Designsers.ProgressGenerator;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
-public class BookDetailActivity extends AppCompatActivity {
+public class BookDetailActivity extends AppCompatActivity implements ProgressGenerator.OnCompleteListener{
 
     Intent intent;
     private StudentsEntity studentsEntity;
@@ -106,6 +110,11 @@ public class BookDetailActivity extends AppCompatActivity {
     private String LoggedProfilePic;
     private String loggedFirebaseUserID;
     private String ApiToken;
+    private String OwnerStatus;
+    private String BuyerStatus;
+    private String BuyerFirebUseriD;
+    private String Book_id;
+    private String BillID;
 
 
     @Override
@@ -114,9 +123,7 @@ public class BookDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_book_detail);
         setTheme(R.style.ArishTheme);
         ButterKnife.bind(this);
-
         intent=getIntent();
-
         sessionManagement=new SessionManagement(getApplicationContext());
         user=sessionManagement.getUserDetails();
         if (user!=null) {
@@ -129,7 +136,6 @@ public class BookDetailActivity extends AppCompatActivity {
         if (intent!=null){
             studentsEntity= (StudentsEntity) intent.getExtras().getSerializable("feedItem");
             BookName=studentsEntity.getBookTitle();
-            BookPrice=studentsEntity.getBookPrice();
             BookDescription=studentsEntity.getBookDescription();
             PublishYear=studentsEntity.getPublishYear();
             ISBN=studentsEntity.getISBN_NUM();
@@ -138,7 +144,8 @@ public class BookDetailActivity extends AppCompatActivity {
             BookPhoto=studentsEntity.getBookImage();
             BookStatusID =studentsEntity.getBookStatus();
             BookAvailabilityID=studentsEntity.getAvailability();
-            BookSellerFBUi=studentsEntity.getFirebaseUiD();
+            BookSellerFBUi=studentsEntity.getSellerFirebaseUid();
+            BuyerFirebUseriD=studentsEntity.getBuyerFirebaseUiD();
             if (BookStatusID != null) {
                 if (BookStatusID.equals(getResources().getString(R.string.new_book))) {
                     BookStatus = getResources().getString(R.string._new);
@@ -160,7 +167,6 @@ public class BookDetailActivity extends AppCompatActivity {
             if (BookAvailabilityID.equals("1")){
                 BookAvailability="Available";
             }
-
             // seller information
 
             SellerName=studentsEntity.getSellerUserName();
@@ -169,36 +175,91 @@ public class BookDetailActivity extends AppCompatActivity {
             SellerFaculty=studentsEntity.getDepartmentName();
             FirebaseSellerAccount=studentsEntity.getFirebaseUiD();
 
-
             if (BookSellerFBUi.equals(loggedFirebaseUserID)){
-                // seller
-                if (!BookAvailabilityID.equals("1")){
-                    create_bill.setText("pending Approval");
-                    create_bill.setEnabled(false);
+                // i am registered as seller
+                if (studentsEntity.getOwnerStatus()!=null&&studentsEntity.getBuyerStatus()!=null) {
+                    OwnerStatus = studentsEntity.getOwnerStatus();
+                    BuyerStatus = studentsEntity.getBuyerStatus();
+                    if (OwnerStatus.equals("1") && BuyerStatus.equals("0")) {
+                        create_bill.setVisibility(View.VISIBLE);
+                        create_bill.setText("pending Approval");
+                        create_bill.setEnabled(false);
+                    } else if (OwnerStatus.equals("1") && BuyerStatus.equals("1")) {
+                        create_bill.setVisibility(View.VISIBLE);
+                        create_bill.setText("Approval Done");
+                        create_bill.setEnabled(false);
+                    } else if (OwnerStatus.equals("0") && BuyerStatus.equals("0")) {
+                        create_bill.setVisibility(View.VISIBLE);
+                        create_bill.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                intent = new Intent(getApplicationContext(), BillsActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("feedItem", studentsEntity);
+                                intent.putExtras(bundle);
+                                getApplicationContext().startActivity(intent);
+                                finish();
+                            }
+                        });
+                    }
                 }else {
                     create_bill.setVisibility(View.VISIBLE);
                     create_bill.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            intent =new Intent(getApplicationContext(),BillsActivity.class);
+                            intent = new Intent(getApplicationContext(), BillsActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            Bundle bundle=new Bundle();
-                            bundle.putSerializable("feedItem",studentsEntity);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("feedItem", studentsEntity);
                             intent.putExtras(bundle);
                             getApplicationContext().startActivity(intent);
+                            finish();
                         }
                     });
                 }
-            }else {
-                // buyer
+            }else if (BuyerFirebUseriD.equals(loggedFirebaseUserID)){
+                //i am registered as buyer
+                if (studentsEntity.getOwnerStatus()!=null&&studentsEntity.getBuyerStatus() != null) {
+                    OwnerStatus = studentsEntity.getOwnerStatus();
+                    BuyerStatus = studentsEntity.getBuyerStatus();
+                    if (BuyerStatus.equals("0")) {
+                        create_bill.setVisibility(View.VISIBLE);
+                        create_bill.setText("Approve");
+                        create_bill.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                BillID = studentsEntity.getBillID();
+                                ApiToken = user.get(SessionManagement.KEY_idToken);
+                                verifyConn = new VerifyConnection(getApplicationContext());
+                                if (verifyConn.isConnected()) {
+                                    // i am buyer
+                                    if (BillID != null && ApiToken != null) {
+                                        progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener) BookDetailActivity.this, getApplicationContext());
+                                        progressGenerator.approveBill(create_bill, BillID, ApiToken);
+                                    }
+                                }
+                            }
+                        });
+                    }if (BuyerStatus.equals("1")){
+                        create_bill.setVisibility(View.VISIBLE);
+                        create_bill.setText("Approval Done");
+                        create_bill.setEnabled(false);
+                    }
+                }else {
+                    create_bill.setVisibility(View.VISIBLE);
+                }
+            } else {
+                // going to buy
                 startChat_btn.setVisibility(View.VISIBLE);
                 startChat_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         intent=new Intent(getApplicationContext(),MessageActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra("userid",studentsEntity.getFirebaseUiD());
+                        intent.putExtra("userid",studentsEntity.getSellerFirebaseUid());
                         getApplicationContext().startActivity(intent);
+                        finish();
                     }
                 });
             }
@@ -220,6 +281,28 @@ public class BookDetailActivity extends AppCompatActivity {
             Picasso.with(getApplicationContext()).load(BookPhoto)
                     .error(R.drawable.logo)
                     .into(book_photo);
+        }
+    }
+
+    private void redirectAfterApprove() {
+        intent =new Intent(getApplicationContext(),DisplayBillActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplicationContext().startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onComplete(ArrayList<StudentsEntity> studentsEntities) {
+        if (studentsEntities!=null){
+            if (studentsEntities.size()>0){
+                for (StudentsEntity studentsEntity:studentsEntities){
+                    if (studentsEntity.getException()!=null){
+                        Toast.makeText(getApplicationContext(), studentsEntity.getException().toString(), Toast.LENGTH_LONG).show();
+                    }else {
+                        redirectAfterApprove();
+                    }
+                }
+            }
         }
     }
 }

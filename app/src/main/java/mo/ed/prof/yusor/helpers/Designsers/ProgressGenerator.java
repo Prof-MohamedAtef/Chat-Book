@@ -4,9 +4,14 @@ import android.content.Context;
 import android.os.Handler;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -118,7 +123,7 @@ public class ProgressGenerator {
                 hashMap.put(KEY_Price,bookPrice);
                 hashMap.put(KEY_BookStatus,sentBookStatus);
                 hashMap.put(KEY_TransactionType,sentTransactionType);
-                hashMap.put(KEY_Availability,sentAvailability);
+//                hashMap.put(KEY_Availability,sentAvailability);
                 hashMap.put(KEY_TokenID,tokenID);
                 return  hashMap;
             }
@@ -186,6 +191,78 @@ public class ProgressGenerator {
                 hashMap.put("buyer_status",buyer_status);
                 hashMap.put("book_id",book_id);
                 hashMap.put("api_token",APIToken);
+                return  hashMap;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+    public void approveBill(final GenerateProcessButton createBill_btn,final String billID,final String apiToken) {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mProgress += 10;
+                createBill_btn.setProgress(mProgress);
+                approveBillRequest(billID,apiToken);
+                if (mProgress < 5&&done!=Done_Key) {
+                    handler.postDelayed(this, generateDelay());
+                }
+            }
+        }, generateDelay());
+    }
+
+    private void approveBillRequest(final String billID, final String apiToken) {
+        final RequestQueue requestQueue  = Volley.newRequestQueue(mContext);
+        StringRequest stringRequest=new StringRequest(Request.Method.POST,
+                "http://fla4news.com/Yusor/api/v1/update_buyer_atatus",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.matches("")){
+                            Toast.makeText(mContext, mContext.getResources().getString(R.string.failed), Toast.LENGTH_LONG).show();
+                        }else {
+                            try {
+                                JsonParser jsonParser = new JsonParser();
+                                ArrayList<StudentsEntity> studentsEntities = jsonParser.ApproveBill(response);
+                                if (studentsEntities != null) {
+                                    if (studentsEntities.size() > 0) {
+                                        mListener.onComplete(studentsEntities);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                loading.dismiss();
+                //Showing toast
+                if (error!=null){
+                    if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof AuthFailureError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ServerError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof NetworkError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ParseError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+//                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> hashMap=new HashMap<>();
+                hashMap.put("api_token",apiToken);
+                hashMap.put("bill_id",billID);
                 return  hashMap;
             }
         };

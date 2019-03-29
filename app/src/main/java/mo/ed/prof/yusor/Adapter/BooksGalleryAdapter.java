@@ -93,7 +93,8 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
 
     @Override
     public void onBindViewHolder(@NonNull BooksGalleryAdapter.ViewHOlder holder, final int position) {
-        final StudentsEntity feedItem = feedItemList.get(position);
+        StudentsEntity feedItem=null;
+        feedItem = feedItemList.get(position);
         if (feedItem != null) {
             if (feedItem.getBookTitle() != null) {
                 holder.BookName.setText(feedItem.getBookTitle());
@@ -120,18 +121,19 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
                             Transaction=feedItem.getTransactionType();
                             SellerEmail=feedItem.getSellerEmail();
                             SellerFacultyName=feedItem.getDepartmentName();
-                            BookFireBUiD= feedItem.getFirebaseUiD();
+                            BookFireBUiD= feedItem.getSellerFirebaseUid();
                             if (BookFireBUiD.equals(firebaseUiD)){
                                 holder.BTN_StartChat.setVisibility(View.GONE);
                             }else {
                                 holder.BTN_StartChat.setVisibility(View.VISIBLE);
+                                final StudentsEntity finalFeedItem = feedItem;
                                 holder.BTN_StartChat.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         // go to chat with book owner
                                         // get owner id
                                         intent=new Intent(mContext,MessageActivity.class);
-                                        intent.putExtra("userid",feedItem.getFirebaseUiD());
+                                        intent.putExtra("userid", finalFeedItem.getFirebaseUiD());
                                         intent.putExtra(PivotID_KEY,PivotID);
                                         intent.putExtra(SellerUserName_KEY,SellerUserName);
                                         intent.putExtra(BookSellerID_KEY,SellerID);
@@ -151,12 +153,13 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
                                 });
                             }
 
+                            final StudentsEntity finalFeedItem1 = feedItem;
                             holder.BTN_Details.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     intent=new Intent(mContext,BookDetailActivity.class);
                                     Bundle bundle=new Bundle();
-                                    bundle.putSerializable("feedItem",feedItem);
+                                    bundle.putSerializable("feedItem", finalFeedItem1);
                                     intent.putExtras(bundle);
                                     mContext.startActivity(intent);
                                     Config.Buyer=true;

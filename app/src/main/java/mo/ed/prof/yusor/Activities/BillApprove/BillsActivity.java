@@ -180,6 +180,7 @@ public class BillsActivity extends AppCompatActivity implements ProgressGenerato
             bundle.putSerializable("feedItem",studentsEntity);
             intent.putExtras(bundle);
             getApplicationContext().startActivity(intent);
+            finish();
         }
     }
 

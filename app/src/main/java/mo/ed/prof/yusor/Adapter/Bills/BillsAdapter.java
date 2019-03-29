@@ -34,6 +34,7 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.ViewHOlder> 
 
     private final SessionManagement sessionManagement;
     private final HashMap<String, String> user;
+    String LoggedFirebaseUid;
     private String ApiToken = null;
     Context mContext;
     List<StudentsEntity> feedItemList;
@@ -48,6 +49,7 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.ViewHOlder> 
         user =sessionManagement.getUserDetails();
         if (user!=null) {
             ApiToken = user.get(SessionManagement.KEY_idToken);
+            LoggedFirebaseUid = user.get(SessionManagement.firebase_UID_KEY);
         }
     }
 
@@ -75,9 +77,20 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.ViewHOlder> 
             }
             if (feedItem.getOwnerStatus()!=null&&feedItem.getBuyerStatus()!=null){
                 if (feedItem.getOwnerStatus().equals("1")&&feedItem.getBuyerStatus().equals("0")){
-                    holder.img_approved.setVisibility(View.GONE);
-                    holder.Done.setVisibility(View.GONE);
-                    holder.btn_approve.setVisibility(View.VISIBLE);
+                    if (feedItem.getSellerFirebaseUid()!=null&&feedItem.getBuyerFirebaseUiD()!=null&&LoggedFirebaseUid!=null){
+                        if (feedItem.getSellerFirebaseUid().equals(LoggedFirebaseUid)){
+                            holder.img_approved.setVisibility(View.GONE);
+                            holder.Done.setVisibility(View.GONE);
+                            holder.btn_approve.setVisibility(View.VISIBLE);
+                            holder.btn_approve.setText("Pending Approval");
+                            holder.btn_approve.setEnabled(false);
+                        }else if (feedItem.getBuyerFirebaseUiD().equals(LoggedFirebaseUid)){
+                            holder.img_approved.setVisibility(View.GONE);
+                            holder.Done.setVisibility(View.GONE);
+                            holder.btn_approve.setVisibility(View.VISIBLE);
+                            holder.btn_approve.setText("Approve");
+                        }
+                    }
                 }else if (feedItem.getOwnerStatus().equals("1")&&feedItem.getBuyerStatus().equals("1")){
                     holder.btn_approve.setVisibility(View.GONE);
                     holder.img_approved.setVisibility(View.VISIBLE);
@@ -92,7 +105,6 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.ViewHOlder> 
                         if (verifyConn.isConnected()) {
                             makeRequest = new MakeVolleyRequests(mContext, BillsAdapter.this);
                             makeRequest.ApproveBill(feedItem.getBillID(), ApiToken);
-
                             holder.img_approved.setVisibility(View.VISIBLE);
                             holder.Done.setVisibility(View.VISIBLE);
                             Picasso.with(mContext).load(R.drawable.ic_action_approved)

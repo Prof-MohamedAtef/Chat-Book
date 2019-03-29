@@ -103,9 +103,10 @@ public class SelectBookFragmentIFExist extends Fragment implements RetrieveBooks
             public void onClick(View v) {
                 if (Config.BookName!=null){
                     ((SelectBookFragmentIFExist.OnNewBookAddition) getActivity()).onNewBookAdditionNeeded(Config.BookID, Config.BookName);
-                }else {
-                    Toast.makeText(getActivity(), getString(R.string.select_spinner), Toast.LENGTH_SHORT).show();
                 }
+//                else {
+//                    Toast.makeText(getActivity(), getString(R.string.select_spinner), Toast.LENGTH_SHORT).show();
+//                }
             }
         });
         Next_BTN.setOnClickListener(new View.OnClickListener() {
@@ -113,10 +114,10 @@ public class SelectBookFragmentIFExist extends Fragment implements RetrieveBooks
             public void onClick(View v) {
                 if (Config.BookName!=null){
                     ((SelectBookFragmentIFExist.OnExistingBookDetailsRequired) getActivity()).onExistingBookDetailsRequired(Config.BookID, Config.BookName);
-                }else {
-                    Toast.makeText(getActivity(), getString(R.string.select_spinner), Toast.LENGTH_SHORT).show();
                 }
-
+//                else {
+//                    Toast.makeText(getActivity(), getString(R.string.select_spinner), Toast.LENGTH_SHORT).show();
+//                }
             }
         });
     }

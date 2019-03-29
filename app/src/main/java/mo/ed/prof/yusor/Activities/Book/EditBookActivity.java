@@ -19,6 +19,7 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import mo.ed.prof.yusor.Activities.MainActivity;
 import mo.ed.prof.yusor.Adapter.AuthorsSpinnerAdapter;
 import mo.ed.prof.yusor.Adapter.CustomSpinnerAdapter;
 import mo.ed.prof.yusor.Adapter.FacultiesSpinnerAdapter;
@@ -318,6 +319,9 @@ public class EditBookActivity extends AppCompatActivity implements RetrieveAutho
                         Toast.makeText(getApplicationContext(), studentsEntity.getException().toString(),Toast.LENGTH_SHORT).show();
                     }else {
                         Toast.makeText(getApplicationContext(), studentsEntity.getServerMessage().toString(),Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        getApplicationContext().startActivity(intent);
                     }
                 }
             }
