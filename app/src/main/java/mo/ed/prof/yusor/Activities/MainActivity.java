@@ -150,19 +150,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         // Initializing Drawer Layout and ActionBarToggle
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar, R.string.openDrawer, R.string.closeDrawer){
-            //            @Override
-//            public boolean onOptionsItemSelected(MenuItem item) {
-//                if (item != null && item.getItemId() == android.R.id.home) {
-//                    if (drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
-//                        drawerLayout.closeDrawer(Gravity.RIGHT);
-//                    }
-//                    else {
-//                        drawerLayout.openDrawer(Gravity.RIGHT);
-//                    }
-//                }
-//                return false;
-//            }
-//
+
             @Override
             public void onDrawerClosed(View drawerView) {
                 // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
@@ -180,31 +168,6 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
         SnackBasedConnection();
-    }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-        /* Use the inflater's inflate method to inflate our menu layout to this menu */
-//        inflater.inflate(R.menu.main_menu, menu);
-        /* Return true so that the menu is displayed in the Toolbar */
-//        return true;
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if (item.getItemId()== R.id.action_search) {
-//            DisplaySearchActivity();
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-
-
-    private void DisplaySearchActivity() {
-        Intent intent=new Intent(getApplicationContext(), SearchActivity.class);
-        startActivity(intent);
-        overridePendingTransition(R.transition.fade_in, R.transition.fade_out);
     }
 
     private void SignOut() {

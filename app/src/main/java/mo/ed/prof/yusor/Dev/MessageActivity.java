@@ -51,15 +51,6 @@ public class MessageActivity extends AppCompatActivity {
 
     private final String LOG_TAG = MessageActivity.class.getSimpleName();
 
-    @BindView(R.id.btn_approve)
-    Button btn_approve;
-
-    @BindView(R.id.img_approved)
-    CircleImageView img_approved;
-
-    @BindView(R.id.txt_done)
-    TextView txt_done;
-
     @BindView(R.id.profile_picture)
     CircleImageView profileImage;
 
@@ -88,7 +79,6 @@ public class MessageActivity extends AppCompatActivity {
     APIService apiService;
 
     boolean notify=false;
-    private AbstractList<FirebaseApproval> firebaseApprovalList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,88 +143,6 @@ public class MessageActivity extends AppCompatActivity {
         });
 
         seenMessage(firebaseUser.getUid(), userID);
-//        verifyBookApproval(firebaseUser.getUid(),userID);
-    }
-
-
-//    private void Approval(String myID){
-//        try {
-//            FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
-//            DatabaseReference reference=FirebaseDatabase.getInstance().getReference("yusor-chat").child("Chats").child(myID);
-//            HashMap<String, Object> hashMap=new HashMap<>();
-//            hashMap.put("approved", status);
-//            reference.updateChildren(hashMap);
-//        }catch (Exception e){
-//            Log.e(LOG_TAG, "Error ******** Error in Firebase Approval Method: ");
-//        }
-//    }
-
-    private void setApprovalStatus(boolean senderApproval, final String myID, final String calledPersonID) {
-        if (!senderApproval){
-            img_approved.setVisibility(View.GONE);
-            txt_done.setVisibility(View.GONE);
-            Picasso.with(getApplicationContext()).load(R.drawable.ic_action_approved)
-                    .error(R.drawable.logo)
-                    .into(img_approved);
-            btn_approve.setVisibility(View.VISIBLE);
-
-            btn_approve.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //send approval to server
-                    // if sent to mysql successfully {
-                    // push "approved" to approved node on firebase yusor-chat/Users childs
-                    // if (done){
-//                    setTrueApproval(myID,calledPersonID);
-//                    createBookApproval(firebaseUser.getUid(),userID);
-                }
-            });
-        }else {
-            img_approved.setVisibility(View.VISIBLE);
-            txt_done.setVisibility(View.VISIBLE);
-            Picasso.with(getApplicationContext()).load(R.drawable.ic_action_approved)
-                    .error(R.drawable.logo)
-                    .into(img_approved);
-            btn_approve.setVisibility(View.GONE);
-        }
-    }
-
-    private void setTrueApproval(final String myID, final String calledPersonID) {
-        reference=FirebaseDatabase.getInstance().getReference("yusor-chat").child("Chats");
-        seenListener=reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()){
-                    FirebaseChat chat=snapshot.getValue(FirebaseChat.class);
-                    if (chat.getReceiver().equals(calledPersonID) && chat.getSender().equals(myID)){
-                        HashMap<String, Object> hashMap=new HashMap<>();
-                        hashMap.put("sender_approve", true);
-                        snapshot.getRef().updateChildren(hashMap);
-                        img_approved.setVisibility(View.VISIBLE);
-                        txt_done.setVisibility(View.VISIBLE);
-                        Picasso.with(getApplicationContext()).load(R.drawable.ic_action_approved)
-                                .error(R.drawable.logo)
-                                .into(img_approved);
-                        btn_approve.setVisibility(View.GONE);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void createBookApproval(final String myID, final String calledPersonID){
-        DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
-        HashMap<String, Object> hashMap=new HashMap<>();
-        hashMap.put("sender",myID);
-        hashMap.put("receiver", calledPersonID);
-        hashMap.put("senderApprove", false);
-        hashMap.put("receiverApprove", false);
-        reference.child("yusor-chat").child("Book-Conversation").push().setValue(hashMap);
     }
 
     private void seenMessage(final String myID, final String calledPersonID){
@@ -259,80 +167,7 @@ public class MessageActivity extends AppCompatActivity {
         });
     }
 
-    private void verifyBookApproval(final String myID, final String calledPersonID){
-        firebaseApprovalList=new ArrayList<>();
-        reference=FirebaseDatabase.getInstance().getReference("yusor-chat").child("Book-Conversation");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                firebaseApprovalList.clear();
-                for (DataSnapshot snapshot:dataSnapshot.getChildren()){
-                    FirebaseApproval chat=snapshot.getValue(FirebaseApproval.class);
-                    if (chat.getReceiver().equals(myID)&&chat.getSender().equals(calledPersonID)||
-                            chat.getReceiver().equals(calledPersonID)&&chat.getSender().equals(myID)){
-                        firebaseApprovalList.add(chat);
-                    }
-                }
-                boolean senderApprove=false;
-                for (FirebaseApproval approval:firebaseApprovalList){
-                    senderApprove= approval.isSenderApprove();
-                }
 
-//                setApprovalStatus(senderApprove, myID, calledPersonID);
-
-                createBookApproval(firebaseUser.getUid(),userID);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    //receiverApprove
-    private void receiverApprove(final String myID, final String calledPersonID){
-        reference=FirebaseDatabase.getInstance().getReference("yusor-chat").child("Book-Conversation");
-        seenListener=reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()){
-                    FirebaseChat chat=snapshot.getValue(FirebaseChat.class);
-                    if (chat.getReceiver().equals(myID) && chat.getSender().equals(calledPersonID)){
-                        HashMap<String, Object> hashMap=new HashMap<>();
-                        hashMap.put("receiverApprove", true);
-                        snapshot.getRef().updateChildren(hashMap);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-    }
-
-    private void senderApprove(final String myID, final String calledPersonID){
-        reference=FirebaseDatabase.getInstance().getReference("yusor-chat").child("Book-Conversation");
-        seenListener=reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()){
-                    FirebaseChat chat=snapshot.getValue(FirebaseChat.class);
-                    if (chat.getReceiver().equals(myID) && chat.getSender().equals(calledPersonID)){
-                        HashMap<String, Object> hashMap=new HashMap<>();
-                        hashMap.put("senderApprove", true);
-                        snapshot.getRef().updateChildren(hashMap);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
 
 
 
@@ -344,8 +179,6 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("receiver", receiver);
         hashMap.put("message", message);
         hashMap.put("isseen", false);
-//        hashMap.put("receiver_approve", false);
-//        hashMap.put("sender_approve", false);
 
         reference.child("yusor-chat").child("Chats").push().setValue(hashMap);
         sendEditText.setText("");
@@ -425,11 +258,6 @@ public class MessageActivity extends AppCompatActivity {
                     }
                 }
                 PopulateChat(firebaseChatList, imageurl);
-//                boolean senderApprove=false;
-//                for (FirebaseChat chat:firebaseChatList){
-//                    senderApprove= chat.getSender_approve();
-//                }
-//                setApprovalStatus(senderApprove, myID, calledPersonID);
             }
 
             @Override

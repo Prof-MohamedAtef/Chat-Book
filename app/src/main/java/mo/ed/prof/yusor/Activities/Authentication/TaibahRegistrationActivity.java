@@ -235,11 +235,6 @@ ProgressGenerator.OnCompleteListener{
             mToken=studentsEntity.getAPI_TOKEN();
             UserID=studentsEntity.getUserID();
             FirebaseUiD=studentsEntity.getFirebaseUiD();
-//            DepartmentName=studentsEntity.getDepartmentName();
-            //send authenticated user to firebase database
-//            firebaseUserHandler =new FirebaseUserHandler(UserID,mToken,selectedGender,show_message,Email,PersonName);
-//            firebaseEntities=new FirebaseEntites(mDatabase);
-//            firebaseEntities.AddUser(mDatabase,firebaseUserHandler);
         }
         sessionManagement.createYusorLoginSession(mToken,PersonName,Email,UserName,selectedGender, DepartmentName,UserID,FirebaseUiD);
         sessionManagement.createLoginSessionType("EP");

@@ -49,9 +49,6 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
     @BindView(R.id.btn_login)
     GenerateProcessButton btn_login;
 
-    @BindView(R.id.btn_reset_password)
-    Button btn_reset_password;
-
     String email, password , LoggedLocation1;
     SessionManagement sessionManagement;
     HashMap<String, String> user;
@@ -104,12 +101,7 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
             }
         });
 
-        btn_reset_password.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                startActivity(new Intent(LoginActivity.this, ResetPassActivity.class));
-            }
-        });
+
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,10 +130,7 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
         });
     }
 
-    public void ResetPass(View view) {
-//        Intent intent_ResetPass=new Intent(this,ResetPassActivity.class);
-//        startActivity(intent_ResetPass);
-    }
+
 
     @Override
     public void onComplete(ArrayList<StudentsEntity> studentsEntities) {
@@ -169,11 +158,6 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
             mToken=studentsEntity.getAPI_TOKEN();
             UserID=studentsEntity.getUserID();
             firebaseUiD=studentsEntity.getFirebaseUiD();
-//            DepartmentName=studentsEntity.getDepartmentName();
-            //send authenticated user to firebase database
-//            firebaseUserHandler =new FirebaseUserHandler(UserID,mToken,selectedGender,show_message,Email,PersonName);
-//            firebaseEntities=new FirebaseEntites(mDatabase);
-//            firebaseEntities.AddUser(mDatabase,firebaseUserHandler);
         }
         sessionManagement.createYusorLoginSession(mToken,PersonName,Email,UserName,selectedGender, "DepartmentName",UserID,firebaseUiD);
         sessionManagement.createLoginSessionType("EP");

@@ -3,6 +3,8 @@ package mo.ed.prof.yusor.Activities.BillApprove;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import java.io.Serializable;
 
@@ -21,11 +23,24 @@ public class DisplayBillActivity extends AppCompatActivity {
     private StudentsEntity studentEntity;
     BillsFragment billsFragment;
     private String Frags_KEY="Frags_KEY";
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_bill);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back_arrow));
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         billsFragment = new BillsFragment();
 //        intent = getIntent();
 

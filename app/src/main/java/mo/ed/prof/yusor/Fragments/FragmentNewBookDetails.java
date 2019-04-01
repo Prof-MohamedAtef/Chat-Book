@@ -23,6 +23,9 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import org.apache.http.HttpClientConnection;
+import org.apache.http.impl.DefaultBHttpClientConnection;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -39,10 +42,15 @@ import mo.ed.prof.yusor.GenericAsyncTasks.RetrieveAuthorsAsyncTask;
 import mo.ed.prof.yusor.Network.SnackBarClassLauncher;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
+import mo.ed.prof.yusor.Retrofit.NetworkClient;
 import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
 import mo.ed.prof.yusor.helpers.Config;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
 
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_CANCELED;
@@ -227,10 +235,10 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
                     MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
             if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
                 if (data != null) {
-
                     Bundle extras = data.getExtras();
                     imageFileName= data.getData().getPath();
                     fileNaming=new File(imageFileName);
+                    fileNaming= fileNaming.getAbsoluteFile();
                     imageName= fileNaming.getName();
                     ImageFileUri =data.getData();
                     Config.ImageFileUri=ImageFileUri;
@@ -642,18 +650,19 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
     @Override
     public void onComplete(ArrayList<StudentsEntity> studentsEntities) {
         if (studentsEntities!=null){
-            if (studentsEntities.size()>0){
-                for (StudentsEntity studentsEntity:studentsEntities){
-                    if (studentsEntity.getException()!=null){
-                        Toast.makeText(getActivity(), studentsEntity.getException().toString(),Toast.LENGTH_SHORT).show();
-                    }else {
-                        ((FragmentNewBookDetails.OnNextDetailsRequired) getActivity()).onNextNewBookNameDetailsNeeded(studentsEntity.getBookTitle(),studentsEntity.getBookID());
+            if (fileNaming!=null){
+                if (studentsEntities.size()>0){
+                    for (StudentsEntity studentsEntity:studentsEntities){
+                        if (studentsEntity.getException()!=null){
+                            Toast.makeText(getActivity(), studentsEntity.getException().toString(),Toast.LENGTH_SHORT).show();
+                        }else {
+                            ((FragmentNewBookDetails.OnNextDetailsRequired) getActivity()).onNextNewBookNameDetailsNeeded(studentsEntity.getBookTitle(),studentsEntity.getBookID());
+                        }
                     }
                 }
             }
         }
     }
-
 
 
     public interface OnNextDetailsRequired{

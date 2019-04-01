@@ -52,6 +52,7 @@
     <string name="isbn_number">رقم الكتاب</string>
     <string name="isbn_number_">رقم الكتاب :</string>
     <string name="bill_Cover">رقم الكتاب :</string>
+
     <string name="enter_ISBN">أدخل رقم الكتاب</string>
     <string name="enter_description">أدخل الوصف</string>
     <string name="description">الوصف</string>
@@ -186,4 +187,7 @@
     <string name="enter_price">أدخل سعر الكتاب</string>
     <string name="no_book_in_gallery">لا يوجد كتب معروضة للبيع</string>
 
+    <string name="approved">تم التأكيد</string>
+    <string name="approval_done">تم التأكيد</string>
+    <string name="pending_approval">بإنتظار التأكيد</string>
 </resources>

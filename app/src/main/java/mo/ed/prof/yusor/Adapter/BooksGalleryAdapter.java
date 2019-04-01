@@ -133,7 +133,7 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
                                         // go to chat with book owner
                                         // get owner id
                                         intent=new Intent(mContext,MessageActivity.class);
-                                        intent.putExtra("userid", finalFeedItem.getFirebaseUiD());
+                                        intent.putExtra("userid", finalFeedItem.getSellerFirebaseUid());
                                         intent.putExtra(PivotID_KEY,PivotID);
                                         intent.putExtra(SellerUserName_KEY,SellerUserName);
                                         intent.putExtra(BookSellerID_KEY,SellerID);
