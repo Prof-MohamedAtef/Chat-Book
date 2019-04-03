@@ -5,14 +5,14 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:orientation="vertical"
-android:background="@color/white"
+android:background="@drawable/background"
 android:autoMirrored="true"
 android:id="@+id/coordinator_layout">
 <android.support.design.widget.AppBarLayout
     android:layout_width="match_parent"
     android:layout_height="@dimen/AppBarLayout_height"
     android:gravity="center_vertical|center_horizontal"
-    android:background="@color/red"
+    android:background="@drawable/background"
     android:theme="@style/AppTheme.AppBarOverlay"
     app:elevation="@dimen/appbar_elevation">
     <android.support.design.widget.CollapsingToolbarLayout
@@ -34,10 +34,11 @@ android:id="@+id/coordinator_layout">
             android:scaleType = "centerCrop"
             android:layout_height="@dimen/AppBarLayout_height"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:src="@drawable/logo" />
+            android:src="@drawable/background" />
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:focusable="true"
+            app:navigationIcon="@drawable/ic_back_arrow_red"
             android:nextFocusUp="@id/ImageContainer"
             android:layout_marginStart="@dimen/list_toolbar_side_margin"
             android:layout_marginEnd="@dimen/list_toolbar_side_margin"

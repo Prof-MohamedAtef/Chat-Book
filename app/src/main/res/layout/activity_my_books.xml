@@ -31,6 +31,7 @@ android:id="@+id/coordinator_layout_detail">
             android:layout_gravity="center_vertical|center_horizontal" />
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            app:navigationIcon="@drawable/ic_back_arrow_red"
             android:layout_marginStart="@dimen/list_toolbar_side_margin"
             android:layout_marginLeft="@dimen/list_toolbar_side_margin"
             android:layout_marginRight="@dimen/list_toolbar_side_margin"
@@ -50,16 +51,32 @@ android:id="@+id/coordinator_layout_detail">
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@drawable/background"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="mo.ed.prof.yusor.Activities.Book.MyBooksActivity">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:scrollbars="vertical"
-            android:descendantFocusability="afterDescendants"
+        <LinearLayout
+            android:id="@+id/RecyclerLinear"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:scrollbars="vertical"
+                android:descendantFocusability="afterDescendants"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+        <FrameLayout
+            android:visibility="gone"
+            android:padding="@dimen/card_margin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            tools:ignore="MergeRootFrame"
+            android:background="@drawable/background"
+            android:id="@+id/container_frame">
+        </FrameLayout>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

@@ -28,7 +28,6 @@ import java.util.HashMap;
 
 import mo.ed.prof.yusor.Dev.Entity.FirebaseChat;
 import mo.ed.prof.yusor.Dev.Entity.FirebaseUsers;
-import mo.ed.prof.yusor.Fragments.BooksFragment;
 import mo.ed.prof.yusor.Fragments.ChatsFragment;
 import mo.ed.prof.yusor.Fragments.UsersFragment;
 import mo.ed.prof.yusor.R;
@@ -98,7 +97,7 @@ public class ChatHistoryActivity extends AppCompatActivity {
                 }else {
                     mSectionsPagerAdapter.addFragment(new ChatsFragment(), "("+unread+")Chats");
                 }
-                mSectionsPagerAdapter.addFragment(new BooksFragment(), "Books");
+
 
                 mViewPager.setAdapter(mSectionsPagerAdapter);
                 tabLayout.setupWithViewPager(mViewPager);
@@ -153,10 +152,6 @@ public class ChatHistoryActivity extends AppCompatActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
-        ArrayList<String> username;
-        ArrayList<Integer> profile_images;
-
-//    AlertDialog alertDialog;
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -206,18 +201,6 @@ public class ChatHistoryActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-//            switch (position) {
-//                case 0:
-//                    return UsersFragment.newInstance(0);
-//                case 1:
-//                    return ChatsFragment.newInstance(1);
-//                case 2:
-//                    return BooksFragment.newInstance(2);
-//                default:
-//                    return PlaceholderFragment.newInstance(position + 3);
-//            }
 
             return fragments.get(position);
         }
@@ -230,16 +213,6 @@ public class ChatHistoryActivity extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-//                switch (position) {
-//                    case 0:
-//                        return "Users";
-//                    case 1:
-//                        return "Chat";
-//                    case 2:
-//                        return "Books";
-//                }
-//            return super.getPageTitle(position);
-
             return titles.get(position);
         }
 

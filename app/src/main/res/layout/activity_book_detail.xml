@@ -31,6 +31,7 @@
                 android:layout_gravity="center_vertical|center_horizontal" />
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
+                app:navigationIcon="@drawable/ic_back_arrow_red"
                 android:layout_marginStart="@dimen/list_toolbar_side_margin"
                 android:layout_marginLeft="@dimen/list_toolbar_side_margin"
                 android:layout_marginRight="@dimen/list_toolbar_side_margin"
@@ -100,7 +101,7 @@
                     <TextView
                         android:layout_marginTop="10dp"
                         android:textSize="@dimen/medium_text_size"
-                        android:text="@string/author_name_"
+                        android:text="@string/author_name"
                         android:src="@color/grey"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -110,7 +111,7 @@
                         android:layout_marginRight="20dp"
                         android:layout_marginEnd="20dp"
                         android:textSize="@dimen/medium_text_size"
-                        android:text="@string/author_name_"
+                        android:text="@string/author_name"
                         android:src="@color/grey"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -156,6 +157,7 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end">
@@ -358,7 +360,7 @@
                         android:layout_alignParentRight="true">
                         <TextView
                             android:id="@+id/seller_email"
-                            android:textSize="@dimen/medium_text_size"
+                            android:textSize="@dimen/text_size"
                             android:text="@string/email_"
                             android:layout_below="@+id/seller_name"
                             android:src="@color/grey"

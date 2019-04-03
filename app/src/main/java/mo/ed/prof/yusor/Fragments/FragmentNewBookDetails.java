@@ -650,7 +650,7 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
     @Override
     public void onComplete(ArrayList<StudentsEntity> studentsEntities) {
         if (studentsEntities!=null){
-            if (fileNaming!=null){
+//            if (fileNaming!=null){
                 if (studentsEntities.size()>0){
                     for (StudentsEntity studentsEntity:studentsEntities){
                         if (studentsEntity.getException()!=null){
@@ -660,7 +660,7 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
                         }
                     }
                 }
-            }
+//            }
         }
     }
 

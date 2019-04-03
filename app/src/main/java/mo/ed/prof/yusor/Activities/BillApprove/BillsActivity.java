@@ -93,7 +93,7 @@ public class BillsActivity extends AppCompatActivity implements ProgressGenerato
         ButterKnife.bind(this);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back_arrow));
+        mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back_arrow_red));
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -123,50 +123,67 @@ public class BillsActivity extends AppCompatActivity implements ProgressGenerato
             intent=getIntent();
             if (intent!=null) {
                 studentsEntity = (StudentsEntity) intent.getExtras().getSerializable("feedItem");
-                SellerUserName = studentsEntity.getSellerUserName();
-                txt_seller_name.setText(SellerUserName);
-                Now = Calendar.getInstance().getTime();
-                txt_date_time.setText(Now.toString());
-                Book_Name = studentsEntity.getBookTitle();
-                Book_Price = studentsEntity.getBookPrice();
-                txt_book_name.setText(Book_Name);
-                txt_price.setText(Book_Price);
-                BookSellerFBUi = studentsEntity.getFirebaseUiD();
-                Book_id = studentsEntity.getBookID();
-                createBill_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        verifyConn = new VerifyConnection(getApplicationContext());
-                        if (verifyConn.isConnected()) {
-                            // i am seller
-                            if (Config.billSpinbuyerID != null) {
-                                Book_Price = studentsEntity.getBookPrice();
-                                Book_id = studentsEntity.getBookID();
-                                ApiToken = user.get(SessionManagement.KEY_idToken);
-                                progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener) BillsActivity.this, getApplicationContext());
-                                progressGenerator.addBill(createBill_btn, buyerID, Book_Price, "1", "0", Book_id, ApiToken);
-                            }
-                        }
-                    }
-                });
-                verifyConnection = new VerifyConnection(getApplicationContext());
-                if (verifyConnection.isConnected()) {
-                    readChats();
-                }
-
-                ChatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Config.billSpinbuyerID = Config.chattingList.get(position).getID();
-                        Config.billSpinBuyPos = position;
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                    }
-                });
+                Config.studentEntity=studentsEntity;
+                inOnCreate(Config.studentEntity);
+            }else if (savedInstanceState!=null){
+                studentsEntity= (StudentsEntity) savedInstanceState.getSerializable("studentEntity");
+                Config.studentEntity=studentsEntity;
+                inOnCreate(Config.studentEntity);
             }
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (Config.studentEntity!=null){
+            outState.putSerializable("studentEntity", Config.studentEntity);
+        }
+    }
+
+    private void inOnCreate(StudentsEntity studentEntity) {
+        SellerUserName = studentsEntity.getSellerUserName();
+        txt_seller_name.setText(SellerUserName);
+        Now = Calendar.getInstance().getTime();
+        txt_date_time.setText(Now.toString());
+        Book_Name = studentsEntity.getBookTitle();
+        Book_Price = studentsEntity.getBookPrice();
+        txt_book_name.setText(Book_Name);
+        txt_price.setText(Book_Price);
+        BookSellerFBUi = studentsEntity.getFirebaseUiD();
+        Book_id = studentsEntity.getBookID();
+        createBill_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                verifyConn = new VerifyConnection(getApplicationContext());
+                if (verifyConn.isConnected()) {
+                    // i am seller
+                    if (Config.billSpinbuyerID != null) {
+                        Book_Price = studentsEntity.getBookPrice();
+                        Book_id = studentsEntity.getBookID();
+                        ApiToken = user.get(SessionManagement.KEY_idToken);
+                        progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener) BillsActivity.this, getApplicationContext());
+                        progressGenerator.addBill(createBill_btn, buyerID, Book_Price, "1", "0", Book_id, ApiToken);
+                    }
+                }
+            }
+        });
+        verifyConnection = new VerifyConnection(getApplicationContext());
+        if (verifyConnection.isConnected()) {
+            readChats();
+        }
+
+        ChatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Config.billSpinbuyerID = Config.chattingList.get(position).getID();
+                Config.billSpinBuyPos = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     @Override

@@ -116,13 +116,21 @@ public class BookDetailActivity extends AppCompatActivity implements ProgressGen
     private Toolbar mToolbar;
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (Config.studentEntity!=null){
+            outState.putSerializable("studentEntity", Config.studentEntity);
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
         ButterKnife.bind(this);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back_arrow));
+        mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back_arrow_red));
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -144,75 +152,69 @@ public class BookDetailActivity extends AppCompatActivity implements ProgressGen
         }
         if (intent!=null){
             studentsEntity= (StudentsEntity) intent.getExtras().getSerializable("feedItem");
-            BookName=studentsEntity.getBookTitle();
-            BookDescription=studentsEntity.getBookDescription();
-            PublishYear=studentsEntity.getPublishYear();
-            ISBN=studentsEntity.getISBN_NUM();
-            AuthorTitle=studentsEntity.getAuthorTitle();
-            TransactionTypeID=studentsEntity.getTransactionType();
-            BookPhoto=studentsEntity.getBookImage();
-            BookStatusID =studentsEntity.getBookStatus();
-            BookAvailabilityID=studentsEntity.getAvailability();
-            BookSellerFBUi=studentsEntity.getSellerFirebaseUid();
-            BuyerFirebUseriD=studentsEntity.getBuyerFirebaseUiD();
-            if (BookStatusID != null) {
-                if (BookStatusID.equals(getResources().getString(R.string.new_book))) {
-                    BookStatus = getResources().getString(R.string._new);
-                } else if (BookStatusID.equals(getResources().getString(R.string.intermediate_book))) {
-                    BookStatus = getResources().getString(R.string.Intermediate);
-                } else if (BookStatusID.equals(getResources().getString(R.string.not_bad_book))) {
-                    BookStatus = getResources().getString(R.string.not_bad);
-                }
-            }
-            if (TransactionTypeID != null) {
-                if (TransactionTypeID.equals(getResources().getString(R.string.sale_book))) {
-                    TransactionType = getResources().getString(R.string.sale);
-                } else if (TransactionTypeID.equals(getResources().getString(R.string.exchange_book))) {
-                    TransactionType = getResources().getString(R.string.exchange);
-                } else if (TransactionTypeID.equals(getResources().getString(R.string.gift_book))) {
-                    TransactionType = getResources().getString(R.string.gift);
-                }
-            }
-            if (BookAvailabilityID.equals("1")){
-                BookAvailability="Available";
-            }
-            // seller information
+            Config.studentEntity=studentsEntity;
+            inOnCreate(Config.studentEntity);
+        }else if (savedInstanceState!=null){
+            studentsEntity= (StudentsEntity) savedInstanceState.getSerializable("studentEntity");
+            Config.studentEntity=studentsEntity;
+            inOnCreate(Config.studentEntity);
+        }
+    }
 
-            SellerName=studentsEntity.getSellerUserName();
-            SellerEmail=studentsEntity.getSellerEmail();
-            SellerGender=studentsEntity.getSellerGender();
-            SellerFaculty=studentsEntity.getDepartmentName();
-            FirebaseSellerAccount=studentsEntity.getFirebaseUiD();
+    private void inOnCreate(final StudentsEntity studentsEntity) {
+        BookName=studentsEntity.getBookTitle();
+        BookDescription=studentsEntity.getBookDescription();
+        PublishYear=studentsEntity.getPublishYear();
+        ISBN=studentsEntity.getISBN_NUM();
+        AuthorTitle=studentsEntity.getAuthorTitle();
+        TransactionTypeID=studentsEntity.getTransactionType();
+        BookPhoto=studentsEntity.getBookImage();
+        BookStatusID =studentsEntity.getBookStatus();
+        BookAvailabilityID=studentsEntity.getAvailability();
+        BookSellerFBUi=studentsEntity.getSellerFirebaseUid();
+        BuyerFirebUseriD=studentsEntity.getBuyerFirebaseUiD();
+        if (BookStatusID != null) {
+            if (BookStatusID.equals(getResources().getString(R.string.new_book))) {
+                BookStatus = getResources().getString(R.string._new);
+            } else if (BookStatusID.equals(getResources().getString(R.string.intermediate_book))) {
+                BookStatus = getResources().getString(R.string.Intermediate);
+            } else if (BookStatusID.equals(getResources().getString(R.string.not_bad_book))) {
+                BookStatus = getResources().getString(R.string.not_bad);
+            }
+        }
+        if (TransactionTypeID != null) {
+            if (TransactionTypeID.equals(getResources().getString(R.string.sale_book))) {
+                TransactionType = getResources().getString(R.string.sale);
+            } else if (TransactionTypeID.equals(getResources().getString(R.string.exchange_book))) {
+                TransactionType = getResources().getString(R.string.exchange);
+            } else if (TransactionTypeID.equals(getResources().getString(R.string.gift_book))) {
+                TransactionType = getResources().getString(R.string.gift);
+            }
+        }
+        if (BookAvailabilityID.equals("1")){
+            BookAvailability="Available";
+        }
+        // seller information
 
-            if (BookSellerFBUi.equals(loggedFirebaseUserID)){
-                // i am registered as seller
-                if (studentsEntity.getOwnerStatus()!=null&&studentsEntity.getBuyerStatus()!=null) {
-                    OwnerStatus = studentsEntity.getOwnerStatus();
-                    BuyerStatus = studentsEntity.getBuyerStatus();
-                    if (OwnerStatus.equals("1") && BuyerStatus.equals("0")) {
-                        create_bill.setVisibility(View.VISIBLE);
-                        create_bill.setText("pending Approval");
-                        create_bill.setEnabled(false);
-                    } else if (OwnerStatus.equals("1") && BuyerStatus.equals("1")) {
-                        create_bill.setVisibility(View.VISIBLE);
-                        create_bill.setText("Approval Done");
-                        create_bill.setEnabled(false);
-                    } else if (OwnerStatus.equals("0") && BuyerStatus.equals("0")) {
-                        create_bill.setVisibility(View.VISIBLE);
-                        create_bill.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                intent = new Intent(getApplicationContext(), BillsActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable("feedItem", studentsEntity);
-                                intent.putExtras(bundle);
-                                getApplicationContext().startActivity(intent);
-                                finish();
-                            }
-                        });
-                    }
-                }else {
+        SellerName=studentsEntity.getSellerUserName();
+        SellerEmail=studentsEntity.getSellerEmail();
+        SellerGender=studentsEntity.getSellerGender();
+        SellerFaculty=studentsEntity.getDepartmentName();
+
+        if (BookSellerFBUi.equals(loggedFirebaseUserID)){
+            // i am registered as seller
+            if (studentsEntity.getOwnerStatus()!=null&&studentsEntity.getBuyerStatus()!=null) {
+                OwnerStatus = studentsEntity.getOwnerStatus();
+                BuyerStatus = studentsEntity.getBuyerStatus();
+                if (OwnerStatus.equals("1") && BuyerStatus.equals("0")) {
+                    create_bill.setVisibility(View.VISIBLE);
+                    create_bill.setText("pending Approval");
+                    create_bill.setEnabled(false);
+                } else if (OwnerStatus.equals("1") && BuyerStatus.equals("1")) {
+                    create_bill.setVisibility(View.VISIBLE);
+                    create_bill.setText("Approval Done");
+                    create_bill.setEnabled(false);
+                } else if (OwnerStatus.equals("0") && BuyerStatus.equals("0")) {
                     create_bill.setVisibility(View.VISIBLE);
                     create_bill.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -227,70 +229,84 @@ public class BookDetailActivity extends AppCompatActivity implements ProgressGen
                         }
                     });
                 }
-            }else if (BuyerFirebUseriD.equals(loggedFirebaseUserID)){
-                //i am registered as buyer
-                if (studentsEntity.getOwnerStatus()!=null&&studentsEntity.getBuyerStatus() != null) {
-                    OwnerStatus = studentsEntity.getOwnerStatus();
-                    BuyerStatus = studentsEntity.getBuyerStatus();
-                    if (BuyerStatus.equals("0")) {
-                        create_bill.setVisibility(View.VISIBLE);
-                        create_bill.setText("Approve");
-                        create_bill.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                BillID = studentsEntity.getBillID();
-                                ApiToken = user.get(SessionManagement.KEY_idToken);
-                                verifyConn = new VerifyConnection(getApplicationContext());
-                                if (verifyConn.isConnected()) {
-                                    // i am buyer
-                                    if (BillID != null && ApiToken != null) {
-                                        progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener) BookDetailActivity.this, getApplicationContext());
-                                        progressGenerator.approveBill(create_bill, BillID, ApiToken);
-                                    }
-                                }
-                            }
-                        });
-                    }if (BuyerStatus.equals("1")){
-                        create_bill.setVisibility(View.VISIBLE);
-                        create_bill.setText("Approval Done");
-                        create_bill.setEnabled(false);
-                    }
-                }else {
-                    create_bill.setVisibility(View.VISIBLE);
-                }
-            } else {
-                // going to buy
-                startChat_btn.setVisibility(View.VISIBLE);
-                startChat_btn.setOnClickListener(new View.OnClickListener() {
+            }else {
+                create_bill.setVisibility(View.VISIBLE);
+                create_bill.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        intent=new Intent(getApplicationContext(),MessageActivity.class);
+                        intent = new Intent(getApplicationContext(), BillsActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra("userid",studentsEntity.getSellerFirebaseUid());
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("feedItem", studentsEntity);
+                        intent.putExtras(bundle);
                         getApplicationContext().startActivity(intent);
                         finish();
                     }
                 });
             }
-
-            txt_bookName.setText(BookName);
-            txt_authorName.setText(AuthorTitle);
-            txt_publishYear.setText(PublishYear);
-            txt_Isbn_Num.setText(ISBN);
-            txt_Available_txt.setText(BookAvailability);
-            txt_Book_Status.setText(BookStatus);
-            txt_TransactionType_txt.setText(TransactionType);
-            txt_SellerName_txt.setText(SellerName);
-            txt_SellerEmail_txt.setText(SellerEmail);
-            txt_SellerGender_txt.setText(SellerGender);
-            txt_SellerFaculty_txt.setText(SellerFaculty);
-            txt_desc.setText(BookDescription);
-            txt_price.setText(BookPrice+ " ");
-
-            Picasso.with(getApplicationContext()).load(BookPhoto)
-                    .error(R.drawable.logo)
-                    .into(book_photo);
+        }else if (BuyerFirebUseriD.equals(loggedFirebaseUserID)){
+            //i am registered as buyer
+            if (studentsEntity.getOwnerStatus()!=null&&studentsEntity.getBuyerStatus() != null) {
+                OwnerStatus = studentsEntity.getOwnerStatus();
+                BuyerStatus = studentsEntity.getBuyerStatus();
+                if (BuyerStatus.equals("0")) {
+                    create_bill.setVisibility(View.VISIBLE);
+                    create_bill.setText("Approve");
+                    create_bill.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            BillID = studentsEntity.getBillID();
+                            ApiToken = user.get(SessionManagement.KEY_idToken);
+                            verifyConn = new VerifyConnection(getApplicationContext());
+                            if (verifyConn.isConnected()) {
+                                // i am buyer
+                                if (BillID != null && ApiToken != null) {
+                                    progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener) BookDetailActivity.this, getApplicationContext());
+                                    progressGenerator.approveBill(create_bill, BillID, ApiToken);
+                                }
+                            }
+                        }
+                    });
+                }if (BuyerStatus.equals("1")){
+                    create_bill.setVisibility(View.VISIBLE);
+                    create_bill.setText("Approval Done");
+                    create_bill.setEnabled(false);
+                }
+            }else {
+                create_bill.setVisibility(View.VISIBLE);
+            }
+        } else {
+            // going to buy
+            startChat_btn.setVisibility(View.VISIBLE);
+            startChat_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    intent=new Intent(getApplicationContext(),MessageActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("userid",studentsEntity.getSellerFirebaseUid());
+                    getApplicationContext().startActivity(intent);
+                    finish();
+                }
+            });
         }
+
+        txt_bookName.setText(BookName);
+        txt_authorName.setText(AuthorTitle);
+        txt_publishYear.setText(PublishYear);
+        txt_Isbn_Num.setText(ISBN);
+        txt_Available_txt.setText(BookAvailability);
+        txt_Book_Status.setText(BookStatus);
+        txt_TransactionType_txt.setText(TransactionType);
+        txt_SellerName_txt.setText(SellerName);
+        txt_SellerEmail_txt.setText(SellerEmail);
+        txt_SellerGender_txt.setText(SellerGender);
+        txt_SellerFaculty_txt.setText(SellerFaculty);
+        txt_desc.setText(BookDescription);
+        txt_price.setText(BookPrice+ " ");
+
+        Picasso.with(getApplicationContext()).load(BookPhoto)
+                .error(R.drawable.logo)
+                .into(book_photo);
     }
 
     private void redirectAfterApprove() {

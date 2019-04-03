@@ -2,6 +2,8 @@ package mo.ed.prof.yusor.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +50,7 @@ public class ProfileActivity extends AppCompatActivity implements MakeVolleyRequ
     private String Email;
     private String FirebaseUserid;
     private String DepartmentName;
+    private Toolbar mToolbar;
 
 
     @Override
@@ -55,6 +58,18 @@ public class ProfileActivity extends AppCompatActivity implements MakeVolleyRequ
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back_arrow_red));
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         sessionManagement = new SessionManagement(getApplicationContext());
         user = sessionManagement.getUserDetails();
         if (user != null) {
@@ -87,29 +102,47 @@ public class ProfileActivity extends AppCompatActivity implements MakeVolleyRequ
         if (studentsEntities!=null){
             if (studentsEntities.size()>0){
                 for (StudentsEntity studentsEntity:studentsEntities){
-                    if (studentsEntity.getUserName()!=null){
-                        UserName= studentsEntity.getUserName();
-                        txt_profile_name.setText(UserName);
-                    }
-                    if (studentsEntity.getGender()!=null){
-                        Gender= studentsEntity.getGender();
-                        if (Gender.equals("m")){
-                            txt_gender.setText(getResources().getString(R.string.male));
-                        }else if (Gender.equals("f")){
-                            txt_gender.setText(getResources().getString(R.string.female));
-                        }
-
-                    }
-                    if (studentsEntity.getEmail()!=null){
-                        Email= studentsEntity.getEmail();
-                        txt_email.setText(Email);
-                    }
-                    if (studentsEntity.getDepartmentName()!=null){
-                        DepartmentName=studentsEntity.getDepartmentName();
-                        txt_major.setText(DepartmentName);
-                    }
+                    display(studentsEntity);
                 }
             }
+        }else {
+            user = sessionManagement.getUserDetails();
+            if (user != null) {
+                UserName = user.get(SessionManagement.KEY_UserName);
+                Gender = user.get(SessionManagement.KEY_Gender);
+                Email = user.get(SessionManagement.KEY_EMAIL);
+                DepartmentName = user.get(SessionManagement.KEY_DepartmentName);
+                StudentsEntity studentsEntity=new StudentsEntity();
+                studentsEntity.setUserName(UserName);
+                studentsEntity.setGender(Gender);
+                studentsEntity.setEmail(Email);
+                studentsEntity.setDepartmentName(DepartmentName);
+                display(studentsEntity);
+            }
+        }
+    }
+
+    private void display(StudentsEntity studentsEntity) {
+        if (studentsEntity.getUserName()!=null){
+            UserName= studentsEntity.getUserName();
+            txt_profile_name.setText(UserName);
+        }
+        if (studentsEntity.getGender()!=null){
+            Gender= studentsEntity.getGender();
+            if (Gender.equals("m")){
+                txt_gender.setText(getResources().getString(R.string.male));
+            }else if (Gender.equals("f")){
+                txt_gender.setText(getResources().getString(R.string.female));
+            }
+
+        }
+        if (studentsEntity.getEmail()!=null){
+            Email= studentsEntity.getEmail();
+            txt_email.setText(Email);
+        }
+        if (studentsEntity.getDepartmentName()!=null){
+            DepartmentName=studentsEntity.getDepartmentName();
+            txt_major.setText(DepartmentName);
         }
     }
 }

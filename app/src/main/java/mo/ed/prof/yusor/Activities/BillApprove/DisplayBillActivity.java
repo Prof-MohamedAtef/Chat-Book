@@ -5,16 +5,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import java.io.Serializable;
 
 import mo.ed.prof.yusor.Activities.MainActivity;
 import mo.ed.prof.yusor.Fragments.BillsFragment;
+import mo.ed.prof.yusor.Fragments.NoBillsForU;
+import mo.ed.prof.yusor.Fragments.NoBooksInGalleryFragment;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 
-public class DisplayBillActivity extends AppCompatActivity {
+public class DisplayBillActivity extends AppCompatActivity implements BillsFragment.OnNoBooksFragment{
 
     // http://fla4news.com/Yusor/api/v1/Bills_sold   (pending)   for seller
     // http://fla4news.com/Yusor/api/v1/Bills_sold   (completed) for both
@@ -24,6 +28,9 @@ public class DisplayBillActivity extends AppCompatActivity {
     BillsFragment billsFragment;
     private String Frags_KEY="Frags_KEY";
     private Toolbar mToolbar;
+    private NoBooksInGalleryFragment noBooksInGalleryFragment;
+    private FrameLayout master_list_fragment;
+    private NoBillsForU noBillsForU;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +38,7 @@ public class DisplayBillActivity extends AppCompatActivity {
         setContentView(R.layout.activity_display_bill);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back_arrow));
+        mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back_arrow_red));
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -61,5 +68,13 @@ public class DisplayBillActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplicationContext().startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onNoBooks() {
+        noBillsForU=new NoBillsForU();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.master_list_fragment, noBillsForU , "newsApi")
+                .commit();
     }
 }

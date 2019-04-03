@@ -287,6 +287,8 @@ public class MakeVolleyRequests {
                                 if (studentsEntities != null) {
                                     if (studentsEntities.size() > 0) {
                                         mListener.onComplete(studentsEntities);
+                                    }else {
+                                        mListener.onComplete(studentsEntities);
                                     }
                                 }
                             } catch (JSONException e) {

@@ -125,9 +125,15 @@ public class MessageActivity extends AppCompatActivity {
                 FirebaseUsers user=dataSnapshot.getValue(FirebaseUsers.class);
                 if (user!=null){
                     userName.setText(user.getUserName());
-                    if (user.getImageUrl().equals("default")){
-                        profileImage.setImageResource(R.drawable.logo);
-                    }else {
+                    try{
+                        if (user.getImageUrl().equals("default")){
+                            profileImage.setImageResource(R.drawable.logo);
+                        }else {
+                            Picasso.with(getApplicationContext()).load(user.getImageUrl())
+                                    .error(R.drawable.logo)
+                                    .into(profileImage);
+                        }
+                    }catch (Exception e){
                         Picasso.with(getApplicationContext()).load(user.getImageUrl())
                                 .error(R.drawable.logo)
                                 .into(profileImage);

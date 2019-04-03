@@ -10,6 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import butterknife.ButterKnife;
@@ -66,6 +69,8 @@ public class BillsFragment extends Fragment implements MakeVolleyRequests.OnComp
         if (studentsEntities!=null){
             if (studentsEntities.size()>0){
                 PopulaterSoldBills(studentsEntities);
+            }else if (studentsEntities.size()==0){
+                ((BillsFragment.OnNoBooksFragment) getActivity()).onNoBooks();
             }
         }
     }
@@ -78,5 +83,9 @@ public class BillsFragment extends Fragment implements MakeVolleyRequests.OnComp
         recyclerView.computeVerticalScrollOffset();
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+    }
+
+    public interface OnNoBooksFragment{
+        void onNoBooks();
     }
 }

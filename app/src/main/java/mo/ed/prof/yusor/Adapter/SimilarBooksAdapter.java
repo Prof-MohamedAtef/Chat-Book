@@ -48,12 +48,23 @@ public class SimilarBooksAdapter extends RecyclerView.Adapter<SimilarBooksAdapte
                 if (feedItem.getAuthorTitle() != null) {
                     holder.AuthorName.setText(feedItem.getAuthorTitle());
                     if (feedItem.getAvailability() != null) {
-                        holder.BookAvailability.setText(feedItem.getAvailability());
+                        if (feedItem.getAvailability().equals("1")) {
+                            holder.BookAvailability.setText(mContext.getResources().getString(R.string.book_exists));
+                        } else {
+                            holder.BookAvailability.setText(mContext.getResources().getString(R.string.book_not_exists));
+                        }
                         if (feedItem.getBookStatus() != null) {
-                            holder.BookStatus.setText(feedItem.getBookStatus());
+
+                            if (feedItem.getBookStatus().equals(mContext.getResources().getString(R.string.new_book))) {
+                                holder.BookStatus.setText(mContext.getResources().getString(R.string._new));
+                            } else if (feedItem.getBookStatus().equals(mContext.getString(R.string.intermediate_book))) {
+                                holder.BookStatus.setText(mContext.getResources().getString(R.string.Intermediate));
+                            } else if (feedItem.getBookStatus().equals(mContext.getString(R.string.not_bad_book))) {
+                                holder.BookStatus.setText(mContext.getResources().getString(R.string.not_bad));
+                            }
                             if (feedItem.getBookPrice() != null) {
                                 holder.Price.setText(feedItem.getBookPrice());
-                                if (feedItem.getBookImage()!=null){
+                                if (feedItem.getBookImage() != null) {
                                     Picasso.with(mContext).load(feedItem.getBookImage())
                                             .error(R.drawable.logo)
                                             .into(holder.Image);
@@ -94,7 +105,7 @@ public class SimilarBooksAdapter extends RecyclerView.Adapter<SimilarBooksAdapte
             this.Title = (TextView) converview.findViewById(R.id.book_name);
             this.Price= (TextView) converview.findViewById(R.id.book_price_val);
             this.AuthorName =(TextView)converview.findViewById(R.id.author_name);
-            this.BookAvailability =(TextView)converview.findViewById(R.id.book_availability);
+            this.BookAvailability =(TextView)converview.findViewById(R.id.book_availability_val);
             this.BookStatus=(TextView)converview.findViewById(R.id.book_status_val);
             this.Image =(ImageView)converview.findViewById(R.id.book_image);
         }

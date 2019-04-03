@@ -54,9 +54,15 @@ public class BooksGalleryFragment extends Fragment implements MakeVolleyRequests
         user = sessionManagement.getUserDetails();
         if (user != null) {
             TokenID = user.get(SessionManagement.KEY_idToken);
-            if (TokenID != null) {
-                makeVolleyRequest = new MakeVolleyRequests(getActivity(), BooksGalleryFragment.this);
-                makeVolleyRequest.getAllBooksForSale(TokenID);
+            Bundle bundle=getArguments();
+            ArrayList<StudentsEntity> studentsEntities= (ArrayList<StudentsEntity>) bundle.getSerializable("galleryItems");
+            if (studentsEntities!=null){
+                PopulateBooksGallery(studentsEntities);
+            }else {
+                if (TokenID != null) {
+                    makeVolleyRequest = new MakeVolleyRequests(getActivity(), BooksGalleryFragment.this);
+                    makeVolleyRequest.getAllBooksForSale(TokenID);
+                }
             }
         }
     }
@@ -125,6 +131,10 @@ public class BooksGalleryFragment extends Fragment implements MakeVolleyRequests
 
     @Override
     public void onComplete(ArrayList<StudentsEntity> studentsEntities) {
+        PopulateGalleryItems(studentsEntities);
+    }
+
+    private void PopulateGalleryItems(ArrayList<StudentsEntity> studentsEntities) {
         if (studentsEntities != null) {
             if (studentsEntities.size() > 0) {
                 for (StudentsEntity studentsEntity : studentsEntities) {
@@ -132,7 +142,7 @@ public class BooksGalleryFragment extends Fragment implements MakeVolleyRequests
                         Toast.makeText(getApplicationContext(), studentsEntity.getException().toString(), Toast.LENGTH_LONG).show();
                     } else if (studentsEntity.getServerMessage() != null) {
                         Toast.makeText(getApplicationContext(), studentsEntity.getServerMessage().toString(), Toast.LENGTH_LONG).show();
-                        ((BooksGalleryFragment.NoBooksFragment) getActivity()).noBooksFragment();
+                        ((NoBooksFragment) getActivity()).noBooksFragment();
                     } else {
                         PopulateBooksGallery(studentsEntities);
                     }

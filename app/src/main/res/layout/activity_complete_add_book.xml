@@ -1,160 +1,212 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+xmlns:tools="http://schemas.android.com/tools"
+android:orientation="vertical"
+android:background="@drawable/background"
+android:autoMirrored="true"
+android:id="@+id/coordinator_layout_detail">
+<android.support.design.widget.AppBarLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="@dimen/padding_authentication"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
-    tools:context="mo.ed.prof.yusor.Activities.Book.CompleteAddBookActivity">
-    <LinearLayout
-        android:padding="@dimen/padding_authentication"
-        android:gravity="right"
+    android:layout_height="@dimen/AppBarLayout_height"
+    android:gravity="center_vertical|center_horizontal"
+    android:background="@drawable/background"
+    android:theme="@style/AppTheme.AppBarOverlay"
+    app:elevation="@dimen/appbar_elevation">
+    <android.support.design.widget.CollapsingToolbarLayout
+        android:id="@+id/collabsing_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:gravity="right"
-            android:text="@string/Book_status"
+        android:layout_height="@dimen/Overlap_top"
+        app:expandedTitleMarginEnd="@dimen/CollapsingToolbarMArginleft"
+        app:expandedTitleMarginStart="@dimen/CollapsingToolbarMArginright"
+        app:layout_scrollFlags="scroll|enterAlways">
+        <ImageView
+            android:id="@+id/Article_MainImage"
+            app:layout_collapseMode="parallax"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RadioGroup
-            android:gravity="center_horizontal|center_vertical"
-            android:id="@+id/radioBookStatusGroup"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_weight="2"
-            android:layout_height="match_parent">
-            <RadioButton
-                android:id="@+id/Radio_new"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/grey"
-                android:textStyle="bold"
-                android:padding="2dp"
-                android:layout_height="wrap_content"
-                android:text="@string/_new"
-                android:checked="true" />
-            <RadioButton
-                android:id="@+id/Radio_intermediate"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/grey"
-                android:textStyle="bold"
-                android:padding="2dp"
-                android:layout_height="wrap_content"
-                android:text="@string/Intermediate"
-                android:checked="true" />
-            <RadioButton
-                android:id="@+id/Radio_notbad"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/grey"
-                android:textStyle="bold"
-                android:padding="2dp"
-                android:layout_height="wrap_content"
-                android:text="@string/not_bad"
-                android:checked="true" />
-        </RadioGroup>
-    </LinearLayout>
-    <LinearLayout
-        android:padding="@dimen/padding_authentication"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:gravity="right"
-            android:text="@string/purpose"
+            android:scaleType = "centerCrop"
+            android:layout_height="@dimen/AppBarLayout_height"
+            android:layout_gravity="center_vertical|center_horizontal" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            app:navigationIcon="@drawable/ic_back_arrow_red"
+            android:layout_marginStart="@dimen/list_toolbar_side_margin"
+            android:layout_marginLeft="@dimen/list_toolbar_side_margin"
+            android:layout_marginRight="@dimen/list_toolbar_side_margin"
+            android:layout_marginEnd="@dimen/list_toolbar_side_margin"
+            android:layout_height="?actionBarSize"
+            android:layout_gravity="bottom"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-    <LinearLayout
+            app:layout_collapseMode="pin"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+    </android.support.design.widget.CollapsingToolbarLayout>
+</android.support.design.widget.AppBarLayout>
+<android.support.v4.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:behavior_overlapTop="10dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RadioGroup
-            android:gravity="center_horizontal|center_vertical"
-            android:id="@+id/radioTransactionGroup"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_weight="2"
-            android:layout_height="match_parent">
-            <RadioButton
-                android:id="@+id/Radio_Sale"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/grey"
-                android:textStyle="bold"
-                android:padding="2dp"
-                android:layout_height="wrap_content"
-                android:text="@string/sale"
-                android:checked="true" />
-            <RadioButton
-                android:id="@+id/Radio_exchange"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/grey"
-                android:textStyle="bold"
-                android:padding="2dp"
-                android:layout_height="wrap_content"
-                android:text="@string/exchange"
-                android:checked="true" />
-            <RadioButton
-                android:id="@+id/Radio_gift"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/grey"
-                android:textStyle="bold"
-                android:padding="2dp"
-                android:layout_height="wrap_content"
-                android:text="@string/gift"
-                android:checked="true" />
-        </RadioGroup>
-    </LinearLayout>
-    <LinearLayout
-        android:gravity="right"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/Edit_BookPrice"
-            android:textColor="@color/yellow"
-            android:hint="@string/book_price"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"  />
-        <TextView
-            android:layout_marginLeft="@dimen/fab_margin"
-            android:gravity="right"
-            android:text="@string/book_price"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-    <LinearLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:padding="@dimen/padding_authentication"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <com.dd.processbutton.iml.GenerateProcessButton
-            android:id="@+id/Publish_BTN"
+        xmlns:custom="http://schemas.android.com/apk/res-auto"
+        tools:context="mo.ed.prof.yusor.Activities.Book.CompleteAddBookActivity">
+        <LinearLayout
+            android:padding="@dimen/padding_authentication"
+            android:gravity="right"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="@string/btn_publish"
-            android:textColor="@color/white"
-            custom:pb_colorComplete="@color/yellow"
-            custom:pb_colorNormal="@color/red_pressed"
-            custom:pb_colorPressed="@color/red"
-            custom:pb_colorProgress="@color/grey"
-            android:textSize="18sp"
-            custom:pb_textComplete="@string/done"
-            custom:pb_textProgress="@string/uploading" />
+            android:layout_height="wrap_content">
+            <TextView
+                android:gravity="right"
+                android:text="@string/Book_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RadioGroup
+                android:gravity="center_horizontal|center_vertical"
+                android:id="@+id/radioBookStatusGroup"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_weight="2"
+                android:layout_height="match_parent">
+                <RadioButton
+                    android:id="@+id/Radio_new"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/grey"
+                    android:textStyle="bold"
+                    android:padding="2dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/_new"
+                    android:checked="true" />
+                <RadioButton
+                    android:id="@+id/Radio_intermediate"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/grey"
+                    android:textStyle="bold"
+                    android:padding="2dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Intermediate"
+                    android:checked="true" />
+                <RadioButton
+                    android:id="@+id/Radio_notbad"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/grey"
+                    android:textStyle="bold"
+                    android:padding="2dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/not_bad"
+                    android:checked="true" />
+            </RadioGroup>
+        </LinearLayout>
+        <LinearLayout
+            android:padding="@dimen/padding_authentication"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:gravity="right"
+                android:text="@string/purpose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RadioGroup
+                android:gravity="center_horizontal|center_vertical"
+                android:id="@+id/radioTransactionGroup"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_weight="2"
+                android:layout_height="match_parent">
+                <RadioButton
+                    android:id="@+id/Radio_Sale"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/grey"
+                    android:textStyle="bold"
+                    android:padding="2dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sale"
+                    android:checked="true" />
+                <RadioButton
+                    android:id="@+id/Radio_exchange"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/grey"
+                    android:textStyle="bold"
+                    android:padding="2dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/exchange"
+                    android:checked="true" />
+                <RadioButton
+                    android:id="@+id/Radio_gift"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/grey"
+                    android:textStyle="bold"
+                    android:padding="2dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gift"
+                    android:checked="true" />
+            </RadioGroup>
+        </LinearLayout>
+        <LinearLayout
+            android:gravity="right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/Edit_BookPrice"
+                android:textColor="@color/yellow"
+                android:hint="@string/book_price"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"  />
+            <TextView
+                android:layout_marginLeft="@dimen/fab_margin"
+                android:gravity="right"
+                android:text="@string/book_price"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:padding="@dimen/padding_authentication"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.dd.processbutton.iml.GenerateProcessButton
+                android:id="@+id/Publish_BTN"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="@string/btn_publish"
+                android:textColor="@color/white"
+                custom:pb_colorComplete="@color/yellow"
+                custom:pb_colorNormal="@color/red_pressed"
+                custom:pb_colorPressed="@color/red"
+                custom:pb_colorProgress="@color/grey"
+                android:textSize="18sp"
+                custom:pb_textComplete="@string/done"
+                custom:pb_textProgress="@string/uploading" />
+        </LinearLayout>
+        <FrameLayout
+            android:layout_gravity="center"
+            android:id="@+id/frame_prices_suggestions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </FrameLayout>
     </LinearLayout>
-    <FrameLayout
-        android:layout_gravity="center"
-        android:id="@+id/frame_prices_suggestions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </FrameLayout>
-</LinearLayout>
+</android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>

@@ -21,7 +21,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import mo.ed.prof.yusor.Dev.Adapter.UserAdapter;
 import mo.ed.prof.yusor.Dev.Entity.FirebaseUsers;
@@ -39,7 +41,7 @@ public class UsersFragment extends Fragment{
 
     private RecyclerView recyclerView;
     RecyclerView.LayoutManager mLayoutManager;
-    List<FirebaseUsers> mUsers;
+    CopyOnWriteArrayList<FirebaseUsers> mUsers;
     private UserAdapter userAdapter;
 
     public static UsersFragment newInstance(int sectionNum) {
@@ -55,7 +57,7 @@ public class UsersFragment extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View mainView = inflater.inflate(R.layout.fragment_user_list, container, false);
         recyclerView=(RecyclerView)mainView.findViewById(R.id.recycler_view);
-        mUsers=new ArrayList<>();
+        mUsers=new CopyOnWriteArrayList<>();
         return mainView;
     }
 
@@ -91,8 +93,8 @@ public class UsersFragment extends Fragment{
     }
 
 
-    private void PopulateUsersList(List<FirebaseUsers> typesArticlesList) {
-        UserAdapter mAdapter=new UserAdapter(getActivity(),typesArticlesList, false);
+    private void PopulateUsersList(CopyOnWriteArrayList<FirebaseUsers> typesArticlesList) {
+        UserAdapter mAdapter=new UserAdapter(getActivity(),removeDublicates(typesArticlesList), false);
         mAdapter.notifyDataSetChanged();
         recyclerView.setHasFixedSize(true);
         mLayoutManager=new LinearLayoutManager(getActivity());
@@ -100,5 +102,14 @@ public class UsersFragment extends Fragment{
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         mAdapter.setHasStableIds(true);
         recyclerView.setAdapter(mAdapter);
+    }
+
+
+    private List<FirebaseUsers> removeDublicates(CopyOnWriteArrayList<FirebaseUsers> studentsList) {
+        HashSet hashSet=new HashSet();
+        hashSet.addAll(studentsList);
+        studentsList.clear();
+        studentsList.addAll(hashSet);
+        return  studentsList;
     }
 }

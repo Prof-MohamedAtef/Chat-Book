@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import mo.ed.prof.yusor.Activities.Book.AddNewBookActivity;
@@ -29,10 +31,14 @@ import mo.ed.prof.yusor.Fragments.NoInternetFragment;
 import mo.ed.prof.yusor.Network.SnackBarClassLauncher;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
+import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
+import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 public class MainActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener,
-        NoInternetFragment.onReloadInternetServiceListener, BooksGalleryFragment.NoBooksFragment{
+        NoInternetFragment.onReloadInternetServiceListener, BooksGalleryFragment.NoBooksFragment, MakeVolleyRequests.OnCompleteListener{
 
     Snackbar snackbar;
     SnackBarClassLauncher snackBarLauncher;
@@ -53,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     private String LoggedType;
     private String firebaseUserID;
     private NoBooksInGalleryFragment noBooksInGalleryFragment;
+    private MakeVolleyRequests makeVolleyRequest;
+    private VerifyConnection verifyConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         navigationView.setNavigationItemSelectedListener(this);
         snackBarLauncher=new SnackBarClassLauncher();
         View header=navigationView.getHeaderView(0);
+        verifyConnection=new VerifyConnection(getApplicationContext());
         EmailText=(TextView)header.findViewById(R.id.Email);
         UserNameText=(TextView)header.findViewById(R.id.UserName);
         ProfilePicView=(ImageView)header.findViewById(R.id.profile_image);
@@ -84,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
             if (LoggedEmail!=null){
                 EmailText.setText(LoggedEmail);
             }
+            displayGallery();
             if (LoggedUserName!=null){
                 UserNameText.setText(LoggedUserName);
             }
@@ -106,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                         startActivity(intent);
                         return true;
                     case R.id.browse_book:
-                        displayBooksGallery();
+                        displayGallery();
                         return true;
                     case R.id.chat_history:
                         //retrive chat history
@@ -167,11 +177,20 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
-        SnackBasedConnection();
+    }
+
+    private void displayGallery() {
+        if (TokenID != null) {
+            if (verifyConnection.isConnected()){
+                makeVolleyRequest = new MakeVolleyRequests(getApplicationContext(), MainActivity.this);
+                makeVolleyRequest.getAllBooksForSale(TokenID);
+            }else {
+                InternetDisabled();
+            }
+        }
     }
 
     private void SignOut() {
-        VerifyConnection verifyConnection=new VerifyConnection(getApplicationContext());
         if (verifyConnection.isConnected()){
             user =sessionManagement.getLoginType();
             if (user!=null){
@@ -193,24 +212,11 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         return false;
     }
 
-    private void SnackBasedConnection() {
-        VerifyConnection verifyConnection=new VerifyConnection(getApplicationContext());
-        verifyConnection.checkConnection();
-        if (verifyConnection.isConnected()){
-            displayBooksGallery();
-        }else {
-            // Show Snack
-            snackbar=NetCut();
-            snackBarLauncher.SnackBarInitializer(snackbar);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container_frame, noInternetFragment, "newsApi")
-                    .commit();
-        }
-    }
-
-    private void displayBooksGallery() {
+    private void InternetDisabled() {
+        snackbar=NetCut();
+        snackBarLauncher.SnackBarInitializer(snackbar);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container_frame, booksGalleryFragment , "newsApi")
+                .replace(R.id.container_frame, noInternetFragment, "newsApi")
                 .commit();
     }
 
@@ -220,21 +226,47 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                 .setAction(getApplicationContext().getResources().getString(R.string.retry), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SnackBasedConnection();
+                        displayGallery();
                     }
                 });
-
     }
 
     @Override
     public void ReloadInternetService() {
-        SnackBasedConnection();
+        displayGallery();
     }
 
     @Override
     public void noBooksFragment() {
+        noBooksFrag();
+    }
+
+    public void noBooksFrag(){
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container_frame, noBooksInGalleryFragment , "newsApi")
                 .commit();
+    }
+
+    @Override
+    public void onComplete(ArrayList<StudentsEntity> studentsEntities) {
+        if (studentsEntities != null) {
+            if (studentsEntities.size() > 0) {
+                for (StudentsEntity studentsEntity : studentsEntities) {
+                    if (studentsEntity.getException() != null) {
+                        Toast.makeText(getApplicationContext(), studentsEntity.getException().toString(), Toast.LENGTH_LONG).show();
+                    } else if (studentsEntity.getServerMessage() != null) {
+                        Toast.makeText(getApplicationContext(), studentsEntity.getServerMessage().toString(), Toast.LENGTH_LONG).show();
+                        noBooksFrag();
+                    } else {
+                        Bundle bundle=new Bundle();
+                        bundle.putSerializable("galleryItems",studentsEntities);
+                        booksGalleryFragment.setArguments(bundle);
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.container_frame, booksGalleryFragment, "newsApi")
+                                .commit();
+                    }
+                }
+            }
+        }
     }
 }

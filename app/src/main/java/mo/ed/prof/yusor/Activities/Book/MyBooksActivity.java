@@ -8,6 +8,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import mo.ed.prof.yusor.Activities.MainActivity;
 import mo.ed.prof.yusor.Adapter.MyBooksAdapter;
+import mo.ed.prof.yusor.Fragments.NoBooksInGalleryFragment;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
@@ -33,6 +37,7 @@ public class MyBooksActivity extends AppCompatActivity implements MakeVolleyRequ
     private HashMap<String, String> user;
     private String ApiToken;
     private Toolbar mToolbar;
+    private NoBooksInGalleryFragment noBooksInGalleryFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +46,7 @@ public class MyBooksActivity extends AppCompatActivity implements MakeVolleyRequ
         ButterKnife.bind(this);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back_arrow));
+        mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back_arrow_red));
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -57,7 +62,6 @@ public class MyBooksActivity extends AppCompatActivity implements MakeVolleyRequ
             ApiToken = user.get(SessionManagement.KEY_idToken);
         }
         verifyConn=new VerifyConnection(getApplicationContext());
-
     }
 
     @Override
@@ -76,9 +80,19 @@ public class MyBooksActivity extends AppCompatActivity implements MakeVolleyRequ
             if (studentsEntities.size()>0){
                 populateBookList(studentsEntities);
             }else if (studentsEntities.size()==0){
-                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getApplicationContext().startActivity(intent);
+                FrameLayout frameLayout=(FrameLayout)findViewById(R.id.container_frame);
+                frameLayout.setVisibility(View.VISIBLE);
+                LinearLayout linearLayout=(LinearLayout)findViewById(R.id.RecyclerLinear);
+                linearLayout.setVisibility(View.GONE);
+                noBooksInGalleryFragment=new NoBooksInGalleryFragment();
+
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container_frame, noBooksInGalleryFragment , "newsApi")
+                        .commit();
+//                Toast.makeText(getApplicationContext(), getResources().getString(R.string.you_no_books_exist), Toast.LENGTH_SHORT).show();
+//                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                getApplicationContext().startActivity(intent);
             }
         }
     }

@@ -1,108 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/draw_insets_frame_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@drawable/background"
     android:autoMirrored="true"
-    tools:context="mo.ed.prof.yusor.Activities.ProfileActivity">
+    android:id="@+id/coordinator_layout_detail">
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
-        app:elevation="@dimen/appbar_elevation"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/detail_appbar_height"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="@dimen/AppBarLayout_height"
+        android:gravity="center_vertical|center_horizontal"
+        android:background="@drawable/background"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="@dimen/appbar_elevation">
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/toolbar"
+            android:id="@+id/collabsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="48dp"
+            android:layout_height="@dimen/Overlap_top"
+            app:expandedTitleMarginEnd="@dimen/CollapsingToolbarMArginleft"
+            app:expandedTitleMarginStart="@dimen/CollapsingToolbarMArginright"
             app:layout_scrollFlags="scroll|enterAlways">
-            <RelativeLayout
-                android:id="@+id/photo_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <ImageView
+                android:id="@+id/Article_MainImage"
                 app:layout_collapseMode="parallax"
-                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
-                <ImageView
-                    android:id="@+id/ImageReport"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:fitsSystemWindows="true" />
-                <LinearLayout
-                    android:layout_marginTop="@dimen/top_margin"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-                    <LinearLayout
-                        android:gravity="center_horizontal"
-                        android:layout_weight="1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="match_parent"></LinearLayout>
-                        <LinearLayout
-                            android:layout_margin="@dimen/top_margin"
-                            android:padding="@dimen/top_margin"
-                            android:gravity="center"
-                            android:layout_width="0dp"
-                            android:layout_weight="4"
-                            android:layout_height="match_parent">
-                            <TextView
-                                android:textColor="@color/white"
-                                android:textStyle="bold"
-                                android:padding="@dimen/padding_authentication"
-                                android:gravity="right|center_vertical"
-                                android:textSize="@dimen/medium_text_size"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_margin="@dimen/top_margin"
-                            android:gravity="right"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="match_parent">
-                            <!--<ImageView-->
-                                <!--android:id="@+id/ImagePost"-->
-                                <!--android:layout_gravity="right"-->
-                                <!--android:src="@drawable/post"-->
-                                <!--android:layout_width="45dp"-->
-                                <!--android:layout_height="45dp" />-->
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-            </RelativeLayout>
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/detail_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:layout_collapseMode="pin"/>
+                android:scaleType = "centerCrop"
+                android:layout_height="@dimen/AppBarLayout_height"
+                android:layout_gravity="center_vertical|center_horizontal" />
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                app:navigationIcon="@drawable/ic_back_arrow_red"
+                android:layout_marginStart="@dimen/list_toolbar_side_margin"
+                android:layout_marginLeft="@dimen/list_toolbar_side_margin"
+                android:layout_marginRight="@dimen/list_toolbar_side_margin"
+                android:layout_marginEnd="@dimen/list_toolbar_side_margin"
+                android:layout_height="?actionBarSize"
+                android:layout_gravity="bottom"
+                android:layout_width="match_parent"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
+                app:popupTheme="@style/AppTheme.PopupOverlay"/>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
     <android.support.v4.widget.NestedScrollView
-        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        app:behavior_overlapTop="10dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"></LinearLayout>
             <LinearLayout
                 android:orientation="vertical"
                 android:padding="@dimen/padding_authentication"
@@ -116,9 +66,10 @@
                     android:layout_weight="1">
                     <TextView
                         android:id="@+id/txt_profile_name"
-                        android:textColor="@color/red"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/medium_text_size"
                         android:padding="@dimen/padding_authentication"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
                         android:layout_weight="2"
                         android:layout_height="match_parent" />
@@ -126,7 +77,7 @@
                         android:textColor="@color/red"
                         android:gravity="center_vertical|center_horizontal"
                         android:padding="@dimen/padding_authentication"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_weight="2"
                         android:text="@string/profile_name"
                         android:layout_height="match_parent" />
@@ -138,9 +89,10 @@
                     android:layout_weight="1">
                     <TextView
                         android:id="@+id/txt_gender"
-                        android:textColor="@color/red"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/medium_text_size"
                         android:padding="@dimen/padding_authentication"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:gravity="center_vertical|center_horizontal"
                         android:layout_weight="2"
                         android:layout_height="match_parent" />
@@ -148,7 +100,7 @@
                         android:textColor="@color/red"
                         android:gravity="center_vertical|center_horizontal"
                         android:padding="@dimen/padding_authentication"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_weight="2"
                         android:text="@string/gender"
                         android:layout_height="match_parent" />
@@ -165,6 +117,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/txt_email"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/medium_text_size"
+                        android:padding="@dimen/padding_authentication"
+                        android:gravity="center_vertical|left"
+                        android:text="@string/static_price"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent" />
                     <LinearLayout
                         android:gravity="center_horizontal|center_vertical"
                         android:layout_width="0dp"
@@ -175,21 +138,23 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp" />
                     </LinearLayout>
-                    <TextView
-                        android:id="@+id/txt_email"
-                        android:padding="@dimen/padding_authentication"
-                        android:gravity="center_vertical|left"
-                        android:text="@string/static_price"
-                        android:textStyle="bold"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent" />
                 </LinearLayout>
                 <LinearLayout
                     android:padding="@dimen/padding_authentication"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1">
+                    <TextView
+                        android:textColor="@color/black"
+                        android:id="@+id/txt_major"
+                        android:textSize="@dimen/medium_text_size"
+                        android:padding="@dimen/padding_authentication"
+                        android:gravity="center_vertical|left"
+                        android:text="@string/static_price"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent" />
                     <LinearLayout
                         android:gravity="center_horizontal|center_vertical"
                         android:layout_width="0dp"
@@ -200,15 +165,7 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp" />
                     </LinearLayout>
-                    <TextView
-                        android:id="@+id/txt_major"
-                        android:padding="@dimen/padding_authentication"
-                        android:gravity="center_vertical|left"
-                        android:text="@string/static_price"
-                        android:textStyle="bold"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent" />
+
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

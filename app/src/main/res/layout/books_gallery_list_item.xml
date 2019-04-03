@@ -31,18 +31,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1.5"
-            android:gravity="center"
-            android:layout_height="match_parent">
-            <ImageView
-                android:background="@drawable/black_stroke"
-                android:id="@+id/book_image"
-                android:scaleType="fitXY"
-                android:layout_width="150dp"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-        <LinearLayout
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_weight="4"
@@ -51,7 +39,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="5">
                 <TextView
                     android:padding="@dimen/fab_elevation"
@@ -71,8 +59,7 @@
                     android:layout_height="wrap_content">
                     <TextView
                         android:padding="@dimen/fab_elevation"
-                        android:id="@+id/author_name"
-                        android:textSize="@dimen/medium_text_size"
+                        android:textSize="@dimen/text_size"
                         android:textStyle="bold"
                         android:gravity="center_horizontal"
                         android:textColor="@color/red"
@@ -82,7 +69,8 @@
                         android:layout_weight="1"/>
                     <TextView
                         android:padding="@dimen/fab_elevation"
-                        android:textSize="@dimen/text_size"
+                        android:id="@+id/author_name"
+                        android:textSize="@dimen/medium_text_size"
                         android:textStyle="bold"
                         android:gravity="center_horizontal"
                         android:textColor="@color/red"
@@ -98,8 +86,7 @@
                     android:layout_height="wrap_content">
                     <TextView
                         android:padding="@dimen/fab_elevation"
-                        android:id="@+id/book_price"
-                        android:textSize="@dimen/medium_text_size"
+                        android:textSize="@dimen/text_size"
                         android:textStyle="bold"
                         android:gravity="center_horizontal"
                         android:textColor="@color/red"
@@ -109,7 +96,8 @@
                         android:layout_weight="1"/>
                     <TextView
                         android:padding="@dimen/fab_elevation"
-                        android:textSize="@dimen/text_size"
+                        android:id="@+id/book_price"
+                        android:textSize="@dimen/medium_text_size"
                         android:textStyle="bold"
                         android:gravity="center_horizontal"
                         android:textColor="@color/red"
@@ -122,20 +110,9 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center">
-                <Button
-                    android:id="@+id/details_btn"
-                    android:layout_margin="@dimen/button_margin"
-                    android:layout_weight="1"
-                    android:text="@string/details"
-                    android:textStyle="bold"
-                    android:elevation="3dp"
-                    android:background="@color/red"
-                    android:textColor="@color/white"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
                 <Button
                     android:elevation="3dp"
                     android:id="@+id/start_chat_btn"
@@ -147,7 +124,30 @@
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+                <Button
+                    android:id="@+id/details_btn"
+                    android:layout_margin="@dimen/button_margin"
+                    android:layout_weight="1"
+                    android:text="@string/details"
+                    android:textStyle="bold"
+                    android:elevation="3dp"
+                    android:background="@color/red"
+                    android:textColor="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:layout_height="match_parent">
+            <ImageView
+                android:background="@drawable/black_stroke"
+                android:id="@+id/book_image"
+                android:scaleType="fitXY"
+                android:layout_width="150dp"
+                android:layout_height="match_parent" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

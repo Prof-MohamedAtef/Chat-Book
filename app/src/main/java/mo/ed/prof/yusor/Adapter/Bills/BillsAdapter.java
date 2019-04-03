@@ -118,7 +118,7 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.ViewHOlder> 
             if (feedItem.getBillID()!=null){
                 holder.bill_number.setText(feedItem.getBillID());
                 if (feedItem.getSellerPersonName()!=null){
-                    holder.txt_seller_name.setText(feedItem.getBillID());
+                    holder.txt_seller_name.setText(feedItem.getSellerUserName());
                     if (feedItem.getBuyerPName()!=null){
                         holder.txt_buyer_name.setText(feedItem.getBuyerPName());
                         if (feedItem.getBookTitle()!=null){

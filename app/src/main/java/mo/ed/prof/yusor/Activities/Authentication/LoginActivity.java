@@ -46,6 +46,9 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
     @BindView(R.id.btn_signup)
     Button btn_signup;
 
+    @BindView(R.id.btn_reset_password)
+    Button btn_resetPass;
+
     @BindView(R.id.btn_login)
     GenerateProcessButton btn_login;
 
@@ -102,6 +105,12 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
         });
 
 
+        btn_resetPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, ResetPassActivity.class));
+            }
+        });
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override

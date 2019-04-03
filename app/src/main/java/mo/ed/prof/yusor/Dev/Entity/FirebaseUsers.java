@@ -43,7 +43,6 @@ public class FirebaseUsers {
     }
 
     public String getImageUrl() {
-
         return imageUrl;
     }
 

@@ -59,6 +59,13 @@ public class FragmentPriecsSuggestions extends Fragment implements MakeVolleyReq
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootview=inflater.inflate(R.layout.fragment_prices_suggestions,container,false);
         recyclerView=(RecyclerView)rootview.findViewById(R.id.recyclerView);
+        if (rootview.findViewById(R.id.mTwoPaneLinear)!=null){
+            // two pane Ui
+            TwoPane=true;
+        }else {
+            // one pane Ui
+            TwoPane=false;
+        }
         bundle=getArguments();
         makeVolleyRequests=new MakeVolleyRequests(getActivity(),FragmentPriecsSuggestions.this);
         if (bundle!=null){
@@ -81,8 +88,13 @@ public class FragmentPriecsSuggestions extends Fragment implements MakeVolleyReq
     private void PopulateSimilarBooks(ArrayList<StudentsEntity> urgentArticlesList) {
         SimilarBooksAdapter mAdapter=new SimilarBooksAdapter(getActivity(),urgentArticlesList, TwoPane);
         mAdapter.notifyDataSetChanged();
-        RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(mLayoutManager);
+        if (TwoPane){
+            RecyclerView.LayoutManager layoutManager1 = new GridLayoutManager(getActivity(), 2);
+            recyclerView.setLayoutManager(layoutManager1);
+        }else {
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+            recyclerView.setLayoutManager(mLayoutManager);
+        }
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
     }
