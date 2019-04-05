@@ -152,6 +152,7 @@
     <string name="forgot_password_msg">Enter your registered Email Id and check arrival of instructions message!</string>
     <string name="btn_reset_password">Reset Password</string>
     <string name="btn_link_to_register">Not a member? Get registered now!</string>
+    <string name="email_verify">Verify Your Email Address!</string>
     <string name="enter_email">Enter email address!</string>
     <string name="reset_instructions_sent">We have sent you instructions to reset your password!</string>
     <string name="enter_password">Enter password!</string>

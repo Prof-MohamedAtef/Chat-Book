@@ -138,18 +138,26 @@ ProgressGenerator.OnCompleteListener{
             public void onClick(View v) {
                 btnUpload.setEnabled(false);
                 FirstName= Edit_first_name.getText().toString();
+                Edit_first_name.setEnabled(false);
                 LastName=Edit_last_name.getText().toString();
+                Edit_last_name.setEnabled(false);
                 PersonName=FirstName+" "+LastName;
                 EmailConst=email_type.getText().toString().trim();
+                email_type.setEnabled(false);
                 Email=Edit_email.getText().toString().trim();
+                Edit_email.setEnabled(false);
                 FinalEmail=Email+EmailConst;
                 Config.FinalEmail=FinalEmail;
                 UserName=Edit_Username.getText().toString().trim();
+                Edit_Username.setEnabled(false);
                 Config.UserName=UserName;
                 Password=Edit_password.getText().toString().trim();
+                Edit_password.setEnabled(false);
                 Config.Password=Password;
                 ConfirmPassword=Edit_confirmedPassword.getText().toString();
+                Edit_confirmedPassword.setEnabled(false);
                 checkedRadioButtion=(RadioButton)radioGenderGroup.findViewById(radioGenderGroup.getCheckedRadioButtonId());
+                radioGenderGroup.setEnabled(false);
                 selectedGender= checkedRadioButtion.getText().toString();
                 if (verifyConnection.isConnected()){
                     signUpFirebase();
@@ -178,7 +186,6 @@ ProgressGenerator.OnCompleteListener{
         }
     }
 
-
     @Override
     public void onComplete(ArrayList<StudentsEntity> studentsEntities) {
         if (studentsEntities!=null){
@@ -186,6 +193,14 @@ ProgressGenerator.OnCompleteListener{
                 for (StudentsEntity studentsEntity:studentsEntities){
                     if (studentsEntity.getException()!=null){
                         Toast.makeText(getApplicationContext(), studentsEntity.getException().toString(), Toast.LENGTH_LONG).show();
+                        radioGenderGroup.setEnabled(true);
+                        Edit_confirmedPassword.setEnabled(true);
+                        Edit_password.setEnabled(true);
+                        Edit_Username.setEnabled(true);
+                        Edit_email.setEnabled(true);
+                        email_type.setEnabled(true);
+                        Edit_last_name.setEnabled(true);
+                        Edit_first_name.setEnabled(true);
                     }else {
                         DoneSignUp(studentsEntities);
                     }
@@ -200,45 +215,60 @@ ProgressGenerator.OnCompleteListener{
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-                            FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
-                            String userID=firebaseUser.getUid();
-                            Config.FirebaseUserID=userID;
-                            reference=FirebaseDatabase.getInstance().getReference("yusor-chat").child("Users").child(userID);
-                            HashMap<String,String> hashMap=new HashMap<>();
-                            hashMap.put("id",userID);
-                            hashMap.put("userName",Config.FinalEmail);
-                            hashMap.put("imageUrl","default");
-                            hashMap.put("status","offline");
-                            reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            firebaseAuth.getCurrentUser()
+                                    .sendEmailVerification()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()){
-                                        progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener)TaibahRegistrationActivity.this, getApplicationContext());
-                                        progressGenerator.startSignUp(btnUpload, PersonName, FinalEmail, UserName, Password, ConfirmPassword, selectedGender, DepartmentID,Config.FirebaseUserID );
+                                        FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
+                                        String userID=firebaseUser.getUid();
+                                        Config.FirebaseUserID=userID;
+                                        reference=FirebaseDatabase.getInstance().getReference("yusor-chat").child("Users").child(userID);
+                                        HashMap<String,String> hashMap=new HashMap<>();
+                                        hashMap.put("id",userID);
+                                        hashMap.put("userName",Config.FinalEmail);
+                                        hashMap.put("imageUrl","default");
+                                        hashMap.put("status","offline");
+                                        reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()){
+                                                    progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener)TaibahRegistrationActivity.this, getApplicationContext());
+                                                    progressGenerator.startSignUp(btnUpload, PersonName, FinalEmail, UserName, Password, ConfirmPassword, selectedGender, DepartmentID,Config.FirebaseUserID );
+                                                }else {
+                                                    Toast.makeText(getApplicationContext(), task.getException().getMessage().toString(), Toast.LENGTH_LONG).show();
+                                                    Log.e(LOG_TAG, "Error ******** Error reason : "+ task.getException().getMessage().toString());
+                                                }
+                                            }
+                                        });
+                                    }else {
+                                        Toast.makeText(getApplicationContext(), task.getException().getMessage().toString(), Toast.LENGTH_LONG).show();
+                                        Log.e(LOG_TAG, "Error ******** Error reason : "+ task.getException().getMessage().toString());
                                     }
                                 }
                             });
                         }else {
-                            Toast.makeText(getApplicationContext(), task.getException().toString(), Toast.LENGTH_LONG).show();
-                            Log.e(LOG_TAG, "Error ******** Error reason : "+ task.getException());
+                            Toast.makeText(getApplicationContext(), task.getException().getMessage().toString(), Toast.LENGTH_LONG).show();
+                            Log.e(LOG_TAG, "Error ******** Error reason : "+ task.getException().getMessage().toString());
                         }
                     }
                 });
     }
 
     private void DoneSignUp(ArrayList<StudentsEntity> studentsEntities) {
-        for (StudentsEntity studentsEntity: studentsEntities){
-            PersonName= studentsEntity.getPersonName();
-            Email=studentsEntity.getEmail();
-            UserName=studentsEntity.getUserName();
-            selectedGender=studentsEntity.getGender();
-            mToken=studentsEntity.getAPI_TOKEN();
-            UserID=studentsEntity.getUserID();
-            FirebaseUiD=studentsEntity.getFirebaseUiD();
-        }
-        sessionManagement.createYusorLoginSession(mToken,PersonName,Email,UserName,selectedGender, DepartmentName,UserID,FirebaseUiD);
-        sessionManagement.createLoginSessionType("EP");
-        Intent intent_create=new Intent(TaibahRegistrationActivity.this,MainActivity.class);
+//        for (StudentsEntity studentsEntity: studentsEntities){
+//            PersonName= studentsEntity.getPersonName();
+//            Email=studentsEntity.getEmail();
+//            UserName=studentsEntity.getUserName();
+//            selectedGender=studentsEntity.getGender();
+//            mToken=studentsEntity.getAPI_TOKEN();
+//            UserID=studentsEntity.getUserID();
+//            FirebaseUiD=studentsEntity.getFirebaseUiD();
+//        }
+//        sessionManagement.createYusorLoginSession(mToken,PersonName,Email,UserName,selectedGender, DepartmentName,UserID,FirebaseUiD);
+//        sessionManagement.createLoginSessionType("EP");
+        Intent intent_create=new Intent(TaibahRegistrationActivity.this,LoginActivity.class);
         startActivity(intent_create);
         finish();
     }

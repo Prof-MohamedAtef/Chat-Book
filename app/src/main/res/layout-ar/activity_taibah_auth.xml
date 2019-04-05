@@ -182,20 +182,20 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical|center_horizontal"
                 android:layout_gravity="center_horizontal|center_vertical">
-                <EditText
-                    android:id="@+id/Edit_email"
-                    android:textColor="@color/black"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
                 <TextView
                     android:id="@+id/email_type"
                     android:textColor="@color/yellow"
                     android:gravity="center_vertical|center_horizontal"
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:text="@string/email_key"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+                <EditText
+                    android:id="@+id/Edit_email"
+                    android:textColor="@color/black"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"/>
@@ -296,6 +296,7 @@
                     android:layout_weight="1" />
             </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
     <LinearLayout
         android:layout_margin="@dimen/text_padding"

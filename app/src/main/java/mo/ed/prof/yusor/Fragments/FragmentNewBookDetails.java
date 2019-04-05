@@ -414,6 +414,7 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
             }
         });
 
+        Next_BTN.setEnabled(true);
         Next_BTN.setOnClickListener(new View.OnClickListener() {
             public String AuthTit;
 
@@ -448,9 +449,11 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
 //                                                        if (Config.AuthorTitle.equals(AuthTit)){
 //                                                            makeVolleyRequests.sendBookDetails(Config.BookName, Config.BookDescription, Config.AuthorID, Config.PublishYear, Config.FacultyID,Config.ISBN_Number,"", "", ApiToken);
 //                                                        }else {
+                                                        Next_BTN.setEnabled(false);
                                                             makeVolleyRequests.sendBookDetails(Config.BookName, Config.BookDescription, "",Config.PublishYear, Config.FacultyID,Config.ISBN_Number,Config.AuthorTitle,"", ApiToken);
 //                                                        }
                                                     }else {
+                                                        Next_BTN.setEnabled(false);
                                                         makeVolleyRequests.sendBookDetails(Config.BookName, Config.BookDescription, Config.AuthorID, Config.PublishYear, Config.FacultyID,Config.ISBN_Number,"", "", ApiToken);
                                                     }
                                                 }
@@ -655,6 +658,7 @@ public class FragmentNewBookDetails extends Fragment implements RetrieveAuthorsA
                     for (StudentsEntity studentsEntity:studentsEntities){
                         if (studentsEntity.getException()!=null){
                             Toast.makeText(getActivity(), studentsEntity.getException().toString(),Toast.LENGTH_SHORT).show();
+                            Next_BTN.setEnabled(true);
                         }else {
                             ((FragmentNewBookDetails.OnNextDetailsRequired) getActivity()).onNextNewBookNameDetailsNeeded(studentsEntity.getBookTitle(),studentsEntity.getBookID());
                         }

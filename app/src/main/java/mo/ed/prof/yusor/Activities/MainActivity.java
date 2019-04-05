@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     public void noBooksFrag(){
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container_frame, noBooksInGalleryFragment , "newsApi")
-                .commit();
+                .commitAllowingStateLoss();
     }
 
     @Override

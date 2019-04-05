@@ -107,10 +107,11 @@ public class CompleteAddBookActivity extends AppCompatActivity implements Progre
     @Override
     protected void onResume() {
         super.onResume();
-
+        Publish_BTN.setEnabled(true);
         Publish_BTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 checkedBookStatus = (RadioButton) radioBookStatusGroup.findViewById(radioBookStatusGroup.getCheckedRadioButtonId());
                 BookStatus = checkedBookStatus.getText().toString();
                 checkedTransaction = (RadioButton) radioTransactionGroup.findViewById(radioTransactionGroup.getCheckedRadioButtonId());
@@ -141,6 +142,7 @@ public class CompleteAddBookActivity extends AppCompatActivity implements Progre
                         if (BookPrice!=null&&BookPrice.length()>0){
                             if (verifyConnection.isConnected()) {
                                 progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener) CompleteAddBookActivity.this, getApplicationContext());
+                                Publish_BTN.setEnabled(false);
                                 progressGenerator.PublishBook(Publish_BTN, Config.BookID, BookPrice, sentBookStatus, sentAvailability, sentTransactionType, TokenID);
                             }
                         }else {
@@ -168,6 +170,7 @@ public class CompleteAddBookActivity extends AppCompatActivity implements Progre
                 for (StudentsEntity studentsEntity:studentsEntities){
                     if (studentsEntity.getException()!=null){
                         Toast.makeText(getApplicationContext(), studentsEntity.getException().toString(), Toast.LENGTH_LONG).show();
+                        Publish_BTN.setEnabled(true);
                     }else {
                         HomeRedirect(studentsEntity);
                     }

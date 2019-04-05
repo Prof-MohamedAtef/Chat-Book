@@ -33,7 +33,7 @@ import mo.ed.prof.yusor.helpers.Firebase.FirebaseEntites;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
-public class LoginActivity extends AppCompatActivity implements ProgressGenerator.OnCompleteListener{
+public class LoginActivity extends AppCompatActivity implements ProgressGenerator.OnCompleteListener {
 
     private final String LOG_TAG = LoginActivity.class.getSimpleName();
 
@@ -52,11 +52,11 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
     @BindView(R.id.btn_login)
     GenerateProcessButton btn_login;
 
-    String email, password , LoggedLocation1;
+    String email, password, LoggedLocation1;
     SessionManagement sessionManagement;
     HashMap<String, String> user;
     String LoggedEmail;
-    private String URL_Login="URL";
+    private String URL_Login = "URL";
     private ArrayList<StudentsEntity> feedItemList;
     private VerifyConnection verifyConnection;
     private ProgressGenerator progressGenerator;
@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
     private String UserID;
     private FirebaseUserHandler firebaseUserHandler;
     private DatabaseReference mDatabase;
-    private String Users_KEY ="users";
+    private String Users_KEY = "users";
     private FirebaseEntites firebaseEntities;
     private FirebaseAuth firebaseAuth;
     private String firebaseUiD;
@@ -79,13 +79,13 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
         setContentView(R.layout.activity_login);
         setTheme(R.style.ArishTheme);
         ButterKnife.bind(this);
-        verifyConnection=new VerifyConnection(getApplicationContext());
+        verifyConnection = new VerifyConnection(getApplicationContext());
         sessionManagement = new SessionManagement(getApplicationContext());
         user = sessionManagement.getUserDetails();
-        firebaseAuth=FirebaseAuth.getInstance();
-        if (mDatabase==null){
-            FirebaseDatabase database= FirebaseDatabase.getInstance();
-            mDatabase=database.getReference(Users_KEY);
+        firebaseAuth = FirebaseAuth.getInstance();
+        if (mDatabase == null) {
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            mDatabase = database.getReference(Users_KEY);
 //            mDatabase.keepSynced(true);
         }
         if (user != null) {
@@ -117,7 +117,9 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
             public void onClick(View v) {
                 btn_login.setEnabled(false);
                 email = email_signin.getText().toString();
+                email_signin.setEnabled(false);
                 password = password_signing.getText().toString();
+                password_signing.setEnabled(false);
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.enter_email), Toast.LENGTH_SHORT).show();
@@ -130,8 +132,8 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
                 }
 
 
-                if (email.length()>0&&password.length()>0){
-                    if (verifyConnection.isConnected()){
+                if (email.length() > 0 && password.length() > 0) {
+                    if (verifyConnection.isConnected()) {
                         LoginFirebase(email, password);
                     }
                 }
@@ -140,17 +142,18 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
     }
 
 
-
     @Override
     public void onComplete(ArrayList<StudentsEntity> studentsEntities) {
-        if (studentsEntities!=null){
-            if (studentsEntities.size()>0){
-                for (StudentsEntity studentsEntity:studentsEntities){
-                    if (studentsEntity.getException()!=null){
+        if (studentsEntities != null) {
+            if (studentsEntities.size() > 0) {
+                for (StudentsEntity studentsEntity : studentsEntities) {
+                    if (studentsEntity.getException() != null) {
                         Toast.makeText(getApplicationContext(), studentsEntity.getException().toString(), Toast.LENGTH_LONG).show();
                         btn_login.setEnabled(true);
+                        password_signing.setEnabled(true);
+                        email_signin.setEnabled(true);
                         btn_login.setText(getApplicationContext().getResources().getString(R.string.Sign_in));
-                    }else {
+                    } else {
                         DoneLogin(studentsEntities);
                     }
                 }
@@ -159,18 +162,18 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
     }
 
     private void DoneLogin(ArrayList<StudentsEntity> studentsEntities) {
-        for (StudentsEntity studentsEntity: studentsEntities){
-            PersonName= studentsEntity.getPersonName();
-            Email=studentsEntity.getEmail();
-            UserName=studentsEntity.getUserName();
-            selectedGender=studentsEntity.getGender();
-            mToken=studentsEntity.getAPI_TOKEN();
-            UserID=studentsEntity.getUserID();
-            firebaseUiD=studentsEntity.getFirebaseUiD();
+        for (StudentsEntity studentsEntity : studentsEntities) {
+            PersonName = studentsEntity.getPersonName();
+            Email = studentsEntity.getEmail();
+            UserName = studentsEntity.getUserName();
+            selectedGender = studentsEntity.getGender();
+            mToken = studentsEntity.getAPI_TOKEN();
+            UserID = studentsEntity.getUserID();
+            firebaseUiD = studentsEntity.getFirebaseUiD();
         }
-        sessionManagement.createYusorLoginSession(mToken,PersonName,Email,UserName,selectedGender, "DepartmentName",UserID,firebaseUiD);
+        sessionManagement.createYusorLoginSession(mToken, PersonName, Email, UserName, selectedGender, "DepartmentName", UserID, firebaseUiD);
         sessionManagement.createLoginSessionType("EP");
-        Intent intent_create=new Intent(LoginActivity.this,MainActivity.class);
+        Intent intent_create = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent_create);
         finish();
     }
@@ -181,11 +184,16 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
-                            String userID=firebaseUser.getUid();
-                            Config.FirebaseUserID=userID;
-                            progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener) LoginActivity.this, getApplicationContext());
-                            progressGenerator.startSignIn(btn_login, email, password, Config.FirebaseUserID);
+                            if (firebaseAuth.getCurrentUser().isEmailVerified()) {
+                                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                                String userID = firebaseUser.getUid();
+                                Config.FirebaseUserID = userID;
+                                progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener) LoginActivity.this, getApplicationContext());
+                                progressGenerator.startSignIn(btn_login, email, password, Config.FirebaseUserID);
+                            } else {
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.email_verify), Toast.LENGTH_LONG).show();
+                                Log.e(LOG_TAG, "Error ******** Error reason : " + getResources().getString(R.string.email_verify));
+                            }
                         } else {
                             Toast.makeText(getApplicationContext(), task.getException().toString(), Toast.LENGTH_LONG).show();
                             Log.e(LOG_TAG, "Error ******** Error reason : " + task.getException());

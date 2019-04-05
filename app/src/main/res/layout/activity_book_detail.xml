@@ -438,21 +438,22 @@
                         android:layout_height="wrap_content" />
                 </LinearLayout>
             </LinearLayout>
-            <com.dd.processbutton.iml.GenerateProcessButton
+            <Button
                 android:id="@+id/create_bill"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/button_margin"
                 android:textColor="@color/white"
-                custom:pb_colorComplete="@color/yellow"
+                android:background="@color/red"
                 android:visibility="gone"
-                custom:pb_colorNormal="@color/red_pressed"
-                custom:pb_colorPressed="@color/red"
-                custom:pb_colorProgress="@color/grey"
-                android:textSize="18sp"
-                custom:pb_textComplete="@string/done"
-                custom:pb_textProgress="@string/approving" />
+                android:textSize="18sp" />
+            <!--custom:pb_textComplete="@string/done"-->
+            <!--custom:pb_textProgress="@string/approving"-->
+            <!--custom:pb_colorComplete="@color/yellow"-->
+            <!--custom:pb_colorNormal="@color/red_pressed"-->
+            <!--custom:pb_colorPressed="@color/red"-->
+            <!--custom:pb_colorProgress="@color/grey"-->
             <Button
                 android:id="@+id/start_chat_btn"
                 android:text="@string/chat"

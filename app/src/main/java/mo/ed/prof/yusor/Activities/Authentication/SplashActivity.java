@@ -27,7 +27,6 @@ public class SplashActivity extends AppCompatActivity {
         mProgressDialog = new ProgressDialog(this);
     }
 
-
     ProgressDialog mProgressDialog;
     SessionManagement sessionManagement;
     HashMap<String, String> user;

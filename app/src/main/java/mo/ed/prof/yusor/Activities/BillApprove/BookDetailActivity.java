@@ -6,6 +6,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,7 +30,7 @@ import mo.ed.prof.yusor.helpers.Designsers.ProgressGenerator;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
-public class BookDetailActivity extends AppCompatActivity implements ProgressGenerator.OnCompleteListener{
+public class BookDetailActivity extends AppCompatActivity implements ProgressGenerator.OnCompleteListener, MakeVolleyRequests.OnCompleteListener{
 
     Intent intent;
     private StudentsEntity studentsEntity;
@@ -91,7 +93,7 @@ public class BookDetailActivity extends AppCompatActivity implements ProgressGen
     Button startChat_btn;
 
     @BindView(R.id.create_bill)
-    GenerateProcessButton create_bill;
+    Button create_bill;
 
     @BindView(R.id.price)
     TextView txt_price;
@@ -114,6 +116,7 @@ public class BookDetailActivity extends AppCompatActivity implements ProgressGen
     private String Book_id;
     private String BillID;
     private Toolbar mToolbar;
+    private MakeVolleyRequests makeVolleyRequest;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -266,8 +269,10 @@ public class BookDetailActivity extends AppCompatActivity implements ProgressGen
                                 if (verifyConn.isConnected()) {
                                     // i am buyer
                                     if (BillID != null && ApiToken != null) {
-                                        progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener) BookDetailActivity.this, getApplicationContext());
-                                        progressGenerator.approveBill(create_bill, BillID, ApiToken);
+//                                        progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener) BookDetailActivity.this, getApplicationContext());
+//                                        progressGenerator.approveBill(create_bill, BillID, ApiToken);
+                                        makeVolleyRequest=new MakeVolleyRequests(getApplicationContext(),BookDetailActivity.this);
+                                        makeVolleyRequest.approveBillRequest(BillID, ApiToken);
                                     }
                                 }
                             }
