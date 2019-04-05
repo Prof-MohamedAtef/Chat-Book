@@ -48,7 +48,8 @@
     <string name="book_status">Book Statue :</string>
     <string name="book_status_null">Book Statue is Null!</string>
     <string name="book_price">Book Price :</string>
-    <string name="price">in SR</string>
+    <string name="in_sr">in SR</string>
+    <string name="price">Price</string>
     <string name="agreement">This Bill has been issued after request of the buyer and the agrrement had been made upon sale with the mentioned price, hence both of the seller and buyer should assign on this bill to complete the transaction.</string>
     <string name="hint_book_name">Enter Book Name</string>
     <string name="author_name">Author Name</string>
@@ -202,6 +203,12 @@
     <string name="gift_book">3</string>
 
 
+
+
     <string name="enter_price">Enter Book Price</string>
+
+    <string name="chat_">Chat</string>
+    <string name="chats">Chats</string>
+    <string name="students">Students</string>
 
 </resources>

@@ -56,6 +56,12 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     private DrawerLayout drawerLayout;
     NoInternetFragment noInternetFragment;
     private BooksGalleryFragment booksGalleryFragment;
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
     private String LoggedType;
     private String firebaseUserID;
     private NoBooksInGalleryFragment noBooksInGalleryFragment;
@@ -263,9 +269,11 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                         booksGalleryFragment.setArguments(bundle);
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.container_frame, booksGalleryFragment, "newsApi")
-                                .commit();
+                                .commitAllowingStateLoss();
                     }
                 }
+            }else if (studentsEntities.size()==0){
+                noBooksFrag();
             }
         }
     }

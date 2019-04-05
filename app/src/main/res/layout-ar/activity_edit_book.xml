@@ -49,7 +49,6 @@
         android:layout_height="wrap_content"
         app:behavior_overlapTop="10dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
@@ -65,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
                 <TextView
-                    android:gravity="start"
+                    android:gravity="right"
                     android:text="@string/book_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -79,7 +78,7 @@
                     android:id="@+id/Edit_addBook"
                     android:textColor="@color/yellow"
                     android:hint="@string/add_book"
-                    android:gravity="start"
+                    android:gravity="right"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -89,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
                 <TextView
-                    android:gravity="start"
+                    android:gravity="right"
                     android:text="@string/author_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -118,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
                 <TextView
-                    android:gravity="start"
+                    android:gravity="right"
                     android:text="@string/isbn_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -132,7 +131,7 @@
                     android:id="@+id/Edit_isbnNum"
                     android:textColor="@color/yellow"
                     android:hint="@string/enter_ISBN"
-                    android:gravity="start"
+                    android:gravity="right"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -142,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
                 <TextView
-                    android:gravity="start"
+                    android:gravity="right"
                     android:text="@string/Faculty"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -169,7 +168,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
                 <TextView
-                    android:gravity="start"
+                    android:gravity="right"
                     android:text="@string/Publish_year"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -183,7 +182,7 @@
                     android:id="@+id/Edit_PublishYear"
                     android:textColor="@color/yellow"
                     android:hint="@string/enter_publish_year"
-                    android:gravity="start"
+                    android:gravity="right"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -193,7 +192,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
                 <TextView
-                    android:gravity="start"
+                    android:gravity="right"
                     android:text="@string/enter_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -207,17 +206,17 @@
                     android:id="@+id/Edit_enterDescription"
                     android:textColor="@color/yellow"
                     android:hint="@string/hint_enter_description"
-                    android:gravity="start"
+                    android:gravity="right"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <LinearLayout
                 android:padding="@dimen/padding_authentication"
-                android:gravity="start"
+                android:gravity="right"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:gravity="start"
+                    android:gravity="right"
                     android:text="@string/Book_status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -245,7 +244,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:gravity="start"
+                    android:gravity="right"
                     android:text="@string/purpose"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -269,12 +268,13 @@
                     android:layout_weight="1" />
             </LinearLayout>
             <LinearLayout
-                android:gravity="start"
+                android:gravity="right"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:layout_marginLeft="@dimen/fab_margin"
-                    android:gravity="start"
+                    android:gravity="right"
                     android:text="@string/book_price"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -287,7 +287,6 @@
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:layout_height="wrap_content"  />
-
             </LinearLayout>
             <LinearLayout
                 android:gravity="center"
@@ -298,13 +297,11 @@
                     android:textSize="@dimen/text_size"
                     android:textStyle="bold"
                     android:textColor="@color/grey"
-                    android:gravity="center_vertical|start"
+                    android:gravity="center_vertical|right"
                     android:text="@string/Attach_Photo"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent" />
                 <LinearLayout
-                    android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
                     android:gravity="center_vertical|center_horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
@@ -318,10 +315,8 @@
                         android:layout_margin="@dimen/button_margin"
                         android:id="@+id/BookImage"
                         android:layout_width="120dp"
-                        android:layout_height="160dp"
-                        />
+                        android:layout_height="160dp" />
                 </LinearLayout>
-
             </LinearLayout>
             <LinearLayout
                 android:padding="@dimen/padding_authentication"

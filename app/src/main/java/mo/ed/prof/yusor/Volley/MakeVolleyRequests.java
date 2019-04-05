@@ -220,7 +220,7 @@ public class MakeVolleyRequests {
                     @Override
                     public void onResponse(String response) {
                         if (response.matches("")){
-                            Toast.makeText(mContext, mContext.getResources().getString(R.string.failed), Toast.LENGTH_LONG).show();
+//                            Toast.makeText(mContext, mContext.getResources().getString(R.string.failed), Toast.LENGTH_LONG).show();
                             ArrayList<StudentsEntity> studentsEntities=new ArrayList<>();
                             studentsEntities.clear();
                             mListener.onComplete(studentsEntities);

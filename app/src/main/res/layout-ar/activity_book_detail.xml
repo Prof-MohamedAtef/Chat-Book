@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -81,8 +80,8 @@
                     <TextView
                         android:layout_marginTop="10dp"
                         android:textSize="@dimen/medium_text_size"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginEnd="20dp"
                         android:text="@string/book_name_"
                         android:src="@color/grey"
                         android:layout_width="wrap_content"
@@ -98,8 +97,8 @@
                     <TextView
                         android:id="@+id/author_name"
                         android:layout_marginTop="10dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginEnd="20dp"
                         android:textSize="@dimen/medium_text_size"
                         android:text="@string/author_name"
                         android:src="@color/grey"
@@ -108,15 +107,15 @@
                     <TextView
                         android:layout_marginTop="10dp"
                         android:textSize="@dimen/medium_text_size"
-                        android:text="@string/Publish_year_"
+                        android:text="@string/Publish_year"
                         android:src="@color/grey"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
                         android:id="@+id/publish_year"
                         android:layout_marginTop="10dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginRight="20dp"
                         android:textSize="@dimen/medium_text_size"
                         android:text="@string/Publish_year_"
                         android:src="@color/grey"
@@ -124,7 +123,7 @@
                         android:layout_height="wrap_content" />
                 </LinearLayout>
                 <LinearLayout
-                    android:gravity="start"
+                    android:gravity="end"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent">
@@ -143,7 +142,7 @@
                 <TextView
                     android:layout_marginTop="10dp"
                     android:textSize="@dimen/medium_text_size"
-                    android:text="@string/isbn_number_"
+                    android:text="@string/isbn_number"
                     android:src="@color/grey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -157,7 +156,6 @@
                     android:src="@color/grey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-
             </LinearLayout>
             <LinearLayout
                 android:padding="10dp"
@@ -182,7 +180,6 @@
                     android:src="@color/grey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-
             </LinearLayout>
             <LinearLayout
                 android:padding="10dp"
@@ -196,7 +193,6 @@
                     android:src="@color/grey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-
                 <TextView
                     android:id="@+id/price"
                     android:layout_marginTop="10dp"
@@ -209,14 +205,16 @@
                     android:layout_height="wrap_content" />
                 <TextView
                     android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
                     android:textSize="@dimen/medium_text_size"
                     android:text="@string/in_sr"
                     android:src="@color/grey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-
             </LinearLayout>
             <LinearLayout
+
                 android:gravity="start"
                 android:layout_weight="4"
                 android:padding="10dp"
@@ -241,6 +239,8 @@
                         android:text="@string/available_"
                         android:layout_below="@+id/view_line1"
                         android:src="@color/grey"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -372,6 +372,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true">
                         <TextView
+                            android:gravity="end"
                             android:id="@+id/seller_email"
                             android:textSize="@dimen/text_size"
                             android:text="@string/email_"

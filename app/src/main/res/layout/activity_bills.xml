@@ -5,7 +5,7 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 xmlns:tools="http://schemas.android.com/tools"
 android:orientation="vertical"
-android:background="@drawable/background"
+    android:background="@color/white"
 android:autoMirrored="true"
 android:id="@+id/coordinator_layout_detail">
 <android.support.design.widget.AppBarLayout
@@ -63,24 +63,20 @@ android:id="@+id/coordinator_layout_detail">
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <ImageView
-                android:src="@drawable/logo"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:scaleType="fitXY"
-                android:layout_weight="2"/>
             <LinearLayout
+                android:layout_margin="10dp"
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_authentication">
                 <TextView
-                    android:gravity="right|center_vertical"
+                    android:gravity="start|center_vertical"
                     android:text="@string/select_buyer_ifexist"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <LinearLayout
+                android:layout_margin="10dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -88,6 +84,7 @@ android:id="@+id/coordinator_layout_detail">
                 <Spinner
                     android:layout_margin="@dimen/top_margin"
                     android:background="#000000"
+                    android:layout_marginStart="3dp"
                     android:layout_marginLeft="3dp"
                     android:id="@+id/chat_spinner"
                     android:textStyle="bold"
@@ -98,67 +95,75 @@ android:id="@+id/coordinator_layout_detail">
                     android:layout_weight="1" />
             </LinearLayout>
             <LinearLayout
+                android:layout_margin="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1">
+
+                <TextView
+                    android:gravity="start|center_vertical"
+                    android:text="@string/seller_profile"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent" />
                 <TextView
                     android:id="@+id/txt_seller_name"
                     android:gravity="center"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
                 <TextView
-                    android:gravity="end|center_vertical"
-                    android:text="@string/seller_profile"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/date_time"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
                 <TextView
                     android:id="@+id/txt_date_time"
                     android:gravity="center"
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:layout_height="match_parent"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
                 <TextView
-                    android:gravity="end|center_vertical"
-                    android:text="@string/date_time"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/book_name"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
                 <TextView
                     android:id="@+id/txt_book_name"
                     android:gravity="center"
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:layout_height="match_parent"/>
-                <TextView
-                    android:gravity="end|center_vertical"
-                    android:text="@string/book_name"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent" />
             </LinearLayout>
             <LinearLayout
+                android:layout_margin="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1">
                 <TextView
-                    android:gravity="center"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/book_price"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:text="SR"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
                 <TextView
                     android:id="@+id/txt_price"
                     android:gravity="center"
@@ -167,13 +172,15 @@ android:id="@+id/coordinator_layout_detail">
                     android:text="20"
                     android:layout_height="match_parent"/>
                 <TextView
-                    android:gravity="end|center_vertical"
-                    android:text="@string/book_price"
+                    android:gravity="center"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="match_parent" />
+                    android:text="SR"
+                    android:layout_height="match_parent"/>
+
             </LinearLayout>
             <TextView
+                android:layout_margin="10dp"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -184,6 +191,7 @@ android:id="@+id/coordinator_layout_detail">
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:text="@string/add_to_bills"
+                android:layout_margin="10dp"
                 android:textColor="@color/white"
                 android:gravity="center"
                 custom:pb_colorComplete="@color/yellow"

@@ -68,7 +68,7 @@
                         android:layout_weight="1"/>
                     <TextView
                         android:id="@+id/author_name"
-                        android:textSize="@dimen/medium_text_size"
+                        android:textSize="@dimen/text_size"
                         android:textStyle="bold"
                         android:gravity="center_horizontal"
                         android:textColor="@color/red"
@@ -93,7 +93,7 @@
                         android:layout_weight="1"/>
                     <TextView
                         android:id="@+id/book_availability_val"
-                        android:textSize="@dimen/medium_text_size"
+                        android:textSize="@dimen/text_size"
                         android:textStyle="bold"
                         android:gravity="center_horizontal"
                         android:textColor="@color/red"
@@ -118,7 +118,7 @@
                         android:layout_weight="1"/>
                     <TextView
                         android:id="@+id/book_status_val"
-                        android:textSize="@dimen/medium_text_size"
+                        android:textSize="@dimen/text_size"
                         android:textStyle="bold"
                         android:gravity="center_horizontal"
                         android:textColor="@color/red"
@@ -143,7 +143,7 @@
                         android:layout_weight="1"/>
                     <TextView
                         android:id="@+id/book_price_val"
-                        android:textSize="@dimen/medium_text_size"
+                        android:textSize="@dimen/text_size"
                         android:textStyle="bold"
                         android:gravity="center_horizontal"
                         android:textColor="@color/red"

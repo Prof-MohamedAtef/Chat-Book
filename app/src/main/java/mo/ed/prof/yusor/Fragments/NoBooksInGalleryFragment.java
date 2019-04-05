@@ -31,7 +31,7 @@ public class NoBooksInGalleryFragment extends Fragment{
             public void onClick(View v) {
                 Intent intent=new Intent(getActivity(),AddNewBookActivity.class);
                 startActivity(intent);
-                getActivity().finish();
+//                getActivity().finish();
             }
         });
         return mainView;

@@ -22,7 +22,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:weightSum="5"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/white_stroke"
         android:padding="@dimen/activity_vertical_margin"
         android:gravity="center_vertical|center_horizontal">
@@ -51,10 +51,9 @@
                         android:text="@string/book_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+                        />
                     <LinearLayout
                         android:gravity="center"
-                        android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <TextView
@@ -81,7 +80,6 @@
                     </LinearLayout>
                     <LinearLayout
                         android:gravity="center"
-                        android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <TextView
@@ -111,7 +109,6 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:gravity="center">
                     <Button
                         android:elevation="3dp"
@@ -147,7 +144,7 @@
                     android:id="@+id/book_image"
                     android:scaleType="fitXY"
                     android:layout_width="150dp"
-                    android:layout_height="match_parent" />
+                    android:layout_height="300dp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

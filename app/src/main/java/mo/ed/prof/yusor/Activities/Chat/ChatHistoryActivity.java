@@ -62,7 +62,7 @@ public class ChatHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_history);
         setTheme(R.style.ArishTheme);
-        this.setTitle("Chat");
+        this.setTitle(getResources().getString(R.string.chat_));
         studentsEntity = new StudentsEntity();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
@@ -91,11 +91,11 @@ public class ChatHistoryActivity extends AppCompatActivity {
                     }
                 }
 
-                mSectionsPagerAdapter.addFragment(new UsersFragment(), "Students");
+                mSectionsPagerAdapter.addFragment(new UsersFragment(), getResources().getString(R.string.students));
                 if (unread==0){
-                    mSectionsPagerAdapter.addFragment(new ChatsFragment(), "Chats");
+                    mSectionsPagerAdapter.addFragment(new ChatsFragment(), getResources().getString(R.string.chats));
                 }else {
-                    mSectionsPagerAdapter.addFragment(new ChatsFragment(), "("+unread+")Chats");
+                    mSectionsPagerAdapter.addFragment(new ChatsFragment(), "("+unread+")"+getResources().getString(R.string.chats));
                 }
 
 

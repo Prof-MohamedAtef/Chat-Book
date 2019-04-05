@@ -45,6 +45,11 @@ public class FragmentPriecsSuggestions extends Fragment implements MakeVolleyReq
     private String TokenID;
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sessionManagement=new SessionManagement(getApplicationContext());

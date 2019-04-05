@@ -52,6 +52,12 @@ public class CompleteAddBookActivity extends AppCompatActivity implements Progre
     private String FragsSuggest_KEY="FragsSuggest_KEY";
     public static String BOOK_NAME="BOOK_NAME";
     private RadioButton checkedBookStatus;
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
     private String BookStatus;
     private RadioButton checkedTransaction;
     private String TransactionType;

@@ -192,7 +192,9 @@ public class BookDetailActivity extends AppCompatActivity implements ProgressGen
             }
         }
         if (BookAvailabilityID.equals("1")){
-            BookAvailability="Available";
+            BookAvailability=getResources().getString(R.string.book_not_exists);
+        }else {
+            BookAvailability=getResources().getString(R.string.book_exists);
         }
         // seller information
 
@@ -207,14 +209,15 @@ public class BookDetailActivity extends AppCompatActivity implements ProgressGen
                 OwnerStatus = studentsEntity.getOwnerStatus();
                 BuyerStatus = studentsEntity.getBuyerStatus();
                 if (OwnerStatus.equals("1") && BuyerStatus.equals("0")) {
+                    create_bill.setText(getResources().getString(R.string.pending_approval));
                     create_bill.setVisibility(View.VISIBLE);
-                    create_bill.setText("pending Approval");
                     create_bill.setEnabled(false);
                 } else if (OwnerStatus.equals("1") && BuyerStatus.equals("1")) {
+                    create_bill.setText(getResources().getString(R.string.approval_done));
                     create_bill.setVisibility(View.VISIBLE);
-                    create_bill.setText("Approval Done");
                     create_bill.setEnabled(false);
                 } else if (OwnerStatus.equals("0") && BuyerStatus.equals("0")) {
+                    create_bill.setText(getResources().getString(R.string.create_bill));
                     create_bill.setVisibility(View.VISIBLE);
                     create_bill.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -230,6 +233,7 @@ public class BookDetailActivity extends AppCompatActivity implements ProgressGen
                     });
                 }
             }else {
+                create_bill.setText(getResources().getString(R.string.create_bill));
                 create_bill.setVisibility(View.VISIBLE);
                 create_bill.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -244,36 +248,39 @@ public class BookDetailActivity extends AppCompatActivity implements ProgressGen
                     }
                 });
             }
-        }else if (BuyerFirebUseriD.equals(loggedFirebaseUserID)){
-            //i am registered as buyer
-            if (studentsEntity.getOwnerStatus()!=null&&studentsEntity.getBuyerStatus() != null) {
-                OwnerStatus = studentsEntity.getOwnerStatus();
-                BuyerStatus = studentsEntity.getBuyerStatus();
-                if (BuyerStatus.equals("0")) {
-                    create_bill.setVisibility(View.VISIBLE);
-                    create_bill.setText("Approve");
-                    create_bill.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            BillID = studentsEntity.getBillID();
-                            ApiToken = user.get(SessionManagement.KEY_idToken);
-                            verifyConn = new VerifyConnection(getApplicationContext());
-                            if (verifyConn.isConnected()) {
-                                // i am buyer
-                                if (BillID != null && ApiToken != null) {
-                                    progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener) BookDetailActivity.this, getApplicationContext());
-                                    progressGenerator.approveBill(create_bill, BillID, ApiToken);
+        }else if(BuyerFirebUseriD!=null){
+            if (BuyerFirebUseriD.equals(loggedFirebaseUserID)) {
+                //i am registered as buyer
+                if (studentsEntity.getOwnerStatus() != null && studentsEntity.getBuyerStatus() != null) {
+                    OwnerStatus = studentsEntity.getOwnerStatus();
+                    BuyerStatus = studentsEntity.getBuyerStatus();
+                    if (BuyerStatus.equals("0")) {
+                        create_bill.setText(getResources().getString(R.string.approve));
+                        create_bill.setVisibility(View.VISIBLE);
+                        create_bill.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                BillID = studentsEntity.getBillID();
+                                ApiToken = user.get(SessionManagement.KEY_idToken);
+                                verifyConn = new VerifyConnection(getApplicationContext());
+                                if (verifyConn.isConnected()) {
+                                    // i am buyer
+                                    if (BillID != null && ApiToken != null) {
+                                        progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener) BookDetailActivity.this, getApplicationContext());
+                                        progressGenerator.approveBill(create_bill, BillID, ApiToken);
+                                    }
                                 }
                             }
-                        }
-                    });
-                }if (BuyerStatus.equals("1")){
+                        });
+                    }
+                    if (BuyerStatus.equals("1")) {
+                        create_bill.setText(getResources().getString(R.string.approval_done));
+                        create_bill.setVisibility(View.VISIBLE);
+                        create_bill.setEnabled(false);
+                    }
+                } else {
                     create_bill.setVisibility(View.VISIBLE);
-                    create_bill.setText("Approval Done");
-                    create_bill.setEnabled(false);
                 }
-            }else {
-                create_bill.setVisibility(View.VISIBLE);
             }
         } else {
             // going to buy
