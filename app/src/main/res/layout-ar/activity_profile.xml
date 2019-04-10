@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="@drawable/background"
+    android:background="@color/white"
     android:autoMirrored="true"
     android:id="@+id/coordinator_layout_detail">
     <android.support.design.widget.AppBarLayout

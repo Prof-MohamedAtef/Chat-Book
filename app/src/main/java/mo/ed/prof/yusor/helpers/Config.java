@@ -25,6 +25,7 @@ public class Config {
     public static int Day;
     public static String AuthURL ="http://fla4news.com/Yusor/api/v1/authers";
     public static String FacultiesURL ="http://fla4news.com/Yusor/api/v1/departments";
+    public static final String BASE_URL="https://www.fla4news.com/";
     public static String imageBitmap;
     public static String image_name;
     public static String currentImagePAth;

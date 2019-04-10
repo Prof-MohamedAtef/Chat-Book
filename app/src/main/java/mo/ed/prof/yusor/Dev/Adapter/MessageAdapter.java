@@ -82,8 +82,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHOld
             }else {
                 holder.text_seen.setVisibility(View.GONE);
             }
-
-
         }
     }
 

@@ -12,7 +12,7 @@ import retrofit2.http.POST;
  * Created by Prof-Mohamed Atef on 3/22/2019.
  */
 
-public interface APIService {
+public interface FirebaseAPIService {
     @Headers(
             {
                     "Content-Type:application/json",

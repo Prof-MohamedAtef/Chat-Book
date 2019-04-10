@@ -137,9 +137,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHOlder> im
         }
     }
 
-    private void lastMessage(final String userID, final TextView last_msg){
+    private void lastMessage(final String loopedUserID, final TextView last_msg){
         mLastMessage="default";
-        final FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseUser firebaseLoggedinUser= FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference= FirebaseDatabase.getInstance().getReference("yusor-chat").child("Chats");
 
         reference.addValueEventListener(new ValueEventListener() {
@@ -147,15 +147,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHOlder> im
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot:dataSnapshot.getChildren()){
                     FirebaseChat chat=snapshot.getValue(FirebaseChat.class);
-                    if (chat.getReceiver().equals(firebaseUser.getUid()) && chat.getSender().equals(userID) ||
-                            chat.getReceiver().equals(userID) && chat.getSender().equals(firebaseUser.getUid())){
+                    if (chat.getReceiver().equals(firebaseLoggedinUser.getUid()) && chat.getSender().equals(loopedUserID) ||
+                            chat.getReceiver().equals(loopedUserID) && chat.getSender().equals(firebaseLoggedinUser.getUid())){
                         mLastMessage=chat.getMessage();
                     }
                 }
 
                 switch (mLastMessage) {
                     case "default":
-                        last_msg.setText("No Message");
+                        last_msg.setText(mContext.getResources().getString(R.string.no_message));
                         break;
                     default:
                         last_msg.setText(mLastMessage);

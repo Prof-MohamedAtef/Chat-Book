@@ -93,8 +93,8 @@ public class UsersFragment extends Fragment{
     }
 
 
-    private void PopulateUsersList(CopyOnWriteArrayList<FirebaseUsers> typesArticlesList) {
-        UserAdapter mAdapter=new UserAdapter(getActivity(),removeDublicates(typesArticlesList), false);
+    private void PopulateUsersList(CopyOnWriteArrayList<FirebaseUsers> usersList) {
+        UserAdapter mAdapter=new UserAdapter(getActivity(),removeDublicates(usersList), false);
         mAdapter.notifyDataSetChanged();
         recyclerView.setHasFixedSize(true);
         mLayoutManager=new LinearLayoutManager(getActivity());

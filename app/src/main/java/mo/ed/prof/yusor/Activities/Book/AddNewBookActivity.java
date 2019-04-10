@@ -81,10 +81,6 @@ public class AddNewBookActivity extends AppCompatActivity implements SelectBookF
 
     @Override
     public void onNewBookAdditionNeeded(String bookID, String bookTitle) {
-//        Bundle bundle = new Bundle();
-//        bundle.putString(BookID_KEY, bookID);
-//        bundle.putString(BookTitle_KEY, bookTitle);
-//        newBookDetailsFragment.setArguments(bundle);
         container_frame_existence.setVisibility(View.GONE);
         container_frame_existence2.setVisibility(View.VISIBLE);
         Config.BookName=null;
@@ -124,11 +120,4 @@ public class AddNewBookActivity extends AppCompatActivity implements SelectBookF
                 .commit();
 
     }
-//
-//    @Override
-//    public void OnBookChangedValue(String BookName, String BookID, int Position) {
-//        Config.BookName=BookName;
-//        Config.BookID=BookID;
-//        Config.BookPosition=Position;
-//    }
 }

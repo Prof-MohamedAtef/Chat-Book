@@ -45,7 +45,7 @@ public class ChatsFragment extends Fragment{
 
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private FirebaseUser fUser;
+    private FirebaseUser loggedInfirebUser;
     private ArrayList<String> mChatssList;
     private DatabaseReference reference;
     private CopyOnWriteArrayList<FirebaseUsers> mUsers;
@@ -65,7 +65,7 @@ public class ChatsFragment extends Fragment{
         View mainView = inflater.inflate(R.layout.fragment_user_chatted, container, false);
         recyclerView=(RecyclerView)mainView.findViewById(R.id.recycler_view);
         mChatssList =new ArrayList<>();
-        fUser= FirebaseAuth.getInstance().getCurrentUser();
+        loggedInfirebUser = FirebaseAuth.getInstance().getCurrentUser();
         reference= FirebaseDatabase.getInstance().getReference("yusor-chat").child("Chats");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -74,10 +74,9 @@ public class ChatsFragment extends Fragment{
                 for (DataSnapshot snapshot:dataSnapshot.getChildren()){
                     FirebaseChat chat=snapshot.getValue(FirebaseChat.class);
                     String senderID=chat.getSender();
-                    String currentUID=fUser.getUid();
+                    String currentUID= loggedInfirebUser.getUid();
                     String receiverID=chat.getReceiver().toString();
                     if (senderID.equals(currentUID)){
-
                         mChatssList.add(receiverID);
                     }
                     if (receiverID.equals(currentUID)){
@@ -157,7 +156,7 @@ public class ChatsFragment extends Fragment{
     private void updateToken(String token){
         DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Tokens");
         Token token1=new Token(token);
-        reference.child(fUser.getUid()).setValue(token1);
+        reference.child(loggedInfirebUser.getUid()).setValue(token1);
 
     }
 }

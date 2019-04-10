@@ -193,10 +193,16 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
                             } else {
                                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.email_verify), Toast.LENGTH_LONG).show();
                                 Log.e(LOG_TAG, "Error ******** Error reason : " + getResources().getString(R.string.email_verify));
+                                btn_login.setEnabled(true);
+                                password_signing.setEnabled(true);
+                                email_signin.setEnabled(true);
                             }
                         } else {
                             Toast.makeText(getApplicationContext(), task.getException().toString(), Toast.LENGTH_LONG).show();
                             Log.e(LOG_TAG, "Error ******** Error reason : " + task.getException());
+                            btn_login.setEnabled(true);
+                            password_signing.setEnabled(true);
+                            email_signin.setEnabled(true);
                         }
                     }
                 });

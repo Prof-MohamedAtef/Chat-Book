@@ -9,7 +9,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -24,7 +23,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +31,6 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import mo.ed.prof.yusor.Activities.Chat.ChatHistoryActivity;
 import mo.ed.prof.yusor.Dev.Adapter.MessageAdapter;
-import mo.ed.prof.yusor.Dev.Entity.FirebaseApproval;
 import mo.ed.prof.yusor.Dev.Entity.FirebaseChat;
 import mo.ed.prof.yusor.Dev.Entity.FirebaseUsers;
 import mo.ed.prof.yusor.Dev.Notification.Client;
@@ -41,7 +38,7 @@ import mo.ed.prof.yusor.Dev.Notification.Data;
 import mo.ed.prof.yusor.Dev.Notification.MyResponse;
 import mo.ed.prof.yusor.Dev.Notification.Sender;
 import mo.ed.prof.yusor.Dev.Notification.Token;
-import mo.ed.prof.yusor.Listeners.APIService;
+import mo.ed.prof.yusor.Listeners.FirebaseAPIService;
 import mo.ed.prof.yusor.R;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -76,7 +73,7 @@ public class MessageActivity extends AppCompatActivity {
     private String calledPersonID;
     private String userID;
 
-    APIService apiService;
+    FirebaseAPIService firebaseApiService;
 
     boolean notify=false;
 
@@ -102,7 +99,7 @@ public class MessageActivity extends AppCompatActivity {
             userID = intent.getStringExtra("userid");
         }
 
-        apiService= Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
+        firebaseApiService = Client.getClient("https://fcm.googleapis.com/").create(FirebaseAPIService.class);
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,7 +220,7 @@ public class MessageActivity extends AppCompatActivity {
                             userID);
                     Sender sender=new Sender(data, token.getToken());
 
-                    apiService.sendNotification(sender)
+                    firebaseApiService.sendNotification(sender)
                             .enqueue(new Callback<MyResponse>() {
                                 @Override
                                 public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
