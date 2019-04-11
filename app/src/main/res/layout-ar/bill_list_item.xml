@@ -98,7 +98,7 @@
                 <TextView
                     android:gravity="start|center_vertical"
                     android:id="@+id/bill_status"
-                    android:textColor="@color/red"
+                    android:textColor="@color/blue"
                     android:layout_width="wrap_content"
                     android:layout_weight="1"
                     android:layout_height="match_parent" />

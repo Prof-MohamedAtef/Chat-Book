@@ -12,12 +12,12 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/appbar_padding_top"
         android:theme="@style/AppTheme.AppBarOverlay"
-        android:background="@color/red">
+        android:background="@color/blue">
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/red"
+            android:background="@color/blue"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay">
             <de.hdodenhof.circleimageview.CircleImageView
@@ -37,7 +37,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/yellow" />
+            android:background="@color/white" />
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView

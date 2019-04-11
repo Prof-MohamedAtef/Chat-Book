@@ -170,10 +170,6 @@ public class MessageActivity extends AppCompatActivity {
         });
     }
 
-
-
-
-
     private void sendMessage(String sender, final String receiver, String message){
         DatabaseReference reference=FirebaseDatabase.getInstance().getReference();
 
@@ -290,7 +286,6 @@ public class MessageActivity extends AppCompatActivity {
         reference=FirebaseDatabase.getInstance().getReference("yusor-chat").child("Users").child(firebaseUser.getUid());
         HashMap<String, Object> hashMap=new HashMap<>();
         hashMap.put("status", status);
-
         reference.updateChildren(hashMap);
     }
 

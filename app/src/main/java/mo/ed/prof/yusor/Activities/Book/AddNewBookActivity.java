@@ -7,6 +7,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import mo.ed.prof.yusor.Fragments.FragmentNewBookDetails;
@@ -17,7 +19,8 @@ import mo.ed.prof.yusor.helpers.Config;
 public class AddNewBookActivity extends AppCompatActivity implements SelectBookFragmentIFExist.OnNewBookAddition,
         FragmentNewBookDetails.OnNextDetailsRequired,
         SelectBookFragmentIFExist.OnExistingBookDetailsRequired,
-        FragmentNewBookDetails.OnBackButtonPressed{
+        FragmentNewBookDetails.OnBackButtonPressed,
+        FragmentNewBookDetails.OnBookSelectionNeeded{
 //
 //},
 //        SelectBookFragmentIFExist.OnBookChangedValue{
@@ -51,7 +54,11 @@ public class AddNewBookActivity extends AppCompatActivity implements SelectBookF
         ButterKnife.bind(this);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back_arrow_red));
+        if (Locale.getDefault().getLanguage().contentEquals("en")){
+            mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.arrow_back_en));
+        }else if (Locale.getDefault().getLanguage().contentEquals("ar")){
+            mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.arrow_back_ar));
+        }
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -119,5 +126,12 @@ public class AddNewBookActivity extends AppCompatActivity implements SelectBookF
                 .replace(R.id.container_frame_existence, selectBookFragmentIFExist, SelectBookFragIfExist_KEY)
                 .commit();
 
+    }
+
+    @Override
+    public void onNextNewBookNameSelectionNeeded() {
+        Intent intent = new Intent(this, CompleteAddBookActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startActivity(intent);
     }
 }

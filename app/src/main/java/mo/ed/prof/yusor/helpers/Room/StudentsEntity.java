@@ -374,7 +374,8 @@ public class StudentsEntity implements Serializable {
     String FacultyName;
     String FacultyID;
 
-    public StudentsEntity(String book_title_str, String book_description_str, String publishYear_str, String photo_str, String isbn_str, String authorName_str, String department_str) {
+    public StudentsEntity(String book_title_str, String book_description_str, String publishYear_str,
+                          String photo_str, String isbn_str, String authorName_str, String department_str) {
         this.BookTitle=book_title_str;
         this.BookDescription=book_description_str;
         this.PublishYear=publishYear_str;
@@ -382,6 +383,17 @@ public class StudentsEntity implements Serializable {
         this.ISBN_NUM=isbn_str;
         this.AuthorTitle=authorName_str;
         this.DepartmentName=department_str;
+    }
+
+    public StudentsEntity(String book_title_str, String book_description_str, String publishYear_str,
+                          String photo_str, String isbn_str, String authorName_str, String bookID,String s, String s2, String s3) {
+        this.BookTitle=book_title_str;
+        this.BookDescription=book_description_str;
+        this.PublishYear=publishYear_str;
+        this.BookPhoto=photo_str;
+        this.ISBN_NUM=isbn_str;
+        this.AuthorTitle=authorName_str;
+        this.BookID=bookID;
     }
 
 

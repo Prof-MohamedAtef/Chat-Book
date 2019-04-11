@@ -13,6 +13,7 @@
         <TextView
             android:gravity="start"
             android:text="@string/book_name"
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -23,7 +24,7 @@
         android:layout_weight="1">
         <EditText
             android:id="@+id/Edit_addBook"
-            android:textColor="@color/yellow"
+            android:textColor="@color/blue"
             android:hint="@string/add_book"
             android:gravity="start"
             android:layout_width="match_parent"
@@ -37,6 +38,7 @@
         <TextView
             android:gravity="start"
             android:text="@string/author_name"
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -80,7 +82,7 @@
         <EditText
             android:visibility="gone"
             android:id="@+id/EditAuthorName"
-            android:textColor="@color/yellow"
+            android:textColor="@color/blue"
             android:hint="@string/author_name"
             android:gravity="start"
             android:layout_width="match_parent"
@@ -94,6 +96,7 @@
         <TextView
             android:gravity="start"
             android:text="@string/isbn_number"
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -104,7 +107,7 @@
         android:layout_weight="1">
         <EditText
             android:id="@+id/Edit_isbnNum"
-            android:textColor="@color/yellow"
+            android:textColor="@color/blue"
             android:hint="@string/enter_ISBN"
             android:gravity="start"
             android:layout_width="match_parent"
@@ -117,6 +120,7 @@
         android:layout_weight="1">
         <TextView
             android:gravity="start"
+            android:textColor="@color/black"
             android:text="@string/Faculty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -144,6 +148,7 @@
         android:layout_weight="1">
         <TextView
             android:gravity="start"
+            android:textColor="@color/black"
             android:text="@string/Publish_year"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -155,7 +160,7 @@
         android:layout_weight="1">
         <EditText
             android:id="@+id/Edit_PublishYear"
-            android:textColor="@color/yellow"
+            android:textColor="@color/blue"
             android:hint="@string/enter_publish_year"
             android:gravity="start"
             android:layout_width="match_parent"
@@ -168,6 +173,7 @@
         android:layout_weight="1">
         <TextView
             android:gravity="start"
+            android:textColor="@color/black"
             android:text="@string/enter_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -179,7 +185,7 @@
         android:layout_weight="1">
         <EditText
             android:id="@+id/Edit_enterDescription"
-            android:textColor="@color/yellow"
+            android:textColor="@color/blue"
             android:hint="@string/hint_enter_description"
             android:gravity="start"
             android:layout_width="match_parent"
@@ -193,7 +199,7 @@
         <TextView
             android:textSize="@dimen/text_size"
             android:textStyle="bold"
-            android:textColor="@color/grey"
+            android:textColor="@color/black"
             android:gravity="center_vertical|start"
             android:text="@string/Attach_Photo"
             android:layout_width="wrap_content"

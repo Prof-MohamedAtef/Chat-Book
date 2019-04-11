@@ -7,7 +7,7 @@
     <TextView
         android:id="@+id/txt_no_books"
         android:gravity="center"
-        android:textColor="@color/red"
+        android:textColor="@color/blue"
         android:textSize="30sp"
         android:layout_width="match_parent"
         android:text="@string/no_book_in_gallery"

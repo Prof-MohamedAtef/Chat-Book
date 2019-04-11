@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:id="@+id/Linear_EditBook"
     android:padding="@dimen/text_size"
-    android:background="@drawable/background">
+    android:background="@color/white">
     <LinearLayout
         android:padding="10dp"
         android:layout_marginTop="10dp"
@@ -21,7 +21,7 @@
                 android:layout_marginTop="10dp"
                 android:textSize="@dimen/medium_text_size"
                 android:text="@string/book_name_"
-                android:src="@color/grey"
+                android:textColor="@color/blue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
@@ -30,7 +30,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginEnd="20dp"
                 android:text="@string/book_name_"
-                android:src="@color/red"
+                android:textColor="@color/blue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/book_name"/>
@@ -39,7 +39,7 @@
                 android:layout_marginTop="10dp"
                 android:textSize="@dimen/medium_text_size"
                 android:text="@string/Publish_year_"
-                android:src="@color/grey"
+                android:textColor="@color/blue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
@@ -49,7 +49,7 @@
                 android:layout_marginRight="20dp"
                 android:textSize="@dimen/medium_text_size"
                 android:text="@string/Publish_year_"
-                android:src="@color/yellow"
+                android:textColor="@color/blue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -73,7 +73,7 @@
             android:layout_marginTop="10dp"
             android:textSize="@dimen/medium_text_size"
             android:text="@string/isbn_number_"
-            android:src="@color/grey"
+            android:textColor="@color/blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
@@ -83,7 +83,7 @@
             android:layout_marginTop="10dp"
             android:textSize="@dimen/medium_text_size"
             android:text="@string/isbn_number_"
-            android:src="@color/red"
+            android:textColor="@color/blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -95,7 +95,7 @@
             android:layout_marginTop="10dp"
             android:textSize="@dimen/medium_text_size"
             android:text="@string/description_"
-            android:src="@color/grey"
+            android:textColor="@color/blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
@@ -105,7 +105,7 @@
             android:layout_marginTop="10dp"
             android:textSize="@dimen/medium_text_size"
             android:text="@string/description_"
-            android:src="@color/yellow"
+            android:textColor="@color/blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -117,7 +117,7 @@
             android:layout_marginTop="10dp"
             android:textSize="@dimen/medium_text_size"
             android:text="@string/price"
-            android:src="@color/grey"
+            android:textColor="@color/blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
@@ -127,7 +127,7 @@
             android:layout_marginRight="20dp"
             android:textSize="@dimen/medium_text_size"
             android:text="@string/price"
-            android:src="@color/red"
+            android:textColor="@color/blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -146,7 +146,7 @@
                 android:layout_marginTop="10dp"
                 android:textSize="@dimen/medium_text_size"
                 android:text="@string/available_"
-                android:src="@color/grey"
+                android:textColor="@color/blue"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
@@ -158,7 +158,7 @@
                 android:layout_marginRight="20dp"
                 android:textSize="@dimen/medium_text_size"
                 android:text="@string/available_"
-                android:src="@color/yellow"
+                android:textColor="@color/blue"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
@@ -173,7 +173,7 @@
                 android:textSize="@dimen/medium_text_size"
                 android:text="@string/Book_status_"
                 android:layout_below="@+id/available_in_store"
-                android:src="@color/grey"
+                android:textColor="@color/blue"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
@@ -186,7 +186,7 @@
                 android:textSize="@dimen/medium_text_size"
                 android:text="@string/Book_status_"
                 android:layout_below="@+id/available_in_store"
-                android:src="@color/red"
+                android:textColor="@color/blue"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
@@ -203,7 +203,7 @@
                 android:layout_below="@id/book_status"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:src="@color/grey"
+                android:textColor="@color/blue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
@@ -215,7 +215,7 @@
                 android:layout_below="@id/book_status"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:src="@color/yellow"
+                android:textColor="@color/blue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -243,6 +243,6 @@
         android:layout_marginTop="10dp"
         android:layout_below="@+id/num_isbn"
         android:layout_width="match_parent"
-        android:background="@color/red"
+        android:background="@color/blue"
         android:layout_height="1.5dp"/>
 </LinearLayout>

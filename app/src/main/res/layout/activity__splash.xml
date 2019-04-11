@@ -1,39 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:background="@drawable/logo"
+android:background="@color/white"
 android:id="@+id/fullscreen_content"
+    android:orientation="vertical"
 tools:context="mo.ed.prof.yusor.Activities.Authentication.SplashActivity">
-<LinearLayout
+    <RelativeLayout
+        android:padding="@dimen/padding_authentication"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5">
+        <LinearLayout
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_width="70dp"
+            android:layout_height="70dp">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/taibahu_logo" />
+        </LinearLayout>
+    </RelativeLayout>
+    <LinearLayout
     android:gravity="center_horizontal|center_vertical"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="0.5">
     <LinearLayout
-        android:layout_width="50dp"
-        android:layout_height="50dp">
+        android:layout_width="130dp"
+        android:layout_height="130dp">
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ProfileImage_header_Post"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/logo" />
     </LinearLayout>
 </LinearLayout>
-<LinearLayout
+    <LinearLayout
     android:layout_marginTop="80dp"
     android:gravity="top"
     android:layout_width="match_parent"
+    android:layout_weight="1"
     android:layout_height="0dp">
     <TextView
-        android:textColor="#FFF"
+        android:textColor="@color/blue"
         android:gravity="center"
-        android:text="@string/app_name"
-        android:textSize="35sp"
+        android:text="@string/app_desc"
+        android:textSize="12sp"
         android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>
-</FrameLayout>
+</LinearLayout>

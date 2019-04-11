@@ -49,7 +49,7 @@ public class FacultiesSpinnerAdapter extends BaseAdapter {
         txt.setGravity(Gravity.CENTER_VERTICAL);
         txt.setText(SpinnerFeedItemList.get(position).getDepartmentName().toString());
         txt.setTextColor(Color.parseColor("#FFFFFF"));
-        txt.setBackgroundResource(R.color.red);
+        txt.setBackgroundResource(R.color.blue);
         return  txt;
     }
 
@@ -62,7 +62,7 @@ public class FacultiesSpinnerAdapter extends BaseAdapter {
         txt.setTextSize(16);
         txt.setText(SpinnerFeedItemList.get(position).getDepartmentName().toString());
         txt.setTextColor(Color.parseColor("#FFFFFF"));
-        txt.setBackgroundResource(R.color.red);
+        txt.setBackgroundResource(R.color.blue);
         return  txt;
     }
 }

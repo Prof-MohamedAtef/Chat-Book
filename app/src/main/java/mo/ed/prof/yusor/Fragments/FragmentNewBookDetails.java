@@ -26,6 +26,8 @@ import android.widget.Toast;
 
 import com.ipaulpro.afilechooser.utils.FileUtils;
 
+import org.json.JSONException;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -43,6 +45,7 @@ import mo.ed.prof.yusor.Listeners.UploadBookApi;
 import mo.ed.prof.yusor.Network.SnackBarClassLauncher;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
+import mo.ed.prof.yusor.Volley.JsonParser;
 import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
 import mo.ed.prof.yusor.helpers.Config;
 import mo.ed.prof.yusor.helpers.RetrofitUtils.RetrofitClient;
@@ -71,7 +74,7 @@ import static mo.ed.prof.yusor.helpers.Config.selectedImagePath;
 public class FragmentNewBookDetails extends Fragment implements
         RetrieveAuthorsAsyncTask.OnAuthorsRetrievalTaskCompleted,
         FacultiesAsyncTask.OnFacultiesRetrievalTaskCompleted ,
-        MakeVolleyRequests.OnCompleteListener,
+        MakeVolleyRequests.OnRetrofitCompleteListener,
         UploadCallbacks {
 
     @BindView(R.id.camera)
@@ -433,7 +436,7 @@ public class FragmentNewBookDetails extends Fragment implements
 
             @Override
             public void onClick(View v) {
-//                makeVolleyRequests=new MakeVolleyRequests(getActivity(),FragmentNewBookDetails.this);
+                makeVolleyRequests=new MakeVolleyRequests(getActivity(),FragmentNewBookDetails.this);
                 BookName= Edit_addBook.getText().toString();
                 Config.BookName=BookName;
                 if (Config.Author_Edit){
@@ -463,13 +466,13 @@ public class FragmentNewBookDetails extends Fragment implements
 //                                                            makeVolleyRequests.sendBookDetails(Config.BookName, Config.BookDescription, Config.AuthorID, Config.PublishYear, Config.FacultyID,Config.ISBN_Number,"", "", ApiToken);
 //                                                        }else {
                                                         Next_BTN.setEnabled(false);
-                                                        sendBookDetails(Config.BookName, Config.BookDescription, "",Config.PublishYear, Config.FacultyID,Config.ISBN_Number,Config.AuthorTitle,Config.ImageFileUri, ApiToken);
-//                                                            makeVolleyRequests.sendBookDetails(Config.BookName, Config.BookDescription, "",Config.PublishYear, Config.FacultyID,Config.ISBN_Number,Config.AuthorTitle,"", ApiToken);
+//                                                        sendBookDetails(Config.BookName, Config.BookDescription, "",Config.PublishYear, Config.FacultyID,Config.ISBN_Number,Config.AuthorTitle,Config.ImageFileUri, ApiToken);
+                                                            makeVolleyRequests.sendBookDetails(mService,Config.BookName, Config.BookDescription, "",Config.PublishYear, Config.FacultyID,Config.ISBN_Number,Config.AuthorTitle,Config.ImageFileUri, ApiToken);
 //                                                        }
                                                     }else {
                                                         Next_BTN.setEnabled(false);
-                                                        sendBookDetails(Config.BookName, Config.BookDescription, Config.AuthorID, Config.PublishYear, Config.FacultyID,Config.ISBN_Number,"", Config.ImageFileUri, ApiToken);
-//                                                        makeVolleyRequests.sendBookDetails(Config.BookName, Config.BookDescription, Config.AuthorID, Config.PublishYear, Config.FacultyID,Config.ISBN_Number,"", "", ApiToken);
+//                                                        sendBookDetails(Config.BookName, Config.BookDescription, Config.AuthorID, Config.PublishYear, Config.FacultyID,Config.ISBN_Number,"", Config.ImageFileUri, ApiToken);
+                                                        makeVolleyRequests.sendBookDetails(mService, Config.BookName, Config.BookDescription, Config.AuthorID, Config.PublishYear, Config.FacultyID,Config.ISBN_Number,"", Config.ImageFileUri, ApiToken);
                                                     }
                                                 }
                                         }else{
@@ -528,54 +531,62 @@ public class FragmentNewBookDetails extends Fragment implements
     private void sendBookDetails(final String bookName, final String bookDescription, final String authorID,
                                  final String publishYear, final String facultyID, final String isbn_num,
                                  final String authorName, final Uri photo, final String api_token) {
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressDialog.setMessage("Uploading ...");
-        progressDialog.setIndeterminate(false);
-        progressDialog.setMax(100);
-        progressDialog.setCancelable(false);
-        if (!progressDialog.isShowing()){
-            progressDialog.show();
-        }
-        File file = FileUtils.getFile(getActivity(), photo);
-        ProgressRequestBody requestFile = new ProgressRequestBody(file, this);
-        final MultipartBody.Part body = MultipartBody.Part.createFormData("photo", file.getName(), requestFile);
-
-        final RequestBody b_name=RequestBody.create(MultipartBody.FORM,bookName);
-        final RequestBody b_desc=RequestBody.create(MultipartBody.FORM,bookDescription);
-        final RequestBody b_authorID=RequestBody.create(MultipartBody.FORM,authorID);
-        final RequestBody b_publishYear=RequestBody.create(MultipartBody.FORM,publishYear);
-        final RequestBody b_deaprtID=RequestBody.create(MultipartBody.FORM,facultyID);
-        final RequestBody b_isbn=RequestBody.create(MultipartBody.FORM,isbn_num);
-        final RequestBody b_authorName=RequestBody.create(MultipartBody.FORM,authorName);
-        final RequestBody b_apiToken=RequestBody.create(MultipartBody.FORM,api_token);
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mService.uploadFileAndTextData(body,b_name,b_desc,
-                        b_authorID,b_publishYear,
-                        b_deaprtID,b_isbn,
-                        b_authorName,b_apiToken)
-                        .enqueue(new Callback<String>() {
-                            @Override
-                            public void onResponse(Call<String> call, retrofit2.Response<String> response) {
-                                if (response.isSuccessful()){
-                                    Toast.makeText(getActivity(), response.message().toString(), Toast.LENGTH_LONG).show();
-                                }else {
-                                    Toast.makeText(getActivity(), "Failed!", Toast.LENGTH_LONG).show();
-                                }
-                                progressDialog.dismiss();
-                            }
-
-                            @Override
-                            public void onFailure(Call<String> call, Throwable t) {
-                                progressDialog.dismiss();
-                                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        });
-            }
-        }).start();
+//        progressDialog = new ProgressDialog(getActivity());
+//        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+//        progressDialog.setMessage("Uploading ...");
+//        progressDialog.setIndeterminate(false);
+//        progressDialog.setMax(100);
+//        progressDialog.setCancelable(false);
+//        if (!progressDialog.isShowing()){
+//            progressDialog.show();
+//        }
+//        File file = FileUtils.getFile(getActivity(), photo);
+//        ProgressRequestBody requestFile = new ProgressRequestBody(file, this);
+//        final MultipartBody.Part body = MultipartBody.Part.createFormData("photo", file.getName(), requestFile);
+//
+//        final RequestBody b_name=RequestBody.create(MultipartBody.FORM,bookName);
+//        final RequestBody b_desc=RequestBody.create(MultipartBody.FORM,bookDescription);
+//        final RequestBody b_authorID=RequestBody.create(MultipartBody.FORM,authorID);
+//        final RequestBody b_publishYear=RequestBody.create(MultipartBody.FORM,publishYear);
+//        final RequestBody b_deaprtID=RequestBody.create(MultipartBody.FORM,facultyID);
+//        final RequestBody b_isbn=RequestBody.create(MultipartBody.FORM,isbn_num);
+//        final RequestBody b_authorName=RequestBody.create(MultipartBody.FORM,authorName);
+//        final RequestBody b_apiToken=RequestBody.create(MultipartBody.FORM,api_token);
+//
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                mService.uploadFileAndTextData(body,b_name,b_desc,
+//                        b_authorID,b_publishYear,
+//                        b_deaprtID,b_isbn,
+//                        b_authorName,b_apiToken)
+//                        .enqueue(new Callback<String>() {
+//                            @Override
+//                            public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+//                                if (response.isSuccessful()){
+//                                        try {
+//                                            JsonParser jsonParser = new JsonParser();
+//                                            ArrayList<StudentsEntity> studentsEntities = jsonParser.parseAddedBooksJsonDetails(response);
+//                                            if (studentsEntities != null) {
+//                                                if (studentsEntities.size() > 0) {
+//                                                    mListener.onComplete(studentsEntities);
+//                                                }
+//                                            }
+//                                        } catch (JSONException e) {
+//                                            e.printStackTrace();
+//                                        }
+//                                    }
+//                                progressDialog.dismiss();
+//                            }
+//
+//                            @Override
+//                            public void onFailure(Call<String> call, Throwable t) {
+//                                progressDialog.dismiss();
+//                                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+//                            }
+//                        });
+//            }
+//        }).start();
     }
 
     private void PopulateExistingAuthorsList(ArrayList<StudentsEntity> AuthorssList, int auth_Position) {
@@ -717,32 +728,42 @@ public class FragmentNewBookDetails extends Fragment implements
         getActivity().sendBroadcast(mediaScanIntent);
     }
 
-    @Override
-    public void onComplete(ArrayList<StudentsEntity> studentsEntities) {
-        if (studentsEntities!=null){
-//            if (fileNaming!=null){
-                if (studentsEntities.size()>0){
-                    for (StudentsEntity studentsEntity:studentsEntities){
-                        if (studentsEntity.getException()!=null){
-                            Toast.makeText(getActivity(), studentsEntity.getException().toString(),Toast.LENGTH_SHORT).show();
-                            Next_BTN.setEnabled(true);
-                        }else {
-                            ((FragmentNewBookDetails.OnNextDetailsRequired) getActivity()).onNextNewBookNameDetailsNeeded(studentsEntity.getBookTitle(),studentsEntity.getBookID());
-                        }
-                    }
-                }
-//            }
-        }
-    }
+//    @Override
+//    public void onComplete(ArrayList<StudentsEntity> studentsEntities) {
+
+//        if (studentsEntities!=null){
+////            if (fileNaming!=null){
+//                if (studentsEntities.size()>0){
+//                    for (StudentsEntity studentsEntity:studentsEntities){
+//                        if (studentsEntity.getException()!=null){
+//                            Toast.makeText(getActivity(), studentsEntity.getException().toString(),Toast.LENGTH_SHORT).show();
+//                            Next_BTN.setEnabled(true);
+//                        }else {
+//                            ((FragmentNewBookDetails.OnNextDetailsRequired) getActivity()).onNextNewBookNameDetailsNeeded(studentsEntity.getBookTitle(),studentsEntity.getBookID());
+//                        }
+//                    }
+//                }
+////            }
+//        }
+//    }
 
     @Override
     public void onProgressUpdate(int percentage) {
         progressDialog.setProgress(percentage);
     }
 
+    @Override
+    public void onComplete() {
+        ((FragmentNewBookDetails.OnBookSelectionNeeded)getActivity()).onNextNewBookNameSelectionNeeded();
+    }
+
 
     public interface OnNextDetailsRequired{
         void onNextNewBookNameDetailsNeeded(String BookName, String BookID);
+    }
+
+    public interface OnBookSelectionNeeded{
+        void onNextNewBookNameSelectionNeeded();
     }
 
     public interface OnBackButtonPressed{

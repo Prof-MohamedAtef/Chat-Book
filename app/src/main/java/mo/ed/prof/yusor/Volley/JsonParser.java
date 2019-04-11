@@ -754,6 +754,47 @@ public class JsonParser {
         return list;
     }
 
+    public ArrayList<StudentsEntity> getMyBooksForSimilar(String response) throws JSONException {
+        studentsEntity= new StudentsEntity();
+        UsersDesiresJson = new JSONObject(response);
+        MSG_STR = UsersDesiresJson.getString("msg");
+        if (MSG_STR.equals(DONE_KEY)){
+            try {
+                BookEntityJsonAray = UsersDesiresJson.getJSONArray("data");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            list.clear();
+            for (int i = 0; i < BookEntityJsonAray.length(); i++) {
+                // Get the JSON object representing a movie per each loop
+                oneBookJsonObjectData = BookEntityJsonAray.getJSONObject(i);
+                BookID_STR = oneBookJsonObjectData.getString("id");
+                Book_Title_STR = oneBookJsonObjectData.getString(Book_Title_KEY);
+                Book_Description_STR = oneBookJsonObjectData.getString(Description_KEY);
+                PublishYear_STR = oneBookJsonObjectData.getString(PublishYear_KEY);
+                ISBN_STR = oneBookJsonObjectData.getString(ISBN_Num_KEY);
+                PHOTO_STR = oneBookJsonObjectData.getString(PHOTO_KEY);
+                studentsEntity = new StudentsEntity(Book_Title_STR, Book_Description_STR, PublishYear_STR, PHOTO_STR,
+                        ISBN_STR, AuthorName_STR, BookID_STR, "","","");
+                list.add(studentsEntity);
+            }
+        }else if (MSG_STR.equals( Email_Already_Taken)){
+            studentsEntity.setException(Email_Already_Taken);
+            list.add(studentsEntity);
+        }else if (MSG_STR.equals(UserName_Already_Taken)){
+            studentsEntity.setException(UserName_Already_Taken);
+            list.add(studentsEntity);
+        }else if (MSG_STR.equals( Error_)){
+            studentsEntity.setException(Error_);
+            list.add(studentsEntity);
+        }else if (MSG_STR.equals(Invalid_Format)){
+            studentsEntity.setException(Invalid_Format);
+            list.add(studentsEntity);
+        }
+        return list;
+    }
+
     public ArrayList<StudentsEntity> getMyBooks(String response) throws JSONException {
         studentsEntity= new StudentsEntity();
         UsersDesiresJson = new JSONObject(response);

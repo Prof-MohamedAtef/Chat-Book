@@ -92,7 +92,11 @@ public class ProgressGenerator {
                         }else {
                             try {
                                 JsonParser jsonParser = new JsonParser();
-                                ArrayList<StudentsEntity> studentsEntities = jsonParser.BookAddedJsonParse(response);
+                                ArrayList<StudentsEntity> studentsEntities=new ArrayList<>();
+                                if (studentsEntities!=null){
+                                    studentsEntities.clear();
+                                }
+                                studentsEntities = jsonParser.BookAddedJsonParse(response);
                                 if (studentsEntities != null) {
                                     done = Done_Key;
                                     if (studentsEntities.size() > 0) {

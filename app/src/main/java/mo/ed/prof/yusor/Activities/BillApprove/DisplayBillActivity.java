@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 import mo.ed.prof.yusor.Activities.MainActivity;
 import mo.ed.prof.yusor.Fragments.BillsFragment;
@@ -38,7 +39,11 @@ public class DisplayBillActivity extends AppCompatActivity implements BillsFragm
         setContentView(R.layout.activity_display_bill);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back_arrow_red));
+        if (Locale.getDefault().getLanguage().contentEquals("en")){
+            mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.arrow_back_en));
+        }else if (Locale.getDefault().getLanguage().contentEquals("ar")){
+            mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.arrow_back_ar));
+        }
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -40,8 +40,8 @@
                     android:hint="@string/hint_email"
                     android:inputType="textEmailAddress"
                     android:gravity="start"
-                    android:textColor="@color/yellow"
-                    android:textColorHint="@color/red"/>
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey"/>
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -54,8 +54,8 @@
                     android:layout_marginBottom="10dp"
                     android:hint="@string/hint_password"
                     android:inputType="textPassword"
-                    android:textColor="@color/yellow"
-                    android:textColorHint="@color/red"/>
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey"/>
             </android.support.design.widget.TextInputLayout>
             <com.dd.processbutton.iml.GenerateProcessButton
                 android:id="@+id/btn_login"
@@ -63,9 +63,9 @@
                 android:layout_height="48dp"
                 android:text="@string/Sign_in"
                 android:textColor="@color/white"
-                custom:pb_colorComplete="@color/yellow"
-                custom:pb_colorNormal="@color/red_pressed"
-                custom:pb_colorPressed="@color/red"
+                custom:pb_colorComplete="@color/white_grey"
+                custom:pb_colorNormal="@color/blue"
+                custom:pb_colorPressed="@color/blue"
                 custom:pb_colorProgress="@color/grey"
                 android:textSize="18sp"
                 custom:pb_textComplete="@string/done"
@@ -79,7 +79,7 @@
                 android:background="@null"
                 android:text="@string/btn_forgot_password"
                 android:textAllCaps="false"
-                android:textColor="@color/red"
+                android:textColor="@color/blue"
                 android:textSize="15dp" />
 
             <Button
@@ -90,7 +90,7 @@
                 android:background="@null"
                 android:text="@string/btn_link_to_register"
                 android:textAllCaps="false"
-                android:textColor="@color/red"
+                android:textColor="@color/blue"
                 android:textSize="15dp" />
         </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>

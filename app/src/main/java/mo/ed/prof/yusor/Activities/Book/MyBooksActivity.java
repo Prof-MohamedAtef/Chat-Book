@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,7 +47,11 @@ public class MyBooksActivity extends AppCompatActivity implements MakeVolleyRequ
         ButterKnife.bind(this);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back_arrow_red));
+        if (Locale.getDefault().getLanguage().contentEquals("en")){
+            mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.arrow_back_en));
+        }else if (Locale.getDefault().getLanguage().contentEquals("ar")){
+            mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.arrow_back_ar));
+        }
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

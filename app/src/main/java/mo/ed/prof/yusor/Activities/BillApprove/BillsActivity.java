@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import butterknife.BindView;
@@ -93,7 +94,11 @@ public class BillsActivity extends AppCompatActivity implements ProgressGenerato
         ButterKnife.bind(this);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back_arrow_red));
+        if (Locale.getDefault().getLanguage().contentEquals("en")){
+            mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.arrow_back_en));
+        }else if (Locale.getDefault().getLanguage().contentEquals("ar")){
+            mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.arrow_back_ar));
+        }
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -31,7 +31,7 @@
                 android:layout_gravity="center_vertical|center_horizontal" />
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
-                app:navigationIcon="@drawable/ic_back_arrow_red"
+                app:navigationIcon="@drawable/arrow_back_en"
                 android:layout_marginStart="@dimen/list_toolbar_side_margin"
                 android:layout_marginLeft="@dimen/list_toolbar_side_margin"
                 android:layout_marginRight="@dimen/list_toolbar_side_margin"
@@ -66,7 +66,7 @@
                     android:layout_weight="1">
 
                     <TextView
-                        android:textColor="@color/red"
+                        android:textColor="@color/blue"
                         android:gravity="center_vertical|center_horizontal"
                         android:padding="@dimen/padding_authentication"
                         android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
                         android:layout_height="match_parent" />
                     <TextView
                         android:id="@+id/txt_profile_name"
-                        android:textColor="@color/black"
+                        android:textColor="@color/blue"
                         android:textSize="@dimen/medium_text_size"
                         android:padding="@dimen/padding_authentication"
                         android:layout_width="wrap_content"
@@ -89,7 +89,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1">
                     <TextView
-                        android:textColor="@color/red"
+                        android:textColor="@color/blue"
                         android:gravity="center_vertical|center_horizontal"
                         android:padding="@dimen/padding_authentication"
                         android:layout_width="wrap_content"
@@ -98,7 +98,7 @@
                         android:layout_height="match_parent" />
                     <TextView
                         android:id="@+id/txt_gender"
-                        android:textColor="@color/black"
+                        android:textColor="@color/blue"
                         android:textSize="@dimen/medium_text_size"
                         android:padding="@dimen/padding_authentication"
                         android:layout_width="wrap_content"
@@ -131,7 +131,7 @@
                     </LinearLayout>
                     <TextView
                         android:id="@+id/txt_email"
-                        android:textColor="@color/black"
+                        android:textColor="@color/blue"
                         android:textSize="@dimen/text_size"
                         android:padding="@dimen/padding_authentication"
                         android:gravity="center_vertical|start"
@@ -161,7 +161,7 @@
                             android:layout_height="50dp" />
                     </LinearLayout>
                     <TextView
-                        android:textColor="@color/black"
+                        android:textColor="@color/blue"
                         android:id="@+id/txt_major"
                         android:textSize="@dimen/text_size"
                         android:padding="@dimen/padding_authentication"

@@ -62,8 +62,8 @@
                     android:layout_marginBottom="10dp"
                     android:hint="@string/hint_email"
                     android:inputType="textEmailAddress"
-                    android:textColor="@color/yellow"
-                    android:textColorHint="@color/red"/>
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey"/>
             </android.support.design.widget.TextInputLayout>
             <Button
                 android:layout_marginBottom="20dp"
@@ -71,7 +71,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dip"
-                android:background="@color/red"
+                android:background="@color/blue"
                 android:text="@string/btn_reset_password"
                 android:textColor="@color/white" />
             <Button
@@ -81,7 +81,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@null"
                 android:text="@string/btn_back"
-                android:textColor="@color/red" />
+                android:textColor="@color/blue" />
         </LinearLayout>
         <ProgressBar
             android:id="@+id/progressBar"

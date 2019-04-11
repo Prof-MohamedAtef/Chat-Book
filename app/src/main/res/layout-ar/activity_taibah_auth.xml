@@ -184,7 +184,7 @@
                 android:layout_gravity="center_horizontal|center_vertical">
                 <TextView
                     android:id="@+id/email_type"
-                    android:textColor="@color/yellow"
+                    android:textColor="@color/blue"
                     android:gravity="center_vertical|center_horizontal"
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:text="@string/email_key"
@@ -312,9 +312,9 @@
             android:layout_height="48dp"
             android:text="@string/Sign_up"
             android:textColor="@color/white"
-            custom:pb_colorComplete="@color/yellow"
-            custom:pb_colorNormal="@color/red_pressed"
-            custom:pb_colorPressed="@color/red"
+            custom:pb_colorComplete="@color/white_grey"
+            custom:pb_colorNormal="@color/blue"
+            custom:pb_colorPressed="@color/blue"
             custom:pb_colorProgress="@color/grey"
             android:textSize="18sp"
             custom:pb_textComplete="@string/done"

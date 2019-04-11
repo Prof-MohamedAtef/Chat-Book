@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:background="@color/yellow">
+    android:background="@color/white">
 <LinearLayout
     android:id="@+id/Linear_reload"
     android:layout_width="280dp"
@@ -27,7 +27,7 @@
             android:orientation="vertical">
             <TextView
                 android:gravity="center"
-                android:textColor="@color/yellow"
+                android:textColor="@color/dark_grey"
                 android:textSize="17sp"
                 android:textStyle="bold"
                 android:text="@string/no_internet"
@@ -36,7 +36,7 @@
                 android:layout_weight="1"/>
             <TextView
                 android:textStyle="bold"
-                android:textColor="@color/yellow"
+                android:textColor="@color/blue"
                 android:textSize="17sp"
                 android:gravity="center"
                 android:text="@string/tap2retry"

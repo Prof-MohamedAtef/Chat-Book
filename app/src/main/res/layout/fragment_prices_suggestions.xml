@@ -14,7 +14,7 @@
         <TextView
             android:gravity="start|center_vertical"
             android:textStyle="bold"
-            android:textColor="@color/red"
+            android:textColor="@color/blue"
             android:textSize="@dimen/text_size"
             android:text="@string/similar_books"
             android:layout_width="match_parent"

@@ -38,7 +38,7 @@ android:id="@+id/coordinator_layout">
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:focusable="true"
-            app:navigationIcon="@drawable/ic_back_arrow_red"
+            app:navigationIcon="@drawable/arrow_back_en"
             android:nextFocusUp="@id/ImageContainer"
             android:layout_marginStart="@dimen/list_toolbar_side_margin"
             android:layout_marginEnd="@dimen/list_toolbar_side_margin"

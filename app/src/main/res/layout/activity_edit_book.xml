@@ -39,7 +39,7 @@
                 android:layout_gravity="bottom"
                 android:layout_width="match_parent"
                 app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/ic_back_arrow_red"
+                app:navigationIcon="@drawable/arrow_back_en"
                 app:layout_scrollFlags="scroll|enterAlways|snap"
                 app:popupTheme="@style/AppTheme.PopupOverlay"/>
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -67,6 +67,7 @@
                 <TextView
                     android:gravity="start"
                     android:text="@string/book_name"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -77,7 +78,7 @@
                 android:layout_weight="1">
                 <EditText
                     android:id="@+id/Edit_addBook"
-                    android:textColor="@color/yellow"
+                    android:textColor="@color/blue"
                     android:hint="@string/add_book"
                     android:gravity="start"
                     android:layout_width="match_parent"
@@ -91,6 +92,7 @@
                 <TextView
                     android:gravity="start"
                     android:text="@string/author_name"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -119,6 +121,7 @@
                 android:layout_weight="1">
                 <TextView
                     android:gravity="start"
+                    android:textColor="@color/black"
                     android:text="@string/isbn_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -130,7 +133,7 @@
                 android:layout_weight="1">
                 <EditText
                     android:id="@+id/Edit_isbnNum"
-                    android:textColor="@color/yellow"
+                    android:textColor="@color/blue"
                     android:hint="@string/enter_ISBN"
                     android:gravity="start"
                     android:layout_width="match_parent"
@@ -144,6 +147,7 @@
                 <TextView
                     android:gravity="start"
                     android:text="@string/Faculty"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -171,6 +175,7 @@
                 <TextView
                     android:gravity="start"
                     android:text="@string/Publish_year"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -181,7 +186,7 @@
                 android:layout_weight="1">
                 <EditText
                     android:id="@+id/Edit_PublishYear"
-                    android:textColor="@color/yellow"
+                    android:textColor="@color/blue"
                     android:hint="@string/enter_publish_year"
                     android:gravity="start"
                     android:layout_width="match_parent"
@@ -195,6 +200,7 @@
                 <TextView
                     android:gravity="start"
                     android:text="@string/enter_description"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -205,7 +211,7 @@
                 android:layout_weight="1">
                 <EditText
                     android:id="@+id/Edit_enterDescription"
-                    android:textColor="@color/yellow"
+                    android:textColor="@color/blue"
                     android:hint="@string/hint_enter_description"
                     android:gravity="start"
                     android:layout_width="match_parent"
@@ -219,6 +225,7 @@
                 <TextView
                     android:gravity="start"
                     android:text="@string/Book_status"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -247,6 +254,7 @@
                 <TextView
                     android:gravity="start"
                     android:text="@string/purpose"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -277,11 +285,12 @@
                     android:gravity="start"
                     android:text="@string/book_price"
                     android:layout_width="0dp"
+                    android:textColor="@color/black"
                     android:layout_weight="1"
                     android:layout_height="wrap_content" />
                 <EditText
                     android:id="@+id/Edit_BookPrice"
-                    android:textColor="@color/yellow"
+                    android:textColor="@color/blue"
                     android:hint="@string/book_price"
                     android:gravity="center"
                     android:layout_width="0dp"
@@ -297,7 +306,7 @@
                 <TextView
                     android:textSize="@dimen/text_size"
                     android:textStyle="bold"
-                    android:textColor="@color/grey"
+                    android:textColor="@color/black"
                     android:gravity="center_vertical|start"
                     android:text="@string/Attach_Photo"
                     android:layout_width="wrap_content"
@@ -333,9 +342,9 @@
                     android:layout_height="48dp"
                     android:text="@string/btn_edit"
                     android:textColor="@color/white"
-                    custom:pb_colorComplete="@color/yellow"
-                    custom:pb_colorNormal="@color/red_pressed"
-                    custom:pb_colorPressed="@color/red"
+                    custom:pb_colorComplete="@color/blue"
+                    custom:pb_colorNormal="@color/blue"
+                    custom:pb_colorPressed="@color/white_grey"
                     custom:pb_colorProgress="@color/grey"
                     android:textSize="18sp"
                     custom:pb_textComplete="@string/done"

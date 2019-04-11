@@ -3,6 +3,9 @@
 
     <string name="facebook_app_id">298058717735691</string>
     <string name="fb_login_protocol_scheme">fb298058717735691</string>
+
+    <string name="app_desc">Yusor app is redirected to students in the university to enable them exchange their university books</string>
+
     <string name="no_internet">Internet Disabled</string>
     <string name="failed">Failed</string>
     <string name="retry">Retry</string>
@@ -15,7 +18,7 @@
     <string name="loadedsuccess">Loaded Successfully</string>
 
     <string name="add_book">Add Book</string>
-    <string name="go_gallery">Go to Gallery</string>
+    <string name="go_gallery">Go to Main Page</string>
     <string name="browse_books">Browse</string>
     <string name="chat_history">Chat History</string>
     <string name="bills">Bills</string>
@@ -102,6 +105,7 @@
     <string name="transaction_type_null">Transaction Type is Null!</string>
     <string name="hint_transaction_type">Select Transaction Type</string>
     <string name="sale">Sale</string>
+    <string name="sold">sold</string>
     <string name="add_to_bills">Add To Bills</string>
     <string name="exchange">Exchange</string>
     <string name="gift">Gift</string>
@@ -172,6 +176,7 @@
     <string name="select_buyer_ifexist">Select Buyer if Exist</string>
     <string name="select_book_ifexist">Select Book if Exist</string>
     <string name="available_">Available in Store :</string>
+    <string name="onshow">available</string>
     <string name="add_book_btn">Add Book</string>
     <string name="add_btn">Add</string>
     <string name="next_btn">Next</string>

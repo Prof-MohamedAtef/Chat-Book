@@ -24,7 +24,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dip"
-                android:background="@color/red"
+                android:background="@color/blue"
                 android:text="@string/Sign_in"
                 android:textColor="@color/white" />
             <Button
@@ -32,7 +32,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dip"
-                android:background="@color/yellow"
+                android:background="@color/dark_grey"
                 android:textColor="@color/white"
                 android:text="@string/Sign_up" />
         </LinearLayout>

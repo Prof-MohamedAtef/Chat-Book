@@ -5,28 +5,41 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.dd.processbutton.iml.GenerateProcessButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import mo.ed.prof.yusor.Activities.MainActivity;
+import mo.ed.prof.yusor.Adapter.BooksSpinnerAdapter;
 import mo.ed.prof.yusor.Fragments.FragmentPriecsSuggestions;
+import mo.ed.prof.yusor.Fragments.SelectBookFragmentIFExist;
+import mo.ed.prof.yusor.GenericAsyncTasks.RetrieveBooksAsyncTask;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
+import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
 import mo.ed.prof.yusor.helpers.Config;
 import mo.ed.prof.yusor.helpers.Designsers.ProgressGenerator;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
-public class CompleteAddBookActivity extends AppCompatActivity implements ProgressGenerator.OnCompleteListener{
+import static com.facebook.FacebookSdk.getApplicationContext;
+
+public class CompleteAddBookActivity extends AppCompatActivity implements ProgressGenerator.OnCompleteListener,
+        MakeVolleyRequests.OnMyBookCompleteListener{
+
+    @BindView(R.id.Book_spinner)
+    Spinner Book_spinner;
 
     @BindView(R.id.radioBookStatusGroup)
     RadioGroup radioBookStatusGroup;
@@ -52,6 +65,7 @@ public class CompleteAddBookActivity extends AppCompatActivity implements Progre
     private String FragsSuggest_KEY="FragsSuggest_KEY";
     public static String BOOK_NAME="BOOK_NAME";
     private RadioButton checkedBookStatus;
+    private MakeVolleyRequests makeVolleyRequest;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -79,7 +93,11 @@ public class CompleteAddBookActivity extends AppCompatActivity implements Progre
         ButterKnife.bind(this);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back_arrow_red));
+        if (Locale.getDefault().getLanguage().contentEquals("en")){
+            mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.arrow_back_en));
+        }else if (Locale.getDefault().getLanguage().contentEquals("ar")){
+            mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.arrow_back_ar));
+        }
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -94,14 +112,46 @@ public class CompleteAddBookActivity extends AppCompatActivity implements Progre
         verifyConnection=new VerifyConnection(getApplicationContext());
         sessionManagement=new SessionManagement(getApplicationContext());
         user=sessionManagement.getUserDetails();
-        if (Config.BookExistence.equals(AddBookActivity.ExistingBook)){
-            BookTitle= getIntent().getExtras().getString(AddBookActivity.BookTitle_KEY);
-            BookID= getIntent().getExtras().getString(AddBookActivity.BookID_KEY);
-            Config.BookID=BookID;
-            bundle.putString(AddBookActivity.BookTitle_KEY,BookTitle);
-            bundle.putString(AddBookActivity.BookID_KEY,BookID);
+        if (user != null) {
+            TokenID = user.get(SessionManagement.KEY_idToken);
         }
-        NavigatToFragments(BookID, BookTitle);
+//        if (Config.BookExistence.equals(AddBookActivity.ExistingBook)){
+//            BookTitle= getIntent().getExtras().getString(AddBookActivity.BookTitle_KEY);
+//            BookID= getIntent().getExtras().getString(AddBookActivity.BookID_KEY);
+//            Config.BookID=BookID;
+//            bundle.putString(AddBookActivity.BookTitle_KEY,BookTitle);
+//            bundle.putString(AddBookActivity.BookID_KEY,BookID);
+//        }
+        if (verifyConnection.isConnected()){
+            makeVolleyRequest=new MakeVolleyRequests(getApplicationContext(), CompleteAddBookActivity.this);
+            makeVolleyRequest.getAllBooksForUser_Similar(TokenID);
+        }
+
+        Book_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Config.BookName = Config.BooksList.get(position).getBookTitle();
+                Config.BookID = Config.BooksList.get(position).getBookID();
+                Config.BookPosition=position;
+                if (Config.BookName!=null||Config.BookID!=null){
+                    NavigatToFragments(Config.BookID, Config.BookName);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        if (Config.BookName!=null||Config.BookID!=null){
+            NavigatToFragments(Config.BookID, Config.BookName);
+        }else {
+            Toast.makeText(getApplicationContext(), getString(R.string.select_spinner), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void PopulateExistingBooksList(ArrayList<StudentsEntity> result, int position) {
+        BooksSpinnerAdapter booksSpinnerAdapter= new BooksSpinnerAdapter(getApplicationContext(), result);
+        Book_spinner.setAdapter(booksSpinnerAdapter);
+        Book_spinner.setSelection(position);
     }
 
     @Override
@@ -160,7 +210,7 @@ public class CompleteAddBookActivity extends AppCompatActivity implements Progre
         fragmentPriecsSuggestions.setArguments(bundle);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame_prices_suggestions, fragmentPriecsSuggestions, FragsSuggest_KEY)
-                .commit();
+                .commitAllowingStateLoss();
     }
 
     @Override
@@ -185,6 +235,14 @@ public class CompleteAddBookActivity extends AppCompatActivity implements Progre
             Intent intent=new Intent(this,MainActivity.class);
             startActivity(intent);
             finish();
+        }
+    }
+
+    @Override
+    public void OnMyBookCompleted(ArrayList<StudentsEntity> studentsEntities) {
+        if (studentsEntities.size() > 0) {
+            Config.BooksList=studentsEntities;
+            PopulateExistingBooksList(studentsEntities, 0);
         }
     }
 }

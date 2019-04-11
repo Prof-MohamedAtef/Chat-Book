@@ -31,7 +31,7 @@
                 android:layout_gravity="center_vertical|center_horizontal" />
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
-                app:navigationIcon="@drawable/ic_back_arrow_red"
+                app:navigationIcon="@drawable/arrow_back_ar"
                 android:layout_marginStart="@dimen/list_toolbar_side_margin"
                 android:layout_marginLeft="@dimen/list_toolbar_side_margin"
                 android:layout_marginRight="@dimen/list_toolbar_side_margin"

@@ -82,13 +82,13 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.ViewHOlder> 
                             holder.img_approved.setVisibility(View.GONE);
                             holder.Done.setVisibility(View.GONE);
                             holder.btn_approve.setVisibility(View.VISIBLE);
-                            holder.btn_approve.setText("Pending Approval");
+                            holder.btn_approve.setText(mContext.getResources().getString(R.string.pending_approval));
                             holder.btn_approve.setEnabled(false);
                         }else if (feedItem.getBuyerFirebaseUiD().equals(LoggedFirebaseUid)){
                             holder.img_approved.setVisibility(View.GONE);
                             holder.Done.setVisibility(View.GONE);
                             holder.btn_approve.setVisibility(View.VISIBLE);
-                            holder.btn_approve.setText("Approve");
+                            holder.btn_approve.setText(mContext.getResources().getString(R.string.approve));
                         }
                     }
                 }else if (feedItem.getOwnerStatus().equals("1")&&feedItem.getBuyerStatus().equals("1")){

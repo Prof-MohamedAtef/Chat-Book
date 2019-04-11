@@ -95,9 +95,9 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.ViewHOld
             }
             if (feedItem.getAvailability()!=null){
                 if (feedItem.getAvailability().equals("1")){
-                    holder.available_in_store.setText("on show");
+                    holder.available_in_store.setText(mContext.getResources().getString(R.string.onshow));
                 }else if (feedItem.getAvailability().equals("0")){
-                    holder.available_in_store.setText("sold");
+                    holder.available_in_store.setText(mContext.getResources().getString(R.string.sold));
                 }
             }
             if (feedItem.getBookStatus()!=null){
