@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:background="@drawable/background"
     android:autoMirrored="true"
-    android:id="@+id/coordinator_layout_detail">
+    android:id="@+id/mTwoPane">
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/AppBarLayout_height"
@@ -31,7 +31,7 @@
                 android:layout_gravity="center_vertical|center_horizontal" />
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
-                app:navigationIcon="@drawable/arrow_back_ar"
+                app:navigationIcon="@drawable/arrow_back_en"
                 android:layout_marginStart="@dimen/list_toolbar_side_margin"
                 android:layout_marginLeft="@dimen/list_toolbar_side_margin"
                 android:layout_marginRight="@dimen/list_toolbar_side_margin"
@@ -70,8 +70,8 @@
                     android:layout_marginLeft="3dp"
                     android:id="@+id/Book_spinner"
                     android:textStyle="bold"
-                    android:textSize="22sp"
                     android:visibility="gone"
+                    android:textSize="22sp"
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -86,6 +86,7 @@
                 <TextView
                     android:gravity="start"
                     android:text="@string/Book_status"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -138,6 +139,7 @@
                 <TextView
                     android:gravity="start"
                     android:text="@string/purpose"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -192,19 +194,20 @@
                     android:layout_marginEnd="@dimen/fab_margin"
                     android:layout_marginRight="@dimen/fab_margin"
                     android:gravity="start"
+                    android:textColor="@color/black"
                     android:text="@string/book_price"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
                 <EditText
                     android:id="@+id/Edit_BookPrice"
                     android:textColor="@color/blue"
-                    android:hint="@string/book_price"
+                    android:hint="@string/price"
+                    android:textColorHint="@color/black"
                     android:gravity="center"
                     android:layout_width="0dp"
                     android:layout_weight="2"
-                    android:layout_height="wrap_content"  />
-
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
             <LinearLayout
                 android:padding="@dimen/padding_authentication"
@@ -224,7 +227,6 @@
                     custom:pb_textComplete="@string/done"
                     custom:pb_textProgress="@string/uploading" />
             </LinearLayout>
-
             <LinearLayout
                 android:layout_margin="15dp"
                 android:layout_width="match_parent"
@@ -251,10 +253,10 @@
                     android:layout_height="match_parent"/>
             </LinearLayout>
             <!--<FrameLayout-->
-                <!--android:layout_gravity="center"-->
-                <!--android:id="@+id/frame_prices_suggestions"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
+            <!--android:layout_gravity="center"-->
+            <!--android:id="@+id/frame_prices_suggestions"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
             <!--</FrameLayout>-->
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,7 +28,6 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import mo.ed.prof.yusor.Activities.MainActivity;
 import mo.ed.prof.yusor.Adapter.FacultiesSpinnerAdapter;
 import mo.ed.prof.yusor.GenericAsyncTasks.RetrieveDepartmentsAsyncTask;
 import mo.ed.prof.yusor.Network.VerifyConnection;
@@ -40,7 +40,7 @@ import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
 public class TaibahRegistrationActivity extends AppCompatActivity implements RetrieveDepartmentsAsyncTask.OnDepartmentsRetrievalTaskCompleted,
-ProgressGenerator.OnCompleteListener{
+        ProgressGenerator.OnProgressCompleteListener {
 
     private final String LOG_TAG = TaibahRegistrationActivity.class.getSimpleName();
 
@@ -158,8 +158,50 @@ ProgressGenerator.OnCompleteListener{
                 Edit_confirmedPassword.setEnabled(false);
                 checkedRadioButtion=(RadioButton)radioGenderGroup.findViewById(radioGenderGroup.getCheckedRadioButtonId());
                 radioGenderGroup.setEnabled(false);
-                selectedGender= checkedRadioButtion.getText().toString();
-                if (verifyConnection.isConnected()){
+                selectedGender= checkedRadioButtion.getText().toString().trim();
+                if (selectedGender!=null){
+                    if (selectedGender.equals(getResources().getString(R.string.male))){
+                        selectedGender="m";
+                    }else if (selectedGender.equals(getResources().getString(R.string.female))){
+                        selectedGender="f";
+                    }
+                }
+
+                if (TextUtils.isEmpty(selectedGender)||
+                        TextUtils.isEmpty(ConfirmPassword)||
+                        TextUtils.isEmpty(Password)||
+                        TextUtils.isEmpty(UserName)||
+                        TextUtils.isEmpty(FirstName)||
+                        TextUtils.isEmpty(LastName)){
+                    if (TextUtils.isEmpty(FirstName)) {
+                        Toast.makeText(getApplication(), getResources().getString(R.string.enter_fname), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (TextUtils.isEmpty(Email)) {
+                        Toast.makeText(getApplication(), getResources().getString(R.string.enter_email), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (TextUtils.isEmpty(LastName)) {
+                        Toast.makeText(getApplication(), getResources().getString(R.string.enter_lname), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (TextUtils.isEmpty(UserName)) {
+                        Toast.makeText(getApplication(), getResources().getString(R.string.enter_username), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (TextUtils.isEmpty(Password)) {
+                        Toast.makeText(getApplication(), getResources().getString(R.string.enter_pass_1), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (TextUtils.isEmpty(selectedGender)) {
+                        Toast.makeText(getApplication(), getResources().getString(R.string.enter_gender), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (TextUtils.isEmpty(ConfirmPassword)) {
+                        Toast.makeText(getApplication(), getResources().getString(R.string.enter_pass_2), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }else if (verifyConnection.isConnected()){
                     signUpFirebase();
                 }
             }
@@ -187,7 +229,7 @@ ProgressGenerator.OnCompleteListener{
     }
 
     @Override
-    public void onComplete(ArrayList<StudentsEntity> studentsEntities) {
+    public void onProgressComplete(ArrayList<StudentsEntity> studentsEntities) {
         if (studentsEntities!=null){
             if (studentsEntities.size()>0){
                 for (StudentsEntity studentsEntity:studentsEntities){
@@ -234,7 +276,7 @@ ProgressGenerator.OnCompleteListener{
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()){
-                                                    progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener)TaibahRegistrationActivity.this, getApplicationContext());
+                                                    progressGenerator = new ProgressGenerator((ProgressGenerator.OnProgressCompleteListener)TaibahRegistrationActivity.this, getApplicationContext());
                                                     progressGenerator.startSignUp(btnUpload, PersonName, FinalEmail, UserName, Password, ConfirmPassword, selectedGender, DepartmentID,Config.FirebaseUserID );
                                                 }else {
                                                     Toast.makeText(getApplicationContext(), task.getException().getMessage().toString(), Toast.LENGTH_LONG).show();

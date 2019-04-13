@@ -6,11 +6,14 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -75,6 +78,7 @@ public class FragmentNewBookDetails extends Fragment implements
         RetrieveAuthorsAsyncTask.OnAuthorsRetrievalTaskCompleted,
         FacultiesAsyncTask.OnFacultiesRetrievalTaskCompleted ,
         MakeVolleyRequests.OnRetrofitCompleteListener,
+        MakeVolleyRequests.OnFailureListener,
         UploadCallbacks {
 
     @BindView(R.id.camera)
@@ -242,6 +246,7 @@ public class FragmentNewBookDetails extends Fragment implements
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -298,29 +303,47 @@ public class FragmentNewBookDetails extends Fragment implements
             }else if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK) {
                 if (data!=null){
                     selectedImage = data.getData();
-//                AudioFilePath= selectedImage.getPath();
                     ImageFileUri =data.getData();
-                    Config.ImageFileUri=ImageFileUri;
                     imageFileName=data.getData().getPath();
+                    String FileName= getImageFilePath(ImageFileUri);
+//                    String FileName= getImagePath(ImageFileUri);
                     fileNaming=new File(imageFileName);
                     imageName= fileNaming.getName();
-                    filePathColumn = new String[]{MediaStore.Images.Media.DATA};
-                    if (ImageFileUri!=null){
-                        imageBitmap= LoadThenDecodeBitmap();
+                    Config.ImageFileUri=ImageFileUri;
+                    if (selectedImage!=null){
+                        imageBitmap= LoadThenDecodeBitmap(FileName);
                         setBitmapToImageView(imageBitmap);
+                    }else {
+                        Bundle selectedImage = data.getExtras();
+                        imageFileName=data.getData().getPath();
+                        fileNaming=new File(imageFileName);
+                        imageName= fileNaming.getName();
+                        ImageFileUri =data.getData();
+                        Config.ImageFileUri=ImageFileUri;
+                        filePathColumn = new String[]{MediaStore.Images.Media.DATA};
+                        imageBitmap=(Bitmap)selectedImage.get(DATA_KEY);
+                        Config.imageBitmap=imageBitmap.toString();
+                        if (imageBitmap!= null) {
+                            bitmap = Bitmap.createScaledBitmap(imageBitmap, 400, 400, false);
+                            setBitmapToImageView(bitmap);
+                        }
                     }
                 }
             }else if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK){
                 if (data!=null){
                     selectedImage = data.getData();
+                    ImageFileUri =data.getData();
                     imageFileName=data.getData().getPath();
+
+                    String FileName= getImageFilePath(ImageFileUri);
+//                    String FileName= getImagePath(ImageFileUri);
                     fileNaming=new File(imageFileName);
                     imageName= fileNaming.getName();
-                    ImageFileUri =data.getData();
+
                     Config.ImageFileUri=ImageFileUri;
-                    filePathColumn = new String[]{MediaStore.Images.Media.DATA};
+//                    filePathColumn = new String[]{MediaStore.Images.Media.DATA};
                     if (selectedImage!=null){
-                        imageBitmap= LoadThenDecodeBitmap();
+                        imageBitmap= LoadThenDecodeBitmap(FileName);
                         setBitmapToImageView(imageBitmap);
                     }else {
                         Bundle selectedImage = data.getExtras();
@@ -347,6 +370,33 @@ public class FragmentNewBookDetails extends Fragment implements
                 UploadedImage1=Config.selectedImagePath;
             }
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private String getImageFilePath(Uri imageUri) {
+        String wholeID = DocumentsContract.getDocumentId(imageUri);
+
+        // Split at colon, use second item in the array
+        String id = wholeID.split(":")[1];
+
+        String[] column = { MediaStore.Images.Media.DATA };
+
+        // where id is equal to
+        String sel = MediaStore.Images.Media._ID + "=?";
+
+        Cursor cursor = getActivity().getContentResolver().
+                query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        column, sel, new String[]{ id }, null);
+
+        String filePath = "";
+
+        int columnIndex = cursor.getColumnIndex(column[0]);
+
+        if (cursor.moveToFirst()) {
+            filePath = cursor.getString(columnIndex);
+        }
+        cursor.close();
+        return filePath;
     }
 
     private void setUriToImageView(Uri uriToImageView) {
@@ -436,7 +486,7 @@ public class FragmentNewBookDetails extends Fragment implements
 
             @Override
             public void onClick(View v) {
-                makeVolleyRequests=new MakeVolleyRequests(getActivity(),FragmentNewBookDetails.this);
+                makeVolleyRequests=new MakeVolleyRequests(getActivity(),FragmentNewBookDetails.this, FragmentNewBookDetails.this);
                 BookName= Edit_addBook.getText().toString();
                 Config.BookName=BookName;
                 if (Config.Author_Edit){
@@ -569,7 +619,7 @@ public class FragmentNewBookDetails extends Fragment implements
 //                                            ArrayList<StudentsEntity> studentsEntities = jsonParser.parseAddedBooksJsonDetails(response);
 //                                            if (studentsEntities != null) {
 //                                                if (studentsEntities.size() > 0) {
-//                                                    mListener.onComplete(studentsEntities);
+//                                                    mListener.onProgressComplete(studentsEntities);
 //                                                }
 //                                            }
 //                                        } catch (JSONException e) {
@@ -647,12 +697,32 @@ public class FragmentNewBookDetails extends Fragment implements
         }
     }
 
-    private Bitmap LoadThenDecodeBitmap(){
-        Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-        cursor.moveToFirst();
-        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-        selectedImagePath= cursor.getString(columnIndex);
-        imageBitmap= decodeSampledBitmapFromResource(selectedImagePath,100,100);
+    public String getImagePath(Uri uri) {
+        String selectedImagePath;
+        // 1:MEDIA GALLERY --- query from MediaStore.Images.Media.DATA
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getActivity().managedQuery(uri, projection, null, null, null);
+        if (cursor != null) {
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            selectedImagePath = cursor.getString(column_index);
+        } else {
+            selectedImagePath = null;
+        }
+
+        if (selectedImagePath == null) {
+            // 2:OI FILE Manager --- call method: uri.getPath()
+            selectedImagePath = uri.getPath();
+        }
+        return selectedImagePath;
+    }
+
+    private Bitmap LoadThenDecodeBitmap(String fileName){
+//        Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+//        cursor.moveToFirst();
+//        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//        selectedImagePath= cursor.getString(columnIndex);
+        imageBitmap= decodeSampledBitmapFromResource(fileName,100,100);
         selectedImagePath=selectedImagePath;
         Config.imageBitmap=imageBitmap.toString();
         Config.image_name=selectedImagePath;
@@ -729,7 +799,7 @@ public class FragmentNewBookDetails extends Fragment implements
     }
 
 //    @Override
-//    public void onComplete(ArrayList<StudentsEntity> studentsEntities) {
+//    public void onProgressComplete(ArrayList<StudentsEntity> studentsEntities) {
 
 //        if (studentsEntities!=null){
 ////            if (fileNaming!=null){
@@ -753,8 +823,14 @@ public class FragmentNewBookDetails extends Fragment implements
     }
 
     @Override
-    public void onComplete() {
+    public void onSuccess() {
         ((FragmentNewBookDetails.OnBookSelectionNeeded)getActivity()).onNextNewBookNameSelectionNeeded();
+    }
+
+    @Override
+    public void onFailure() {
+        Next_BTN.setEnabled(true);
+        Toast.makeText(getActivity(), getString(R.string.failed), Toast.LENGTH_SHORT).show();
     }
 
 

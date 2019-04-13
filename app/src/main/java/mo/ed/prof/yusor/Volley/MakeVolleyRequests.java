@@ -33,6 +33,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import mo.ed.prof.yusor.Listeners.UploadBookApi;
 import mo.ed.prof.yusor.R;
@@ -48,7 +49,6 @@ import okio.Buffer;
 import okio.BufferedSource;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Converter;
 
 /**
  * Created by Prof-Mohamed Atef on 3/15/2019.
@@ -57,6 +57,7 @@ import retrofit2.Converter;
 public class MakeVolleyRequests implements UploadCallbacks{
 
     private final OnMyBookCompleteListener onMyBookCompleteListener;
+    private final OnSearchSuggestedBooksCompListener onSearchSuggestedBooksCompListener;
     Context mContext;
     private String KEY_BOOKTitle="title";
     private String KEY_BOOKDescription="desc";
@@ -75,17 +76,27 @@ public class MakeVolleyRequests implements UploadCallbacks{
         this.mContext=context;
         this.mListener= (OnCompleteListener) onCompleteListener;
         onMyBookCompleteListener = null;
+        onSearchSuggestedBooksCompListener = null;
     }
 
-    public MakeVolleyRequests(Context context, OnRetrofitCompleteListener onRetrofitCompleteListener){
+    public MakeVolleyRequests(Context context, OnRetrofitCompleteListener onRetrofitCompleteListener, OnFailureListener onFailureListener){
         this.mContext=context;
         this.onRetrofitListener= (OnRetrofitCompleteListener) onRetrofitCompleteListener;
         onMyBookCompleteListener = null;
+        onSearchSuggestedBooksCompListener = null;
+        this.onFailureListener=onFailureListener;
     }
 
     public MakeVolleyRequests(Context context, OnMyBookCompleteListener onMyBookCompleteListener){
         this.mContext=context;
         this.onMyBookCompleteListener= (OnMyBookCompleteListener) onMyBookCompleteListener;
+        onSearchSuggestedBooksCompListener = null;
+    }
+
+    public MakeVolleyRequests(Context context, OnSearchSuggestedBooksCompListener onSearchSuggestedBooksCompListener){
+        this.mContext=context;
+        this.onSearchSuggestedBooksCompListener= (OnSearchSuggestedBooksCompListener) onSearchSuggestedBooksCompListener;
+        onMyBookCompleteListener = null;
     }
 
 
@@ -160,10 +171,11 @@ public class MakeVolleyRequests implements UploadCallbacks{
                         }else {
                             try {
                                 JsonParser jsonParser = new JsonParser();
+
                                 ArrayList<StudentsEntity> studentsEntities = jsonParser.getSimilarBooks(response);
                                 if (studentsEntities != null) {
                                     if (studentsEntities.size() > 0) {
-                                        mListener.onComplete(studentsEntities);
+                                        onSearchSuggestedBooksCompListener.OnSearchSuggestedBooksCompleted(studentsEntities);
                                     }
                                 }
                             } catch (JSONException e) {
@@ -255,7 +267,7 @@ public class MakeVolleyRequests implements UploadCallbacks{
 //                                ArrayList<StudentsEntity> studentsEntities = jsonParser.parseAddedBooksJsonDetails(response);
 //                                if (studentsEntities != null) {
 //                                    if (studentsEntities.size() > 0) {
-//                                        mListener.onComplete(studentsEntities);
+//                                        mListener.onProgressComplete(studentsEntities);
 //                                    }
 //                                }
 //                            } catch (JSONException e) {
@@ -345,12 +357,14 @@ public class MakeVolleyRequests implements UploadCallbacks{
 //                                        ArrayList<StudentsEntity> studentsEntities = jsonParser.parseAddedBooksJsonDetails(response.message().toString());
 //                                        if (studentsEntities != null) {
 //                                            if (studentsEntities.size() > 0) {
-                                                onRetrofitListener.onComplete();
+                                                onRetrofitListener.onSuccess();
 //                                            }
 //                                        }
 //                                    } catch (JSONException e) {
 //                                        e.printStackTrace();
 //                                    }
+                                }else {
+                                    onFailureListener.onFailure();
                                 }
                                 progressDialog.dismiss();
                             }
@@ -367,6 +381,7 @@ public class MakeVolleyRequests implements UploadCallbacks{
 
     private OnCompleteListener mListener;
     private OnRetrofitCompleteListener onRetrofitListener;
+    private OnFailureListener onFailureListener;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private StatusError getStatusError(ResponseBody responseBody) {
@@ -591,7 +606,7 @@ public class MakeVolleyRequests implements UploadCallbacks{
                         }else {
                             try {
                                 JsonParser jsonParser = new JsonParser();
-                                ArrayList<StudentsEntity> studentsEntities = jsonParser.getMyBooksForSimilar(response);
+                                CopyOnWriteArrayList<StudentsEntity> studentsEntities = jsonParser.getMyBooksForSimilar(response);
                                 if (studentsEntities != null) {
                                     if (studentsEntities.size() > 0) {
                                         onMyBookCompleteListener.OnMyBookCompleted(studentsEntities);
@@ -941,15 +956,193 @@ public class MakeVolleyRequests implements UploadCallbacks{
         progressDialog.setProgress(percentage);
     }
 
+    public void sendResetEmail(final String email) {
+        final RequestQueue requestQueue  = Volley.newRequestQueue(mContext);
+        StringRequest stringRequest=new StringRequest(Request.Method.POST,
+                "http://fla4news.com/Yusor/api/v1/reset-password",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.matches("")){
+                            Toast.makeText(mContext, mContext.getResources().getString(R.string.failed), Toast.LENGTH_LONG).show();
+                        }else {
+                            try {
+                                JsonParser jsonParser = new JsonParser();
+                                ArrayList<StudentsEntity> studentsEntities = jsonParser.resetPassword(mContext,response);
+                                if (studentsEntities != null) {
+                                    if (studentsEntities.size() > 0) {
+                                        mListener.onComplete(studentsEntities);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                loading.dismiss();
+                //Showing toast
+                if (error!=null){
+                    if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof AuthFailureError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ServerError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof NetworkError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ParseError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+//                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> hashMap=new HashMap<>();
+                hashMap.put("email",email);
+                return  hashMap;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+    public void sendResetCode(final String code) {
+        final RequestQueue requestQueue  = Volley.newRequestQueue(mContext);
+        StringRequest stringRequest=new StringRequest(Request.Method.POST,
+                "http://fla4news.com/Yusor/api/v1/check_code",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.matches("")){
+                            Toast.makeText(mContext, mContext.getResources().getString(R.string.failed), Toast.LENGTH_LONG).show();
+                        }else {
+                            try {
+                                JsonParser jsonParser = new JsonParser();
+                                ArrayList<StudentsEntity> studentsEntities = jsonParser.resetCode(mContext,response);
+                                if (studentsEntities != null) {
+                                    if (studentsEntities.size() > 0) {
+                                        mListener.onComplete(studentsEntities);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                loading.dismiss();
+                //Showing toast
+                if (error!=null){
+                    if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof AuthFailureError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ServerError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof NetworkError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ParseError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+//                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> hashMap=new HashMap<>();
+                hashMap.put("code",code);
+                return  hashMap;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+    public void ResetPassConfirmation(final String pass_1, final String pass_2, final String studentID) {
+        final RequestQueue requestQueue  = Volley.newRequestQueue(mContext);
+        StringRequest stringRequest=new StringRequest(Request.Method.POST,
+                "http://fla4news.com/Yusor/api/v1/update_password",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.matches("")){
+                            Toast.makeText(mContext, mContext.getResources().getString(R.string.failed), Toast.LENGTH_LONG).show();
+                        }else {
+                            try {
+                                JsonParser jsonParser = new JsonParser();
+                                ArrayList<StudentsEntity> studentsEntities = jsonParser.updatePassword(mContext,response);
+                                if (studentsEntities != null) {
+                                    if (studentsEntities.size() > 0) {
+                                        mListener.onComplete(studentsEntities);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                loading.dismiss();
+                //Showing toast
+                if (error!=null){
+                    if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof AuthFailureError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ServerError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof NetworkError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    } else if (error instanceof ParseError) {
+                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+//                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                }
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> hashMap=new HashMap<>();
+                hashMap.put("password",pass_1);
+                hashMap.put("password_confirmation",pass_2);
+                hashMap.put("student_id",studentID);
+                return  hashMap;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
     public interface OnCompleteListener {
         public void onComplete(ArrayList<StudentsEntity> studentsEntities);
     }
 
+    public interface OnFailureListener {
+        public void onFailure();
+    }
+
     public interface OnMyBookCompleteListener {
-        public void OnMyBookCompleted(ArrayList<StudentsEntity> studentsEntities);
+        public void OnMyBookCompleted(CopyOnWriteArrayList<StudentsEntity> studentsEntities);
+    }
+
+    public interface OnSearchSuggestedBooksCompListener{
+        public void OnSearchSuggestedBooksCompleted(ArrayList<StudentsEntity> studentsEntities);
     }
 
     public interface OnRetrofitCompleteListener {
-        public void onComplete();
+        public void onSuccess();
     }
 }

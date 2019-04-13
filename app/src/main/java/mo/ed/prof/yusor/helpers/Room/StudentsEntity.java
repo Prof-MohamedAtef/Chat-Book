@@ -10,6 +10,36 @@ import java.io.Serializable;
 
 public class StudentsEntity implements Serializable {
     public static Object FBAccessToken;
+    String StudentID;
+
+    public StudentsEntity(String bookID_str, String book_title_str, String book_description_str,
+                          String publishYear_str, String isbn_str, String photo_str, String authorID_str,
+                          String departmentID_str, String studentID_str, String price_str, String bookStatus_str,
+                          String availability_str, String transactionType_str, String SellerFBUID) {
+        this.BookID=bookID_str;
+        this.BookTitle=book_title_str;
+        this.BookDescription=book_description_str;
+        this.PublishYear=publishYear_str;
+        this.ISBN_NUM=isbn_str;
+        this.BookPhoto=photo_str;
+        this.AuthorTitle=authorID_str;
+        this.DepartmentName=departmentID_str;
+        this.StudentID=studentID_str;
+        this.BookPrice=price_str;
+        this.BookStatus=bookStatus_str;
+        this.Availability=availability_str;
+        this.TransactionType=transactionType_str;
+        this.SellerFirebaseUid=SellerFBUID;
+    }
+
+    public String getStudentID() {
+        return StudentID;
+    }
+
+    public void setStudentID(String studentID) {
+        StudentID = studentID;
+    }
+
     public String CreatedAt;
 
     public StudentsEntity(String userID_str, String userName_str, String gender_str,
@@ -20,6 +50,11 @@ public class StudentsEntity implements Serializable {
         this.Email=email_str;
         this.FirebaseUiD=firebaseUserID_str;
         this.DepartmentName=department_str;
+    }
+
+    public StudentsEntity(String studentID_str, String firebaseUserID_str, String s, String s1, String s2) {
+        this.StudentID=studentID_str;
+        this.FirebaseUiD=firebaseUserID_str;
     }
 
     public String getCreatedAt() {

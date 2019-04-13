@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:background="@drawable/background"
     android:autoMirrored="true"
-    android:id="@+id/coordinator_layout_detail">
+    android:id="@+id/mTwoPane">
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/AppBarLayout_height"
@@ -251,10 +251,10 @@
                     android:layout_height="match_parent"/>
             </LinearLayout>
             <!--<FrameLayout-->
-                <!--android:layout_gravity="center"-->
-                <!--android:id="@+id/frame_prices_suggestions"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
+            <!--android:layout_gravity="center"-->
+            <!--android:id="@+id/frame_prices_suggestions"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
             <!--</FrameLayout>-->
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

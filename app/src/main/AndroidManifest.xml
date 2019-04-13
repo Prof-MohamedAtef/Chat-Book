@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <!-- android:usesCleartextTraffic="true" -->
     <application
         android:allowBackup="true"
@@ -63,7 +64,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.ProfileActivity"
+            android:name=".Activities.Profile.ProfileActivity"
             android:parentActivityName=".Activities.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
@@ -141,9 +142,13 @@
             android:name=".Activities.ReportsActivity"
             android:parentActivityName=".Activities.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".Activities.Authentication.ResetPassActivity"
+        <activity
+            android:name=".Activities.Authentication.EmailResetPassActivity"
             android:parentActivityName=".Activities.Authentication.LoginActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".Activities.Authentication.ResetCodeActivity" />
+        <activity android:name=".Activities.Authentication.PasswordResetActivity" />
+        <activity android:name=".Activities.Profile.EditProfileActivity"></activity>
     </application>
 
 </manifest>

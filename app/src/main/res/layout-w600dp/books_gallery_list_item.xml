@@ -44,7 +44,7 @@
                     <TextView
                         android:padding="@dimen/fab_elevation"
                         android:id="@+id/book_name"
-                        android:textSize="@dimen/medium_text_size"
+                        android:textSize="@dimen/text_size"
                         android:textStyle="bold"
                         android:gravity="center"
                         android:textColor="@color/blue"
@@ -69,7 +69,7 @@
                         <TextView
                             android:padding="@dimen/fab_elevation"
                             android:id="@+id/author_name"
-                            android:textSize="@dimen/medium_text_size"
+                            android:textSize="@dimen/text_size"
                             android:textStyle="bold"
                             android:gravity="center_horizontal"
                             android:textColor="@color/blue"
@@ -95,7 +95,7 @@
                         <TextView
                             android:padding="@dimen/fab_elevation"
                             android:id="@+id/book_price"
-                            android:textSize="@dimen/medium_text_size"
+                            android:textSize="@dimen/text_size"
                             android:textStyle="bold"
                             android:gravity="center_horizontal"
                             android:textColor="@color/blue"

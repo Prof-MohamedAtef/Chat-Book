@@ -22,9 +22,9 @@ import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 public class BooksSpinnerAdapter extends BaseAdapter {
 
     private Context mContext;
-    private ArrayList<StudentsEntity> SpinnerFeedItemList;
+    private List<StudentsEntity> SpinnerFeedItemList;
 
-    public BooksSpinnerAdapter(Context mContext, ArrayList<StudentsEntity> spinnerFeedItemList) {
+    public BooksSpinnerAdapter(Context mContext, List<StudentsEntity> spinnerFeedItemList) {
         this.mContext= mContext;
         SpinnerFeedItemList = spinnerFeedItemList;
     }

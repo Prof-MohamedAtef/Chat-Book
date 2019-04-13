@@ -19,7 +19,6 @@ import com.dd.processbutton.ProcessButton;
 import com.dd.processbutton.iml.GenerateProcessButton;
 import org.json.JSONException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -100,7 +99,7 @@ public class ProgressGenerator {
                                 if (studentsEntities != null) {
                                     done = Done_Key;
                                     if (studentsEntities.size() > 0) {
-                                        mListener.onComplete(studentsEntities);
+                                        mListener.onProgressComplete(studentsEntities);
                                     }
                                 }
                             } catch (JSONException e) {
@@ -166,7 +165,7 @@ public class ProgressGenerator {
                                 if (studentsEntities != null) {
                                     done = Done_Key;
                                     if (studentsEntities.size() > 0) {
-                                        mListener.onComplete(studentsEntities);
+                                        mListener.onProgressComplete(studentsEntities);
                                     }
                                 }
                             } catch (JSONException e) {
@@ -231,7 +230,7 @@ public class ProgressGenerator {
                                 ArrayList<StudentsEntity> studentsEntities = jsonParser.ApproveBill(response);
                                 if (studentsEntities != null) {
                                     if (studentsEntities.size() > 0) {
-                                        mListener.onComplete(studentsEntities);
+                                        mListener.onProgressComplete(studentsEntities);
                                     }
                                 }
                             } catch (JSONException e) {
@@ -273,20 +272,22 @@ public class ProgressGenerator {
         requestQueue.add(stringRequest);
     }
 
-    public interface OnCompleteListener {
-        public void onComplete(ArrayList<StudentsEntity> studentsEntities);
+    public interface OnProgressCompleteListener {
+        public void onProgressComplete(ArrayList<StudentsEntity> studentsEntities);
     }
 
-    private OnCompleteListener mListener;
+    private OnProgressCompleteListener mListener;
     private Context mContext;
     private int mProgress;
 
-    public ProgressGenerator(OnCompleteListener listener, Context context) {
+    public ProgressGenerator(OnProgressCompleteListener listener, Context context) {
         mListener = listener;
         this.mContext=context;
     }
 
-    public void startSignUp(final ProcessButton button, final String P_name, final String Email, final String userName, final String Password, final String confirmPassword, final String Gender, final String departmentid, final String firbase_id) {
+    public void startSignUp(final ProcessButton button, final String P_name, final String Email,
+                            final String userName, final String Password, final String confirmPassword,
+                            final String Gender, final String departmentid, final String firbase_id) {
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -323,7 +324,7 @@ public class ProgressGenerator {
                                 if (studentsEntities != null) {
                                     done = Done_Key;
                                     if (studentsEntities.size() > 0) {
-                                        mListener.onComplete(studentsEntities);
+                                        mListener.onProgressComplete(studentsEntities);
                                     }
                                 }
                             } catch (JSONException e) {
@@ -379,7 +380,7 @@ public class ProgressGenerator {
                                 if (studentsEntities != null) {
                                     done = Done_Key;
                                     if (studentsEntities.size() > 0) {
-                                        mListener.onComplete(studentsEntities);
+                                        mListener.onProgressComplete(studentsEntities);
                                     }
                                 }
                             } catch (JSONException e) {

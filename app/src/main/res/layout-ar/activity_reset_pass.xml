@@ -38,7 +38,7 @@
                 android:layout_gravity="center_horizontal"
                 android:padding="10dp"
                 android:text="@string/btn_forgot_password"
-                android:textColor="@color/blue"
+                android:textColor="@android:color/white"
                 android:textSize="20dp" />
 
             <TextView
@@ -48,14 +48,13 @@
                 android:gravity="center_horizontal"
                 android:padding="@dimen/activity_horizontal_margin"
                 android:text="@string/forgot_password_msg"
-                android:textColor="@color/blue"
+                android:textColor="@android:color/white"
                 android:textSize="14dp" />
 
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/grey">
+                android:layout_height="wrap_content">
                 <EditText
                     android:id="@+id/email"
                     android:layout_width="fill_parent"

@@ -31,7 +31,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import mo.ed.prof.yusor.Activities.MainActivity;
 import mo.ed.prof.yusor.Adapter.Chat.ChatterSpinnerAdapter;
 import mo.ed.prof.yusor.Dev.Entity.FirebaseChat;
 import mo.ed.prof.yusor.Dev.Entity.FirebaseUsers;
@@ -42,7 +41,7 @@ import mo.ed.prof.yusor.helpers.Designsers.ProgressGenerator;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
-public class BillsActivity extends AppCompatActivity implements ProgressGenerator.OnCompleteListener{
+public class BillsActivity extends AppCompatActivity implements ProgressGenerator.OnProgressCompleteListener {
 
     private SessionManagement sessionManagement;
     private HashMap<String, String> user;
@@ -167,7 +166,7 @@ public class BillsActivity extends AppCompatActivity implements ProgressGenerato
                         Book_Price = studentsEntity.getBookPrice();
                         Book_id = studentsEntity.getBookID();
                         ApiToken = user.get(SessionManagement.KEY_idToken);
-                        progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener) BillsActivity.this, getApplicationContext());
+                        progressGenerator = new ProgressGenerator((ProgressGenerator.OnProgressCompleteListener) BillsActivity.this, getApplicationContext());
                         progressGenerator.addBill(createBill_btn, buyerID, Book_Price, "1", "0", Book_id, ApiToken);
                     }
                 }
@@ -192,7 +191,7 @@ public class BillsActivity extends AppCompatActivity implements ProgressGenerato
     }
 
     @Override
-    public void onComplete(ArrayList<StudentsEntity> studentsEntities) {
+    public void onProgressComplete(ArrayList<StudentsEntity> studentsEntities) {
         //redirect to bills
         if (studentsEntities!=null){
             if (studentsEntities.size()>0){

@@ -1,19 +1,15 @@
 package mo.ed.prof.yusor.Activities.BillApprove;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.dd.processbutton.iml.GenerateProcessButton;
+
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,8 +17,6 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import mo.ed.prof.yusor.Activities.Authentication.TaibahRegistrationActivity;
-import mo.ed.prof.yusor.Adapter.Bills.BillsAdapter;
 import mo.ed.prof.yusor.Dev.MessageActivity;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
@@ -32,7 +26,7 @@ import mo.ed.prof.yusor.helpers.Designsers.ProgressGenerator;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
-public class BookDetailActivity extends AppCompatActivity implements ProgressGenerator.OnCompleteListener, MakeVolleyRequests.OnCompleteListener{
+public class BookDetailActivity extends AppCompatActivity implements MakeVolleyRequests.OnCompleteListener{
 
     Intent intent;
     private StudentsEntity studentsEntity;
@@ -275,7 +269,7 @@ public class BookDetailActivity extends AppCompatActivity implements ProgressGen
                                 if (verifyConn.isConnected()) {
                                     // i am buyer
                                     if (BillID != null && ApiToken != null) {
-//                                        progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener) BookDetailActivity.this, getApplicationContext());
+//                                        progressGenerator = new ProgressGenerator((ProgressGenerator.OnProgressCompleteListener) BookDetailActivity.this, getApplicationContext());
 //                                        progressGenerator.approveBill(create_bill, BillID, ApiToken);
                                         makeVolleyRequest=new MakeVolleyRequests(getApplicationContext(),BookDetailActivity.this);
                                         makeVolleyRequest.approveBillRequest(BillID, ApiToken);
@@ -333,6 +327,7 @@ public class BookDetailActivity extends AppCompatActivity implements ProgressGen
         getApplicationContext().startActivity(intent);
         finish();
     }
+
 
     @Override
     public void onComplete(ArrayList<StudentsEntity> studentsEntities) {

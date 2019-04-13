@@ -113,11 +113,11 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.ViewHOld
             }
             if (feedItem.getTransactionType()!=null){
                 if (feedItem.getTransactionType().equals("1")){
-                    holder.transaction_type.setText("sale");
+                    holder.transaction_type.setText(mContext.getResources().getString(R.string.sale));
                 }else if (feedItem.getTransactionType().equals("2")){
-                    holder.transaction_type.setText("exchange");
+                    holder.transaction_type.setText(mContext.getResources().getString(R.string.exchange));
                 }else if (feedItem.getTransactionType().equals("3")){
-                    holder.transaction_type.setText("gift");
+                    holder.transaction_type.setText(mContext.getResources().getString(R.string.gift));
                 }
             }else {
                 holder.transaction_type.setText("");

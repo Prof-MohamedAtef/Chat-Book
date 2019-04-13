@@ -1,9 +1,9 @@
 package mo.ed.prof.yusor.Activities.Authentication;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -14,12 +14,16 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 
-import bolts.Task;
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import mo.ed.prof.yusor.Activities.MainActivity;
 import mo.ed.prof.yusor.R;
+import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
+import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 
-public class ResetPassActivity extends AppCompatActivity {
+public class EmailResetPassActivity extends AppCompatActivity implements MakeVolleyRequests.OnCompleteListener{
 
 
     @BindView(R.id.email)
@@ -36,6 +40,7 @@ public class ResetPassActivity extends AppCompatActivity {
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     private FirebaseAuth auth;
+    private MakeVolleyRequests makeVolleyRequest;
 
 
     @Override
@@ -59,19 +64,29 @@ public class ResetPassActivity extends AppCompatActivity {
                 String email = inputEmail.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplication(), "Enter your registered email id", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(), getResources().getString(R.string.enter_email), Toast.LENGTH_SHORT).show();
                     return;
+                }else {
+                    makeVolleyRequest=new MakeVolleyRequests(getApplicationContext(), (MakeVolleyRequests.OnCompleteListener) EmailResetPassActivity.this);
+                    makeVolleyRequest.sendResetEmail(email);
                 }
 
                 progressBar.setVisibility(View.VISIBLE);
+                // via mysql
+
+
+                /*
+
+                 */
+//                firebase
                 auth.sendPasswordResetEmail(email)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull com.google.android.gms.tasks.Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(ResetPassActivity.this, getResources().getString(R.string.reset_instructions_sent), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(EmailResetPassActivity.this, getResources().getString(R.string.reset_instructions_sent), Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(ResetPassActivity.this, getResources().getString(R.string.reset_instructions_sent_failed), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(EmailResetPassActivity.this, getResources().getString(R.string.reset_instructions_sent_failed), Toast.LENGTH_SHORT).show();
                                 }
 
                                 progressBar.setVisibility(View.GONE);
@@ -79,5 +94,26 @@ public class ResetPassActivity extends AppCompatActivity {
                         });
             }
         });
+    }
+
+    @Override
+    public void onComplete(ArrayList<StudentsEntity> studentsEntities) {
+        if (studentsEntities != null) {
+            if (studentsEntities.size() > 0) {
+                for (StudentsEntity studentsEntity : studentsEntities) {
+                    if (studentsEntity.getException() != null) {
+                        Toast.makeText(getApplicationContext(), studentsEntity.getException().toString(), Toast.LENGTH_LONG).show();
+                    } else {
+                        EmailSent();
+                    }
+                }
+            }
+        }
+    }
+
+    private void EmailSent() {
+        Intent intent_create = new Intent(EmailResetPassActivity.this, ResetCodeActivity.class);
+        startActivity(intent_create);
+        finish();
     }
 }

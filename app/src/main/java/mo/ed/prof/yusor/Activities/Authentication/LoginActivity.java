@@ -33,7 +33,7 @@ import mo.ed.prof.yusor.helpers.Firebase.FirebaseEntites;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
-public class LoginActivity extends AppCompatActivity implements ProgressGenerator.OnCompleteListener {
+public class LoginActivity extends AppCompatActivity implements ProgressGenerator.OnProgressCompleteListener {
 
     private final String LOG_TAG = LoginActivity.class.getSimpleName();
 
@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
         btn_resetPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, ResetPassActivity.class));
+                startActivity(new Intent(LoginActivity.this, EmailResetPassActivity.class));
             }
         });
 
@@ -143,7 +143,7 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
 
 
     @Override
-    public void onComplete(ArrayList<StudentsEntity> studentsEntities) {
+    public void onProgressComplete(ArrayList<StudentsEntity> studentsEntities) {
         if (studentsEntities != null) {
             if (studentsEntities.size() > 0) {
                 for (StudentsEntity studentsEntity : studentsEntities) {
@@ -188,7 +188,7 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
                                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                                 String userID = firebaseUser.getUid();
                                 Config.FirebaseUserID = userID;
-                                progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener) LoginActivity.this, getApplicationContext());
+                                progressGenerator = new ProgressGenerator((ProgressGenerator.OnProgressCompleteListener) LoginActivity.this, getApplicationContext());
                                 progressGenerator.startSignIn(btn_login, email, password, Config.FirebaseUserID);
                             } else {
                                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.email_verify), Toast.LENGTH_LONG).show();

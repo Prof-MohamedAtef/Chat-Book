@@ -31,7 +31,6 @@
     <string name="logout">logout</string>
 
 
-
     <string name="enter_report">enter your report!</string>
 
 
@@ -53,7 +52,7 @@
     <string name="book_price">Book Price :</string>
     <string name="in_sr">in SR</string>
     <string name="price">Price</string>
-    <string name="agreement">This Bill has been issued after request of the buyer and the agrrement had been made upon sale with the mentioned price, hence both of the seller and buyer should assign on this bill to complete the transaction.</string>
+    <string name="agreement">This Bill has been issued after agrrement upon the mentioned price.</string>
     <string name="hint_book_name">Enter Book Name</string>
     <string name="author_name">Author Name</string>
     <string name="isbn_number">ISBN Number</string>
@@ -144,6 +143,7 @@
 
 
     <string name="Sign_in">Sign in</string>
+    <string name="reset_pass">Reset Password</string>
     <string name="Sign_up">Sign Up</string>
     <string name="approve">Approve</string>
     <string name="approving">Approving</string>
@@ -152,13 +152,31 @@
 
 
     <string name="hint_email">Email</string>
+    <string name="hint_rest_code">Reset Code</string>
+    <string name="txt_enter_code">Enter Reset Code</string>
+    <string name="verify_reset_code">Verify Reset Code</string>
     <string name="hint_password">Password</string>
+    <string name="hint_c_password">Confirm Password</string>
     <string name="btn_forgot_password">Forgot password?</string>
     <string name="forgot_password_msg">Enter your registered Email Id and check arrival of instructions message!</string>
     <string name="btn_reset_password">Reset Password</string>
+
     <string name="btn_link_to_register">Not a member? Get registered now!</string>
     <string name="email_verify">Verify Your Email Address!</string>
     <string name="enter_email">Enter email address!</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="enter_gender">Enter Gender</string>
+    <string name="enter_pass_1">Enter Password</string>
+    <string name="enter_fname">Enter First Name</string>
+    <string name="enter_lname">Enter Last Name</string>
+    <string name="enter_pass_2">Enter Password Confirmation</string>
+    <string name="email_sent">Email sent</string>
+    <string name="password_changed">password changed</string>
+    <string name="error">Error</string>
+    <string name="failed_">faild, try again</string>
+    <string name="code_valid">code valid</string>
+    <string name="code_not_valid">code not valid</string>
+    <string name="email_not_exist">email not exist</string>
     <string name="reset_instructions_sent">We have sent you instructions to reset your password!</string>
     <string name="enter_password">Enter password!</string>
     <string name="btn_back"><![CDATA[<< Back]]></string>
@@ -208,8 +226,6 @@
     <string name="sale_book">1</string>
     <string name="exchange_book">2</string>
     <string name="gift_book">3</string>
-
-
 
 
     <string name="enter_price">Enter Book Price</string>

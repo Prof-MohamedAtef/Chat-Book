@@ -3,6 +3,10 @@ package mo.ed.prof.yusor.Activities.Book;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,15 +20,18 @@ import com.dd.processbutton.iml.GenerateProcessButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import mo.ed.prof.yusor.Activities.MainActivity;
 import mo.ed.prof.yusor.Adapter.BooksSpinnerAdapter;
+import mo.ed.prof.yusor.Adapter.SimilarBooksAdapter;
+import mo.ed.prof.yusor.Dev.Entity.FirebaseUsers;
 import mo.ed.prof.yusor.Fragments.FragmentPriecsSuggestions;
-import mo.ed.prof.yusor.Fragments.SelectBookFragmentIFExist;
-import mo.ed.prof.yusor.GenericAsyncTasks.RetrieveBooksAsyncTask;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
@@ -33,10 +40,11 @@ import mo.ed.prof.yusor.helpers.Designsers.ProgressGenerator;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
+import static mo.ed.prof.yusor.helpers.Config.TwoPane;
 
-public class CompleteAddBookActivity extends AppCompatActivity implements ProgressGenerator.OnCompleteListener,
-        MakeVolleyRequests.OnMyBookCompleteListener{
+public class CompleteAddBookActivity extends AppCompatActivity implements ProgressGenerator.OnProgressCompleteListener,
+        MakeVolleyRequests.OnMyBookCompleteListener,
+        MakeVolleyRequests.OnSearchSuggestedBooksCompListener{
 
     @BindView(R.id.Book_spinner)
     Spinner Book_spinner;
@@ -49,6 +57,9 @@ public class CompleteAddBookActivity extends AppCompatActivity implements Progre
 
     @BindView(R.id.Edit_BookPrice)
     EditText Edit_BookPrice;
+
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
 
     @BindView(R.id.Publish_BTN)
     GenerateProcessButton Publish_BTN;
@@ -115,40 +126,50 @@ public class CompleteAddBookActivity extends AppCompatActivity implements Progre
         if (user != null) {
             TokenID = user.get(SessionManagement.KEY_idToken);
         }
-//        if (Config.BookExistence.equals(AddBookActivity.ExistingBook)){
-//            BookTitle= getIntent().getExtras().getString(AddBookActivity.BookTitle_KEY);
-//            BookID= getIntent().getExtras().getString(AddBookActivity.BookID_KEY);
-//            Config.BookID=BookID;
-//            bundle.putString(AddBookActivity.BookTitle_KEY,BookTitle);
-//            bundle.putString(AddBookActivity.BookID_KEY,BookID);
-//        }
-        if (verifyConnection.isConnected()){
-            makeVolleyRequest=new MakeVolleyRequests(getApplicationContext(), CompleteAddBookActivity.this);
-            makeVolleyRequest.getAllBooksForUser_Similar(TokenID);
-        }
 
-        Book_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Config.BookName = Config.BooksList.get(position).getBookTitle();
-                Config.BookID = Config.BooksList.get(position).getBookID();
-                Config.BookPosition=position;
-                if (Config.BookName!=null||Config.BookID!=null){
-                    NavigatToFragments(Config.BookID, Config.BookName);
+
+        if (findViewById(R.id.mTwoPane)!=null){
+            // two pane Ui
+            TwoPane=true;
+        }else {
+            // one pane Ui
+            TwoPane=false;
+        }
+        if (Config.BookExistence!=null){
+            if (Config.BookExistence.equals(AddBookActivity.ExistingBook)){
+                BookTitle= getIntent().getExtras().getString(AddBookActivity.BookTitle_KEY);
+                BookID= getIntent().getExtras().getString(AddBookActivity.BookID_KEY);
+                Config.BookID=BookID;
+                if (BookTitle!=null||BookID!=null){
+                    makeVolleyRequest=new MakeVolleyRequests(getApplicationContext(), (MakeVolleyRequests.OnSearchSuggestedBooksCompListener) CompleteAddBookActivity.this);
+                    makeVolleyRequest.searchSuggestedBooks(BookID, BookTitle, TokenID);
                 }
             }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-        if (Config.BookName!=null||Config.BookID!=null){
-            NavigatToFragments(Config.BookID, Config.BookName);
-        }else {
-            Toast.makeText(getApplicationContext(), getString(R.string.select_spinner), Toast.LENGTH_SHORT).show();
+        } else if (verifyConnection.isConnected()){
+            makeVolleyRequest=new MakeVolleyRequests(getApplicationContext(), (MakeVolleyRequests.OnMyBookCompleteListener) CompleteAddBookActivity.this);
+            makeVolleyRequest.getAllBooksForUser_Similar(TokenID);
+            Book_spinner.setVisibility(View.VISIBLE);
+            Book_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    Config.BookName = Config.BooksListCArr.get(position).getBookTitle();
+                    Config.BookID = Config.BooksListCArr.get(position).getBookID();
+                    Config.BookPosition=position;
+                    if (Config.BookName!=null||Config.BookID!=null){
+                        makeVolleyRequest=new MakeVolleyRequests(getApplicationContext(), (MakeVolleyRequests.OnSearchSuggestedBooksCompListener) CompleteAddBookActivity.this);
+                        makeVolleyRequest.searchSuggestedBooks(Config.BookID, Config.BookName, TokenID);
+                    }else {
+                        Toast.makeText(getApplicationContext(), getString(R.string.select_spinner), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
         }
     }
 
-    private void PopulateExistingBooksList(ArrayList<StudentsEntity> result, int position) {
+    private void PopulateExistingBooksList(List<StudentsEntity> result, int position) {
         BooksSpinnerAdapter booksSpinnerAdapter= new BooksSpinnerAdapter(getApplicationContext(), result);
         Book_spinner.setAdapter(booksSpinnerAdapter);
         Book_spinner.setSelection(position);
@@ -161,7 +182,6 @@ public class CompleteAddBookActivity extends AppCompatActivity implements Progre
         Publish_BTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 checkedBookStatus = (RadioButton) radioBookStatusGroup.findViewById(radioBookStatusGroup.getCheckedRadioButtonId());
                 BookStatus = checkedBookStatus.getText().toString();
                 checkedTransaction = (RadioButton) radioTransactionGroup.findViewById(radioTransactionGroup.getCheckedRadioButtonId());
@@ -179,7 +199,6 @@ public class CompleteAddBookActivity extends AppCompatActivity implements Progre
                                 sentBookStatus = getResources().getString(R.string.not_bad_book);
                             }
                         }
-
                         if (TransactionType != null) {
                             if (TransactionType.equals(getResources().getString(R.string.sale))) {
                                 sentTransactionType = getResources().getString(R.string.sale_book);
@@ -191,7 +210,7 @@ public class CompleteAddBookActivity extends AppCompatActivity implements Progre
                         }
                         if (BookPrice!=null&&BookPrice.length()>0){
                             if (verifyConnection.isConnected()) {
-                                progressGenerator = new ProgressGenerator((ProgressGenerator.OnCompleteListener) CompleteAddBookActivity.this, getApplicationContext());
+                                progressGenerator = new ProgressGenerator((ProgressGenerator.OnProgressCompleteListener) CompleteAddBookActivity.this, getApplicationContext());
                                 Publish_BTN.setEnabled(false);
                                 progressGenerator.PublishBook(Publish_BTN, Config.BookID, BookPrice, sentBookStatus, sentAvailability, sentTransactionType, TokenID);
                             }
@@ -204,17 +223,10 @@ public class CompleteAddBookActivity extends AppCompatActivity implements Progre
         });
     }
 
-    private void NavigatToFragments(String bookID, String book_title) {
-        bundle.putString(AddNewBookActivity.BookID_KEY,bookID);
-        bundle.putString(AddNewBookActivity.BookTitle_KEY,book_title);
-        fragmentPriecsSuggestions.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frame_prices_suggestions, fragmentPriecsSuggestions, FragsSuggest_KEY)
-                .commitAllowingStateLoss();
-    }
+
 
     @Override
-    public void onComplete(ArrayList<StudentsEntity> studentsEntities) {
+    public void onProgressComplete(ArrayList<StudentsEntity> studentsEntities) {
         if (studentsEntities!=null){
             if (studentsEntities.size()>0){
                 for (StudentsEntity studentsEntity:studentsEntities){
@@ -239,10 +251,42 @@ public class CompleteAddBookActivity extends AppCompatActivity implements Progre
     }
 
     @Override
-    public void OnMyBookCompleted(ArrayList<StudentsEntity> studentsEntities) {
+    public void OnMyBookCompleted(CopyOnWriteArrayList<StudentsEntity> studentsEntities) {
         if (studentsEntities.size() > 0) {
-            Config.BooksList=studentsEntities;
-            PopulateExistingBooksList(studentsEntities, 0);
+            Config.BooksListCArr=studentsEntities;
+            PopulateExistingBooksList(removeDublicates(studentsEntities), 0);
+
         }
+    }
+
+    private List<StudentsEntity> removeDublicates(CopyOnWriteArrayList<StudentsEntity> studentsEntities) {
+        HashSet hashSet=new HashSet();
+        hashSet.addAll(studentsEntities);
+        studentsEntities.clear();
+        studentsEntities.addAll(hashSet);
+        return  studentsEntities;
+    }
+
+    @Override
+    public void OnSearchSuggestedBooksCompleted(ArrayList<StudentsEntity> studentsEntities) {
+        if (studentsEntities!=null){
+            PopulateSimilarBooks(studentsEntities);
+        }
+    }
+
+
+
+    private void PopulateSimilarBooks(ArrayList<StudentsEntity> urgentArticlesList) {
+        SimilarBooksAdapter mAdapter=new SimilarBooksAdapter(getApplicationContext(),urgentArticlesList, TwoPane);
+        mAdapter.notifyDataSetChanged();
+        if (TwoPane){
+            RecyclerView.LayoutManager layoutManager1 = new GridLayoutManager(getApplicationContext(), 2);
+            recyclerView.setLayoutManager(layoutManager1);
+        }else {
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+            recyclerView.setLayoutManager(mLayoutManager);
+        }
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
     }
 }

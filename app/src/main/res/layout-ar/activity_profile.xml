@@ -52,6 +52,7 @@
         <LinearLayout android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/LinearUpdateProfile"
             xmlns:android="http://schemas.android.com/apk/res/android">
             <LinearLayout
                 android:orientation="vertical"
@@ -120,8 +121,7 @@
                     android:layout_weight="1">
                     <LinearLayout
                         android:gravity="center_horizontal|center_vertical"
-                        android:layout_width="0dp"
-                        android:layout_weight="0.25"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent">
                         <ImageView
                             android:src="@drawable/email_icon"
@@ -131,13 +131,13 @@
                     <TextView
                         android:id="@+id/txt_email"
                         android:textColor="@color/blue"
-                        android:textSize="@dimen/medium_text_size"
+                        android:textSize="10sp"
                         android:padding="@dimen/padding_authentication"
                         android:gravity="center_vertical|start"
                         android:text="@string/static_price"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginEnd="10dp"
                         android:textStyle="bold"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:layout_width="wrap_content"
                         android:layout_weight="1"
                         android:layout_height="match_parent" />
@@ -150,8 +150,7 @@
                     android:layout_weight="1">
                     <LinearLayout
                         android:gravity="center_horizontal|center_vertical"
-                        android:layout_width="0dp"
-                        android:layout_weight="0.25"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent">
                         <ImageView
                             android:src="@drawable/graduation_icon"
@@ -161,17 +160,14 @@
                     <TextView
                         android:textColor="@color/blue"
                         android:id="@+id/txt_major"
-                        android:textSize="@dimen/medium_text_size"
+                        android:textSize="10sp"
                         android:padding="@dimen/padding_authentication"
                         android:gravity="center_vertical|start"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginEnd="10dp"
                         android:text="@string/static_price"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
                         android:layout_weight="1"
                         android:layout_height="match_parent" />
-
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

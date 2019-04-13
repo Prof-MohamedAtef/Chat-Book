@@ -25,6 +25,7 @@ import mo.ed.prof.yusor.Activities.Book.AddNewBookActivity;
 import mo.ed.prof.yusor.Activities.BillApprove.DisplayBillActivity;
 import mo.ed.prof.yusor.Activities.Book.MyBooksActivity;
 import mo.ed.prof.yusor.Activities.Chat.ChatHistoryActivity;
+import mo.ed.prof.yusor.Activities.Profile.ProfileActivity;
 import mo.ed.prof.yusor.Fragments.BooksGalleryFragment;
 import mo.ed.prof.yusor.Fragments.NoBooksInGalleryFragment;
 import mo.ed.prof.yusor.Fragments.NoInternetFragment;
@@ -34,8 +35,6 @@ import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class MainActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener,
         NoInternetFragment.onReloadInternetServiceListener, BooksGalleryFragment.NoBooksFragment, MakeVolleyRequests.OnCompleteListener{

@@ -1,10 +1,12 @@
-package mo.ed.prof.yusor.Activities;
+package mo.ed.prof.yusor.Activities.Profile;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import mo.ed.prof.yusor.Activities.Book.EditBookActivity;
 import mo.ed.prof.yusor.Fragments.BooksGalleryFragment;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
@@ -44,6 +47,10 @@ public class ProfileActivity extends AppCompatActivity implements MakeVolleyRequ
 
     @BindView(R.id.txt_major)
     TextView txt_major;
+
+    @BindView(R.id.LinearUpdateProfile)
+    LinearLayout UpdateProfile;
+
     private VerifyConnection verifyConn;
     private MakeVolleyRequests makeRequest;
     private String UserName;
@@ -79,13 +86,30 @@ public class ProfileActivity extends AppCompatActivity implements MakeVolleyRequ
         user = sessionManagement.getUserDetails();
         if (user != null) {
             TokenID = user.get(SessionManagement.KEY_idToken);
+            UserName = user.get(SessionManagement.KEY_UserName);
+            Gender = user.get(SessionManagement.KEY_Gender);
+            Email = user.get(SessionManagement.KEY_EMAIL);
+            DepartmentName = user.get(SessionManagement.KEY_DepartmentName);
+            display();
         }
         verifyConn = new VerifyConnection(getApplicationContext());
-        if (verifyConn.isConnected()) {
-            makeRequest = new MakeVolleyRequests(getApplicationContext(), ProfileActivity.this);
-            makeRequest.getProfile(TokenID);
 
-        }
+        UpdateProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent intent=new Intent(getApplicationContext(), EditBookActivity.class);
+//                Bundle bundle=new Bundle();
+//                bundle.putSerializable("feedItem",user);
+//                intent.putExtras(bundle);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                getApplicationContext().startActivity(intent);
+            }
+        });
+//        if (verifyConn.isConnected()) {
+//            makeRequest = new MakeVolleyRequests(getApplicationContext(), ProfileActivity.this);
+//            makeRequest.getProfile(TokenID);
+//
+//        }
     }
 
     @Override
@@ -96,57 +120,28 @@ public class ProfileActivity extends AppCompatActivity implements MakeVolleyRequ
                     if (studentsEntity.getException() != null) {
                         Toast.makeText(getApplicationContext(), studentsEntity.getException().toString(), Toast.LENGTH_LONG).show();
                     } else {
-                        DisplayUserData(studentsEntities);
+//                        DisplayUserData(studentsEntities);
                     }
                 }
             }
         }
     }
 
-    private void DisplayUserData(ArrayList<StudentsEntity> studentsEntities) {
-        if (studentsEntities!=null){
-            if (studentsEntities.size()>0){
-                for (StudentsEntity studentsEntity:studentsEntities){
-                    display(studentsEntity);
-                }
-            }
-        }else {
-            user = sessionManagement.getUserDetails();
-            if (user != null) {
-                UserName = user.get(SessionManagement.KEY_UserName);
-                Gender = user.get(SessionManagement.KEY_Gender);
-                Email = user.get(SessionManagement.KEY_EMAIL);
-                DepartmentName = user.get(SessionManagement.KEY_DepartmentName);
-                StudentsEntity studentsEntity=new StudentsEntity();
-                studentsEntity.setUserName(UserName);
-                studentsEntity.setGender(Gender);
-                studentsEntity.setEmail(Email);
-                studentsEntity.setDepartmentName(DepartmentName);
-                display(studentsEntity);
-            }
-        }
-    }
-
-    private void display(StudentsEntity studentsEntity) {
-        if (studentsEntity.getUserName()!=null){
-            UserName= studentsEntity.getUserName();
+    private void display() {
+        if (UserName!=null){
             txt_profile_name.setText(UserName);
         }
-        if (studentsEntity.getGender()!=null){
-            Gender= studentsEntity.getGender();
+        if (Gender!=null){
             if (Gender.equals("m")){
                 txt_gender.setText(getResources().getString(R.string.male));
             }else if (Gender.equals("f")){
                 txt_gender.setText(getResources().getString(R.string.female));
             }
-
         }
-        if (studentsEntity.getEmail()!=null){
-            Email= studentsEntity.getEmail();
+        if (Email!=null){
             txt_email.setText(Email);
         }
-        if (studentsEntity.getDepartmentName()!=null){
-            DepartmentName=studentsEntity.getDepartmentName();
+        if (DepartmentName!=null){
             txt_major.setText(DepartmentName);
         }
     }
