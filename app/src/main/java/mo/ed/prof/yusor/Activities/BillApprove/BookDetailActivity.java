@@ -113,6 +113,7 @@ public class BookDetailActivity extends AppCompatActivity implements MakeVolleyR
     private String BillID;
     private Toolbar mToolbar;
     private MakeVolleyRequests makeVolleyRequest;
+    private String BaseImage;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -167,6 +168,7 @@ public class BookDetailActivity extends AppCompatActivity implements MakeVolleyR
     private void inOnCreate(final StudentsEntity studentsEntity) {
         BookName=studentsEntity.getBookTitle();
         BookDescription=studentsEntity.getBookDescription();
+        BookPrice=studentsEntity.getBookPrice();
         PublishYear=studentsEntity.getPublishYear();
         ISBN=studentsEntity.getISBN_NUM();
         AuthorTitle=studentsEntity.getAuthorTitle();
@@ -315,8 +317,8 @@ public class BookDetailActivity extends AppCompatActivity implements MakeVolleyR
         txt_SellerFaculty_txt.setText(SellerFaculty);
         txt_desc.setText(BookDescription);
         txt_price.setText(BookPrice+ " ");
-
-        Picasso.with(getApplicationContext()).load(BookPhoto)
+        BaseImage= Config.IMAGEBaseUrl+BookPhoto;
+        Picasso.with(getApplicationContext()).load(BaseImage)
                 .error(R.drawable.logo)
                 .into(book_photo);
     }

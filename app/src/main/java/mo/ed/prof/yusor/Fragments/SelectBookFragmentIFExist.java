@@ -42,6 +42,7 @@ public class SelectBookFragmentIFExist extends Fragment implements
 
     private SnackBarClassLauncher snackBarLauncher;
     private String URL="http://fla4news.com/Yusor/api/v1/books";
+//    private String URL="http://fla4news.com/Yusor/api/v1/Mybooks_similar";
     private VerifyConnection verifyConnection;
     private String KEY_BooksLIST="KEY_BooksLIST";
     private String KEY_POSITION="KEY_POSITION";

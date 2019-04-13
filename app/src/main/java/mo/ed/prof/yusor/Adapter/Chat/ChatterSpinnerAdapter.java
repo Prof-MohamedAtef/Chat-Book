@@ -52,7 +52,7 @@ public class ChatterSpinnerAdapter extends BaseAdapter {
         txt.setGravity(Gravity.CENTER_VERTICAL);
         txt.setText(feedItemList.get(position).getUserName().toString());
         txt.setTextColor(Color.parseColor("#FFFFFF"));
-        txt.setBackgroundResource(R.color.red);
+        txt.setBackgroundResource(R.color.blue);
         return  txt;
     }
 
@@ -65,7 +65,7 @@ public class ChatterSpinnerAdapter extends BaseAdapter {
         txt.setTextSize(16);
         txt.setText(feedItemList.get(position).getUserName().toString());
         txt.setTextColor(Color.parseColor("#FFFFFF"));
-        txt.setBackgroundResource(R.color.red);
+        txt.setBackgroundResource(R.color.blue);
         return  txt;
     }
 }

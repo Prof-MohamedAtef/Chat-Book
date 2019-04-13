@@ -439,7 +439,7 @@ public class StudentsEntity implements Serializable {
         this.BookTitle=book_title_str;
         this.BookDescription=book_description_str;
         this.PublishYear=publishYear_str;
-        this.BookPhoto=photo_str;
+        this.BookImage=photo_str;
         this.ISBN_NUM=isbn_str;
         this.AuthorTitle=authorName_str;
         this.BookPrice=price_str;

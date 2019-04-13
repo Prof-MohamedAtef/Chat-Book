@@ -68,6 +68,7 @@ public class Config {
     public static String Availability;
     public static StudentsEntity studentEntity;
     public static CopyOnWriteArrayList<StudentsEntity> BooksListCArr;
+    public static String IMAGEBaseUrl="https://www.fla4news.com/Yusor/";
 
     // public static final String[] Faculties={
 //            Resources.getSystem().getResourceName(R.string.faculty_computer_sciences_engineering).toString(),

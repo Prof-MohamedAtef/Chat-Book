@@ -74,7 +74,7 @@
                         android:layout_marginTop="10dp"
                         android:textSize="@dimen/medium_text_size"
                         android:text="@string/book_name_"
-                        android:src="@color/grey"
+                        android:textColor="@color/blue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -83,7 +83,7 @@
                         android:layout_marginRight="20dp"
                         android:layout_marginEnd="20dp"
                         android:text="@string/book_name_"
-                        android:src="@color/grey"
+                        android:textColor="@color/blue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/book_name"/>
@@ -91,7 +91,7 @@
                         android:layout_marginTop="10dp"
                         android:textSize="@dimen/medium_text_size"
                         android:text="@string/author_name"
-                        android:src="@color/grey"
+                        android:textColor="@color/blue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -101,14 +101,14 @@
                         android:layout_marginEnd="20dp"
                         android:textSize="@dimen/medium_text_size"
                         android:text="@string/author_name"
-                        android:src="@color/grey"
+                        android:textColor="@color/blue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
                         android:layout_marginTop="10dp"
                         android:textSize="@dimen/medium_text_size"
                         android:text="@string/Publish_year"
-                        android:src="@color/grey"
+                        android:textColor="@color/blue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -118,7 +118,7 @@
                         android:layout_marginRight="20dp"
                         android:textSize="@dimen/medium_text_size"
                         android:text="@string/Publish_year_"
-                        android:src="@color/grey"
+                        android:textColor="@color/blue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -143,7 +143,7 @@
                     android:layout_marginTop="10dp"
                     android:textSize="@dimen/medium_text_size"
                     android:text="@string/isbn_number"
-                    android:src="@color/grey"
+                    android:textColor="@color/blue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
@@ -153,7 +153,7 @@
                     android:layout_marginTop="10dp"
                     android:textSize="@dimen/medium_text_size"
                     android:text="@string/isbn_number_"
-                    android:src="@color/grey"
+                    android:textColor="@color/blue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -167,7 +167,7 @@
                     android:layout_marginTop="10dp"
                     android:textSize="@dimen/medium_text_size"
                     android:text="@string/description_"
-                    android:src="@color/grey"
+                    android:textColor="@color/blue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
@@ -177,7 +177,7 @@
                     android:layout_marginTop="10dp"
                     android:textSize="@dimen/medium_text_size"
                     android:text="@string/description_"
-                    android:src="@color/grey"
+                    android:textColor="@color/blue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -190,7 +190,7 @@
                     android:layout_marginTop="10dp"
                     android:textSize="@dimen/medium_text_size"
                     android:text="@string/price"
-                    android:src="@color/grey"
+                    android:textColor="@color/blue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
@@ -200,7 +200,7 @@
                     android:layout_marginLeft="20dp"
                     android:textSize="@dimen/medium_text_size"
                     android:text="@string/price"
-                    android:src="@color/grey"
+                    android:textColor="@color/blue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
@@ -209,7 +209,7 @@
                     android:layout_marginLeft="20dp"
                     android:textSize="@dimen/medium_text_size"
                     android:text="@string/in_sr"
-                    android:src="@color/grey"
+                    android:textColor="@color/blue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -227,7 +227,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_below="@+id/num_isbn"
                     android:layout_width="match_parent"
-                    android:background="@color/red"
+                    android:background="@color/blue"
                     android:layout_height="1dp"/>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -238,7 +238,7 @@
                         android:textSize="@dimen/medium_text_size"
                         android:text="@string/available_"
                         android:layout_below="@+id/view_line1"
-                        android:src="@color/grey"
+                        android:textColor="@color/blue"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
@@ -251,7 +251,7 @@
                         android:textSize="@dimen/medium_text_size"
                         android:text="@string/available_"
                         android:layout_below="@+id/view_line1"
-                        android:src="@color/grey"
+                        android:textColor="@color/blue"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
@@ -266,7 +266,7 @@
                         android:textSize="@dimen/medium_text_size"
                         android:text="@string/Book_status_"
                         android:layout_below="@+id/available_in_store"
-                        android:src="@color/grey"
+                        android:textColor="@color/blue"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
@@ -279,7 +279,7 @@
                         android:textSize="@dimen/medium_text_size"
                         android:text="@string/Book_status_"
                         android:layout_below="@+id/available_in_store"
-                        android:src="@color/grey"
+                        android:textColor="@color/blue"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
@@ -296,7 +296,7 @@
                         android:layout_below="@id/book_status"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
-                        android:src="@color/grey"
+                        android:textColor="@color/blue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -309,7 +309,7 @@
                         android:layout_below="@id/book_status"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
-                        android:src="@color/grey"
+                        android:textColor="@color/blue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -318,7 +318,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_below="@+id/transaction_type"
                     android:layout_width="match_parent"
-                    android:background="@color/red"
+                    android:background="@color/blue"
                     android:layout_height="1dp"/>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -329,7 +329,7 @@
                         android:textSize="@dimen/medium_text_size"
                         android:text="@string/Seller_name"
                         android:layout_below="@id/view_line2"
-                        android:src="@color/grey"
+                        android:textColor="@color/blue"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
@@ -342,7 +342,7 @@
                         android:textSize="@dimen/medium_text_size"
                         android:text="@string/Seller_name"
                         android:layout_below="@id/view_line2"
-                        android:src="@color/grey"
+                        android:textColor="@color/blue"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
@@ -360,7 +360,7 @@
                         android:textSize="@dimen/medium_text_size"
                         android:text="@string/email_"
                         android:layout_below="@+id/seller_name"
-                        android:src="@color/grey"
+                        android:textColor="@color/blue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                     <LinearLayout
@@ -377,7 +377,7 @@
                             android:textSize="@dimen/text_size"
                             android:text="@string/email_"
                             android:layout_below="@+id/seller_name"
-                            android:src="@color/grey"
+                            android:textColor="@color/blue"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
@@ -393,7 +393,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_below="@+id/seller_email"
-                        android:src="@color/grey"
+                        android:textColor="@color/blue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -406,7 +406,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_below="@+id/seller_email"
-                        android:src="@color/grey"
+                        android:textColor="@color/blue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -421,7 +421,7 @@
                         android:textSize="@dimen/medium_text_size"
                         android:text="@string/Faculty_"
                         android:layout_below="@+id/seller_gender"
-                        android:src="@color/grey"
+                        android:textColor="@color/blue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -434,37 +434,64 @@
                         android:textSize="@dimen/medium_text_size"
                         android:text="@string/Faculty_"
                         android:layout_below="@+id/seller_gender"
-                        android:src="@color/grey"
+                        android:textColor="@color/blue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
             </LinearLayout>
-            <com.dd.processbutton.iml.GenerateProcessButton
+            <Button
                 android:id="@+id/create_bill"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/button_margin"
                 android:textColor="@color/white"
-                custom:pb_colorComplete="@color/yellow"
+                android:background="@color/blue"
                 android:visibility="gone"
-                custom:pb_colorNormal="@color/red_pressed"
-                custom:pb_colorPressed="@color/red"
-                custom:pb_colorProgress="@color/grey"
-                android:textSize="18sp"
-                custom:pb_textComplete="@string/done"
-                custom:pb_textProgress="@string/approving" />
+                android:textSize="18sp" />
+            <!--custom:pb_textComplete="@string/done"-->
+            <!--custom:pb_textProgress="@string/approving"-->
+            <!--custom:pb_colorComplete="@color/yellow"-->
+            <!--custom:pb_colorNormal="@color/red_pressed"-->
+            <!--custom:pb_colorPressed="@color/red"-->
+            <!--custom:pb_colorProgress="@color/grey"-->
             <Button
                 android:id="@+id/start_chat_btn"
                 android:text="@string/chat"
                 android:visibility="gone"
-                android:background="@color/red"
+                android:background="@color/blue"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:layout_margin="@dimen/button_margin"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+            <!--<com.dd.processbutton.iml.GenerateProcessButton-->
+                <!--android:id="@+id/create_bill"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="@dimen/button_margin"-->
+                <!--android:textColor="@color/white"-->
+                <!--custom:pb_colorComplete="@color/yellow"-->
+                <!--android:visibility="gone"-->
+                <!--custom:pb_colorNormal="@color/red_pressed"-->
+                <!--custom:pb_colorPressed="@color/red"-->
+                <!--custom:pb_colorProgress="@color/grey"-->
+                <!--android:textSize="18sp"-->
+                <!--custom:pb_textComplete="@string/done"-->
+                <!--custom:pb_textProgress="@string/approving" />-->
+            <!--<Button-->
+                <!--android:id="@+id/start_chat_btn"-->
+                <!--android:text="@string/chat"-->
+                <!--android:visibility="gone"-->
+                <!--android:background="@color/red"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textStyle="bold"-->
+                <!--android:layout_margin="@dimen/button_margin"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content" />-->
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

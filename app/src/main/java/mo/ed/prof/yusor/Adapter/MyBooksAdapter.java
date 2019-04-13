@@ -25,6 +25,7 @@ import mo.ed.prof.yusor.Activities.MainActivity;
 import mo.ed.prof.yusor.Dev.MessageActivity;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
+import mo.ed.prof.yusor.helpers.Config;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
@@ -44,6 +45,7 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.ViewHOld
     ArrayList<StudentsEntity> feedItemList;
     private MakeVolleyRequests makeVolleyRequest;
     private String BookID;
+    private String BaseImage;
 
     public MyBooksAdapter(Context mContext, ArrayList<StudentsEntity> feedItemList) {
         this.mContext = mContext;
@@ -69,7 +71,8 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.ViewHOld
         final StudentsEntity feedItem = feedItemList.get(position);
         if (feedItem != null) {
             if (feedItem.getBookImage()!=null){
-                Picasso.with(mContext).load(feedItem.getBookImage())
+                BaseImage= Config.IMAGEBaseUrl+feedItem.getBookImage();
+                Picasso.with(mContext).load(BaseImage)
                         .error(R.drawable.logo)
                         .into(holder.book_photo);
             }

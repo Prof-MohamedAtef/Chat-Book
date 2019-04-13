@@ -70,6 +70,7 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
     private String SellerEmail;
     private String SellerFacultyName;
     private String BookFireBUiD;
+    private String BaseImage;
 
     public BooksGalleryAdapter(Context mContext, ArrayList<StudentsEntity> feedItemList, boolean twoPane) {
         this.mContext = mContext;
@@ -103,7 +104,8 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
                     if (feedItem.getBookPrice() != null) {
                         holder.Price.setText(feedItem.getBookPrice());
                         if (feedItem.getBookImage()!=null){
-                            Picasso.with(mContext).load(feedItem.getBookImage())
+                            BaseImage= Config.IMAGEBaseUrl+feedItem.getBookImage();
+                            Picasso.with(mContext).load(BaseImage)
                                     .error(R.drawable.logo)
                                     .into(holder.Image);
                         }
