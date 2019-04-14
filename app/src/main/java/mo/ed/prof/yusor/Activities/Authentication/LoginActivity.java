@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
     private FirebaseEntites firebaseEntities;
     private FirebaseAuth firebaseAuth;
     private String firebaseUiD;
+    private String DepartmentName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,8 +171,9 @@ public class LoginActivity extends AppCompatActivity implements ProgressGenerato
             mToken = studentsEntity.getAPI_TOKEN();
             UserID = studentsEntity.getUserID();
             firebaseUiD = studentsEntity.getFirebaseUiD();
+            DepartmentName=studentsEntity.getDepartmentName();
         }
-        sessionManagement.createYusorLoginSession(mToken, PersonName, Email, UserName, selectedGender, "DepartmentName", UserID, firebaseUiD);
+        sessionManagement.createYusorLoginSession(mToken, PersonName, Email, UserName, selectedGender, DepartmentName, UserID, firebaseUiD);
         sessionManagement.createLoginSessionType("EP");
         Intent intent_create = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent_create);

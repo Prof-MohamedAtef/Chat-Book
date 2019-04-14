@@ -227,6 +227,7 @@ public class JsonParser {
                 // Get the JSON object representing a movie per each loop
                 oneJsonObjectData = StudentEntityJsonAray.getJSONObject(i);
                 API_Token_STR= oneJsonObjectData .getString(API_TOKEN_KEY);
+                Department_STR=oneJsonObjectData.getString("Department_name");
                 JSONArray userJsonArray = null;
                 try {
                     userJsonArray=oneJsonObjectData.getJSONArray(USER_Obj_KEY);
@@ -738,6 +739,7 @@ public class JsonParser {
                 // Get the JSON object representing a movie per each loop
                 oneBillJsonObjectData = billEntityJsonAray.getJSONObject(i);
                 BillID_STR= oneBillJsonObjectData.getString("id");
+                Price_STR= oneBillJsonObjectData.getString("TotalAmount");
                 CreatedAt_STR= oneBillJsonObjectData.getString("created_at");
                 UpdatedAt_STR= oneBillJsonObjectData.getString("updated_at");
                 BookID_STR= oneBillJsonObjectData.getString("book_id");
@@ -789,7 +791,7 @@ public class JsonParser {
                                         Book_Title_STR, Book_Description_STR, PublishYear_STR, AuthorID_STR, DepartmentID_STR, ISBN_STR,
                                         SellerID_STR, SellerPersonName_STR, SellerUserName_STR, SellerGender_STR,SellerEmail_STR, SellerFacultyID_STR,
                                         SellerFireBUiD_STR, BuyerID_STR, buyerPersonName_STR, buyerUserName_STR, buyerGender_STR, BuyerEmail_STR,
-                                        BuyerDepartmentID_STR, BuyerFireBUiD_STR,CreatedAt_STR, UpdatedAt_STR,"", "", "");
+                                        BuyerDepartmentID_STR, BuyerFireBUiD_STR,CreatedAt_STR, UpdatedAt_STR,Price_STR, "", "");
                                 list.add(studentsEntity);
                             }
                         } catch (JSONException e) {
@@ -805,7 +807,7 @@ public class JsonParser {
                                     Book_Title_STR, Book_Description_STR, PublishYear_STR, AuthorID_STR, DepartmentID_STR, ISBN_STR,
                                     SellerID_STR, SellerPersonName_STR, SellerUserName_STR, SellerGender_STR,SellerEmail_STR, SellerFacultyID_STR,
                                     SellerFireBUiD_STR, BuyerID_STR, buyerPersonName_STR, buyerUserName_STR, buyerGender_STR, BuyerEmail_STR,
-                                    BuyerDepartmentID_STR, BuyerFireBUiD_STR,CreatedAt_STR, UpdatedAt_STR,"", "", "");
+                                    BuyerDepartmentID_STR, BuyerFireBUiD_STR,CreatedAt_STR, UpdatedAt_STR,Price_STR, "", "");
                             list.add(studentsEntity);
                         }
 

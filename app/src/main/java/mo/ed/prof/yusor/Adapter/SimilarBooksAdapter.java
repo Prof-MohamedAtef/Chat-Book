@@ -59,10 +59,12 @@ public class SimilarBooksAdapter extends RecyclerView.Adapter<SimilarBooksAdapte
                     if (feedItem.getAuthorTitle() != null) {
                         holder.AuthorName.setText(feedItem.getAuthorTitle());
                         if (feedItem.getAvailability() != null) {
-                            if (feedItem.getAvailability().equals("1")) {
+                            if (feedItem.getAvailability().equals("0")) {
                                 holder.BookAvailability.setText(mContext.getResources().getString(R.string.book_exists));
+                                holder.BookAvailability.setTextColor(mContext.getResources().getColor(R.color.green));
                             } else {
                                 holder.BookAvailability.setText(mContext.getResources().getString(R.string.book_not_exists));
+                                holder.BookAvailability.setTextColor(mContext.getResources().getColor(R.color.red));
                             }
                             if (feedItem.getBookStatus() != null) {
 

@@ -20,6 +20,7 @@ public class AddNewBookActivity extends AppCompatActivity implements SelectBookF
         FragmentNewBookDetails.OnNextDetailsRequired,
         SelectBookFragmentIFExist.OnExistingBookDetailsRequired,
         FragmentNewBookDetails.OnBackButtonPressed,
+        SelectBookFragmentIFExist.OnNewBookAdd,
         FragmentNewBookDetails.OnBookSelectionNeeded{
 //
 //},
@@ -133,5 +134,13 @@ public class AddNewBookActivity extends AppCompatActivity implements SelectBookF
         Intent intent = new Intent(this, CompleteAddBookActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.startActivity(intent);
+    }
+
+    @Override
+    public void displayNewBookFragment() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container_frame_existence2, newBookDetailsFragment, NewBookDetialsFrag_KEY)
+                .commit();
+        container_frame_existence.setVisibility(View.GONE);
     }
 }

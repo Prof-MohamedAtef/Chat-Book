@@ -242,7 +242,7 @@ public class StudentsEntity implements Serializable {
                           String sellerUserName_str, String sellerGender_str, String sellerEmail_str, String sellerFacultyID_str,
                           String sellerFireBUiD_str, String buyerID_str1, String buyerPersonName_str, String buyerUserName_str,
                           String buyerGender_str, String buyerEmail_str, String buyerDepartmentID_str, String buyerFireBUiD_str,
-                          String created_at, String updated_at,String x, String x1, String x2) {
+                          String created_at, String updated_at,String bookPrice, String x1, String x2) {
         this.BillID=billID_str;
         this.BookID=bookID_str;
         this.BuyerID=buyerID_str;
@@ -270,6 +270,7 @@ public class StudentsEntity implements Serializable {
         this.BuyerFirebaseUiD=buyerFireBUiD_str;
         this.CreatedAt=created_at;
         this.UpdatedAt=updated_at;
+        this.BookPrice=bookPrice;
     }
 
     public String getFirebaseUiD() {
@@ -600,7 +601,7 @@ public class StudentsEntity implements Serializable {
         this.Email=email_str;
         this.UserName=userName_str;
         this.Gender=gender_str;
-        this.DepartmentName="NULL_DEPARTMENT";
+        this.DepartmentName=department_str;
         this.UserID=user_id;
         this.FirebaseUiD=firbase_id;
     }

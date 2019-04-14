@@ -95,6 +95,7 @@
     <string name="no_books_exist">No Books Exist!</string>
     <string name="you_no_books_exist">zero books for you on store</string>
     <string name="no_message">No Messages</string>
+    <string name="new_message">New Message</string>
     <string name="Publish_year">Publish Year</string>
     <string name="Publish_year_">Publish Year :</string>
     <string name="transaction_type_">Transaction Type :</string>
@@ -196,7 +197,7 @@
     <string name="available_">Available in Store :</string>
     <string name="onshow">available</string>
     <string name="add_book_btn">Add Book</string>
-    <string name="add_btn">Add</string>
+    <string name="add_btn">Add New</string>
     <string name="next_btn">Next</string>
     <string name="order">Order</string>
     <string name="create_bill">Create Bill</string>
@@ -212,6 +213,7 @@
     <string name="enter_faculty_id">Enter Faculty Name</string>
     <string name="enter_isbn_num">Enter ISBN Number</string>
     <string name="enter_image">Capture Book Photo</string>
+    <string name="enter_author">Enter Author Name</string>
     <string name="null_book_id">Book ID is null!</string>
     <string name="no_book_in_gallery">No Books on gallery!</string>
     <string name="no_bills_in_gallery">No Bills for You!</string>

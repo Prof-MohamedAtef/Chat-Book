@@ -38,10 +38,10 @@ xmlns:android="http://schemas.android.com/apk/res/android" >
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
+                android:inputType="textWebEmailAddress"
                 android:layout_marginBottom="10dp"
                 android:hint="@string/hint_email"
                 android:background="@drawable/rounded_border_edittext"
-                android:inputType="textEmailAddress"
                 android:textColor="@color/black"
                 android:textColorHint="@color/grey"/>
         </android.support.design.widget.TextInputLayout>

@@ -77,12 +77,16 @@ public class UsersFragment extends Fragment{
                 for (DataSnapshot snapshot:dataSnapshot.getChildren()){
                     FirebaseUsers users=snapshot.getValue(FirebaseUsers.class);
                     assert users!=null;
-                     String fuser=firebaseUser.getUid();
-                    if (!users.getID().equals(fuser)){
-                        mUsers.add(users);
+                    if (users!=null){
+                        String fuser=firebaseUser.getUid();
+                        if (!users.getID().equals(fuser)){
+                            mUsers.add(users);
+                        }
                     }
                 }
-                PopulateUsersList(mUsers);
+                if (mUsers!=null){
+                    PopulateUsersList(mUsers);
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

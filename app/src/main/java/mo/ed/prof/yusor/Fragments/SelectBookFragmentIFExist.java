@@ -10,26 +10,39 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import mo.ed.prof.yusor.Activities.Book.CompleteAddBookActivity;
 import mo.ed.prof.yusor.Adapter.BooksSpinnerAdapter;
 import mo.ed.prof.yusor.GenericAsyncTasks.RetrieveBooksAsyncTask;
 import mo.ed.prof.yusor.Network.SnackBarClassLauncher;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
+import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
 import mo.ed.prof.yusor.helpers.Config;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
+import mo.ed.prof.yusor.helpers.SessionManagement;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by Prof-Mohamed Atef on 3/15/2019.
  */
 
 public class SelectBookFragmentIFExist extends Fragment implements
-        RetrieveBooksAsyncTask.OnBooksRetrievalTaskCompleted{
+        MakeVolleyRequests.OnMyBookCompleteListener{
+
+    @BindView(R.id.text_label)
+    TextView text_label;
 
     @BindView(R.id.Books_spinner)
     Spinner Books_spinner;
@@ -41,16 +54,25 @@ public class SelectBookFragmentIFExist extends Fragment implements
     Button Next_BTN;
 
     private SnackBarClassLauncher snackBarLauncher;
-    private String URL="http://fla4news.com/Yusor/api/v1/books";
-//    private String URL="http://fla4news.com/Yusor/api/v1/Mybooks_similar";
+//    private String URL="http://fla4news.com/Yusor/api/v1/books";
+    private String URL="http://fla4news.com/Yusor/api/v1/Mybooks_similar";
     private VerifyConnection verifyConnection;
     private String KEY_BooksLIST="KEY_BooksLIST";
     private String KEY_POSITION="KEY_POSITION";
+    private MakeVolleyRequests makeVolleyRequest;
+    private SessionManagement sessionManagement;
+    private HashMap<String, String> user;
+    private String TokenID;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         verifyConnection=new VerifyConnection(getActivity());
+        sessionManagement=new SessionManagement(getApplicationContext());
+        user=sessionManagement.getUserDetails();
+        if (user != null) {
+            TokenID = user.get(SessionManagement.KEY_idToken);
+        }
 
     }
 
@@ -67,7 +89,7 @@ public class SelectBookFragmentIFExist extends Fragment implements
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(KEY_BooksLIST, Config.BooksList);
+        outState.putSerializable(KEY_BooksLIST, Config.BooksListCArr);
         outState.putInt(KEY_POSITION,Config.BookPosition);
     }
 
@@ -76,23 +98,23 @@ public class SelectBookFragmentIFExist extends Fragment implements
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState!=null){
             if (savedInstanceState!=null) {
-                Config.BooksList = (ArrayList<StudentsEntity>) savedInstanceState.getSerializable(KEY_BooksLIST);
+                Config.BooksListCArr = (CopyOnWriteArrayList<StudentsEntity>) savedInstanceState.getSerializable(KEY_BooksLIST);
                 Config.BookPosition= savedInstanceState.getInt(KEY_POSITION);
-                if (Config.BooksList != null) {
-                    PopulateExistingBooksList(Config.BooksList, Config.BookPosition);
+                if (Config.BooksListCArr != null) {
+                    PopulateExistingBooksList(Config.BooksListCArr, Config.BookPosition);
                 }
             }
         }else {
             if (verifyConnection.isConnected()){
-                RetrieveBooksAsyncTask retrieveBooksAsyncTask=new RetrieveBooksAsyncTask((RetrieveBooksAsyncTask.OnBooksRetrievalTaskCompleted) SelectBookFragmentIFExist.this, getActivity());
-                retrieveBooksAsyncTask.execute(URL);
+                makeVolleyRequest=new MakeVolleyRequests(getApplicationContext(), (MakeVolleyRequests.OnMyBookCompleteListener) SelectBookFragmentIFExist.this);
+                makeVolleyRequest.getAllBooksForUser_Similar(TokenID);
             }
         }
         Books_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Config.BookName = Config.BooksList.get(position).getBookTitle();
-                Config.BookID = Config.BooksList.get(position).getBookID();
+                Config.BookName = Config.BooksListCArr.get(position).getBookTitle();
+                Config.BookID = Config.BooksListCArr.get(position).getBookID();
                 Config.BookPosition=position;
 //                ((SelectBookFragmentIFExist.OnBookChangedValue) getActivity()).OnBookChangedValue(Config.BookTitle,Config.BookID,Config.BookPosition);
             }
@@ -124,18 +146,25 @@ public class SelectBookFragmentIFExist extends Fragment implements
         });
     }
 
-    @Override
-    public void onBooksRetrievalApiTaskCompleted(ArrayList<StudentsEntity> result) {
-        if (result.size() > 0) {
-            Config.BooksList=result;
-            PopulateExistingBooksList(result, 0);
-        }
-    }
 
-    private void PopulateExistingBooksList(ArrayList<StudentsEntity> result, int position) {
+    private void PopulateExistingBooksList(CopyOnWriteArrayList<StudentsEntity> result, int position) {
         BooksSpinnerAdapter booksSpinnerAdapter= new BooksSpinnerAdapter(getActivity(), result);
         Books_spinner.setAdapter(booksSpinnerAdapter);
         Books_spinner.setSelection(position);
+    }
+
+    @Override
+    public void OnMyBookCompleted(CopyOnWriteArrayList<StudentsEntity> studentsEntities) {
+        if (studentsEntities.size() > 0) {
+            Config.BooksListCArr=studentsEntities;
+            PopulateExistingBooksList(studentsEntities, 0);
+        }else if (studentsEntities.size()==0){
+            ((SelectBookFragmentIFExist.OnNewBookAdd) getActivity()).displayNewBookFragment();
+        }
+    }
+
+    public interface OnNewBookAdd{
+        void displayNewBookFragment();
     }
 
     public interface OnNewBookAddition{

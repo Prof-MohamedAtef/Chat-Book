@@ -37,6 +37,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import mo.ed.prof.yusor.Listeners.UploadBookApi;
 import mo.ed.prof.yusor.R;
+import mo.ed.prof.yusor.helpers.Config;
 import mo.ed.prof.yusor.helpers.RetrofitUtils.ProgressRequestBody;
 import mo.ed.prof.yusor.helpers.RetrofitUtils.StatusError;
 import mo.ed.prof.yusor.helpers.RetrofitUtils.UploadCallbacks;
@@ -70,6 +71,8 @@ public class MakeVolleyRequests implements UploadCallbacks{
     private String KEY_BOOKID="book_id";
     private String KEY_APIKEY="api_token";
     private ProgressDialog progressDialog;
+    private RequestBody b_authorName;
+    private RequestBody b_authorID;
 
 
     public MakeVolleyRequests(Context context, OnCompleteListener onCompleteListener){
@@ -253,70 +256,6 @@ public class MakeVolleyRequests implements UploadCallbacks{
     }
 
     public void sendBookDetails(final UploadBookApi uploadBookApi, final String bookName, final String bookDescription, final String authorID, final String publishYear, final String facultyID, final String isbn_num, final String authorName, final Uri photo, final String api_token) {
-//        final RequestQueue requestQueue  = Volley.newRequestQueue(mContext);
-//        StringRequest stringRequest=new StringRequest(Request.Method.POST,
-//                "http://fla4news.com/Yusor/api/v1/add_book",
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        if (response.matches("")){
-//                            Toast.makeText(mContext, mContext.getResources().getString(R.string.failed), Toast.LENGTH_LONG).show();
-//                        }else {
-//                            try {
-//                                JsonParser jsonParser = new JsonParser();
-//                                ArrayList<StudentsEntity> studentsEntities = jsonParser.parseAddedBooksJsonDetails(response);
-//                                if (studentsEntities != null) {
-//                                    if (studentsEntities.size() > 0) {
-//                                        mListener.onProgressComplete(studentsEntities);
-//                                    }
-//                                }
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-////                loading.dismiss();
-//                //Showing toast
-//                if (error!=null){
-//                    if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-//                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
-//                    } else if (error instanceof AuthFailureError) {
-//                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
-//                    } else if (error instanceof ServerError) {
-//                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
-//                    } else if (error instanceof NetworkError) {
-//                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
-//                    } else if (error instanceof ParseError) {
-//                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
-//                    }
-////                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
-//                }else {
-//                    Toast.makeText(mContext, mContext.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        }){
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                HashMap<String,String> hashMap=new HashMap<>();
-//                hashMap.put(KEY_BOOKTitle,bookName);
-//                hashMap.put(KEY_BOOKDescription,bookDescription);
-//                if (authorID!=null&&authorID.length()>0){
-//                    hashMap.put(KEY_AuthorID,authorID);
-//                }else if (authorName!=null&&authorName.length()>0){
-//                    hashMap.put(KEY_AuthorName,authorName);
-//                }
-//                hashMap.put(KEY_PublishYear,publishYear);
-//                hashMap.put(KEY_DepartID,facultyID);
-//                hashMap.put(KEY_ISBN,isbn_num);
-////                hashMap.put(KEY_PHOTO,photo);
-//                hashMap.put("api_token",api_token);
-//                return  hashMap;
-//            }
-//        };
-//        requestQueue.add(stringRequest);
         progressDialog = new ProgressDialog(mContext);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setMessage("Uploading ...");
@@ -332,49 +271,66 @@ public class MakeVolleyRequests implements UploadCallbacks{
 
         final RequestBody b_name=RequestBody.create(MultipartBody.FORM,bookName);
         final RequestBody b_desc=RequestBody.create(MultipartBody.FORM,bookDescription);
-        final RequestBody b_authorID=RequestBody.create(MultipartBody.FORM,authorID);
+        if (authorID!=null){
+            b_authorID=RequestBody.create(MultipartBody.FORM,authorID);
+        }
         final RequestBody b_publishYear=RequestBody.create(MultipartBody.FORM,publishYear);
         final RequestBody b_deaprtID=RequestBody.create(MultipartBody.FORM,facultyID);
         final RequestBody b_isbn=RequestBody.create(MultipartBody.FORM,isbn_num);
-        final RequestBody b_authorName=RequestBody.create(MultipartBody.FORM,authorName);
+        if (authorName!=null){
+            b_authorName=RequestBody.create(MultipartBody.FORM,authorName);
+        }
         final RequestBody b_apiToken=RequestBody.create(MultipartBody.FORM,api_token);
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                uploadBookApi.uploadFileAndTextData(body,b_name,b_desc,
-                        b_authorID,b_publishYear,
-                        b_deaprtID,b_isbn,
-                        b_authorName,b_apiToken)
-                        .enqueue(new Callback<String>() {
-                            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                            @Override
-                            public void onResponse(Call<String> call, retrofit2.Response<String> response) {
-                                if (response.isSuccessful()){
-//                                    getStatusError(response.errorBody());
-//                                    try {
-//                                        JsonParser jsonParser = new JsonParser();
-//                                        ArrayList<StudentsEntity> studentsEntities = jsonParser.parseAddedBooksJsonDetails(response.message().toString());
-//                                        if (studentsEntities != null) {
-//                                            if (studentsEntities.size() > 0) {
-                                                onRetrofitListener.onSuccess();
-//                                            }
-//                                        }
-//                                    } catch (JSONException e) {
-//                                        e.printStackTrace();
-//                                    }
-                                }else {
+                if (authorID==null){
+                    uploadBookApi.uploadFileAndTextDatawithoutAuthID(body,b_name,b_desc, b_publishYear,
+                            b_deaprtID,b_isbn,b_authorName, b_apiToken)
+                            .enqueue(new Callback<String>() {
+                                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                                @Override
+                                public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                                    if (response.isSuccessful()) {
+                                        onRetrofitListener.onSuccess();
+                                    } else {
+                                        onFailureListener.onFailure();
+                                    }
+                                    progressDialog.dismiss();
+                                }
+
+                                @Override
+                                public void onFailure(Call<String> call, Throwable t) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(mContext, t.getMessage(), Toast.LENGTH_LONG).show();
                                     onFailureListener.onFailure();
                                 }
-                                progressDialog.dismiss();
-                            }
+                            });
+                }else {
+                    uploadBookApi.uploadFileAndTextDatawithAuthID(body,b_name,b_desc,
+                            b_authorID,b_publishYear,
+                            b_deaprtID,b_isbn, b_apiToken)
+                            .enqueue(new Callback<String>() {
+                                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                                @Override
+                                public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                                    if (response.isSuccessful()) {
+                                        onRetrofitListener.onSuccess();
+                                    } else {
+                                        onFailureListener.onFailure();
+                                    }
+                                    progressDialog.dismiss();
+                                }
 
-                            @Override
-                            public void onFailure(Call<String> call, Throwable t) {
-                                progressDialog.dismiss();
-                                Toast.makeText(mContext, t.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        });
+                                @Override
+                                public void onFailure(Call<String> call, Throwable t) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(mContext, t.getMessage(), Toast.LENGTH_LONG).show();
+                                    onFailureListener.onFailure();
+                                }
+                            });
+                }
             }
         }).start();
     }
@@ -430,7 +386,7 @@ public class MakeVolleyRequests implements UploadCallbacks{
                             ArrayList<StudentsEntity> studentsEntities=new ArrayList<>();
                             studentsEntities.clear();
                             mListener.onComplete(studentsEntities);
-                        }else {
+                       }else {
                             try {
                                 JsonParser jsonParser = new JsonParser();
                                 ArrayList<StudentsEntity> studentsEntities = jsonParser.parseAllBooksForSale(response);

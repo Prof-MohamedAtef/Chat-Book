@@ -104,6 +104,31 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"/>
                     </LinearLayout>
+                    <LinearLayout
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:padding="@dimen/fab_elevation"
+                            android:textSize="@dimen/text_size"
+                            android:textStyle="bold"
+                            android:gravity="center_horizontal"
+                            android:textColor="@color/blue"
+                            android:text="@string/book_availability"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+                        <TextView
+                            android:padding="@dimen/fab_elevation"
+                            android:id="@+id/book_availability"
+                            android:textSize="8sp"
+                            android:textStyle="bold"
+                            android:gravity="center_horizontal"
+                            android:text="@string/book_availability"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"

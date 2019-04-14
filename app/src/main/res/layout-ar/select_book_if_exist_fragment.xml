@@ -9,6 +9,7 @@
         android:layout_weight="1"
         android:padding="@dimen/padding_authentication">
         <TextView
+            android:id="@+id/text_label"
             android:gravity="start|center_vertical"
             android:text="@string/select_book_ifexist"
             android:layout_width="match_parent"

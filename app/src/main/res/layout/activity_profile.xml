@@ -149,7 +149,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1">
-
                     <LinearLayout
                         android:gravity="center_horizontal|center_vertical"
                         android:layout_width="wrap_content"
@@ -160,16 +159,19 @@
                             android:layout_height="50dp" />
                     </LinearLayout>
                     <TextView
-                        android:textColor="@color/blue"
                         android:id="@+id/txt_major"
+                        android:textColor="@color/blue"
                         android:textSize="10sp"
                         android:padding="@dimen/padding_authentication"
                         android:gravity="center_vertical|start"
                         android:text="@string/static_price"
                         android:textStyle="bold"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:layout_width="wrap_content"
                         android:layout_weight="1"
                         android:layout_height="match_parent" />
+
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

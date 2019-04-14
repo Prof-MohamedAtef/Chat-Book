@@ -198,7 +198,7 @@
                     android:layout_height="wrap_content" />
                 <EditText
                     android:id="@+id/Edit_BookPrice"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/white"
                     android:hint="@string/book_price"
                     android:gravity="center"
                     android:layout_width="0dp"

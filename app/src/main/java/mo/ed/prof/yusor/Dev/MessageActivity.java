@@ -212,7 +212,7 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot:dataSnapshot.getChildren()){
                     Token token=snapshot.getValue(Token.class);
-                    Data data=new Data(firebaseUser.getUid(), String.valueOf(R.drawable.logo), userName+": "+msg,"New Message",
+                    Data data=new Data(firebaseUser.getUid(), String.valueOf(R.drawable.message_logo), userName+": "+msg,getResources().getString(R.string.new_message),
                             userID);
                     Sender sender=new Sender(data, token.getToken());
 

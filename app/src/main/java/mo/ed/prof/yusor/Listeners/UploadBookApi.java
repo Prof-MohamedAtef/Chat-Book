@@ -14,11 +14,22 @@ import retrofit2.http.Part;
 public interface UploadBookApi {
     @Multipart
     @POST("Yusor/api/v1/add_book")
-    Call<String> uploadFileAndTextData(
+    Call<String> uploadFileAndTextDatawithAuthID(
             @Part MultipartBody.Part file,
             @Part("title") RequestBody bookTitle,
             @Part("desc") RequestBody bookDescription,
             @Part("author_id") RequestBody authorID,
+            @Part("publish_year") RequestBody publishYear,
+            @Part("department_id") RequestBody departmentID,
+            @Part("ISBN_num") RequestBody ISBN,
+            @Part("api_token") RequestBody apiToken);
+
+    @Multipart
+    @POST("Yusor/api/v1/add_book")
+    Call<String> uploadFileAndTextDatawithoutAuthID(
+            @Part MultipartBody.Part file,
+            @Part("title") RequestBody bookTitle,
+            @Part("desc") RequestBody bookDescription,
             @Part("publish_year") RequestBody publishYear,
             @Part("department_id") RequestBody departmentID,
             @Part("ISBN_num") RequestBody ISBN,

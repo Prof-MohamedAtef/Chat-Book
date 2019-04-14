@@ -96,11 +96,12 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.ViewHOld
             }else {
                 holder.price.setText("");
             }
+            // 1 sold -- 0 onshow
             if (feedItem.getAvailability()!=null){
                 if (feedItem.getAvailability().equals("1")){
-                    holder.available_in_store.setText(mContext.getResources().getString(R.string.onshow));
-                }else if (feedItem.getAvailability().equals("0")){
                     holder.available_in_store.setText(mContext.getResources().getString(R.string.sold));
+                }else if (feedItem.getAvailability().equals("0")){
+                    holder.available_in_store.setText(mContext.getResources().getString(R.string.onshow));
                 }
             }
             if (feedItem.getBookStatus()!=null){

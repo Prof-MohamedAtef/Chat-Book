@@ -201,7 +201,7 @@ android:id="@+id/coordinator_layout_detail">
                 android:layout_height="wrap_content"/>
             <EditText
                 android:id="@+id/Edit_BookPrice"
-                android:textColor="@color/blue"
+                android:textColor="@color/white"
                 android:hint="@string/price"
                 android:textColorHint="@color/black"
                 android:gravity="center"

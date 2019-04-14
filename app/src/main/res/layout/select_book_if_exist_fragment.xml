@@ -9,6 +9,7 @@
         android:layout_weight="1"
         android:padding="@dimen/padding_authentication">
         <TextView
+            android:id="@+id/text_label"
             android:gravity="start|center_vertical"
             android:text="@string/select_book_ifexist"
             android:layout_width="match_parent"
@@ -19,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1">
+
         <Spinner
             android:layout_margin="@dimen/top_margin"
             android:background="#000000"

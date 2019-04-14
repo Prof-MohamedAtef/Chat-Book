@@ -492,6 +492,11 @@ public class FragmentNewBookDetails extends Fragment implements
                 if (Config.Author_Edit){
                     AuthorName=EditAuthorName.getText().toString();
                     Config.AuthorTitle=AuthorName;
+                    if (AuthorName!=null){
+                        if (AuthorName.length()>0){
+                            Config.AuthorID=null;
+                        }
+                    }
                 }
                 ISBN_Num= Edit_isbnNum.getText().toString();
                 Config.ISBN_Number=ISBN_Num;
@@ -508,23 +513,21 @@ public class FragmentNewBookDetails extends Fragment implements
                                         if (ApiToken!=null){
                                             if (Config.ISBN_Number!=null&&Config.ISBN_Number.length()>0){
                                         if (Config.ImageFileUri!=null&&Config.ImageFileUri.toString().length()>0){
-                                                if (Config.AuthorID!=null&&Config.AuthorID.length()>0){
-                                                    if (Config.AuthorTitle!=null&&Config.AuthorTitle.length()>0){
-//                                                        AuthTit= Auth_spinner.getAdapter().getItem(Integer.parseInt(Config.AuthorID)).toString();
-//                                                        AuthTit= Auth_spinner.getAdapter().
-//                                                        if (Config.AuthorTitle.equals(AuthTit)){
-//                                                            makeVolleyRequests.sendBookDetails(Config.BookName, Config.BookDescription, Config.AuthorID, Config.PublishYear, Config.FacultyID,Config.ISBN_Number,"", "", ApiToken);
-//                                                        }else {
-                                                        Next_BTN.setEnabled(false);
-//                                                        sendBookDetails(Config.BookName, Config.BookDescription, "",Config.PublishYear, Config.FacultyID,Config.ISBN_Number,Config.AuthorTitle,Config.ImageFileUri, ApiToken);
-                                                            makeVolleyRequests.sendBookDetails(mService,Config.BookName, Config.BookDescription, "",Config.PublishYear, Config.FacultyID,Config.ISBN_Number,Config.AuthorTitle,Config.ImageFileUri, ApiToken);
-//                                                        }
-                                                    }else {
-                                                        Next_BTN.setEnabled(false);
-//                                                        sendBookDetails(Config.BookName, Config.BookDescription, Config.AuthorID, Config.PublishYear, Config.FacultyID,Config.ISBN_Number,"", Config.ImageFileUri, ApiToken);
-                                                        makeVolleyRequests.sendBookDetails(mService, Config.BookName, Config.BookDescription, Config.AuthorID, Config.PublishYear, Config.FacultyID,Config.ISBN_Number,"", Config.ImageFileUri, ApiToken);
-                                                    }
-                                                }
+//                                                if (Config.AuthorID!=null&&Config.AuthorID.length()>0){
+                                            if (Config.AuthorID!=null){
+                                                Next_BTN.setEnabled(false);
+                                                makeVolleyRequests.sendBookDetails(mService, Config.BookName, Config.BookDescription, Config.AuthorID, Config.PublishYear, Config.FacultyID,Config.ISBN_Number,null, Config.ImageFileUri, ApiToken);
+                                            }else {
+                                                Next_BTN.setEnabled(false);
+                                                makeVolleyRequests.sendBookDetails(mService, Config.BookName, Config.BookDescription, null, Config.PublishYear, Config.FacultyID,Config.ISBN_Number,Config.AuthorTitle, Config.ImageFileUri, ApiToken);
+                                            }
+
+//                                                }else if (Config.AuthorTitle!=null&&Config.AuthorTitle.length()>0){
+//                                                    Next_BTN.setEnabled(false);
+//                                                    makeVolleyRequests.sendBookDetails(mService,Config.BookName, Config.BookDescription, "",Config.PublishYear, Config.FacultyID,Config.ISBN_Number,Config.AuthorTitle,Config.ImageFileUri, ApiToken);
+//                                                }else {
+//                                                    Toast.makeText(getActivity(), getString(R.string.enter_image), Toast.LENGTH_SHORT).show();
+//                                                }
                                         }else{
                                             Toast.makeText(getActivity(), getString(R.string.enter_image), Toast.LENGTH_SHORT).show();
                                         }
