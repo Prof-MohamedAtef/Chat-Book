@@ -106,6 +106,7 @@
     <string name="hint_transaction_type">Select Transaction Type</string>
     <string name="sale">Sale</string>
     <string name="sold">sold</string>
+    <string name="booked">Booked</string>
     <string name="add_to_bills">Add To Bills</string>
     <string name="exchange">Exchange</string>
     <string name="gift">Gift</string>

@@ -253,8 +253,8 @@ public class BookDetailActivity extends AppCompatActivity implements MakeVolleyR
                     }
                 });
             }
-        }else if(BuyerFirebUseriD!=null){
-            if (BuyerFirebUseriD.equals(loggedFirebaseUserID)) {
+        }else if(loggedFirebaseUserID.equals(BuyerFirebUseriD)){
+//            if (.equals()) {
                 //i am registered as buyer
                 if (studentsEntity.getOwnerStatus() != null && studentsEntity.getBuyerStatus() != null) {
                     OwnerStatus = studentsEntity.getOwnerStatus();
@@ -288,8 +288,8 @@ public class BookDetailActivity extends AppCompatActivity implements MakeVolleyR
                 } else {
                     create_bill.setVisibility(View.VISIBLE);
                 }
-            }
-        } else {
+//            }
+        } else if (!loggedFirebaseUserID.equals(BuyerFirebUseriD)&&!loggedFirebaseUserID.equals(BookSellerFBUi)){
             // going to buy
             startChat_btn.setVisibility(View.VISIBLE);
             startChat_btn.setOnClickListener(new View.OnClickListener() {
@@ -313,7 +313,15 @@ public class BookDetailActivity extends AppCompatActivity implements MakeVolleyR
         txt_TransactionType_txt.setText(TransactionType);
         txt_SellerName_txt.setText(SellerName);
         txt_SellerEmail_txt.setText(SellerEmail);
-        txt_SellerGender_txt.setText(SellerGender);
+
+        if (SellerGender!=null){
+            if (SellerGender.equals("m")){
+                txt_SellerGender_txt.setText(getResources().getString(R.string.male));
+            }else if (SellerGender.equals("f")){
+                txt_SellerGender_txt.setText(getResources().getString(R.string.female));
+            }
+        }
+
         txt_SellerFaculty_txt.setText(SellerFaculty);
         txt_desc.setText(BookDescription);
         txt_price.setText(BookPrice+ " ");

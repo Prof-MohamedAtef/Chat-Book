@@ -130,7 +130,7 @@ public class AddNewBookActivity extends AppCompatActivity implements SelectBookF
     }
 
     @Override
-    public void onNextNewBookNameSelectionNeeded() {
+    public void OnOfferAdditionNeeded() {
         Intent intent = new Intent(this, CompleteAddBookActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.startActivity(intent);

@@ -139,6 +139,7 @@ public class JsonParser {
     private JSONArray offerDetailsJsonArray;
     private JSONObject offerJsonObject;
     private JSONObject oneOfferJsonObject;
+    private String Bill_status_STR;
 
     public JsonParser( ){
 
@@ -514,6 +515,7 @@ public class JsonParser {
                 SellerID_STR = oneBookJsonObjectData.getString(StudentID_KEY);
                 BookID_STR = oneBookJsonObjectData.getString(BookID__KEY);
                 Price_STR = oneBookJsonObjectData.getString(Price_KEY);
+                Bill_status_STR=oneBookJsonObjectData.getString("bill_status");
                 Availability_STR = oneBookJsonObjectData.getString(Availability_KEY);
                 BookStatus_STR = oneBookJsonObjectData.getString(BookStatus_KEY);
                 TransactionType_STR = oneBookJsonObjectData.getString(TransactionType_KEY);
@@ -585,7 +587,7 @@ public class JsonParser {
 
                                          */
                                             studentsEntity = new StudentsEntity(SellerID_STR, BookID_STR, Price_STR, Availability_STR,
-                                                    TransactionType_STR, BookID_STR, Book_Title_STR, Book_Description_STR,
+                                                    TransactionType_STR,Bill_status_STR, Book_Title_STR, Book_Description_STR,
                                                     PublishYear_STR, AuthorID_STR, DepartmentID_STR
                                                     , ISBN_STR, PHOTO_STR, StudentID_STR, PersonName_STR, UserName_STR,
                                                     Gender_STR, Email_STR, DepartmentID_STR, DepartmentName_STR, AuthorName_STR,
@@ -602,7 +604,7 @@ public class JsonParser {
                                     BuyerStatus_STR = null;
                                     BuyerFireBUiD_STR = null;
                                     studentsEntity = new StudentsEntity(SellerID_STR, BookID_STR, Price_STR, Availability_STR,
-                                            TransactionType_STR, BookID_STR, Book_Title_STR, Book_Description_STR,
+                                            TransactionType_STR, Bill_status_STR, Book_Title_STR, Book_Description_STR,
                                             PublishYear_STR, AuthorID_STR, DepartmentID_STR
                                             , ISBN_STR, PHOTO_STR, StudentID_STR, PersonName_STR, UserName_STR,
                                             Gender_STR, Email_STR, DepartmentID_STR, DepartmentName_STR, AuthorName_STR,

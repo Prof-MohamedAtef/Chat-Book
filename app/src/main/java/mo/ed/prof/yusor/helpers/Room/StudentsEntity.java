@@ -10,6 +10,16 @@ import java.io.Serializable;
 
 public class StudentsEntity implements Serializable {
     public static Object FBAccessToken;
+
+    public String getBillStatus() {
+        return BillStatus;
+    }
+
+    public void setBillStatus(String billStatus) {
+        BillStatus = billStatus;
+    }
+
+    String BillStatus;
     String StudentID;
 
     public StudentsEntity(String bookID_str, String book_title_str, String book_description_str,
@@ -346,7 +356,7 @@ public class StudentsEntity implements Serializable {
 
     // OnSale Books
     public StudentsEntity(String sellerID_str, String bookID_str, String price_str, String availability_str, String transactionType_str,
-                          String bookID_str1, String book_title_str, String book_description_str, String publishYear_str,
+                          String bill_status_, String book_title_str, String book_description_str, String publishYear_str,
                           String authorID_str, String departmentID_str, String isbn_str, String photo_str, String studentID_str,
                           String personName_str, String userName_str, String gender_str, String email_str, String departmentID_str1,
                           String department_name, String author_name, String pivot_id_str, String firbase_id_STR, String bookStatus_STR,
@@ -357,6 +367,7 @@ public class StudentsEntity implements Serializable {
         this.BookPrice=price_str;
         this.Availability=availability_str;
         this.TransactionType=transactionType_str;
+        this.BillStatus=bill_status_;
         this.BookTitle=book_title_str;
         this.BookDescription=book_description_str;
         this.PublishYear=publishYear_str;

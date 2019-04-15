@@ -124,73 +124,109 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
                             SellerEmail=feedItem.getSellerEmail();
                             SellerFacultyName=feedItem.getDepartmentName();
                             BookFireBUiD= feedItem.getSellerFirebaseUid();
-                            if (BookFireBUiD.equals(firebaseUiD)){
-                                holder.BTN_StartChat.setVisibility(View.GONE);
-                            }else {
-                                if (feedItem.getAvailability()!=null){
-                                    if (feedItem.getAvailability().equals("0")){
-                                        //available
-                                        holder.book_availability.setVisibility(View.VISIBLE);
-                                        holder.book_availability.setText(mContext.getResources().getString(R.string.onshow));
-                                        holder.book_availability.setTextColor(mContext.getResources().getColor(R.color.green));
-                                        holder.BTN_StartChat.setVisibility(View.VISIBLE);
-                                        final StudentsEntity finalFeedItem = feedItem;
-                                        holder.BTN_StartChat.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                // go to chat with book owner
-                                                // get owner id
-                                                intent=new Intent(mContext,MessageActivity.class);
-                                                intent.putExtra("userid", finalFeedItem.getSellerFirebaseUid());
-                                                intent.putExtra(PivotID_KEY,PivotID);
-                                                intent.putExtra(SellerUserName_KEY,SellerUserName);
-                                                intent.putExtra(BookSellerID_KEY,SellerID);
-                                                intent.putExtra(BookID_KEY,BookID);
-                                                intent.putExtra(BookName_KEY,BookName);
-                                                intent.putExtra(BookDescription_KEY,BookDescription);
-                                                intent.putExtra(PublishYear_KEY,PublishYear);
-                                                intent.putExtra(AuthorName_KEY,AuthorName);
-                                                intent.putExtra(ISBN_KEY,ISBN);
-                                                intent.putExtra(Price_KEY,Price);
-                                                intent.putExtra(Transaction_KEY,Transaction);
-                                                intent.putExtra(SellerEmail_KEY,SellerEmail);
-                                                intent.putExtra(SellerFacultyName_KEY,SellerFacultyName);
-                                                mContext.startActivity(intent);
-                                                Config.Buyer=true;
-                                            }
-                                        });
-                                    }else if (feedItem.getAvailability().equals("1")){
-                                        // not available
-                                        holder.book_availability.setText(mContext.getResources().getString(R.string.sold));
+                            if (feedItem.getBillStatus()!=null){
+                                if (feedItem.getBillStatus().equals("0")){
+                                    if (BookFireBUiD.equals(firebaseUiD)){
                                         holder.BTN_StartChat.setVisibility(View.GONE);
-                                        holder.book_availability.setTextColor(mContext.getResources().getColor(R.color.red));
-                                    }
-                                }
-                            }
-                            if (feedItem.getAvailability()!=null) {
-                                if (feedItem.getAvailability().equals("0")) {
-                                    //available
-                                    holder.book_availability.setVisibility(View.VISIBLE);
-                                    holder.book_availability.setText(mContext.getResources().getString(R.string.onshow));
-                                    holder.book_availability.setTextColor(mContext.getResources().getColor(R.color.green));
-                                    final StudentsEntity finalFeedItem1 = feedItem;
-                                    holder.BTN_Details.setVisibility(View.VISIBLE);
-                                    holder.BTN_Details.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            intent=new Intent(mContext,BookDetailActivity.class);
-                                            Bundle bundle=new Bundle();
-                                            bundle.putSerializable("feedItem", finalFeedItem1);
-                                            intent.putExtras(bundle);
-                                            mContext.startActivity(intent);
-                                            Config.Buyer=true;
+                                    }else {
+                                        if (feedItem.getAvailability()!=null){
+                                            if (feedItem.getAvailability().equals("0")){
+                                                //available
+                                                holder.book_availability.setVisibility(View.VISIBLE);
+                                                holder.book_availability.setText(mContext.getResources().getString(R.string.onshow));
+                                                holder.book_availability.setTextColor(mContext.getResources().getColor(R.color.green));
+                                                holder.BTN_StartChat.setVisibility(View.VISIBLE);
+                                                final StudentsEntity finalFeedItem = feedItem;
+                                                holder.BTN_StartChat.setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        // go to chat with book owner
+                                                        // get owner id
+                                                        intent=new Intent(mContext,MessageActivity.class);
+                                                        intent.putExtra("userid", finalFeedItem.getSellerFirebaseUid());
+                                                        intent.putExtra(PivotID_KEY,PivotID);
+                                                        intent.putExtra(SellerUserName_KEY,SellerUserName);
+                                                        intent.putExtra(BookSellerID_KEY,SellerID);
+                                                        intent.putExtra(BookID_KEY,BookID);
+                                                        intent.putExtra(BookName_KEY,BookName);
+                                                        intent.putExtra(BookDescription_KEY,BookDescription);
+                                                        intent.putExtra(PublishYear_KEY,PublishYear);
+                                                        intent.putExtra(AuthorName_KEY,AuthorName);
+                                                        intent.putExtra(ISBN_KEY,ISBN);
+                                                        intent.putExtra(Price_KEY,Price);
+                                                        intent.putExtra(Transaction_KEY,Transaction);
+                                                        intent.putExtra(SellerEmail_KEY,SellerEmail);
+                                                        intent.putExtra(SellerFacultyName_KEY,SellerFacultyName);
+                                                        mContext.startActivity(intent);
+                                                        Config.Buyer=true;
+                                                    }
+                                                });
+                                            }else if (feedItem.getAvailability().equals("1")){
+                                                // not available
+                                                holder.BTN_Details.setVisibility(View.GONE);
+                                                holder.BTN_StartChat.setVisibility(View.GONE);
+                                                holder.book_availability.setText(mContext.getResources().getString(R.string.sold));
+                                                holder.book_availability.setTextColor(mContext.getResources().getColor(R.color.red));
+                                            }
                                         }
-                                    });
-                                }else if (feedItem.getAvailability().equals("1")){
-                                    // not available
-                                    holder.book_availability.setText(mContext.getResources().getString(R.string.sold));
-                                    holder.BTN_Details.setVisibility(View.GONE);
-                                    holder.book_availability.setTextColor(mContext.getResources().getColor(R.color.red));
+                                    }
+                                    if (feedItem.getAvailability()!=null) {
+                                        if (feedItem.getAvailability().equals("0")) {
+                                            //available
+                                            if (feedItem.getBillStatus().equals("1")){
+                                                if (feedItem.BuyerStatus!=null){
+                                                    if (feedItem.getBuyerStatus().equals("0")){
+                                                        holder.BTN_Details.setVisibility(View.GONE);
+                                                        holder.BTN_StartChat.setVisibility(View.GONE);
+                                                        holder.book_availability.setText(mContext.getResources().getString(R.string.booked));
+                                                        holder.book_availability.setTextColor(mContext.getResources().getColor(R.color.blue));
+                                                    }else if (feedItem.getBuyerStatus().equals("1")){
+                                                        holder.BTN_Details.setVisibility(View.GONE);
+                                                        holder.BTN_StartChat.setVisibility(View.GONE);
+                                                        holder.book_availability.setText(mContext.getResources().getString(R.string.sold));
+                                                        holder.book_availability.setTextColor(mContext.getResources().getColor(R.color.red));
+                                                    }
+                                                }
+                                            }else {
+                                                holder.book_availability.setVisibility(View.VISIBLE);
+                                                holder.book_availability.setText(mContext.getResources().getString(R.string.onshow));
+                                                holder.book_availability.setTextColor(mContext.getResources().getColor(R.color.green));
+                                                final StudentsEntity finalFeedItem1 = feedItem;
+                                                holder.BTN_Details.setVisibility(View.VISIBLE);
+                                                holder.BTN_Details.setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        intent=new Intent(mContext,BookDetailActivity.class);
+                                                        Bundle bundle=new Bundle();
+                                                        bundle.putSerializable("feedItem", finalFeedItem1);
+                                                        intent.putExtras(bundle);
+                                                        mContext.startActivity(intent);
+                                                        Config.Buyer=true;
+                                                    }
+                                                });
+                                            }
+                                        }else if (feedItem.getAvailability().equals("1")) {
+                                            // not available
+                                            holder.BTN_Details.setVisibility(View.GONE);
+                                            holder.BTN_StartChat.setVisibility(View.GONE);
+                                            holder.book_availability.setText(mContext.getResources().getString(R.string.sold));
+                                            holder.book_availability.setTextColor(mContext.getResources().getColor(R.color.red));
+                                        }
+                                    }
+                                }else if (feedItem.getBillStatus().equals("1")){
+                                    if (feedItem.getBuyerStatus()!=null){
+                                        if (feedItem.getBuyerStatus().equals("0")){
+                                            holder.BTN_Details.setVisibility(View.GONE);
+                                            holder.BTN_StartChat.setVisibility(View.GONE);
+                                            holder.book_availability.setText(mContext.getResources().getString(R.string.booked));
+                                            holder.book_availability.setTextColor(mContext.getResources().getColor(R.color.blue));
+                                        }else if (feedItem.getBuyerStatus().equals("1")){
+                                            holder.BTN_Details.setVisibility(View.GONE);
+                                            holder.BTN_StartChat.setVisibility(View.GONE);
+                                            holder.book_availability.setText(mContext.getResources().getString(R.string.sold));
+                                            holder.book_availability.setTextColor(mContext.getResources().getColor(R.color.red));
+                                        }
+                                    }
                                 }
                             }
                         }

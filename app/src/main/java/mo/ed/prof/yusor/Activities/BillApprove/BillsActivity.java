@@ -167,7 +167,7 @@ public class BillsActivity extends AppCompatActivity implements ProgressGenerato
                         Book_id = studentsEntity.getBookID();
                         ApiToken = user.get(SessionManagement.KEY_idToken);
                         progressGenerator = new ProgressGenerator((ProgressGenerator.OnProgressCompleteListener) BillsActivity.this, getApplicationContext());
-                        progressGenerator.addBill(createBill_btn, buyerID, Book_Price, "1", "0", Book_id, ApiToken);
+                        progressGenerator.addBill(createBill_btn, Config.billSpinbuyerID, Book_Price, "1", "0", Book_id, ApiToken);
                     }
                 }
             }

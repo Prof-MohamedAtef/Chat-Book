@@ -27,10 +27,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.ipaulpro.afilechooser.utils.FileUtils;
-
-import org.json.JSONException;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -48,18 +44,12 @@ import mo.ed.prof.yusor.Listeners.UploadBookApi;
 import mo.ed.prof.yusor.Network.SnackBarClassLauncher;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
-import mo.ed.prof.yusor.Volley.JsonParser;
 import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
 import mo.ed.prof.yusor.helpers.Config;
 import mo.ed.prof.yusor.helpers.RetrofitUtils.RetrofitClient;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
-import mo.ed.prof.yusor.helpers.RetrofitUtils.ProgressRequestBody;
 import mo.ed.prof.yusor.helpers.RetrofitUtils.UploadCallbacks;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
 
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_CANCELED;
@@ -827,7 +817,7 @@ public class FragmentNewBookDetails extends Fragment implements
 
     @Override
     public void onSuccess() {
-        ((FragmentNewBookDetails.OnBookSelectionNeeded)getActivity()).onNextNewBookNameSelectionNeeded();
+        ((FragmentNewBookDetails.OnBookSelectionNeeded)getActivity()).OnOfferAdditionNeeded();
     }
 
     @Override
@@ -842,7 +832,7 @@ public class FragmentNewBookDetails extends Fragment implements
     }
 
     public interface OnBookSelectionNeeded{
-        void onNextNewBookNameSelectionNeeded();
+        void OnOfferAdditionNeeded();
     }
 
     public interface OnBackButtonPressed{
