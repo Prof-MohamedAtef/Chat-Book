@@ -22,6 +22,8 @@ import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 public class ReportsActivity extends AppCompatActivity implements MakeVolleyRequests.OnCompleteListener {
 
     @BindView(R.id.txt_shareideas)
@@ -49,6 +51,7 @@ public class ReportsActivity extends AppCompatActivity implements MakeVolleyRequ
         }else if (Locale.getDefault().getLanguage().contentEquals("ar")){
             mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.arrow_back_ar));
         }
+        verifyConn = new VerifyConnection(getApplicationContext());
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -66,13 +69,16 @@ public class ReportsActivity extends AppCompatActivity implements MakeVolleyRequ
         BTN_SEND.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                verifyConn = new VerifyConnection(getApplicationContext());
-                Text_SharedIdeas = txt_SharedIdeas.getText().toString().trim();
-                if (Text_SharedIdeas != null && Text_SharedIdeas.length() > 0) {
-                    makeRequest=new MakeVolleyRequests(getApplicationContext(), ReportsActivity.this);
-                    makeRequest.sendReport(ApiToken, Text_SharedIdeas);
+                if (verifyConn.isConnected()){
+                    Text_SharedIdeas = txt_SharedIdeas.getText().toString().trim();
+                    if (Text_SharedIdeas != null && Text_SharedIdeas.length() > 0) {
+                        makeRequest=new MakeVolleyRequests(getApplicationContext(), ReportsActivity.this);
+                        makeRequest.sendReport(ApiToken, Text_SharedIdeas);
+                    }else {
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.enter_report), Toast.LENGTH_LONG).show();
+                    }
                 }else {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.enter_report), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.cannot_start_chat), Toast.LENGTH_LONG).show();
                 }
             }
         });

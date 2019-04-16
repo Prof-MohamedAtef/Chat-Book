@@ -169,6 +169,8 @@ public class BillsActivity extends AppCompatActivity implements ProgressGenerato
                         progressGenerator = new ProgressGenerator((ProgressGenerator.OnProgressCompleteListener) BillsActivity.this, getApplicationContext());
                         progressGenerator.addBill(createBill_btn, Config.billSpinbuyerID, Book_Price, "1", "0", Book_id, ApiToken);
                     }
+                }else {
+                    Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.cannot_start_chat), Toast.LENGTH_LONG).show();
                 }
             }
         });

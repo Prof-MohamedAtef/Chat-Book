@@ -13,6 +13,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -22,6 +23,7 @@ import java.util.HashMap;
 
 import mo.ed.prof.yusor.Activities.BillApprove.BookDetailActivity;
 import mo.ed.prof.yusor.Dev.MessageActivity;
+import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.helpers.Config;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
@@ -35,6 +37,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapter.ViewHOlder> implements Serializable, Filterable {
 
+    private final VerifyConnection verifyConnection;
     String firebaseUiD;
     HashMap<String, String> user;
     SessionManagement sessionManagement;
@@ -81,6 +84,7 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
         if (user!=null){
             firebaseUiD=user.get(SessionManagement.firebase_UID_KEY);
         }
+        verifyConnection=new VerifyConnection(mContext);
         this.feedItemListFull=new ArrayList<>(feedItemList);
     }
 
@@ -142,23 +146,27 @@ public class BooksGalleryAdapter extends RecyclerView.Adapter<BooksGalleryAdapte
                                                     public void onClick(View v) {
                                                         // go to chat with book owner
                                                         // get owner id
-                                                        intent=new Intent(mContext,MessageActivity.class);
-                                                        intent.putExtra("userid", finalFeedItem.getSellerFirebaseUid());
-                                                        intent.putExtra(PivotID_KEY,PivotID);
-                                                        intent.putExtra(SellerUserName_KEY,SellerUserName);
-                                                        intent.putExtra(BookSellerID_KEY,SellerID);
-                                                        intent.putExtra(BookID_KEY,BookID);
-                                                        intent.putExtra(BookName_KEY,BookName);
-                                                        intent.putExtra(BookDescription_KEY,BookDescription);
-                                                        intent.putExtra(PublishYear_KEY,PublishYear);
-                                                        intent.putExtra(AuthorName_KEY,AuthorName);
-                                                        intent.putExtra(ISBN_KEY,ISBN);
-                                                        intent.putExtra(Price_KEY,Price);
-                                                        intent.putExtra(Transaction_KEY,Transaction);
-                                                        intent.putExtra(SellerEmail_KEY,SellerEmail);
-                                                        intent.putExtra(SellerFacultyName_KEY,SellerFacultyName);
-                                                        mContext.startActivity(intent);
-                                                        Config.Buyer=true;
+                                                        if (verifyConnection.isConnected()){
+                                                            intent=new Intent(mContext,MessageActivity.class);
+                                                            intent.putExtra("userid", finalFeedItem.getSellerFirebaseUid());
+                                                            intent.putExtra(PivotID_KEY,PivotID);
+                                                            intent.putExtra(SellerUserName_KEY,SellerUserName);
+                                                            intent.putExtra(BookSellerID_KEY,SellerID);
+                                                            intent.putExtra(BookID_KEY,BookID);
+                                                            intent.putExtra(BookName_KEY,BookName);
+                                                            intent.putExtra(BookDescription_KEY,BookDescription);
+                                                            intent.putExtra(PublishYear_KEY,PublishYear);
+                                                            intent.putExtra(AuthorName_KEY,AuthorName);
+                                                            intent.putExtra(ISBN_KEY,ISBN);
+                                                            intent.putExtra(Price_KEY,Price);
+                                                            intent.putExtra(Transaction_KEY,Transaction);
+                                                            intent.putExtra(SellerEmail_KEY,SellerEmail);
+                                                            intent.putExtra(SellerFacultyName_KEY,SellerFacultyName);
+                                                            mContext.startActivity(intent);
+                                                            Config.Buyer=true;
+                                                        }else {
+                                                            Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.cannot_start_chat), Toast.LENGTH_LONG).show();
+                                                        }
                                                     }
                                                 });
                                             }else if (feedItem.getAvailability().equals("1")){

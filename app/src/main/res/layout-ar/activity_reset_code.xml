@@ -40,7 +40,6 @@
                 android:text="@string/txt_enter_code"
                 android:textColor="@android:color/white"
                 android:textSize="20dp" />
-
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -49,12 +48,15 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:background="@drawable/rounded_border_edittext"
                     android:hint="@string/hint_rest_code"
                     android:padding="10dp"
+                    android:background="@drawable/rounded_border_edittext"
+                    android:inputType="textWebEmailAddress"
+                    android:gravity="start"
                     android:textColor="@color/black"
                     android:textColorHint="@color/grey"/>
             </android.support.design.widget.TextInputLayout>
+
             <Button
                 android:layout_marginBottom="20dp"
                 android:id="@+id/btn_verify_reset_code"

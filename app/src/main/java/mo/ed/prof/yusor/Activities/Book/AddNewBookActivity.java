@@ -22,10 +22,6 @@ public class AddNewBookActivity extends AppCompatActivity implements SelectBookF
         FragmentNewBookDetails.OnBackButtonPressed,
         SelectBookFragmentIFExist.OnNewBookAdd,
         FragmentNewBookDetails.OnBookSelectionNeeded{
-//
-//},
-//        SelectBookFragmentIFExist.OnBookChangedValue{
-
 
     SelectBookFragmentIFExist selectBookFragmentIFExist;
     private String SelectBookFragIfExist_KEY = "SelectBookFragIfExist_KEY";

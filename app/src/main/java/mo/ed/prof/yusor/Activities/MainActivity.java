@@ -1,9 +1,17 @@
 package mo.ed.prof.yusor.Activities;
 
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +28,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import mo.ed.prof.yusor.Activities.Book.AddNewBookActivity;
 import mo.ed.prof.yusor.Activities.BillApprove.DisplayBillActivity;
@@ -33,8 +42,15 @@ import mo.ed.prof.yusor.Network.SnackBarClassLauncher;
 import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
+import mo.ed.prof.yusor.helpers.Config;
+import mo.ed.prof.yusor.helpers.Room.AppDatabase;
+import mo.ed.prof.yusor.helpers.Room.AppExecutors;
+import mo.ed.prof.yusor.helpers.Room.Dao.BooksDao;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
+import mo.ed.prof.yusor.helpers.ViewModels.GallerViewModel;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class MainActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener,
         NoInternetFragment.onReloadInternetServiceListener, BooksGalleryFragment.NoBooksFragment, MakeVolleyRequests.OnCompleteListener{
@@ -55,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     private DrawerLayout drawerLayout;
     NoInternetFragment noInternetFragment;
     private BooksGalleryFragment booksGalleryFragment;
+    private GallerViewModel galleryViewModel;
+    private AppExecutors mAppExecutors;
+    private LiveData<List<StudentsEntity>> BooksGalleryListLiveData;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -66,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     private NoBooksInGalleryFragment noBooksInGalleryFragment;
     private MakeVolleyRequests makeVolleyRequest;
     private VerifyConnection verifyConnection;
+    private AppDatabase mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         setContentView(R.layout.activity_main);
         setTheme(R.style.ArishTheme);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Config.mContext=MainActivity.this;
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -84,6 +105,19 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         UserNameText=(TextView)header.findViewById(R.id.UserName);
         ProfilePicView=(ImageView)header.findViewById(R.id.profile_image);
         final Bundle bundle=new Bundle();
+        mDatabase =new AppDatabase() {
+            @Override
+            public BooksDao booksDao() {
+                return null;
+            }
+            @Override
+            public void clearAllTables() {
+
+            }
+        };
+        mAppExecutors = new AppExecutors();
+        mDatabase= AppDatabase.getAppDatabase(getApplicationContext(),mAppExecutors);
+
         noInternetFragment=new NoInternetFragment();
         booksGalleryFragment=new BooksGalleryFragment();
         noBooksInGalleryFragment=new NoBooksInGalleryFragment();
@@ -117,42 +151,51 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                 drawerLayout.closeDrawers();
                 switch (menuItem.getItemId()){
                     case R.id.add_book:
-                        Intent intent=new Intent(getApplicationContext(),AddNewBookActivity.class);
-                        startActivity(intent);
+                        if (verifyConnection.isConnected()){
+                            Intent intent=new Intent(getApplicationContext(),AddNewBookActivity.class);
+                            startActivity(intent);
+                        }else {
+                            Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.cannot_start_chat), Toast.LENGTH_LONG).show();
+                        }
                         return true;
                     case R.id.browse_book:
                         displayGallery();
                         return true;
                     case R.id.chat_history:
-                        //retrive chat history
-                        // if chatarray.size>0 -- send with intent
-                        //else show dialogue no chat history exist
-                        Intent intent2=new Intent(getApplicationContext(),ChatHistoryActivity.class);
-                        startActivity(intent2);
+                        if (verifyConnection.isConnected()){
+                            Intent intent2=new Intent(getApplicationContext(),ChatHistoryActivity.class);
+                            startActivity(intent2);
+                        }else {
+                            Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.cannot_start_chat), Toast.LENGTH_LONG).show();
+                        }
                         return true;
                     case R.id.bills:
-                        //retrive bills
-                        // if bills_array.size>0 -- send with intent
-                        //else show dialogue
-//                        bundle.putString(ArticleType,ARTS);
-                        Intent intent3=new Intent(getApplicationContext(),DisplayBillActivity.class);
-                        startActivity(intent3);
+                        if (verifyConnection.isConnected()){
+                            Intent intent3=new Intent(getApplicationContext(),DisplayBillActivity.class);
+                            startActivity(intent3);
+                        }else {
+                            Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.cannot_start_chat), Toast.LENGTH_LONG).show();
+                        }
                         return true;
                     case R.id.books:
-                        //retrive bills
-                        // if bills_array.size>0 -- send with intent
-                        //else show dialogue
-//                        bundle.putString(ArticleType,ARTS);
-                        Intent intent3_=new Intent(getApplicationContext(),MyBooksActivity.class);
-                        startActivity(intent3_);
+                        if (verifyConnection.isConnected()){
+                            Intent intent3_=new Intent(getApplicationContext(),MyBooksActivity.class);
+                            startActivity(intent3_);
+                        }else {
+                            Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.cannot_start_chat), Toast.LENGTH_LONG).show();
+                        }
                         return true;
                     case R.id.user_profile:
                         Intent intent4=new Intent(getApplicationContext(), ProfileActivity.class);
                         startActivity(intent4);
                         return true;
                     case R.id.reports:
-                        Intent intent_reports=new Intent(getApplicationContext(), ReportsActivity.class);
-                        startActivity(intent_reports);
+                        if (verifyConnection.isConnected()){
+                            Intent intent_reports=new Intent(getApplicationContext(), ReportsActivity.class);
+                            startActivity(intent_reports);
+                        }else {
+                            Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.cannot_start_chat), Toast.LENGTH_LONG).show();
+                        }
                         return true;
                     case R.id.logout:
                         SignOut();
@@ -187,10 +230,10 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     private void displayGallery() {
         if (TokenID != null) {
             if (verifyConnection.isConnected()){
-                makeVolleyRequest = new MakeVolleyRequests(getApplicationContext(), MainActivity.this);
+                makeVolleyRequest = new MakeVolleyRequests(getApplicationContext(), MainActivity.this, mDatabase);
                 makeVolleyRequest.getAllBooksForSale(TokenID);
             }else {
-                InternetDisabled();
+                initializeViewModel();
             }
         }
     }
@@ -217,12 +260,42 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         return false;
     }
 
+    public void initializeViewModel(){
+        galleryViewModel = ViewModelProviders.of((MainActivity.this)).get(GallerViewModel.class);
+        if (galleryViewModel!=null){
+            galleryViewModel.getmObserverMediatorLiveDataGalleryList().observe((LifecycleOwner) MainActivity.this, new Observer<List<StudentsEntity>>() {
+                @Override
+                public void onChanged(@Nullable List<StudentsEntity> articleEntities) {
+                    if (articleEntities!=null){
+                        if (articleEntities.size()>0){
+                            galleryViewModel.getmObserverMediatorLiveDataGalleryList().removeObserver(this::onChanged);
+                            BooksGalleryListLiveData=mDatabase.booksDao().getAllBooksData();
+                            BooksGalleryListLiveData.observe((LifecycleOwner) Config.mContext, UrgentList -> {
+                                if (UrgentList.size()>0){
+                                    ArrayList<StudentsEntity> arrayList=new ArrayList<>();
+                                    for (StudentsEntity studentsEntity:UrgentList){
+                                        arrayList.add(studentsEntity);
+                                    }
+                                    sendToGalleryFrag(arrayList);
+                                }
+                            });
+                        }else {
+                            InternetDisabled();
+                        }
+                    }
+                }
+            });
+        }
+    }
+
     private void InternetDisabled() {
+
         snackbar=NetCut();
         snackBarLauncher.SnackBarInitializer(snackbar);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container_frame, noInternetFragment, "newsApi")
                 .commit();
+
     }
 
     private Snackbar NetCut() {
@@ -256,24 +329,26 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     public void onComplete(ArrayList<StudentsEntity> studentsEntities) {
         if (studentsEntities != null) {
             if (studentsEntities.size() > 0) {
-                for (StudentsEntity studentsEntity : studentsEntities) {
-                    if (studentsEntity.getException() != null) {
-                        Toast.makeText(getApplicationContext(), studentsEntity.getException().toString(), Toast.LENGTH_LONG).show();
-                    } else if (studentsEntity.getServerMessage() != null) {
-                        Toast.makeText(getApplicationContext(), studentsEntity.getServerMessage().toString(), Toast.LENGTH_LONG).show();
-                        noBooksFrag();
-                    } else {
-                        Bundle bundle=new Bundle();
-                        bundle.putSerializable("galleryItems",studentsEntities);
-                        booksGalleryFragment.setArguments(bundle);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.container_frame, booksGalleryFragment, "newsApi")
-                                .commitAllowingStateLoss();
-                    }
+                if (studentsEntities.get(0).getException()!=null){
+                    Toast.makeText(getApplicationContext(), studentsEntities.get(0).getException().toString(), Toast.LENGTH_LONG).show();
+                } else if (studentsEntities.get(0).getServerMessage() != null) {
+                    Toast.makeText(getApplicationContext(), studentsEntities.get(0).toString(), Toast.LENGTH_LONG).show();
+                    noBooksFrag();
+                }else {
+                    sendToGalleryFrag(studentsEntities);
                 }
             }else if (studentsEntities.size()==0){
                 noBooksFrag();
             }
         }
+    }
+
+    private void sendToGalleryFrag(ArrayList<StudentsEntity> studentsEntities) {
+        Bundle bundle=new Bundle();
+        bundle.putSerializable("galleryItems",studentsEntities);
+        booksGalleryFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container_frame, booksGalleryFragment, "newsApi")
+                .commitAllowingStateLoss();
     }
 }

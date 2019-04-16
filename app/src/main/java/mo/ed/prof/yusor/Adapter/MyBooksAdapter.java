@@ -23,6 +23,7 @@ import java.util.HashMap;
 import mo.ed.prof.yusor.Activities.Book.EditBookActivity;
 import mo.ed.prof.yusor.Activities.MainActivity;
 import mo.ed.prof.yusor.Dev.MessageActivity;
+import mo.ed.prof.yusor.Network.VerifyConnection;
 import mo.ed.prof.yusor.R;
 import mo.ed.prof.yusor.Volley.MakeVolleyRequests;
 import mo.ed.prof.yusor.helpers.Config;
@@ -37,6 +38,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.ViewHOlder> implements Serializable, MakeVolleyRequests.OnCompleteListener{
 
+    private final VerifyConnection verifyConnection;
     String ApiToken;
     String firebaseUiD;
     HashMap<String, String> user;
@@ -56,6 +58,7 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.ViewHOld
             firebaseUiD=user.get(SessionManagement.firebase_UID_KEY);
             ApiToken = user.get(SessionManagement.KEY_idToken);
         }
+        verifyConnection=new VerifyConnection(mContext);
     }
 
     @NonNull
@@ -139,21 +142,29 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.ViewHOld
             holder.Linear_EditBook.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(mContext, EditBookActivity.class);
-                    Bundle bundle=new Bundle();
-                    bundle.putSerializable("feedItem",feedItem);
-                    intent.putExtras(bundle);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mContext.startActivity(intent);
+                    if (verifyConnection.isConnected()){
+                        Intent intent=new Intent(mContext, EditBookActivity.class);
+                        Bundle bundle=new Bundle();
+                        bundle.putSerializable("feedItem",feedItem);
+                        intent.putExtras(bundle);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mContext.startActivity(intent);
+                    }else {
+                        Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.cannot_start_chat), Toast.LENGTH_LONG).show();
+                    }
                 }
             });
 
             holder.btn_remove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    makeVolleyRequest=new MakeVolleyRequests(mContext,MyBooksAdapter.this);
-                    BookID= feedItem.getBookID();
-                    makeVolleyRequest.removeBook(ApiToken,BookID);
+                    if (verifyConnection.isConnected()){
+                        makeVolleyRequest=new MakeVolleyRequests(mContext,MyBooksAdapter.this);
+                        BookID= feedItem.getBookID();
+                        makeVolleyRequest.removeBook(ApiToken,BookID);
+                    }else {
+                        Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.cannot_start_chat), Toast.LENGTH_LONG).show();
+                    }
                 }
             });
         }

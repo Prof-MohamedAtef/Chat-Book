@@ -31,7 +31,6 @@
                     android:layout_marginBottom="30dp"
                     android:src="@drawable/logo" />
             </LinearLayout>
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -40,18 +39,18 @@
                 android:text="@string/txt_enter_code"
                 android:textColor="@android:color/white"
                 android:textSize="20dp" />
-
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <EditText
+                    android:gravity="start"
                     android:id="@+id/code"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
                     android:padding="10dp"
-                    android:background="@drawable/rounded_border_edittext"
+                    android:layout_marginBottom="10dp"
                     android:hint="@string/hint_rest_code"
+                    android:background="@drawable/rounded_border_edittext"
                     android:textColor="@color/black"
                     android:textColorHint="@color/grey"/>
             </android.support.design.widget.TextInputLayout>

@@ -26,6 +26,8 @@ import mo.ed.prof.yusor.helpers.Designsers.ProgressGenerator;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import mo.ed.prof.yusor.helpers.SessionManagement;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 public class BookDetailActivity extends AppCompatActivity implements MakeVolleyRequests.OnCompleteListener{
 
     Intent intent;
@@ -130,6 +132,7 @@ public class BookDetailActivity extends AppCompatActivity implements MakeVolleyR
         ButterKnife.bind(this);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+        verifyConn = new VerifyConnection(getApplicationContext());
         if (Locale.getDefault().getLanguage().contentEquals("en")){
             mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.arrow_back_en));
         }else if (Locale.getDefault().getLanguage().contentEquals("ar")){
@@ -227,13 +230,17 @@ public class BookDetailActivity extends AppCompatActivity implements MakeVolleyR
                     create_bill.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            intent = new Intent(getApplicationContext(), BillsActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("feedItem", studentsEntity);
-                            intent.putExtras(bundle);
-                            getApplicationContext().startActivity(intent);
-                            finish();
+                            if (verifyConn.isConnected()){
+                                intent = new Intent(getApplicationContext(), BillsActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("feedItem", studentsEntity);
+                                intent.putExtras(bundle);
+                                getApplicationContext().startActivity(intent);
+                                finish();
+                            }else {
+                                Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.cannot_start_chat), Toast.LENGTH_LONG).show();
+                            }
                         }
                     });
                 }
@@ -243,13 +250,17 @@ public class BookDetailActivity extends AppCompatActivity implements MakeVolleyR
                 create_bill.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        intent = new Intent(getApplicationContext(), BillsActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("feedItem", studentsEntity);
-                        intent.putExtras(bundle);
-                        getApplicationContext().startActivity(intent);
-                        finish();
+                        if (verifyConn.isConnected()){
+                            intent = new Intent(getApplicationContext(), BillsActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("feedItem", studentsEntity);
+                            intent.putExtras(bundle);
+                            getApplicationContext().startActivity(intent);
+                            finish();
+                        }else {
+                            Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.cannot_start_chat), Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
             }
@@ -267,15 +278,14 @@ public class BookDetailActivity extends AppCompatActivity implements MakeVolleyR
                             public void onClick(View v) {
                                 BillID = studentsEntity.getBillID();
                                 ApiToken = user.get(SessionManagement.KEY_idToken);
-                                verifyConn = new VerifyConnection(getApplicationContext());
                                 if (verifyConn.isConnected()) {
                                     // i am buyer
                                     if (BillID != null && ApiToken != null) {
-//                                        progressGenerator = new ProgressGenerator((ProgressGenerator.OnProgressCompleteListener) BookDetailActivity.this, getApplicationContext());
-//                                        progressGenerator.approveBill(create_bill, BillID, ApiToken);
                                         makeVolleyRequest=new MakeVolleyRequests(getApplicationContext(),BookDetailActivity.this);
                                         makeVolleyRequest.approveBillRequest(BillID, ApiToken);
                                     }
+                                }else {
+                                    Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.cannot_start_chat), Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
@@ -295,11 +305,15 @@ public class BookDetailActivity extends AppCompatActivity implements MakeVolleyR
             startChat_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    intent=new Intent(getApplicationContext(),MessageActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("userid",studentsEntity.getSellerFirebaseUid());
-                    getApplicationContext().startActivity(intent);
-                    finish();
+                    if (verifyConn.isConnected()){
+                        intent=new Intent(getApplicationContext(),MessageActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("userid",studentsEntity.getSellerFirebaseUid());
+                        getApplicationContext().startActivity(intent);
+                        finish();
+                    }else{
+                        Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.cannot_start_chat), Toast.LENGTH_LONG).show();
+                    }
                 }
             });
         }

@@ -111,6 +111,8 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.ViewHOlder> 
                                     .error(R.drawable.logo)
                                     .into(holder.img_approved);
                             holder.btn_approve.setVisibility(View.GONE);
+                        }else {
+                            Toast.makeText(mContext, mContext.getResources().getString(R.string.cannot_start_chat), Toast.LENGTH_LONG).show();
                         }
                     }
                 });

@@ -1,5 +1,6 @@
 package mo.ed.prof.yusor.helpers;
 
+import android.app.Application;
 import android.content.res.Resources;
 import android.net.Uri;
 
@@ -69,6 +70,9 @@ public class Config {
     public static StudentsEntity studentEntity;
     public static CopyOnWriteArrayList<StudentsEntity> BooksListCArr;
     public static String IMAGEBaseUrl="https://www.fla4news.com/Yusor/";
+    public static Application application;
+    public static Object mContext;
+    public static ArrayList<StudentsEntity> studentEntities;
 
     // public static final String[] Faculties={
 //            Resources.getSystem().getResourceName(R.string.faculty_computer_sciences_engineering).toString(),

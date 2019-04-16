@@ -497,126 +497,127 @@ public class JsonParser {
         return list;
     }
 
-    public ArrayList<StudentsEntity> parseAllBooksForSale(String response) throws JSONException {
+    public ArrayList<StudentsEntity> parseAllBooksForSale(Context context, String response) throws JSONException {
         studentsEntity= new StudentsEntity();
         UsersDesiresJson = new JSONObject(response);
         MSG_STR = UsersDesiresJson.getString("msg");
         if (MSG_STR.equals(DONE_KEY)) {
             try {
                 BookEntityJsonAray = UsersDesiresJson.getJSONArray("data");
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            list.clear();
-            for (int i = 0; i < BookEntityJsonAray.length(); i++) {
-                // Get the JSON object representing a movie per each loop
-                oneBookJsonObjectData = BookEntityJsonAray.getJSONObject(i);
-                SellerID_STR = oneBookJsonObjectData.getString(StudentID_KEY);
-                BookID_STR = oneBookJsonObjectData.getString(BookID__KEY);
-                Price_STR = oneBookJsonObjectData.getString(Price_KEY);
-                Bill_status_STR=oneBookJsonObjectData.getString("bill_status");
-                Availability_STR = oneBookJsonObjectData.getString(Availability_KEY);
-                BookStatus_STR = oneBookJsonObjectData.getString(BookStatus_KEY);
-                TransactionType_STR = oneBookJsonObjectData.getString(TransactionType_KEY);
-                JSONArray authorJsonArray = null;
-                try {
-                    pivotJsonArray = oneBookJsonObjectData.getJSONArray("book");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                for (int x = 0; x < pivotJsonArray.length(); x++) {
-                    JSONObject onePivotJsonObject = pivotJsonArray.getJSONObject(x);
-                    BookID_STR = onePivotJsonObject.getString(BookID_KEY);
-                    Book_Title_STR = onePivotJsonObject.getString(Book_Title_KEY);
-                    Book_Description_STR = onePivotJsonObject.getString(Book_Description_KEY);
-                    PublishYear_STR = onePivotJsonObject.getString(PublishYear_KEY);
-                    AuthorID_STR = onePivotJsonObject.getString(AuthorID_KEY);
-                    DepartmentID_STR = onePivotJsonObject.getString(KEY_DepartmentID);
-                    ISBN_STR = onePivotJsonObject.getString(ISBN_Num_KEY);
-                    PHOTO_STR = onePivotJsonObject.getString(PHOTO_KEY);
+                list.clear();
+                for (int i = 0; i < BookEntityJsonAray.length(); i++) {
+                    // Get the JSON object representing a movie per each loop
+                    oneBookJsonObjectData = BookEntityJsonAray.getJSONObject(i);
+                    SellerID_STR = oneBookJsonObjectData.getString(StudentID_KEY);
+                    BookID_STR = oneBookJsonObjectData.getString(BookID__KEY);
+                    Price_STR = oneBookJsonObjectData.getString(Price_KEY);
+                    Bill_status_STR=oneBookJsonObjectData.getString("bill_status");
+                    Availability_STR = oneBookJsonObjectData.getString(Availability_KEY);
+                    BookStatus_STR = oneBookJsonObjectData.getString(BookStatus_KEY);
+                    TransactionType_STR = oneBookJsonObjectData.getString(TransactionType_KEY);
+                    JSONArray authorJsonArray = null;
                     try {
-                        studentJsonArray = oneBookJsonObjectData.getJSONArray(Student_Array);
+                        pivotJsonArray = oneBookJsonObjectData.getJSONArray("book");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    for (int j = 0; j < studentJsonArray.length(); j++) {
-                        JSONObject oneStudentJsonObject = studentJsonArray.getJSONObject(j);
-                        StudentID_STR = oneStudentJsonObject.getString(Student_KEY_ID);
-                        PersonName_STR = oneStudentJsonObject.getString(PersonName_KEY);
-                        UserName_STR = oneStudentJsonObject.getString(UserName_KEY);
-                        Gender_STR = oneStudentJsonObject.getString(Gender_KEY);
-                        Email_STR = oneStudentJsonObject.getString(Emai_KEY);
-                        DepartmentID_STR = oneStudentJsonObject.getString(DepartmentID_KEY);
-                        SellerFireBUiD_STR = oneStudentJsonObject.getString("firbase_id");
-
+                    for (int x = 0; x < pivotJsonArray.length(); x++) {
+                        JSONObject onePivotJsonObject = pivotJsonArray.getJSONObject(x);
+                        BookID_STR = onePivotJsonObject.getString(BookID_KEY);
+                        Book_Title_STR = onePivotJsonObject.getString(Book_Title_KEY);
+                        Book_Description_STR = onePivotJsonObject.getString(Book_Description_KEY);
+                        PublishYear_STR = onePivotJsonObject.getString(PublishYear_KEY);
+                        AuthorID_STR = onePivotJsonObject.getString(AuthorID_KEY);
+                        DepartmentID_STR = onePivotJsonObject.getString(KEY_DepartmentID);
+                        ISBN_STR = onePivotJsonObject.getString(ISBN_Num_KEY);
+                        PHOTO_STR = onePivotJsonObject.getString(PHOTO_KEY);
                         try {
-                            AuthorJsonArray = oneBookJsonObjectData.getJSONArray(AUTHOR_Obj_KEY);
+                            studentJsonArray = oneBookJsonObjectData.getJSONArray(Student_Array);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        for (int l = 0; l < AuthorJsonArray.length(); l++) {
-                            JSONObject oneAuthorJsonObject = AuthorJsonArray.getJSONObject(l);
-                            AuthorName_STR = oneAuthorJsonObject.getString(AuthorName_KEY);
+                        for (int j = 0; j < studentJsonArray.length(); j++) {
+                            JSONObject oneStudentJsonObject = studentJsonArray.getJSONObject(j);
+                            StudentID_STR = oneStudentJsonObject.getString(Student_KEY_ID);
+                            PersonName_STR = oneStudentJsonObject.getString(PersonName_KEY);
+                            UserName_STR = oneStudentJsonObject.getString(UserName_KEY);
+                            Gender_STR = oneStudentJsonObject.getString(Gender_KEY);
+                            Email_STR = oneStudentJsonObject.getString(Emai_KEY);
+                            DepartmentID_STR = oneStudentJsonObject.getString(DepartmentID_KEY);
+                            SellerFireBUiD_STR = oneStudentJsonObject.getString("firbase_id");
 
                             try {
-                                DepartmentJsonArray = oneBookJsonObjectData.getJSONArray(Department_KEY);
+                                AuthorJsonArray = oneBookJsonObjectData.getJSONArray(AUTHOR_Obj_KEY);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            for (int z = 0; z < DepartmentJsonArray.length(); z++) {
-                                JSONObject oneDepartmentJsonObject = DepartmentJsonArray.getJSONObject(z);
-                                DepartmentName_STR = oneDepartmentJsonObject.getString(DepartmentName_KEY);
+                            for (int l = 0; l < AuthorJsonArray.length(); l++) {
+                                JSONObject oneAuthorJsonObject = AuthorJsonArray.getJSONObject(l);
+                                AuthorName_STR = oneAuthorJsonObject.getString(AuthorName_KEY);
+
                                 try {
-                                    billEntityJsonAray = oneBookJsonObjectData.getJSONArray("bill");
-                                    for (int O = 0; O < billEntityJsonAray.length(); O++) {
-                                        JSONObject oneBillJsonObj = billEntityJsonAray.getJSONObject(O);
-                                        BillID_STR = oneBillJsonObj.getString("id");
-                                        BuyerID_STR = oneBillJsonObj.getString("buyer_id");
-                                        OwnerStatus_STR = oneBillJsonObj.getString("owner_status");
-                                        BuyerStatus_STR = oneBillJsonObj.getString("buyer_status");
-                                        try {
-                                            buyerJsonArray = oneBookJsonObjectData.getJSONArray("buyer_student");
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                        for (int G = 0; G < buyerJsonArray.length(); G++) {
-                                            JSONObject oneBuyerJsonObj = buyerJsonArray.getJSONObject(G);
-                                            BuyerFireBUiD_STR = oneBuyerJsonObj.getString("firbase_id");
+                                    DepartmentJsonArray = oneBookJsonObjectData.getJSONArray(Department_KEY);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                for (int z = 0; z < DepartmentJsonArray.length(); z++) {
+                                    JSONObject oneDepartmentJsonObject = DepartmentJsonArray.getJSONObject(z);
+                                    DepartmentName_STR = oneDepartmentJsonObject.getString(DepartmentName_KEY);
+                                    try {
+                                        billEntityJsonAray = oneBookJsonObjectData.getJSONArray("bill");
+                                        for (int O = 0; O < billEntityJsonAray.length(); O++) {
+                                            JSONObject oneBillJsonObj = billEntityJsonAray.getJSONObject(O);
+                                            BillID_STR = oneBillJsonObj.getString("id");
+                                            BuyerID_STR = oneBillJsonObj.getString("buyer_id");
+                                            OwnerStatus_STR = oneBillJsonObj.getString("owner_status");
+                                            BuyerStatus_STR = oneBillJsonObj.getString("buyer_status");
+                                            try {
+                                                buyerJsonArray = oneBookJsonObjectData.getJSONArray("buyer_student");
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                            for (int G = 0; G < buyerJsonArray.length(); G++) {
+                                                JSONObject oneBuyerJsonObj = buyerJsonArray.getJSONObject(G);
+                                                BuyerFireBUiD_STR = oneBuyerJsonObj.getString("firbase_id");
                                         /*
 
                                          */
-                                            studentsEntity = new StudentsEntity(SellerID_STR, BookID_STR, Price_STR, Availability_STR,
-                                                    TransactionType_STR,Bill_status_STR, Book_Title_STR, Book_Description_STR,
-                                                    PublishYear_STR, AuthorID_STR, DepartmentID_STR
-                                                    , ISBN_STR, PHOTO_STR, StudentID_STR, PersonName_STR, UserName_STR,
-                                                    Gender_STR, Email_STR, DepartmentID_STR, DepartmentName_STR, AuthorName_STR,
-                                                    PivotID_STR, SellerFireBUiD_STR, BookStatus_STR, BillID_STR, BuyerID_STR, OwnerStatus_STR,
-                                                    BuyerStatus_STR, BuyerFireBUiD_STR);
-                                            list.add(studentsEntity);
+                                                studentsEntity = new StudentsEntity(SellerID_STR, BookID_STR, Price_STR, Availability_STR,
+                                                        TransactionType_STR,Bill_status_STR, Book_Title_STR, Book_Description_STR,
+                                                        PublishYear_STR, AuthorID_STR, DepartmentID_STR
+                                                        , ISBN_STR, PHOTO_STR, StudentID_STR, PersonName_STR, UserName_STR,
+                                                        Gender_STR, Email_STR, DepartmentID_STR, DepartmentName_STR, AuthorName_STR,
+                                                        PivotID_STR, SellerFireBUiD_STR, BookStatus_STR, BillID_STR, BuyerID_STR, OwnerStatus_STR,
+                                                        BuyerStatus_STR, BuyerFireBUiD_STR);
+                                                list.add(studentsEntity);
+                                            }
                                         }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        BillID_STR = null;
+                                        BuyerID_STR = null;
+                                        OwnerStatus_STR = null;
+                                        BuyerStatus_STR = null;
+                                        BuyerFireBUiD_STR = null;
+                                        studentsEntity = new StudentsEntity(SellerID_STR, BookID_STR, Price_STR, Availability_STR,
+                                                TransactionType_STR, Bill_status_STR, Book_Title_STR, Book_Description_STR,
+                                                PublishYear_STR, AuthorID_STR, DepartmentID_STR
+                                                , ISBN_STR, PHOTO_STR, StudentID_STR, PersonName_STR, UserName_STR,
+                                                Gender_STR, Email_STR, DepartmentID_STR, DepartmentName_STR, AuthorName_STR,
+                                                PivotID_STR, SellerFireBUiD_STR, BookStatus_STR, BillID_STR, BuyerID_STR, OwnerStatus_STR,
+                                                BuyerStatus_STR, BuyerFireBUiD_STR);
+                                        list.add(studentsEntity);
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                    BillID_STR = null;
-                                    BuyerID_STR = null;
-                                    OwnerStatus_STR = null;
-                                    BuyerStatus_STR = null;
-                                    BuyerFireBUiD_STR = null;
-                                    studentsEntity = new StudentsEntity(SellerID_STR, BookID_STR, Price_STR, Availability_STR,
-                                            TransactionType_STR, Bill_status_STR, Book_Title_STR, Book_Description_STR,
-                                            PublishYear_STR, AuthorID_STR, DepartmentID_STR
-                                            , ISBN_STR, PHOTO_STR, StudentID_STR, PersonName_STR, UserName_STR,
-                                            Gender_STR, Email_STR, DepartmentID_STR, DepartmentName_STR, AuthorName_STR,
-                                            PivotID_STR, SellerFireBUiD_STR, BookStatus_STR, BillID_STR, BuyerID_STR, OwnerStatus_STR,
-                                            BuyerStatus_STR, BuyerFireBUiD_STR);
-                                    list.add(studentsEntity);
-
                                 }
                             }
                         }
                     }
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                studentsEntity = new StudentsEntity();
+                studentsEntity.setException(context.getResources().getString(R.string.try_again_later));
+                list.add(studentsEntity);
             }
         }else if (MSG_STR.equals( Email_Already_Taken)){
             studentsEntity.setException(Email_Already_Taken);

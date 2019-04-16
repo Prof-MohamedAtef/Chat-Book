@@ -210,92 +210,92 @@ public class EditBookActivity extends AppCompatActivity implements RetrieveAutho
         Edit_BTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeVolleyRequests = new MakeVolleyRequests(getApplicationContext(), EditBookActivity.this);
-                BookName = Edit_addBook.getText().toString();
-                Config.BookName = BookName;
-                ISBN_Num = Edit_isbnNum.getText().toString();
-                Config.ISBN_Number = ISBN_Num;
-                PublishYear = Edit_PublishYear.getText().toString();
-                Config.BookDescription = Edit_enterDescription.getText().toString();
-                Config.PublishYear = PublishYear;
-                ImageUri = Config.ImageFileUri;
-                if (TransactionType != null) {
-                    if (TransactionType.equals(getResources().getString(R.string.sale))) {
-                        sentTransactionType = getResources().getString(R.string.sale_book);
-                    } else if (TransactionType.equals(getResources().getString(R.string.exchange))) {
-                        sentTransactionType = getResources().getString(R.string.exchange_book);
-                    } else if (TransactionType.equals(getResources().getString(R.string.gift))) {
-                        sentTransactionType = getResources().getString(R.string.gift_book);
+                if (verifyConnection.isConnected()){
+                    makeVolleyRequests = new MakeVolleyRequests(getApplicationContext(), EditBookActivity.this);
+                    BookName = Edit_addBook.getText().toString();
+                    Config.BookName = BookName;
+                    ISBN_Num = Edit_isbnNum.getText().toString();
+                    Config.ISBN_Number = ISBN_Num;
+                    PublishYear = Edit_PublishYear.getText().toString();
+                    Config.BookDescription = Edit_enterDescription.getText().toString();
+                    Config.PublishYear = PublishYear;
+                    ImageUri = Config.ImageFileUri;
+                    if (TransactionType != null) {
+                        if (TransactionType.equals(getResources().getString(R.string.sale))) {
+                            sentTransactionType = getResources().getString(R.string.sale_book);
+                        } else if (TransactionType.equals(getResources().getString(R.string.exchange))) {
+                            sentTransactionType = getResources().getString(R.string.exchange_book);
+                        } else if (TransactionType.equals(getResources().getString(R.string.gift))) {
+                            sentTransactionType = getResources().getString(R.string.gift_book);
+                        }
                     }
-                }
-                if (Config.BookStatus != null) {
-                    if (Config.BookStatus.equals(getResources().getString(R.string._new))) {
-                        sentBookStatus = getResources().getString(R.string.new_book);
-                    } else if (Config.BookStatus.equals(getResources().getString(R.string.Intermediate))) {
-                        sentBookStatus = getResources().getString(R.string.intermediate_book);
-                    } else if (Config.BookStatus.equals(getResources().getString(R.string.not_bad))) {
-                        sentBookStatus = getResources().getString(R.string.not_bad_book);
+                    if (Config.BookStatus != null) {
+                        if (Config.BookStatus.equals(getResources().getString(R.string._new))) {
+                            sentBookStatus = getResources().getString(R.string.new_book);
+                        } else if (Config.BookStatus.equals(getResources().getString(R.string.Intermediate))) {
+                            sentBookStatus = getResources().getString(R.string.intermediate_book);
+                        } else if (Config.BookStatus.equals(getResources().getString(R.string.not_bad))) {
+                            sentBookStatus = getResources().getString(R.string.not_bad_book);
+                        }
                     }
-                }
-                BookPrice = Edit_BookPrice.getText().toString();
-                if (Config.BookName != null && Config.BookName.length() > 0) {
-                    if (Config.BookDescription != null && Config.BookDescription.length() > 0) {
-                        if (Config.PublishYear != null && Config.PublishYear.length() > 0) {
-                            if (Config.FacultyID != null) {
-                                if (user != null) {
-                                    ApiToken = user.get(SessionManagement.KEY_idToken);
-                                    if (ApiToken != null) {
-                                        if (Config.ISBN_Number != null && Config.ISBN_Number.length() > 0) {
-                                            if (Config.AuthorID != null && Config.AuthorID.length() > 0) {
-                                                if (Config.AuthorTitle != null && Config.AuthorTitle.length() > 0) {
-                                                    if (Config.BookID != null) {
-                                                        if (sentBookStatus!= null) {
-                                                            if (Config.Availability != null) {
-                                                                if (sentTransactionType != null) {
-                                                                    if (BookPrice != null) {
-//                                        if (Config.ImageFileUri!=null&&Config.ImageFileUri.toString().length()>0){
-//                                        }else{
-//                                            Toast.makeText(getActivity(), getString(R.string.enter_image), Toast.LENGTH_SHORT).show();
-//                                        }
-                                                                        makeVolleyRequests.updateBookDetails(Config.BookName, Config.BookDescription, Config.AuthorID, Config.PublishYear,
-                                                                                Config.FacultyID, Config.ISBN_Number, ApiToken, Config.BookID, sentBookStatus, Config.Availability,
-                                                                                sentTransactionType, BookPrice, Config.AuthorTitle);
+                    BookPrice = Edit_BookPrice.getText().toString();
+                    if (Config.BookName != null && Config.BookName.length() > 0) {
+                        if (Config.BookDescription != null && Config.BookDescription.length() > 0) {
+                            if (Config.PublishYear != null && Config.PublishYear.length() > 0) {
+                                if (Config.FacultyID != null) {
+                                    if (user != null) {
+                                        ApiToken = user.get(SessionManagement.KEY_idToken);
+                                        if (ApiToken != null) {
+                                            if (Config.ISBN_Number != null && Config.ISBN_Number.length() > 0) {
+                                                if (Config.AuthorID != null && Config.AuthorID.length() > 0) {
+                                                    if (Config.AuthorTitle != null && Config.AuthorTitle.length() > 0) {
+                                                        if (Config.BookID != null) {
+                                                            if (sentBookStatus!= null) {
+                                                                if (Config.Availability != null) {
+                                                                    if (sentTransactionType != null) {
+                                                                        if (BookPrice != null) {
+                                                                            makeVolleyRequests.updateBookDetails(Config.BookName, Config.BookDescription, Config.AuthorID, Config.PublishYear,
+                                                                                    Config.FacultyID, Config.ISBN_Number, ApiToken, Config.BookID, sentBookStatus, Config.Availability,
+                                                                                    sentTransactionType, BookPrice, Config.AuthorTitle);
+                                                                        } else {
+                                                                            Toast.makeText(getApplicationContext(), getString(R.string.enter_price), Toast.LENGTH_SHORT).show();
+                                                                        }
                                                                     } else {
-                                                                        Toast.makeText(getApplicationContext(), getString(R.string.enter_price), Toast.LENGTH_SHORT).show();
+                                                                        Toast.makeText(getApplicationContext(), getString(R.string.transaction_type_null), Toast.LENGTH_SHORT).show();
                                                                     }
                                                                 } else {
-                                                                    Toast.makeText(getApplicationContext(), getString(R.string.transaction_type_null), Toast.LENGTH_SHORT).show();
+                                                                    Toast.makeText(getApplicationContext(), getString(R.string.book_availability_null), Toast.LENGTH_SHORT).show();
                                                                 }
                                                             } else {
-                                                                Toast.makeText(getApplicationContext(), getString(R.string.book_availability_null), Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(getApplicationContext(), getString(R.string.book_status_null), Toast.LENGTH_SHORT).show();
                                                             }
                                                         } else {
-                                                            Toast.makeText(getApplicationContext(), getString(R.string.book_status_null), Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(getApplicationContext(), getString(R.string.null_book_id), Toast.LENGTH_SHORT).show();
                                                         }
                                                     } else {
-                                                        Toast.makeText(getApplicationContext(), getString(R.string.null_book_id), Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(getApplicationContext(), getString(R.string.hint_author_name), Toast.LENGTH_SHORT).show();
                                                     }
-                                                } else {
-                                                    Toast.makeText(getApplicationContext(), getString(R.string.hint_author_name), Toast.LENGTH_SHORT).show();
                                                 }
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), getString(R.string.enter_isbn_num), Toast.LENGTH_SHORT).show();
                                             }
-                                        } else {
-                                            Toast.makeText(getApplicationContext(), getString(R.string.enter_isbn_num), Toast.LENGTH_SHORT).show();
                                         }
                                     }
+                                } else {
+                                    Toast.makeText(getApplicationContext(), getString(R.string.enter_faculty_id), Toast.LENGTH_SHORT).show();
                                 }
                             } else {
-                                Toast.makeText(getApplicationContext(), getString(R.string.enter_faculty_id), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), getString(R.string.enter_publish_year), Toast.LENGTH_SHORT).show();
                             }
-                        } else {
-                            Toast.makeText(getApplicationContext(), getString(R.string.enter_publish_year), Toast.LENGTH_SHORT).show();
-                        }
 
+                        } else {
+                            Toast.makeText(getApplicationContext(), getString(R.string.enter_desc), Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        Toast.makeText(getApplicationContext(), getString(R.string.enter_desc), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.enter_book_name), Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(getApplicationContext(), getString(R.string.enter_book_name), Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.cannot_start_chat), Toast.LENGTH_LONG).show();
                 }
             }
         });

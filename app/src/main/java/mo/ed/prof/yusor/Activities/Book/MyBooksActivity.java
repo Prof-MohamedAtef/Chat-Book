@@ -90,14 +90,9 @@ public class MyBooksActivity extends AppCompatActivity implements MakeVolleyRequ
                 LinearLayout linearLayout=(LinearLayout)findViewById(R.id.RecyclerLinear);
                 linearLayout.setVisibility(View.GONE);
                 noBooksInGalleryFragment=new NoBooksInGalleryFragment();
-
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container_frame, noBooksInGalleryFragment , "newsApi")
                         .commit();
-//                Toast.makeText(getApplicationContext(), getResources().getString(R.string.you_no_books_exist), Toast.LENGTH_SHORT).show();
-//                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                getApplicationContext().startActivity(intent);
             }
         }
     }

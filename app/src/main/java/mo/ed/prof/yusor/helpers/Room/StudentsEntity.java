@@ -1,5 +1,12 @@
 package mo.ed.prof.yusor.helpers.Room;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.google.firebase.storage.StorageReference;
 
 import java.io.Serializable;
@@ -7,8 +14,158 @@ import java.io.Serializable;
 /**
  * Created by Prof-Mohamed Atef on 2/5/2019.
  */
-
+@Entity(tableName = "Books")
 public class StudentsEntity implements Serializable {
+
+    @NonNull
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "ID")
+    public int ID;
+
+    @Nullable
+    @ColumnInfo(name = "BuyerFirebaseUiD")
+    public String BuyerFirebaseUiD;
+
+    @NonNull
+    @ColumnInfo(name = "SellerFirebaseUid")
+    public String SellerFirebaseUid;
+
+    @Nullable
+    @ColumnInfo(name = "BillID")
+    public String BillID;
+
+    @Nullable
+    @ColumnInfo(name = "OwnerStatus")
+    public String OwnerStatus;
+
+    @Nullable
+    @ColumnInfo(name = "BuyerStatus")
+    public String BuyerStatus;
+
+    @Nullable
+    @ColumnInfo(name = "BuyerID")
+    public String BuyerID;
+
+    @NonNull
+    @ColumnInfo(name = "BillStatus")
+    public String BillStatus;
+
+
+    @Ignore
+    @NonNull
+    @ColumnInfo(name = "StudentID")
+    public String StudentID;
+
+    @NonNull
+    @ColumnInfo(name = "PivotID")
+    public String PivotID;
+
+    @NonNull
+    @ColumnInfo(name = "SellerEmail")
+    public String SellerEmail;
+
+    @NonNull
+    @ColumnInfo(name = "SellerGender")
+    public String SellerGender;
+
+    @NonNull
+    @ColumnInfo(name = "SellerUserName")
+    public String SellerUserName;
+
+    @NonNull
+    @ColumnInfo(name = "SellerDepartmentID")
+    public String SellerDepartmentID;
+
+    @NonNull
+    @ColumnInfo(name = "SellerID")
+    public String SellerID;
+
+    @NonNull
+    @ColumnInfo(name = "TransactionType")
+    public String TransactionType;
+
+    @NonNull
+    @ColumnInfo(name = "Availability")
+    public String Availability;
+
+    @NonNull
+    @ColumnInfo(name = "ISBN_NUM")
+    public String ISBN_NUM;
+
+    @Ignore
+    @NonNull
+    @ColumnInfo(name = "BookPhoto")
+    public String BookPhoto;
+
+    @NonNull
+    @ColumnInfo(name = "BookDescription")
+    public String BookDescription;
+
+    @NonNull
+    @ColumnInfo(name = "PublishYear")
+    public String PublishYear;
+
+    @NonNull
+    @ColumnInfo(name = "BookID")
+    public String BookID;
+
+    @NonNull
+    @ColumnInfo(name = "BookTitle")
+    public String BookTitle;
+
+
+    @NonNull
+    @ColumnInfo(name = "BookPrice")
+    public String BookPrice;
+
+
+    @NonNull
+    @ColumnInfo(name = "BookImage")
+    public String BookImage;
+
+
+    @NonNull
+    @ColumnInfo(name = "BookOwnerID")
+    public String BookOwnerID;
+
+    @NonNull
+    @ColumnInfo(name = "BookStatus")
+    public String BookStatus;
+
+
+    @NonNull
+    @ColumnInfo(name = "DepartmentID")
+    public String DepartmentID;
+
+    @NonNull
+    @ColumnInfo(name = "DepartmentName")
+    public String DepartmentName;
+
+    @Ignore
+    @NonNull
+    @ColumnInfo(name = "UserName")
+    public String UserName;
+
+    @NonNull
+    @ColumnInfo(name = "PersonName")
+    public String PersonName;
+
+    @Ignore
+    @NonNull
+    @ColumnInfo(name = "Email")
+    public String Email;
+
+
+    public String Password;
+
+    @Ignore
+    @NonNull
+    @ColumnInfo(name = "Gender")
+    public String Gender;
+
+    String API_TOKEN;
+
+
     public static Object FBAccessToken;
 
     public String getBillStatus() {
@@ -19,9 +176,8 @@ public class StudentsEntity implements Serializable {
         BillStatus = billStatus;
     }
 
-    String BillStatus;
-    String StudentID;
 
+    @Ignore
     public StudentsEntity(String bookID_str, String book_title_str, String book_description_str,
                           String publishYear_str, String isbn_str, String photo_str, String authorID_str,
                           String departmentID_str, String studentID_str, String price_str, String bookStatus_str,
@@ -52,6 +208,7 @@ public class StudentsEntity implements Serializable {
 
     public String CreatedAt;
 
+    @Ignore
     public StudentsEntity(String userID_str, String userName_str, String gender_str,
                           String email_str, String firebaseUserID_str, String department_str) {
         this.UserID=userID_str;
@@ -62,6 +219,7 @@ public class StudentsEntity implements Serializable {
         this.DepartmentName=department_str;
     }
 
+    @Ignore
     public StudentsEntity(String studentID_str, String firebaseUserID_str, String s, String s1, String s2) {
         this.StudentID=studentID_str;
         this.FirebaseUiD=firebaseUserID_str;
@@ -84,21 +242,22 @@ public class StudentsEntity implements Serializable {
     }
 
     public String UpdatedAt;
-    public String BuyerFirebaseUiD;
+
+
+
     public String BuyerEmail;
     public String BuyerUserName;
     public String BuyerPName;
     public String BuyerGender;
     public String BuyerDepartmentID;
-    public String SellerFirebaseUid;
-    public String BillID;
-    public String OwnerStatus;
-    public String BuyerStatus;
-    public String BuyerID;
+
+
+
     public String SellerPersonName;
     public String FirebaseUiD;
     public String ProfilePhoto;
 
+    @Ignore
     public StudentsEntity(String billID_str, String price_str, String ownerStatus_str, String buyerStatus_str, String studentID_str,
                           String buyerID_str, String bookID_str, String book_title_str, String book_description_str,
                           String publishYear_str, String authorID_str, String departmentID_str, String isbn_str, String photo_str,
@@ -132,6 +291,7 @@ public class StudentsEntity implements Serializable {
         this.BuyerFirebaseUiD = buyerFireBUiD_STR;
     }
 
+    @Ignore
     public StudentsEntity(String billID_str, String bookID_str, String buyerID_str, String ownerStatus_str, String buyerStatus_str,
                           String studentID_str, String book_title_str, String book_description_str, String publishYear_str,
                           String authorID_str, String departmentID_str, String isbn_str) {
@@ -246,6 +406,7 @@ public class StudentsEntity implements Serializable {
     }
 
     //get bills
+    @Ignore
     public StudentsEntity(String billID_str, String bookID_str, String buyerID_str, String ownerStatus_str, String buyerStatus_str,
                           String studentID_str, String book_title_str, String book_description_str, String publishYear_str,
                           String authorID_str, String departmentID_str, String isbn_str, String sellerID_str, String sellerPersonName_str,
@@ -299,12 +460,6 @@ public class StudentsEntity implements Serializable {
         ProfilePhoto = profilePhoto;
     }
 
-    String PivotID;
-    String SellerEmail;
-    String SellerGender;
-    String SellerUserName;
-    String SellerDepartmentID;
-    String SellerID;
 
     public String getPivotID() {
         return PivotID;
@@ -355,6 +510,7 @@ public class StudentsEntity implements Serializable {
     }
 
     // OnSale Books
+    @Ignore
     public StudentsEntity(String sellerID_str, String bookID_str, String price_str, String availability_str, String transactionType_str,
                           String bill_status_, String book_title_str, String book_description_str, String publishYear_str,
                           String authorID_str, String departmentID_str, String isbn_str, String photo_str, String studentID_str,
@@ -384,7 +540,9 @@ public class StudentsEntity implements Serializable {
         this.DepartmentName=department_name;
         this.SellerFirebaseUid=firbase_id_STR;
         this.BookStatus=bookStatus_STR;
-        this.BillID=billID; this.BuyerID=buyerID;   this.OwnerStatus=ownerStatus;   this.BuyerStatus=buyerStatus;
+        this.BillID=billID; this.BuyerID=buyerID;
+        this.OwnerStatus=ownerStatus;
+        this.BuyerStatus=buyerStatus;
         this.BuyerFirebaseUiD=buyerFirebaseUiD;
     }
 
@@ -397,17 +555,9 @@ public class StudentsEntity implements Serializable {
     }
 
     String UserID;
-    String TransactionType;
-    String Availability;
-    String ISBN_NUM;
-    String BookPhoto;
-    String BookDescription;
-    String PublishYear;
-    String BookID;
-    String BookTitle;
-    String BookPrice;
-    String BookImage;
-    String BookOwnerID;
+
+
+
     String ServerMessage;
 
     public String getServerMessage() {
@@ -421,6 +571,7 @@ public class StudentsEntity implements Serializable {
     String FacultyName;
     String FacultyID;
 
+    @Ignore
     public StudentsEntity(String book_title_str, String book_description_str, String publishYear_str,
                           String photo_str, String isbn_str, String authorName_str, String department_str) {
         this.BookTitle=book_title_str;
@@ -432,6 +583,7 @@ public class StudentsEntity implements Serializable {
         this.DepartmentName=department_str;
     }
 
+    @Ignore
     public StudentsEntity(String book_title_str, String book_description_str, String publishYear_str,
                           String photo_str, String isbn_str, String authorName_str, String bookID,String s, String s2, String s3) {
         this.BookTitle=book_title_str;
@@ -447,6 +599,7 @@ public class StudentsEntity implements Serializable {
 
 
     //suggest Books
+    @Ignore
     public StudentsEntity(String book_title_str, String book_description_str, String publishYear_str, String photo_str, String isbn_str, String authorName_str, String price_str, String BookStatus, String Book_Availability, String Transaction_Type, String book_id) {
         this.BookTitle=book_title_str;
         this.BookDescription=book_description_str;
@@ -471,6 +624,7 @@ public class StudentsEntity implements Serializable {
         DoneStatus = doneStatus;
     }
 
+    @Ignore
     public StudentsEntity(String msgStr) {
         this.Exception=msgStr;
     }
@@ -524,6 +678,7 @@ public class StudentsEntity implements Serializable {
     }
 
     //added book details
+    @Ignore
     public StudentsEntity(String book_title_str, String book_id,String book_description_str, String publishYear_str, String photo_str, String isbn_str, String details, String details1) {
         this.BookTitle=book_title_str;
         this.BookID=book_id;
@@ -549,9 +704,13 @@ public class StudentsEntity implements Serializable {
         FacultyID = facultyID;
     }
 
+    @NonNull
+    @ColumnInfo(name = "AuthorTitle")
     String AuthorTitle;
 
-    String AuthorID;
+    @NonNull
+    @ColumnInfo(name = "AuthorID")
+    public String AuthorID;
 
     public String getAuthorID() {
         return AuthorID;
@@ -587,11 +746,6 @@ public class StudentsEntity implements Serializable {
         Exception = exception;
     }
 
-    String DepartmentID, DepartmentName;
-
-    String UserName, PersonName, Email, Password, Gender;
-
-    String API_TOKEN;
 
     public String getAPI_TOKEN() {
         return API_TOKEN;
@@ -606,6 +760,7 @@ public class StudentsEntity implements Serializable {
     }
 
     //Registration Constructor
+    @Ignore
     public StudentsEntity(String api_token_str, String personName_str, String email_str, String userName_str, String gender_str, String department_str, String user_id,String firbase_id,String x2) {
         this.API_TOKEN=api_token_str;
         this.PersonName=personName_str;
@@ -673,19 +828,19 @@ public class StudentsEntity implements Serializable {
         DepartmentName = departmentName;
     }
 
+    @Ignore
     public StudentsEntity(String DepartmentID, String DepartmentName){
         this.DepartmentID=DepartmentID;
         this.DepartmentName=DepartmentName;
     }
 
-
+    @Ignore
     public StudentsEntity(String authorID, String authorTitle,String x, String y){
         this.AuthorID=authorID;
         this.AuthorTitle=authorTitle;
     }
 
-
-
+    @Ignore
     public StudentsEntity(String BookID, String BookName,String x){
         this.BookID=BookID;
         this.BookTitle=BookName;
@@ -707,7 +862,6 @@ public class StudentsEntity implements Serializable {
         BookStatus = bookStatus;
     }
 
-    String BookStatus;
 
     public String getBookTitle() {
         return BookTitle;

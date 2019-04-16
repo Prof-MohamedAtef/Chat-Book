@@ -41,6 +41,8 @@ import mo.ed.prof.yusor.helpers.Config;
 import mo.ed.prof.yusor.helpers.RetrofitUtils.ProgressRequestBody;
 import mo.ed.prof.yusor.helpers.RetrofitUtils.StatusError;
 import mo.ed.prof.yusor.helpers.RetrofitUtils.UploadCallbacks;
+import mo.ed.prof.yusor.helpers.Room.AppDatabase;
+import mo.ed.prof.yusor.helpers.Room.Helper.InsertClass;
 import mo.ed.prof.yusor.helpers.Room.StudentsEntity;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -59,6 +61,7 @@ public class MakeVolleyRequests implements UploadCallbacks{
 
     private final OnMyBookCompleteListener onMyBookCompleteListener;
     private final OnSearchSuggestedBooksCompListener onSearchSuggestedBooksCompListener;
+    private final AppDatabase mDatabase;
     Context mContext;
     private String KEY_BOOKTitle="title";
     private String KEY_BOOKDescription="desc";
@@ -75,11 +78,20 @@ public class MakeVolleyRequests implements UploadCallbacks{
     private RequestBody b_authorID;
 
 
+    public MakeVolleyRequests(Context context, OnCompleteListener onCompleteListener, AppDatabase mDatabase){
+        this.mContext=context;
+        this.mListener= (OnCompleteListener) onCompleteListener;
+        onMyBookCompleteListener = null;
+        onSearchSuggestedBooksCompListener = null;
+        this.mDatabase=mDatabase;
+    }
+
     public MakeVolleyRequests(Context context, OnCompleteListener onCompleteListener){
         this.mContext=context;
         this.mListener= (OnCompleteListener) onCompleteListener;
         onMyBookCompleteListener = null;
         onSearchSuggestedBooksCompListener = null;
+        this.mDatabase=null;
     }
 
     public MakeVolleyRequests(Context context, OnRetrofitCompleteListener onRetrofitCompleteListener, OnFailureListener onFailureListener){
@@ -88,18 +100,21 @@ public class MakeVolleyRequests implements UploadCallbacks{
         onMyBookCompleteListener = null;
         onSearchSuggestedBooksCompListener = null;
         this.onFailureListener=onFailureListener;
+        mDatabase = null;
     }
 
     public MakeVolleyRequests(Context context, OnMyBookCompleteListener onMyBookCompleteListener){
         this.mContext=context;
         this.onMyBookCompleteListener= (OnMyBookCompleteListener) onMyBookCompleteListener;
         onSearchSuggestedBooksCompListener = null;
+        mDatabase = null;
     }
 
     public MakeVolleyRequests(Context context, OnSearchSuggestedBooksCompListener onSearchSuggestedBooksCompListener){
         this.mContext=context;
         this.onSearchSuggestedBooksCompListener= (OnSearchSuggestedBooksCompListener) onSearchSuggestedBooksCompListener;
         onMyBookCompleteListener = null;
+        mDatabase = null;
     }
 
 
@@ -389,10 +404,12 @@ public class MakeVolleyRequests implements UploadCallbacks{
                        }else {
                             try {
                                 JsonParser jsonParser = new JsonParser();
-                                ArrayList<StudentsEntity> studentsEntities = jsonParser.parseAllBooksForSale(response);
+                                ArrayList<StudentsEntity> studentsEntities = jsonParser.parseAllBooksForSale(mContext, response);
                                 if (studentsEntities != null) {
                                     if (studentsEntities.size() > 0) {
                                         mListener.onComplete(studentsEntities);
+                                        InsertClass insertClass = new InsertClass();
+                                        insertClass.TryInsertGalleryBooksData(mDatabase, studentsEntities, mListener);
                                     }
                                 }
                             } catch (JSONException e) {

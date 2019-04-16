@@ -54,6 +54,7 @@ import mo.ed.prof.yusor.helpers.RetrofitUtils.UploadCallbacks;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static mo.ed.prof.yusor.helpers.Config.AuthURL;
 import static mo.ed.prof.yusor.helpers.Config.BASE_URL;
 import static mo.ed.prof.yusor.helpers.Config.FacultiesURL;
@@ -476,52 +477,47 @@ public class FragmentNewBookDetails extends Fragment implements
 
             @Override
             public void onClick(View v) {
-                makeVolleyRequests=new MakeVolleyRequests(getActivity(),FragmentNewBookDetails.this, FragmentNewBookDetails.this);
-                BookName= Edit_addBook.getText().toString();
-                Config.BookName=BookName;
-                if (Config.Author_Edit){
-                    AuthorName=EditAuthorName.getText().toString();
-                    Config.AuthorTitle=AuthorName;
-                    if (AuthorName!=null){
-                        if (AuthorName.length()>0){
-                            Config.AuthorID=null;
+                if (verifyConnection.isConnected()){
+                    makeVolleyRequests=new MakeVolleyRequests(getActivity(),FragmentNewBookDetails.this, FragmentNewBookDetails.this);
+                    BookName= Edit_addBook.getText().toString();
+                    Config.BookName=BookName;
+                    if (Config.Author_Edit){
+                        AuthorName=EditAuthorName.getText().toString();
+                        Config.AuthorTitle=AuthorName;
+                        if (AuthorName!=null){
+                            if (AuthorName.length()>0){
+                                Config.AuthorID=null;
+                            }
                         }
                     }
-                }
-                ISBN_Num= Edit_isbnNum.getText().toString();
-                Config.ISBN_Number=ISBN_Num;
-                PublishYear= Edit_PublishYear.getText().toString();
-                Config.BookDescription=Edit_enterDescription.getText().toString();
-                Config.PublishYear=PublishYear;
-                ImageUri=Config.ImageFileUri;
-                if (Config.BookName!=null&&Config.BookName.length()>0){
-                    if (Config.BookDescription!=null&&Config.BookDescription.length()>0){
+                    ISBN_Num= Edit_isbnNum.getText().toString();
+                    Config.ISBN_Number=ISBN_Num;
+                    PublishYear= Edit_PublishYear.getText().toString();
+                    Config.BookDescription=Edit_enterDescription.getText().toString();
+                    Config.PublishYear=PublishYear;
+                    ImageUri=Config.ImageFileUri;
+                    if (Config.BookName!=null&&Config.BookName.length()>0){
+                        if (Config.BookDescription!=null&&Config.BookDescription.length()>0){
                             if (Config.PublishYear!=null&&Config.PublishYear.length()>0){
                                 if (Config.FacultyID!=null){
-                                    if (user!=null){
+                                    if (user!=null) {
                                         ApiToken = user.get(SessionManagement.KEY_idToken);
-                                        if (ApiToken!=null){
-                                            if (Config.ISBN_Number!=null&&Config.ISBN_Number.length()>0){
-                                        if (Config.ImageFileUri!=null&&Config.ImageFileUri.toString().length()>0){
-//                                                if (Config.AuthorID!=null&&Config.AuthorID.length()>0){
-                                            if (Config.AuthorID!=null){
-                                                Next_BTN.setEnabled(false);
-                                                makeVolleyRequests.sendBookDetails(mService, Config.BookName, Config.BookDescription, Config.AuthorID, Config.PublishYear, Config.FacultyID,Config.ISBN_Number,null, Config.ImageFileUri, ApiToken);
-                                            }else {
-                                                Next_BTN.setEnabled(false);
-                                                makeVolleyRequests.sendBookDetails(mService, Config.BookName, Config.BookDescription, null, Config.PublishYear, Config.FacultyID,Config.ISBN_Number,Config.AuthorTitle, Config.ImageFileUri, ApiToken);
-                                            }
-
-//                                                }else if (Config.AuthorTitle!=null&&Config.AuthorTitle.length()>0){
-//                                                    Next_BTN.setEnabled(false);
-//                                                    makeVolleyRequests.sendBookDetails(mService,Config.BookName, Config.BookDescription, "",Config.PublishYear, Config.FacultyID,Config.ISBN_Number,Config.AuthorTitle,Config.ImageFileUri, ApiToken);
-//                                                }else {
-//                                                    Toast.makeText(getActivity(), getString(R.string.enter_image), Toast.LENGTH_SHORT).show();
-//                                                }
-                                        }else{
-                                            Toast.makeText(getActivity(), getString(R.string.enter_image), Toast.LENGTH_SHORT).show();
-                                        }
-                                            }else {
+                                        if (ApiToken != null) {
+                                            if (Config.ISBN_Number != null && Config.ISBN_Number.length() > 0) {
+                                                if (Config.ImageFileUri != null && Config.ImageFileUri.toString().length() > 0) {
+                                                    if (Config.AuthorID != null) {
+                                                        Next_BTN.setEnabled(false);
+                                                        makeVolleyRequests.sendBookDetails(mService, Config.BookName, Config.BookDescription, Config.AuthorID, Config.PublishYear, Config.FacultyID, Config.ISBN_Number, null, Config.ImageFileUri, ApiToken);
+                                                    } else {
+                                                        if (Config.AuthorTitle != null) {
+                                                            Next_BTN.setEnabled(false);
+                                                            makeVolleyRequests.sendBookDetails(mService, Config.BookName, Config.BookDescription, null, Config.PublishYear, Config.FacultyID, Config.ISBN_Number, Config.AuthorTitle, Config.ImageFileUri, ApiToken);
+                                                        }
+                                                    }
+                                                } else {
+                                                    Toast.makeText(getActivity(), getString(R.string.enter_image), Toast.LENGTH_SHORT).show();
+                                                }
+                                            } else {
                                                 Toast.makeText(getActivity(), getString(R.string.enter_isbn_num), Toast.LENGTH_SHORT).show();
                                             }
                                         }
@@ -532,11 +528,14 @@ public class FragmentNewBookDetails extends Fragment implements
                             }else {
                                 Toast.makeText(getActivity(), getString(R.string.enter_publish_year), Toast.LENGTH_SHORT).show();
                             }
+                        }else {
+                            Toast.makeText(getActivity(), getString(R.string.enter_desc), Toast.LENGTH_SHORT).show();
+                        }
                     }else {
-                        Toast.makeText(getActivity(), getString(R.string.enter_desc), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), getString(R.string.enter_book_name), Toast.LENGTH_SHORT).show();
                     }
                 }else {
-                    Toast.makeText(getActivity(), getString(R.string.enter_book_name), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.cannot_start_chat), Toast.LENGTH_LONG).show();
                 }
             }
         });
