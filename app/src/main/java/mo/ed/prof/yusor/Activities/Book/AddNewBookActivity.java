@@ -73,8 +73,8 @@ public class AddNewBookActivity extends AppCompatActivity implements SelectBookF
                     .replace(R.id.container_frame_existence, selectBookFragmentIFExist, SelectBookFragIfExist_KEY)
                     .commit();
         } else {
-            SelectBookFragmentIFExist selectBookFragmentIFExist = (SelectBookFragmentIFExist) getSupportFragmentManager().findFragmentByTag(SelectBookFragIfExist_KEY);
-            FragmentNewBookDetails fragmentNewBookDetails = (FragmentNewBookDetails) getSupportFragmentManager().findFragmentByTag(NewBookDetialsFrag_KEY);
+                FragmentNewBookDetails fragmentNewBookDetails = (FragmentNewBookDetails) getSupportFragmentManager().findFragmentByTag(NewBookDetialsFrag_KEY);
+                SelectBookFragmentIFExist selectBookFragmentIFExist = (SelectBookFragmentIFExist) getSupportFragmentManager().findFragmentByTag(SelectBookFragIfExist_KEY);
         }
     }
 

@@ -117,6 +117,8 @@
             android:layout_marginTop="10dp"
             android:textSize="@dimen/medium_text_size"
             android:text="@string/price"
+            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
             android:textColor="@color/blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -144,6 +146,8 @@
             android:gravity="start">
             <TextView
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:textSize="@dimen/medium_text_size"
                 android:text="@string/available_"
                 android:textColor="@color/blue"
@@ -170,6 +174,8 @@
             android:gravity="start">
             <TextView
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:textSize="@dimen/medium_text_size"
                 android:text="@string/Book_status_"
                 android:layout_below="@+id/available_in_store"
@@ -198,6 +204,8 @@
             android:layout_height="wrap_content">
             <TextView
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:textSize="@dimen/medium_text_size"
                 android:text="@string/offered_for_"
                 android:layout_below="@id/book_status"

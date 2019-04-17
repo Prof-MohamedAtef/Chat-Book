@@ -73,6 +73,7 @@ public class Config {
     public static Application application;
     public static Object mContext;
     public static ArrayList<StudentsEntity> studentEntities;
+    public static boolean VISIBLE=false;
 
     // public static final String[] Faculties={
 //            Resources.getSystem().getResourceName(R.string.faculty_computer_sciences_engineering).toString(),
